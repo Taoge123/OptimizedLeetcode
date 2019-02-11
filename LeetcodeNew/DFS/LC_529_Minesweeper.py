@@ -125,6 +125,48 @@ class Solution(object):
         recurse(r, c)
         return board
 
+#BFS solution
+import collections
+
+class Solution4:
+    def updateBoard(self, board, click):
+        """
+        :type board: List[List[str]]
+        :type click: List[int]
+        :rtype: List[List[str]]
+        """
+        if not board or not board[0]:
+            return board
+
+        if board[click[0]][click[1]] == 'M':
+            board[click[0]][click[1]] = 'X'
+            return board
+
+        R, C = len(board), len(board[0])
+        queue = collections.deque([tuple(click)])
+        while queue:
+            r, c = queue.popleft()
+
+            if board[r][c] == 'M':
+                board[r][c] = 'X'
+            elif board[r][c] == 'E':  # keypoint here,  only ‘E’ can move forward.
+                count = 0
+                nxt = []
+                for nr in [r - 1, r, r + 1]:
+                    for nc in [c + 1, c, c - 1]:
+                        if (nr != r or nc != c) and 0 <= nr < R and 0 <= nc < C:
+                            if board[nr][nc] == "M":
+                                count += 1
+                            nxt.append((nr, nc))  # keypoint, only 'B' would be able to travel its adjacent squares
+
+                if count > 0:  # keypoint on following 5 lines.
+                    board[r][c] = str(count)
+                else:
+                    board[r][c] = 'B'
+                    queue += nxt
+
+        return board
+
 a = SolutionWithoutMap()
 input = [['E', 'E', 'E', 'E', 'E'],
  ['E', 'E', 'M', 'E', 'E'],
