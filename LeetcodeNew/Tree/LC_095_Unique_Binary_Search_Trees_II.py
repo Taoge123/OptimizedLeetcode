@@ -11,8 +11,41 @@
 
 Refer geekforgeeks
 https://www.geeksforgeeks.org/construct-all-possible-bsts-for-keys-1-to-n/
+我们不妨将问题关于规模n进行抽象，即S(K)表示1~K构成的所有二叉搜索树组成的集合，而我们的答案就是S(n)。
+那么如何求解S(K)呢？
 
+我们不妨枚举根节点root的取值j，不难发现，root的左子树必然是一个1~(j-1)的二叉搜索树，
+root的右子树必然是一个j+1~K的二叉搜索树。
+
+特别的，如果我们把root的右子树中的所有取值都减去j，那么root的右子树必然是一个1~(K-j)的二叉搜索树。
+也就是说，如果我们已经计算出了S(j-1)和S(K-j)，
+我们就可以通过枚举S(j-1)中的一个元素和S(K-j)中的一个元素，来拼接成所有的S(K)，
+即可以通过将S(K)转化为更小规模的问题来完成计算。
+
+所以我们可以按照递推的方式，从K=1开始依次对S(K)进行计算，并且在最后计算S(n）。
 """
+
+
+class Solution:
+    # @paramn n: An integer
+    # @return: A list of root
+    def generateTrees(self, n):
+        # write your code here
+        return self.dfs(1, n)
+
+    def dfs(self, start, end):
+        if start > end: return [None]
+        res = []
+        for rootval in range(start, end + 1):
+            LeftTree = self.dfs(start, rootval - 1)
+            RightTree = self.dfs(rootval + 1, end)
+            for i in LeftTree:
+                for j in RightTree:
+                    root = TreeNode(rootval)
+                    root.left = i
+                    root.right = j
+                    res.append(root)
+        return res
 
 import copy
 
