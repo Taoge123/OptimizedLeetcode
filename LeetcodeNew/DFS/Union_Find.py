@@ -164,7 +164,7 @@ g.add_edge(0, 2)
 if isCycle(g):
     print('Graph contains cycle')
 else:
-    print('Graph does not contain cycle') 
+    print('Graph does not contain cycle')
 
 
 
