@@ -49,6 +49,42 @@ class Solution2:
         self.dfs(node.right, level + 1)
         self.dfs(node.left, level + 1)
 
-#Similar idea but if level > len(arr)-1: also works since only left can go beyound it
+#Similar idea but if level > len(arr)-1:
+# also works since only left can go beyound it
+
+#Stefan solution
+class Solutioin3:
+    def rightSideView(self, root):
+        if not root:
+            return []
+        right = self.rightSideView(root.right)
+        left = self.rightSideView(root.left)
+        return [root.val] + right + left[len(right):]
+
+#DFS-traverse the tree right-to-left,
+# add values to the view whenever we first reach a new record depth.
+# This is O(n).
+class Solution4:
+    def rightSideView(self, root):
+        def collect(node, depth):
+            if node:
+                if depth == len(view):
+                    view.append(node.val)
+                collect(node.right, depth + 1)
+                collect(node.left, depth + 1)
+
+        view = []
+        collect(root, 0)
+        return view
 
 
+#Traverse the tree level by level and add the last value of each level to the view. This is O(n).
+class Solution5:
+    def rightSideView(self, root):
+        view = []
+        if root:
+            level = [root]
+            while level:
+                view += level[-1].val,
+                level = [kid for node in level for kid in (node.left, node.right) if kid]
+        return view
