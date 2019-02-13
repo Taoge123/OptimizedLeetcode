@@ -97,6 +97,40 @@ This can be duplication and cause issues later
 Complexity will be n* (2^n)
 https://discuss.leetcode.com/topic/28827/share-my-java-bfs-solution"""
 
+
+class Solution11:
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        if not s: return ['']
+        q, ans, vis = [s], [], set([s])
+        found = False
+        while q:
+            cur = q.pop(0)
+            if self.isValidParentheses(cur):
+                found = True
+                ans.append(cur)
+            elif not found:
+                for i in range(len(cur)):
+                    if cur[i] == '(' or cur[i] == ')':
+                        t = cur[:i] + cur[i + 1:]
+                        if t not in vis:
+                            q.append(t)
+                            vis.add(t)
+        return ans
+
+    def isValidParentheses(self, s):
+        cnt = 0
+        for c in s:
+            if c == '(':
+                cnt += 1
+            elif c == ')':
+                if cnt == 0: return False
+                cnt -= 1
+        return cnt == 0
+
 class Solution:
     def removeInvalidParentheses(self, s):
         """
@@ -119,6 +153,43 @@ class Solution:
             store = {s[:i] + s[i + 1:] for s in store for i in range(len(s))}  # add all possible brackets into store
 
 
+
+class Solution22:
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        if not s: return ['']
+        left_remove = right_remove = 0
+        for c in s:
+            if c == '(':
+                left_remove += 1
+            elif c == ')':
+                if left_remove:
+                    left_remove -= 1
+                else:
+                    right_remove += 1
+
+        ans = set()
+        self.dfs(0, left_remove, right_remove, 0, '', s, ans)
+        return list(ans)
+
+    def dfs(self, index, left_remove, right_remove, left_pare, cur, s, ans):
+        if left_remove < 0 or right_remove < 0 or left_pare < 0: return
+        if index == len(s):
+            if left_remove == right_remove == left_pare == 0:
+                ans.add(cur)
+            return
+
+        if s[index] == '(':
+            self.dfs(index + 1, left_remove - 1, right_remove, left_pare, cur, s, ans)
+            self.dfs(index + 1, left_remove, right_remove, left_pare + 1, cur + s[index], s, ans)
+        elif s[index] == ')':
+            self.dfs(index + 1, left_remove, right_remove - 1, left_pare, cur, s, ans)
+            self.dfs(index + 1, left_remove, right_remove, left_pare - 1, cur + s[index], s, ans)
+        else:
+            self.dfs(index + 1, left_remove, right_remove, left_pare, cur + s[index], s, ans)
 
 """
 As we need to generate all possible output 
@@ -184,7 +255,7 @@ Also, we could firstly compute the number of '(' and ')' to be removed by counti
 Notice that after the removal, we still have to check the result string again."""
 
 
-class Solution(object):
+class Solution:
     def check(self, s):
         c = 0
         for ch in s:
@@ -235,6 +306,13 @@ class Solution(object):
         self.dfs(s, d_l, d_r, res, hist)
 
         return res.keys()
+
+
+
+
+
+
+
 
 
 
