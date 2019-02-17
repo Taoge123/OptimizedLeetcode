@@ -58,7 +58,6 @@ class Solution2:
 
         return root
 
-
 # 利用分制，每次bottom up的时候返回当前叶子节点的高度，然后在相对应的全球数组里面开辟数组，并且往里面增值。
 class Solution3:
     def findLeaves(self, root):
