@@ -48,7 +48,7 @@ class Solution:
 from collections import Counter
 
 
-class Solution(object):
+class Solution2:
     def findMinStep(self, board, hand):
 
         self.ans = 2147483647
@@ -93,7 +93,7 @@ if not try two balls (2 steps).
 """
 import collections
 
-class Solution(object):
+class Solution3:
     def findMinStep(self, board, hand):
         hm = collections.defaultdict(int)
         for b in hand:
@@ -155,7 +155,7 @@ def dfs(robot, coord, dindex, visited):
             last_move = False
 
 
-class Solution:
+class Solution5:
     def cleanRoom(self, robot):
         DIRS = [[-1, 0], [0, 1], [1, 0], [0, -1]]  # facing up, turning right as index increases
         visited = set()
@@ -195,7 +195,7 @@ class Solution:
 DIR = ((0, -1), (-1, 0), (0, 1), (1, 0))
 
 
-class Solution(object):
+class Solution6:
     def cleanRoom(self, robot):
         """
         :type robot: Robot
