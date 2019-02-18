@@ -97,6 +97,19 @@ class Solution4:
 
 
 
+class Solution5:
+    def findPaths(self, m, n, N, i, j):
+        d = [[[-1] * n for _ in range(m)] for _ in range(N + 1)]
+        def dfs(N, i, j, d):
+            if i in [-1, m] or j in [-1, n]:
+                return 1
+            if N == 0:
+                return 0
+            if d[N][i][j] != -1:
+                return d[N][i][j]
+            d[N][i][j] = dfs(N - 1, i - 1, j, d) + dfs(N - 1, i + 1, j, d) + dfs(N - 1, i, j - 1, d) + dfs(N - 1,i, j + 1, d)
+            return d[N][i][j] % (10**9 + 7)
+        return dfs(N, i, j, d)
 
 
 
