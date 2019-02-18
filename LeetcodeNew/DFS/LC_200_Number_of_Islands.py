@@ -67,8 +67,8 @@ class Solution2:
 
         m, n = len(grid), len(grid[0])
         count = 0
-        for i in xrange(m):
-            for j in xrange(n):
+        for i in range(m):
+            for j in range(n):
                 if grid[i][j] == '1':
                     self.bfs(grid, i, j)
                     count += 1
