@@ -36,7 +36,7 @@ class Solution(object):
                 return sorted(str(z-w) for z in shape)
 
             ans = None
-            for k in xrange(4):
+            for k in range(4):
                 ans = max(ans, translate([z * (1j)**k for z in shape]))
                 ans = max(ans,  translate([complex(z.imag, z.real) * (1j)**k
                                            for z in shape]))
@@ -101,8 +101,8 @@ class Solution2:
         """
         m, n = len(grid), len(grid[0])
         res = set()
-        for r in xrange(0, m):
-            for c in xrange(0, n):
+        for r in range(0, m):
+            for c in range(0, n):
                 if grid[r][c] == 1:
                     shape = []
                     self.dfs(grid, r, c, shape)
