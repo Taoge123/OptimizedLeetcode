@@ -86,7 +86,7 @@ class Solution2:
 
         for rs in rotated_shapes:
             tmp = [(0, 0)]
-            for i in xrange(1, len(rs)):
+            for i in range(1, len(rs)):
                 tmp.append((rs[i][0] - rs[0][0], rs[i][1] - rs[0][1]))
             norm_res.append(tmp[:])
 
