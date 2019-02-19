@@ -40,7 +40,7 @@ def dfs(self, i, j, matrix, visited, m, n):
         self.dfs(x, y, matrix, visited, m, n)"""
 
 
-class Solution(object):
+class Solution:
     def pacificAtlantic(self, matrix):
         """
         :type matrix: List[List[int]]
@@ -72,9 +72,14 @@ class Solution(object):
                     result.append([i, j])
         return result
 
-
-
-
+    def dfs(self, matrix, i, j, visited, m, n):
+        # when dfs called, meaning its caller already verified this point
+        visited[i][j] = True
+        for dir in self.directions:
+            x, y = i + dir[0], j + dir[1]
+            if x < 0 or x >= m or y < 0 or y >= n or visited[x][y] or matrix[x][y] < matrix[i][j]:
+                continue
+            self.dfs(matrix, x, y, visited, m, n)
 
 
 
