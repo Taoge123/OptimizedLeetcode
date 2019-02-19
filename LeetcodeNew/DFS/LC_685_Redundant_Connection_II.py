@@ -196,10 +196,75 @@ class Solution4:
                 p[u] = p[v]
 
 
+"""--------------------------------------------------------------------------------"""
+"""
+685. Redundant Connection II 从前面的无向图升级到了有向图，
+对应的要求从原来的仅要求不形成环路升级到在不形成环路的基础上，拓扑必须要是一棵合法树，
+也就是每个点只能有一个父节点，例如 [[2,1],[3,1]] 这两条边虽然没有形成环路，但是 1 有两个父亲节点（2和3），因此不是一棵合法的树。
+
+由于题目说明了输入只有一条不合法的边，因此首先可以统计一下这些边中是否存在某个点有两个父亲节点，
+假如有，则需要移除的边必定为连着这个点的两条边中的一条，通过上面 Union-find 的方法，
+可以判断出假如移除掉连着这个点的第一条边时，是否会形成回路。如果会，则说明需要移除第二条边，
+否则直接移除第一条边。 如果统计的结果中没有点含有两个父亲节点，
+那么可以直接通过第一题的方法直接找到形成回路的最后那条边
+"""
 
 
+class UnionFindSet(object):
+    def __init__(self):
+        self.parents = range(1001)
+        self.rank = [0] * 1001
+
+    def find(self, val):
+        """find with path compression"""
+        if self.parents[val] != val:
+            self.parents[val] = self.find(self.parents[val])
+        return self.parents[val]
+
+    def union(self, v1, v2):
+        """union by rank, check whether union two vertics will lead to a cycle"""
+        p1, p2 = self.find(v1), self.find(v2)
+        if p1 == p2:
+            return True
+        elif self.rank[p1] > self.rank[p2]:
+            self.parents[p2] = p1
+        elif self.rank[p1] < self.rank[p2]:
+            self.parents[p1] = p2
+        else:
+            self.rank[p2] += 1
+            self.parents[p1] = p2
+        return False
 
 
+class SolutionBest:
+    def findRedundantDirectedConnection(self, edges):
+        """
+        :type edges: List[List[int]]
+        :rtype: List[int]
+        """
+        redundant_edges = None
+        count = {}
+        for e in edges:
+            if e[1] not in count:
+                count[e[1]] = []
+            count[e[1]].append(e)
+            if len(count[e[1]]) == 2:
+                redundant_edges = count[e[1]]
+                break
+
+        if redundant_edges:
+            ufs = UnionFindSet()
+            for edge in edges:
+                if edge == redundant_edges[1]:
+                    continue
+                if ufs.union(edge[0], edge[1]):
+                    return redundant_edges[0]
+            return redundant_edges[1]
+        else:
+            ufs = UnionFindSet()
+            for edge in edges:
+                if ufs.union(edge[0], edge[1]):
+                    return edge
 
 
 
