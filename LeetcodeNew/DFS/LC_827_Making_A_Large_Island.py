@@ -1,5 +1,59 @@
 
 """
+https://leetcode.com/problems/making-a-large-island/discuss/127032/C%2B%2BJavaPython-Straight-Forward-O(N2)-with-Explanations
+
+README
+The solution is long, but in fact it is really straight forward.
+I suggest not going into my codes but reading my explanations, which should be enough.
+
+Prepare helpful subfunction:
+I have several simple sub function to help me on this kind of problem.
+
+valid(int x, int y), check if (x, y) is valid in the grid.
+move(int x, int y), return all possible next position in 4 directions.
+Explanation, Only 2 steps
+
+Explore every island using DFS, count its area, give it an island index and save the result to a {index: area} map.
+Loop every cell == 0, check its connected islands and calculate total islands area.
+"""
+
+class SolutionBest:
+    def largestIsland(self, grid):
+        N = len(grid)
+        def move(x, y):
+            for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                if 0 <= x + i < N and 0 <= y + j < N:
+                    yield x + i, y + j
+
+        def dfs(x, y, index):
+            area = 0
+            grid[x][y] = index
+            for i, j in move(x, y):
+                if grid[i][j] == 1:
+                    area += dfs(i, j, index)
+            return area + 1
+
+        # DFS every island and give it an index of island
+        index = 2
+        area = {}
+        for x in range(N):
+            for y in range(N):
+                if grid[x][y] == 1:
+                    area[index] = dfs(x, y, index)
+                    index += 1
+
+        # traverse every 0 cell and count biggest island it can conntect
+        res = max(area.values() or [0])
+        for x in range(N):
+            for y in range(N):
+                if grid[x][y] == 0:
+                    possible = set(grid[i][j] for i, j in move(x, y) if grid[i][j] > 1)
+                    res = max(res, sum(area[index] for index in possible) + 1)
+        return res
+
+
+
+"""
 For each 0, change it to a 1, then do a depth first search to find the size of that component.
 The answer is the maximum size component found.
 
@@ -95,8 +149,6 @@ class Solution1:
                     seen = {grid[nr][nc] for nr, nc in neighbors(r, c) if grid[nr][nc] > 1}
                     ans = max(ans, 1 + sum(area[i] for i in seen))
         return ans
-
-
 
 
 
