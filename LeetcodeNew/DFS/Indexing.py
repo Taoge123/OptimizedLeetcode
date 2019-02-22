@@ -3,6 +3,14 @@
 
 
 """
+Need to discuss
+
+531	Lonely Pixel I
+533	Lonely Pixel II
+
+"""
+
+"""
 #	Title
 98	Validate Binary Search Tree
 99	Recover Binary Search Tree
