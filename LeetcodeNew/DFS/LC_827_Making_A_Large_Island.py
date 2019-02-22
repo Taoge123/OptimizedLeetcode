@@ -1,6 +1,8 @@
 
 """
 https://leetcode.com/problems/making-a-large-island/discuss/127032/C%2B%2BJavaPython-Straight-Forward-O(N2)-with-Explanations
+https://leetcode.com/problems/making-a-large-island/discuss/210876/Python-DFS-O(N2)
+https://leetcode.com/problems/making-a-large-island/discuss/234646/Python-solution-beats-100-TONS-of-comments-extremely-thorough
 
 README
 The solution is long, but in fact it is really straight forward.
