@@ -70,7 +70,7 @@ class Solution:
         return count * N
 
 
-class Solution(object):
+class Solution2:
     def findBlackPixel(self, picture, N):
         row = [r.count('B') for r in picture]
         col = [c.count('B') for c in zip(*picture)]
