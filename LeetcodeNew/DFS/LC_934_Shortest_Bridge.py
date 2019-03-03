@@ -13,6 +13,8 @@ Finally return step number when facing other island
 Note: This can also be done with referenced array if you don't want to modify A.
 
 """
+import collections
+
 class Solution:
     def shortestBridge(self, A):
         """
@@ -68,7 +70,7 @@ class Solution:
 # 原文：https://blog.csdn.net/fuxuemingzhu/article/details/83716820
 # 版权声明：本文为博主原创文章，转载请附上博文链接！
 
-class Solution:
+class Solution2:
     def shortestBridge(self, A):
         def dfs(i, j):
             A[i][j] = -1
