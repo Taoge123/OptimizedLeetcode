@@ -1,4 +1,7 @@
 """
+Similar in geeksforgeek
+https://www.geeksforgeeks.org/modify-binary-tree-get-preorder-traversal-using-right-pointers/
+
 I didn't use this condition of BST, and just inorder output the whole tree.
 
 Straigh forward idea:
@@ -45,7 +48,7 @@ Output: [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]
               \
                8
                 \
-                 9  
+                 9
 """
 
 
