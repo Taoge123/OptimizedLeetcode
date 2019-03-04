@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/word-ladder-ii/discuss/174094/AC98-Clean-Python
+https://leetcode.com/problems/word-ladder-ii/discuss/40482/Python-simple-BFS-layer-by-layer
 
 The idea is pretty the same as word ladder I, but need to record the path,
 and a few more considerations:
