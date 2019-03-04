@@ -12,7 +12,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
-
+#Easiest
 class SolutionBFS:
     def zigzagLevelOrder(self, root):
         res, queue = [], [(root, 0)]
