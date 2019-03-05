@@ -1,5 +1,20 @@
 
 
+
+class Solution:
+    # @param root, a tree link node
+    # @return nothing
+    def connect(self, root):
+        if root and root.left:  # 如有root和左孩子
+            root.left.next = root.right  # 左孩子指向右孩子
+            if root.next:  # 如链表有右边，那么其右孩子指向右边节点左孩子
+                root.right.next = root.next.left
+            else:
+                root.right.next = None
+            self.connect(root.left)
+            self.connect(root.right)
+
+
 class SolutionBFS:
     def connect(self, root):
         """
