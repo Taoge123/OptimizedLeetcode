@@ -34,7 +34,7 @@ class Solution:
                 res[-(level + 1)].append(node.val)
                 stack.append((node.right, level + 1))
                 stack.append((node.left, level + 1))
-        return res
+        return  res
 
     # bfs + queue
     def levelOrderBottom2(self, root):
