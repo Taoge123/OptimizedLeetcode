@@ -1,5 +1,8 @@
 
 """
+https://www.cnblogs.com/yrbbest/p/5031304.html
+https://www.bbsmax.com/A/amd0mrLmzg/
+
 Input: root = [4,2,5,1,3], target = 3.714286
 
     4
