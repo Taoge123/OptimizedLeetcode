@@ -59,7 +59,7 @@ class SolutionCaikehe:
         self.dfs(root, "", res)
         return res
 
-    #Root to node, we only need to maintain one side 
+    #Root to node, we only need to maintain one side
     def dfs(self, root, ls, res):
         if not root.left and not root.right:
             res.append(ls + str(root.val))
