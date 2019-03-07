@@ -74,7 +74,7 @@ class Codec2:
 from collections import deque
 
 
-class Codec:
+class Codec3:
     # recursive function to serialize BST
     # using a pre-order traversal
     # simply stores node values to a list
@@ -130,7 +130,7 @@ class Codec:
         queue = deque(data.split(','))
         # the maximum value is infinity
         root = self.deserialize_bst(queue, float('inf'))
-        return root    
+        return root
 
 
 
