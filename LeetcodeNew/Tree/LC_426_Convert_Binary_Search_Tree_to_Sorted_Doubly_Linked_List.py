@@ -20,6 +20,10 @@ class SolutionBest:
             return
 
         self.treeToDoublyList(root.left)
+
+        #root.left = prev,
+        #prev.right = root,
+        #prev = root
         root.left = self.prev
         if self.prev:
             self.prev.right = root
