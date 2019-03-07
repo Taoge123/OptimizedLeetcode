@@ -1,6 +1,8 @@
 
 
 """
+http://www.cnblogs.com/grandyang/p/5188938.html
+https://www.geeksforgeeks.org/largest-bst-binary-tree-set-2/
 https://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/
 http://www.cnblogs.com/grandyang/p/5188938.html
 https://blog.csdn.net/qq508618087/article/details/51731417
@@ -14,8 +16,14 @@ My dfs returns four values:
 
 """
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
-class SubTree(object):
+
+class SubTree:
     def __init__(self, largest, n, min, max):
         self.largest = largest  # largest BST
         self.n = n  # number of nodes in this ST
@@ -65,125 +73,75 @@ class newNode:
         self.right = None
 
 
-# Returns size of the largest BST subtree
-# in a Binary Tree (efficient version).
-def largestBST(node):
-    # Set the initial values for calling
-    # largestBSTUtil()
-    Min = [999999999999]  # For minimum value in
-    # right subtree
-    Max = [-999999999999]  # For maximum value in
-    # left subtree
-
-    max_size = [0]  # For size of the largest BST
-    is_bst = [0]
-
-    largestBSTUtil(node, Min, Max, max_size, is_bst)
-
-    return max_size[0]
+INT_MIN = -2147483648
+INT_MAX = 2147483647
 
 
-# largestBSTUtil() updates max_size_ref[0]
-# for the size of the largest BST subtree.
-# Also, if the tree rooted with node is
-# non-empty and a BST, then returns size of
-# the tree. Otherwise returns 0.
-def largestBSTUtil(node, min_ref, max_ref, max_size_ref, is_bst_ref):
-    # Base Case
-    if node == None:
-        is_bst_ref[0] = 1  # An empty tree is BST
-        return 0  # Size of the BST is 0
+# Helper function that allocates a new
+# node with the given data and None left
+# and right pointers.
+class newNode:
 
-    Min = 999999999999
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
 
-    # A flag variable for left subtree property
-    # i.e., max(root.left) < root.data
-    left_flag = False
 
-    # A flag variable for right subtree property
-    # i.e., min(root.right) > root.data
-    right_flag = False
+# Returns Information about subtree. The
+# Information also includes size of largest
+# subtree which is a BST
+def largestBSTBT(root):
+    # Base cases : When tree is empty or it has
+    # one child.
+    if (root == None):
+        return 0, INT_MIN, INT_MAX, 0, True
+    if (root.left == None and root.right == None):
+        return 1, root.data, root.data, 1, True
 
-    ls, rs = 0, 0  # To store sizes of left and
-    # right subtrees
+    # Recur for left subtree and right subtrees
+    l = largestBSTBT(root.left)
+    r = largestBSTBT(root.right)
 
-    # Following tasks are done by recursive
-    # call for left subtree
-    # a) Get the maximum value in left subtree
-    #   (Stored in max_ref[0])
-    # b) Check whether Left Subtree is BST or
-    #    not (Stored in is_bst_ref[0])
-    # c) Get the size of maximum size BST in
-    #    left subtree (updates max_size[0])
-    max_ref[0] = -999999999999
-    ls = largestBSTUtil(node.left, min_ref, max_ref, max_size_ref, is_bst_ref)
-    if is_bst_ref[0] == 1 and node.data > max_ref[0]: left_flag = True
+    # Create a return variable and initialize its
+    # size.
+    ret = [0, 0, 0, 0, 0]
+    ret[0] = (1 + l[0] + r[0])
 
-    # Before updating min_ref[0], store the min
-    # value in left subtree. So that we have the
-    # correct minimum value for this subtree
-    Min = min_ref[0]
+    # If whole tree rooted under current root is
+    # BST.
+    if (l[4] and r[4] and l[1] < root.data and r[2] > root.data):
+        ret[2] = min(l[2], min(r[2], root.data))
+        ret[1] = max(r[1], max(l[1], root.data))
 
-    # The following recursive call does similar
-    # (similar to left subtree) task for right subtree
-    min_ref[0] = 999999999999
-    rs = largestBSTUtil(node.right, min_ref, max_ref, max_size_ref, is_bst_ref)
-    if is_bst_ref[0] == 1 and node.data < min_ref[0]:
-        right_flag = True
+        # Update answer for tree rooted under
+        # current 'root'
+        ret[3] = ret[0]
+        ret[4] = True
 
-    # Update min and max values for the
-    # parent recursive calls
-    if Min < min_ref[0]:
-        min_ref[0] = Min
-    if node.data < min_ref[0]:  # For leaf nodes
-        min_ref[0] = node.data
-    if node.data > max_ref[0]:
-        max_ref[0] = node.data
+        return ret
 
-        # If both left and right subtrees are BST.
-    # And left and right subtree properties hold
-    # for this node, then this tree is BST.
-    # So return the size of this tree
-    if left_flag and right_flag:
-        if ls + rs + 1 > max_size_ref[0]:
-            max_size_ref[0] = ls + rs + 1
-        return ls + rs + 1
-    else:
+        # If whole tree is not BST, return maximum
+    # of left and right subtrees
+    ret[3] = max(l[3], r[3])
+    ret[4] = False
 
-        # Since this subtree is not BST, set is_bst
-        # flag for parent calls is_bst_ref[0] = 0;
-        return 0
+    return ret
 
 
 # Driver Code
 if __name__ == '__main__':
-    # Let us construct the following Tree
-    #     50
-    # /     \
-    # 10     60
-    # / \     / \
-    # 5 20 55 70
-    #         /     / \
-    #     45     65 80
-    root = newNode(50)
-    root.left = newNode(10)
-    root.right = newNode(60)
-    root.left.left = newNode(5)
-    root.left.right = newNode(20)
-    root.right.left = newNode(55)
-    root.right.left.left = newNode(45)
-    root.right.right = newNode(70)
-    root.right.right.left = newNode(65)
-    root.right.right.right = newNode(80)
+    """Let us construct the following Tree 
+        60  
+        / \  
+        65 70  
+    /  
+    50 """
+    root = newNode(60)
+    root.left = newNode(65)
+    root.right = newNode(70)
+    root.left.left = newNode(50)
+    print("Size of the largest BST is", largestBSTBT(root)[3])
 
-# The complete tree is not BST as 45 is in
-# right subtree of 50. The following subtree
-# is the largest BST
-#     60
-# / \
-# 55     70
-# /     / \
-# 45     65 80
-
-print("Size of the largest BST is", largestBST(root))
 
