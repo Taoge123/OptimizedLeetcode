@@ -1,4 +1,10 @@
 """
+Good resources
+
+https://segmentfault.com/a/1190000003874375
+
+
+
 #	Title
 94	Binary Tree Inorder Traversal
 95	Unique Binary Search Trees II
