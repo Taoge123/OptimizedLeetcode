@@ -1,4 +1,11 @@
+"""
+Example:
+Input: graph = [[1,2],[2,3],[5],[0],[5],[],[]]
+Output: [2,4,5,6]
+Here is a diagram of the above graph.
 
+
+"""
 
 
 import collections

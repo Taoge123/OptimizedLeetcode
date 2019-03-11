@@ -1,5 +1,42 @@
 
 """
+
+
+Example 1:
+Input: grid =
+[[0,1,0,0,0,0,0,1],
+ [0,1,0,0,0,0,0,1],
+ [0,0,0,0,0,0,0,1],
+ [0,0,0,0,0,0,0,0]]
+Output: 10
+Explanation:
+There are 2 contaminated regions.
+On the first day, add 5 walls to quarantine the viral region on the left.
+The board after the virus spreads is:
+
+[[0,1,0,0,0,0,1,1],
+ [0,1,0,0,0,0,1,1],
+ [0,0,0,0,0,0,1,1],
+ [0,0,0,0,0,0,0,1]]
+
+On the second day, add 5 walls to quarantine the viral region on the right. The virus is fully contained.
+Example 2:
+Input: grid =
+[[1,1,1],
+ [1,0,1],
+ [1,1,1]]
+Output: 4
+Explanation: Even though there is only one cell saved, there are 4 walls built.
+Notice that walls are only built on the shared boundary of two different cells.
+Example 3:
+Input: grid =
+[[1,1,1,0,0,0,0,0,0],
+ [1,0,1,0,1,1,1,1,1],
+ [1,1,1,0,0,0,0,0,0]]
+Output: 13
+Explanation: The region on the left only builds two new walls.
+
+
 Find most threatening region (would infect most normal cells next night)
  via DFS and at same time count the walls needed to wall off,
  and return it's coordinates

@@ -1,4 +1,17 @@
 """
+
+Input: ring = "godding", key = "gd"
+Output: 4
+Explanation:
+For the first key character 'g', since it is already in place,
+we just need 1 step to spell this character.
+For the second key character 'd', we need to rotate the ring "goddin
+g" anticlockwise by two steps to make it become "ddinggo".
+Also, we need 1 more step for spelling.
+So the final output is 4.
+
+
+
 Store every index of every character in ring in indexes hashtable
 Initialize steps for every index in ring in DP
 For first character of key, update every DP[i] as distance btw zero index plus 1 step for press

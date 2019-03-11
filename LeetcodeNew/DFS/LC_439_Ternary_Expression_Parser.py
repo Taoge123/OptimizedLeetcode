@@ -1,6 +1,39 @@
 
 
 """
+
+Example 1:
+
+Input: "T?2:3"
+
+Output: "2"
+
+Explanation: If true, then result is 2; otherwise result is 3.
+Example 2:
+
+Input: "F?1:T?4:5"
+
+Output: "4"
+
+Explanation: The conditional expressions group right-to-left. Using parenthesis, it is read/evaluated as:
+
+             "(F ? 1 : (T ? 4 : 5))"                   "(F ? 1 : (T ? 4 : 5))"
+          -> "(F ? 1 : 4)"                 or       -> "(T ? 4 : 5)"
+          -> "4"                                    -> "4"
+Example 3:
+
+Input: "T?T?F:5:3"
+
+Output: "F"
+
+Explanation: The conditional expressions group right-to-left. Using parenthesis, it is read/evaluated as:
+
+             "(T ? (T ? F : 5) : 3)"                   "(T ? (T ? F : 5) : 3)"
+          -> "(T ? F : 3)"                 or       -> "(T ? F : 5)"
+          -> "F"                                    -> "F"
+
+
+
 Iterate the expression from tail,
 whenever encounter a character before '?',
 calculate the right value and push back to stack.

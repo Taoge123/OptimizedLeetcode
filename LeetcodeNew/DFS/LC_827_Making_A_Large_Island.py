@@ -1,5 +1,24 @@
 
 """
+
+Example 1:
+
+Input: [[1, 0], [0, 1]]
+Output: 3
+Explanation: Change one 0 to 1 and connect two 1s, then we get an island with area = 3.
+Example 2:
+
+Input: [[1, 1], [1, 0]]
+Output: 4
+Explanation: Change the 0 to 1 and make the island bigger, only one island with area = 4.
+Example 3:
+
+Input: [[1, 1], [1, 1]]
+Output: 4
+Explanation: Can't change any 0 to 1, only one island with area = 4.
+
+
+
 https://leetcode.com/problems/making-a-large-island/discuss/127032/C%2B%2BJavaPython-Straight-Forward-O(N2)-with-Explanations
 https://leetcode.com/problems/making-a-large-island/discuss/210876/Python-DFS-O(N2)
 https://leetcode.com/problems/making-a-large-island/discuss/234646/Python-solution-beats-100-TONS-of-comments-extremely-thorough

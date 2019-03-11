@@ -1,5 +1,11 @@
 """
 
+Example:
+Input: [4, 6, 7, 7]
+Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
+
+
+
 This is a back tracking solution, similar to find the subset.
 The tricky part is to use a dictionary to check whether the number has been used or not.
 

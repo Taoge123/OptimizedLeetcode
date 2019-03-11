@@ -1,5 +1,43 @@
 
 """
+
+Example 1:
+11000
+10000
+00001
+00011
+Given the above grid map, return 1.
+
+Notice that:
+11
+1
+and
+ 1
+11
+are considered same island shapes. Because if we make a 180 degrees clockwise rotation on the first island, then two islands will have the same shapes.
+Example 2:
+11100
+10001
+01001
+01110
+Given the above grid map, return 2.
+
+Here are the two distinct islands:
+111
+1
+and
+1
+1
+
+Notice that:
+111
+1
+and
+1
+111
+are considered same island shapes. Because if we flip the first array in the up/down direction, then they have the same shapes.
+
+
 Algorithm
 
 We feature two different implementations,

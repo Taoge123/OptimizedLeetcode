@@ -1,4 +1,42 @@
 """
+
+Example 1:
+
+Input 1: a maze represented by a 2D array
+
+0 0 1 0 0
+0 0 0 0 0
+0 0 0 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+Input 2: start coordinate (rowStart, colStart) = (0, 4)
+Input 3: destination coordinate (rowDest, colDest) = (4, 4)
+
+Output: true
+
+Explanation: One possible way is : left -> down -> left -> down -> right -> down -> right.
+
+Example 2:
+
+Input 1: a maze represented by a 2D array
+
+0 0 1 0 0
+0 0 0 0 0
+0 0 0 1 0
+1 1 0 1 1
+0 0 0 0 0
+
+Input 2: start coordinate (rowStart, colStart) = (0, 4)
+Input 3: destination coordinate (rowDest, colDest) = (3, 2)
+
+Output: false
+
+Explanation: There is no way for the ball to stop at the destination.
+
+
+
+
 这里对于stop的判定条件是：球从一个方向朝着end卷过来，能否在end点的下一个位置碰到墙。举个不成立的例子
 
 比如你从左边冲过来，到达了end，虽然end点的上下两头都有墙，但右边没有墙，这种就不符合定义。

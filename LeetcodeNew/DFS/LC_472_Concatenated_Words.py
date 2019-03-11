@@ -1,4 +1,16 @@
 """
+
+Example:
+Input: ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+
+Output: ["catsdogcats","dogcatsdog","ratcatdogcat"]
+
+Explanation: "catsdogcats" can be concatenated by "cats", "dog" and "cats";
+ "dogcatsdog" can be concatenated by "dog", "cats" and "dog";
+"ratcatdogcat" can be concatenated by "rat", "cat", "dog" and "cat".
+
+
+
 Do you still remember how did you solve this problem?
 https://leetcode.com/problems/word-break/
 

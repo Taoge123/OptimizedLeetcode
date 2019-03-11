@@ -1,5 +1,18 @@
 
 """
+
+You have 4 cards each containing a number from 1 to 9.
+You need to judge whether they could operated through *, /, +, -, (, ) to get the value of 24.
+
+Example 1:
+Input: [4, 1, 8, 7]
+Output: True
+Explanation: (8-4) * (7-1) = 24
+Example 2:
+Input: [1, 2, 1, 2]
+Output: False
+
+
 http://www.cnblogs.com/grandyang/p/8395062.html
 https://blog.csdn.net/gangtaolun8493/article/details/78063690
 

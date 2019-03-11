@@ -1,5 +1,26 @@
 
 """
+
+Example 1:
+Input:
+[[1,1,0],
+ [1,1,0],
+ [0,0,1]]
+Output: 2
+Explanation:The 0th and 1st students are direct friends, so they are in a friend circle.
+The 2nd student himself is in a friend circle. So return 2.
+Example 2:
+Input:
+[[1,1,0],
+ [1,1,1],
+ [0,1,1]]
+Output: 1
+Explanation:The 0th and 1st students are direct friends, the 1st and 2nd students are direct friends,
+so the 0th and 2nd students are indirect friends. All of them are in the same friend circle, so return 1.
+
+
+
+
 班上有N名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知A是 B的朋友，B是C 的朋友，
 那么我们可以认为A也是 C的朋友。所谓的朋友圈，是指所有朋友的集合。
 

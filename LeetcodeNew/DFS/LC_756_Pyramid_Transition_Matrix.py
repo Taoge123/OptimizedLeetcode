@@ -1,4 +1,24 @@
 """
+
+Example 1:
+Input: bottom = "XYZ", allowed = ["XYD", "YZE", "DEA", "FFF"]
+Output: true
+Explanation:
+We can stack the pyramid like this:
+    A
+   / \
+  D   E
+ / \ / \
+X   Y   Z
+
+This works because ('X', 'Y', 'D'), ('Y', 'Z', 'E'), and ('D', 'E', 'A') are allowed triples.
+Example 2:
+Input: bottom = "XXYX", allowed = ["XXX", "XXY", "XYX", "XYY", "YXZ"]
+Output: false
+Explanation:
+We can't stack the pyramid to the top.
+Note that there could be allowed triples (A, B, C) and (A, B, D) with C != D.
+
 https://blog.csdn.net/fuxuemingzhu/article/details/82469175     --- beautiful
 http://massivealgorithms.blogspot.com/2017/07/string-pyramids-transition-matrix-airbnb.html
 http://www.cnblogs.com/grandyang/p/8476646.html

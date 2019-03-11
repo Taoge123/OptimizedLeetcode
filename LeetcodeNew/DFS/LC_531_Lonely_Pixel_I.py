@@ -1,6 +1,15 @@
 
-
 """
+Example:
+Input:
+[['W', 'W', 'B'],
+ ['W', 'B', 'W'],
+ ['B', 'W', 'W']]
+
+Output: 3
+Explanation: All the three 'B's are black lonely pixels.
+
+
 Go through the columns, count how many have exactly one black pixel
 and it's in a row that also has exactly one black pixel.
 """

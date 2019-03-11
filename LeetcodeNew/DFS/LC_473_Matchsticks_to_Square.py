@@ -1,4 +1,17 @@
 """
+
+Example 1:
+Input: [1,1,2,2,2]
+Output: true
+
+Explanation: You can form a square with length 2,
+one side of the square came two sticks with length 1.
+Example 2:
+Input: [3,3,3,3,4]
+Output: false
+
+Explanation: You cannot find a way to form a square with all the matchsticks.
+
 According to https://en.wikipedia.org/wiki/Partition_problem,
 the partition problem (or number partitioning)
 is the task of deciding whether a given multiset S of positive integers

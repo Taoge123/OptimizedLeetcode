@@ -1,4 +1,49 @@
 """
+
+
+Example 1:
+
+Input:
+
+[['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'M', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E'],
+ ['E', 'E', 'E', 'E', 'E']]
+
+Click : [3,0]
+
+Output:
+
+[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'M', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+Explanation:
+
+Example 2:
+
+Input:
+
+[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'M', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+Click : [1,2]
+
+Output:
+
+[['B', '1', 'E', '1', 'B'],
+ ['B', '1', 'X', '1', 'B'],
+ ['B', '1', '1', '1', 'B'],
+ ['B', 'B', 'B', 'B', 'B']]
+
+Explanation:
+
+
+
+
 This is a typical Search problem, either by using DFS or BFS. Search rules:
 
 1. If click on a mine ('M'), mark it as 'X', stop further search.

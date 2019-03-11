@@ -1,4 +1,14 @@
 """
+
+Example 1:
+
+Input: [[1, 5, [2, 3]], [2, 3, []], [3, 3, []]], 1
+Output: 11
+Explanation:
+Employee 1 has importance value 5, and he has two direct subordinates:
+employee 2 and employee 3. They both have importance value 3.
+So the total importance value of employee 1 is 5 + 3 + 3 = 11.
+
 题目意思就是题目自定了一个数据结构，第一个值为id，第二个值为权重，第三个值为下属
 一个公司每个人对应一个数据结构，给你一个人的id，让你返回他以及他的所有下属的权重和。
 

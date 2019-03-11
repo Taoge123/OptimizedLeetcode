@@ -1,6 +1,83 @@
 """
+
+In a N x N grid composed of 1 x 1 squares, each 1 x 1 square consists of a /, \,
+or blank space.  These characters divide the square into contiguous regions.
+
+(Note that backslash characters are escaped, so a \ is represented as "\\".)
+
+Return the number of regions.
+
+
+
+Example 1:
+
+Input:
+[
+  " /",
+  "/ "
+]
+Output: 2
+Explanation: The 2x2 grid is as follows:
+
+Example 2:
+
+Input:
+[
+  " /",
+  "  "
+]
+Output: 1
+Explanation: The 2x2 grid is as follows:
+
+Example 3:
+
+Input:
+[
+  "\\/",
+  "/\\"
+]
+Output: 4
+Explanation: (Recall that because \ characters are escaped, "\\/" refers to \/, and "/\\" refers to /\.)
+The 2x2 grid is as follows:
+
+Example 4:
+
+Input:
+[
+  "/\\",
+  "\\/"
+]
+Output: 5
+Explanation: (Recall that because \ characters are escaped, "/\\" refers to /\, and "\\/" refers to \/.)
+The 2x2 grid is as follows:
+
+Example 5:
+
+Input:
+[
+  "//",
+  "/ "
+]
+Output: 3
+Explanation: The 2x2 grid is as follows:
+
+
+
+Note:
+
+1 <= grid.length == grid[0].length <= 30
+grid[i][j] is either '/', '\', or ' '.
+
+
+
+
 https://leetcode.com/problems/redundant-connection/solution/
-The trick is to fill in the space between the lines, but since a 2x2 matrix has no spaces in between to work with. The space can be introduce without changing the original problem statement by replacing each character with a 4x4 squares, thereby you need an int array of 4x the dimension to translate the original array. Then iterate through the array and fill in an area in using DFS and return whenever the function hit the border or a divider line (which can be represent by -1, 0 represent the square need to be fill)
+The trick is to fill in the space between the lines, but since a 2x2 matrix has no spaces in between to work with.
+The space can be introduce without changing the original problem statement by replacing each character with a 4x4 squares,
+thereby you need an int array of 4x the dimension to translate the original array.
+Then iterate through the array and fill in an area in using DFS
+and return whenever the function hit the border or a divider line
+(which can be represent by -1, 0 represent the square need to be fill)
 
 [if you try using a 2x2 array for each character, it will break at example 5]
 

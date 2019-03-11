@@ -1,5 +1,45 @@
 
 """
+Directed graph
+
+Example 1:
+Input: [[1,2], [1,3], [2,3]]
+Output: [2,3]
+Explanation: The given directed graph will be like this:
+  1
+ / \
+v   v
+2-->3
+Example 2:
+Input: [[1,2], [2,3], [3,4], [4,1], [1,5]]
+Output: [4,1]
+Explanation: The given directed graph will be like this:
+5 <- 1 -> 2
+     ^    |
+     |    v
+     4 <- 3
+
+
+
+
+Example 1:
+Input: [[1,2], [1,3], [2,3]]
+Output: [2,3]
+Explanation: The given directed graph will be like this:
+  1
+ / \
+v   v
+2-->3
+Example 2:
+Input: [[1,2], [2,3], [3,4], [4,1], [1,5]]
+Output: [4,1]
+Explanation: The given directed graph will be like this:
+5 <- 1 -> 2
+     ^    |
+     |    v
+     4 <- 3
+
+
 https://leetcode.com/problems/redundant-connection-ii/discuss/108058/one-pass-disjoint-set-solution-with-explain
 https://leetcode.com/problems/redundant-connection-ii/discuss/108070/Python-O(N)-concise-solution-with-detailed-explanation-passed-updated-testcases
 

@@ -1,5 +1,16 @@
 """
 
+Example 1:
+Input: "aaabbb"
+Output: 2
+Explanation: Print "aaa" first and then print "bbb".
+Example 2:
+Input: "aba"
+Output: 2
+Explanation: Print "aaa" first and then print "b" from the second place of the string,
+which will cover the existing character 'a'.
+
+
 The problem wants us to find the number of ways to do something without giving specific steps like how to achieve it.
 This can be a typical signal that dynamic programming may come to help.
 

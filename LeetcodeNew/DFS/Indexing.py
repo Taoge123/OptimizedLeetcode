@@ -5,6 +5,12 @@
 """
 Need to discuss
 
+https://leetcode.com/problems/cracking-the-safe/
+
+753. Cracking the Safe
+778. Swim in Rising Water
+
+
 531	Lonely Pixel I
 533	Lonely Pixel II
 

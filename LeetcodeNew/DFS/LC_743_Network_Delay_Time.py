@@ -1,5 +1,19 @@
 
 """
+
+There are N network nodes, labelled 1 to N.
+
+Given times, a list of travel times as directed edges times[i] = (u, v, w),
+where u is the source node, v is the target node,
+and w is the time it takes for a signal to travel from source to target.
+
+Now, we send a signal from a certain node K.
+How long will it take for all nodes to receive the signal? If it is impossible, return -1.
+
+
+
+
+
 这道题给了我们一些有向边，又给了一个结点K，问至少需要多少时间才能从K到达任何一个结点。
 这实际上是一个有向图求最短路径的问题，我们求出K点到每一个点到最短路径，
 然后取其中最大的一个就是需要的时间了。可以想成从结点K开始有水流向周围扩散，
