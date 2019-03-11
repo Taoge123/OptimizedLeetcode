@@ -1,6 +1,27 @@
 
 
 """
+
+Note:
+A subtree must include all of its descendants.
+
+Example:
+
+Input: [10,5,15,1,8,null,7]
+
+   10
+   / \
+  5  15
+ / \   \
+1   8   7
+
+Output: 3
+Explanation: The Largest BST Subtree in this case is the highlighted one.
+             The return value is the subtree's size, which is 3.
+Follow up:
+Can you figure out ways to solve it with O(n) time complexity?
+
+
 http://www.cnblogs.com/grandyang/p/5188938.html
 https://www.geeksforgeeks.org/largest-bst-binary-tree-set-2/
 https://www.geeksforgeeks.org/find-the-largest-subtree-in-a-tree-that-is-also-a-bst/

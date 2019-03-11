@@ -6,7 +6,6 @@
 https://leetcode.com/problems/print-binary-tree/discuss/106273/Simple-Python-with-thorough-explanation
 
 
-
 Example 1:
 Input:
      1
@@ -26,6 +25,22 @@ Output:
 [["", "", "", "1", "", "", ""],
  ["", "2", "", "", "", "3", ""],
  ["", "", "4", "", "", "", ""]]
+Example 3:
+Input:
+      1
+     / \
+    2   5
+   /
+  3
+ /
+4
+Output:
+
+[["",  "",  "", "",  "", "", "", "1", "",  "",  "",  "",  "", "", ""]
+ ["",  "",  "", "2", "", "", "", "",  "",  "",  "",  "5", "", "", ""]
+ ["",  "3", "", "",  "", "", "", "",  "",  "",  "",  "",  "", "", ""]
+ ["4", "",  "", "",  "", "", "", "",  "",  "",  "",  "",  "", "", ""]]
+Note: The height of binary tree is in the range of [1, 10].
 
 """
 

@@ -1,5 +1,22 @@
 
 """
+
+Example:
+
+Input: root = [4,2,5,1,3], target = 3.714286, and k = 2
+
+    4
+   / \
+  2   5
+ / \
+1   3
+
+Output: [4,3]
+Follow up:
+Assume that the BST is balanced,
+could you solve it in less than O(n) runtime (where n = total nodes)?
+
+
 https://leetcode.com/problems/closest-binary-search-tree-value-ii/discuss/70556/Simple-DFS-%2B-Priority-Queue-Python-Solution
 
 https://leetcode.com/problems/closest-binary-search-tree-value-ii/discuss/70573/Clear-Python-O(klogn)-Solution-with-Two-Stacks

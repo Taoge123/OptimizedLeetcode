@@ -1,5 +1,23 @@
 
 """
+Example 1:
+
+Input:
+        1
+       / \
+      2   3
+Output: 2
+Explanation: The longest consecutive path is [1, 2] or [2, 1].
+
+
+Example 2:
+
+Input:
+        2
+       / \
+      1   3
+Output: 3
+Explanation: The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 
 分制，然后每次上传当前节点inc和dec的值，最后进行比对。
 具体操作参考Leetcode答案里面的幻灯片，走一遍就懂了: 链接

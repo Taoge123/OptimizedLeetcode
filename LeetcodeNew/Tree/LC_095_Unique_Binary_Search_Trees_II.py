@@ -1,4 +1,29 @@
 """
+
+Given an integer n, generate all structurally unique BST's
+(binary search trees) that store values 1 ... n.
+
+Example:
+
+Input: 3
+Output:
+[
+  [1,null,3,2],
+  [3,2,null,1],
+  [3,1,null,null,2],
+  [2,1,3],
+  [1,null,2,null,3]
+]
+Explanation:
+The above output corresponds to the 5 unique BST's shown below:
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+
+
 1) Initialize list of BSTs as empty.
 2) For every number i where i varies from 1 to N, do following
 ......a)  Create a new node with key as 'i', let this node be 'node'

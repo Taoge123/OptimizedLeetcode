@@ -1,4 +1,20 @@
 """
+
+Given a binary tree, return the inorder traversal of its nodes' values.
+
+Example:
+
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [1,3,2]
+Follow up: Recursive solution is trivial, could you do it iteratively?
+
+
 Usually when we do DFS, we pop a node from stack and push back its left
 and right child. But we lose the information of the order.
 To keep track of the order, we can push back into stack right-child,

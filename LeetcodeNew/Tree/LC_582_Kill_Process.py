@@ -13,6 +13,9 @@ Explanation:
              /
             10
 Kill 5 will also kill 10.
+Note:
+The given kill id is guaranteed to be one of the given PIDs.
+n >= 1.
 
 """
 """

@@ -1,4 +1,28 @@
 """
+Given a binary tree and a sum,
+find all root-to-leaf paths where each path's sum equals the given sum.
+
+Note: A leaf is a node with no children.
+
+Example:
+
+Given the below binary tree and sum = 22,
+
+      5
+     / \
+    4   8
+   /   / \
+  11  13  4
+ /  \    / \
+7    2  5   1
+Return:
+
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+
+
 https://leetcode.com/problems/path-sum-ii/discuss/158342/Python-DFS-tm
 大致思路就是每层递归用一个临时数组保存当前的路径，
 最后将sum(temp) == target 来判断此路径是否满足条件，满足则放入Global数组。

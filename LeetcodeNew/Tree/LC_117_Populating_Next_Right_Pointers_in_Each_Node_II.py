@@ -1,4 +1,20 @@
 """
+
+Given a binary tree
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node.
+If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+
+
 跟【LeetCode】116. Populating Next Right Pointers in Each Node 解题报告（Python）很像，
 只不过这个题没有完全二叉树的条件，因此我们需要额外的条件。
 

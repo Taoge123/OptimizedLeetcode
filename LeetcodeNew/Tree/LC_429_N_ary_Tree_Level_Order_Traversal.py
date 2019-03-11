@@ -1,4 +1,14 @@
 """
+
+We should return its level order traversal:
+
+[
+     [1],
+     [3,2,4],
+     [5,6]
+]
+
+
 The solution maintains the array for each level.
 for _ in range(len(q)) means the number of nodes in each level,
 and this loop finds all the children which belong to this level.
