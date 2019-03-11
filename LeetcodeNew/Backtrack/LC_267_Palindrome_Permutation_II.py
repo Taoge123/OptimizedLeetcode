@@ -1,4 +1,19 @@
 """
+
+Given a string s, return all the palindromic permutations
+(without duplicates) of it. Return an empty list
+if no palindromic permutation could be form.
+
+Example 1:
+
+Input: "aabb"
+Output: ["abba", "baab"]
+Example 2:
+
+Input: "abc"
+Output: []
+
+
 Take aabbbcc as an example
 
 counter would be {"a":2, "b":3, "c":2}

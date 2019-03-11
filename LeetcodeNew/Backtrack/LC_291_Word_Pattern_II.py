@@ -1,3 +1,19 @@
+"""
+Example 1:
+
+Input: pattern = "abab", str = "redblueredblue"
+Output: true
+Example 2:
+
+Input: pattern = pattern = "aaaa", str = "asdasdasdasd"
+Output: true
+Example 3:
+
+Input: pattern = "aabb", str = "xyzabcxzyabc"
+Output: false
+
+"""
+
 #Use dictionary to store patterns, and backtrack when mismatch happens.
 
 

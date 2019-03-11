@@ -1,4 +1,18 @@
 """
+
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+
 If you have two stacks, one for n "(", the other for n ")",
 you generate a binary tree from these two stacks of left/right parentheses to form an output string.
 

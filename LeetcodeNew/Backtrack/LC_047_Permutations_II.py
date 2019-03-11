@@ -1,3 +1,17 @@
+"""
+Example:
+
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+
+"""
+
+
 class Solution:
     def permute(nums):
         permutations = [[]]

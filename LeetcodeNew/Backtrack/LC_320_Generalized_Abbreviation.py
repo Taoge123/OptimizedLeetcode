@@ -1,3 +1,14 @@
+"""
+Example:
+
+Input: "word"
+Output:
+["word", "1ord", "w1rd", "wo1d", "wor1", "2rd", "w2d", "wo2", "1o1d", "1or1", "w1r1", "1o2", "2r1", "3d", "w3", "4"]
+
+
+"""
+
+
 class Solution:
     def generateAbbreviations(self, word):
         l, res = len(word), []
@@ -73,7 +84,40 @@ class Solution(object):
         abbs.extend(word[0] + a for a in self._helper(word[1:]))
         return abbs
 
+
+
+
+
+
+class Solution:
+    def generateAbbreviations(self, word):
+        l, res = len(word), []
+        def dfs(s, i):
+            if i == l:
+                res.append(s)
+            else:
+                dfs(s + word[i], i + 1)
+                if not s or s[-1] > "9":
+                    for j in range(i + 1, l + 1):
+                        dfs(s + str(j - i), j)
+        dfs("", 0)
+        return res
+
+
+
+    """"
     
+    word
+    def : word -> w
+    s = "" + w, 1 wo, wor
+    
+    s = "" + 1, 1
+    s = "" + 2, 2
+    s = "" + 3, 3
+    s = "" + 4, 4
+    
+    """
+
 
 
 
