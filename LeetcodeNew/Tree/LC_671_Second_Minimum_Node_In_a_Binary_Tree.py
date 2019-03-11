@@ -33,7 +33,7 @@ Explanation: The smallest value is 2, but there isn't any second smallest value.
 
 """
 """
-Based on the special property of the tree, 
+Based on the special property of the tree, `
 we can guarantee that the root node is the smallest node in the tree. 
 We just have to recursively traverse the tree and find a node that is bigger than the root node 
 but smaller than any existing node we have come across.
@@ -72,6 +72,21 @@ class Solution1:
         return ans if ans < float('inf') else -1
 
 
+"""
+
+Intuition and Algorithm
+
+Let text{min1 = root.val}min1 = root.val. When traversing the tree at some node, 
+text{node}node, if text{node.val > min1} node.val > min1, 
+we know all values in the subtree at text{node}node are at least text{node.val}node.val, 
+so there cannot be a better candidate for the second minimum in this subtree. 
+Thus, we do not need to search this subtree. 
+Also, as we only care about the second minimum text{ans}ans, 
+we do not need to record any values that are larger than our current candidate for the second minimum, 
+so unlike Approach #1 we can skip maintaining a Set of values(uniques) entirely.
+
+"""
+
 class Solution2:
     def findSecondMinimumValue(self, root):
         self.ans = float('inf')
@@ -91,7 +106,8 @@ class Solution2:
 
 class SolutionBFS:
     def findSecondMinimumValue(self, root):
-        if not root or not root.left: return -1
+        if not root or not root.left:
+            return -1
         s = [root]
         smallest = float('inf')
         while s:
@@ -104,4 +120,6 @@ class SolutionBFS:
                     temp.append(i.right)
             s = temp
         return -1 if smallest == float('inf') else smallest
+
+
 
