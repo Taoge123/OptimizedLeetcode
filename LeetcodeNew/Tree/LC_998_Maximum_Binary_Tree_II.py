@@ -47,11 +47,27 @@ O(N) recursion space.
 
 """
 
+"""
+If the value is greater than current node, then the entire current node becomes the left child.
+If the value is lesser than the current node, then we recurse on the right child.
+"""
+
 class TreeNode:
     def __init__(self, val):
         self.val = val
         self.left = None
         self.right = None
+
+class Solution:
+    def insertIntoMaxTree(self, root: TreeNode, val: int) -> TreeNode:
+        if not root: return TreeNode(val)
+        if val > root.val:
+            node = TreeNode(val)
+            node.left = root
+            return node
+        else:
+            root.right = self.insertIntoMaxTree(root.right, val)
+            return root
 
 class SolutionRecursionLee:
     def insertIntoMaxTree(self, root, val):
@@ -62,7 +78,18 @@ class SolutionRecursionLee:
         node.left = root
         return node
 
-
+class Solution2:
+    def insertIntoMaxTree(self, root: TreeNode, val: int) -> TreeNode:
+        nd = TreeNode(val)
+        if val > root.val:
+            nd.left = root
+            return nd
+        p = root
+        while p.right and p.right.val > val:
+            p = p.right
+        nd.left = p.right
+        p.right = nd
+        return root
 
 
 
