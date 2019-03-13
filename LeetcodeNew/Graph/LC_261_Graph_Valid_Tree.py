@@ -2,6 +2,9 @@
 """
 
 http://www.cnblogs.com/grandyang/p/5257919.html
+https://www.geeksforgeeks.org/topological-sorting/
+https://www.geeksforgeeks.org/topological-sorting-indegree-based-solution/
+https://www.geeksforgeeks.org/all-topological-sorts-of-a-directed-acyclic-graph/
 
 
 Given n nodes labeled from 0 to n-1 and a list of undirected edges
@@ -22,7 +25,45 @@ Since all edges are undirected, [0,1] is the same as [1,0] and thus will not app
 
 
 """
+"""
+Step-1: Compute in-degree (number of incoming edges) 
+for each of the vertex present in the DAG and initialize the count of visited nodes as 0.
 
+Step-2: Pick all the vertices with in-degree as 0 and add them into a queue (Enqueue operation)
+
+Step-3: Remove a vertex from the queue (Dequeue operation) and then.
+
+    - Increment count of visited nodes by 1.
+    - Decrease in-degree by 1 for all its neighboring nodes.
+    - If in-degree of a neighboring nodes is reduced to zero, then add it to the queue.
+
+Step 4: Repeat Step 3 until the queue is empty.
+
+Step 5: If count of visited nodes is not equal to the number of nodes in the graph then the topological sort is not possible for the given graph.
+
+How to find in-degree of each node?
+There are 2 ways to calculate in-degree of every vertex:
+Take an in-degree array which will keep track of
+1) Traverse the array of edges and simply increase the counter of the destination node by 1.
+
+for each node in Nodes
+    indegree[node] = 0;
+for each edge(src,dest) in Edges
+    indegree[dest]++
+
+Time Complexity: O(V+E)
+
+
+2) Traverse the list for every node and then increment the in-degree of all the nodes connected to it by 1.
+
+    for each node in Nodes
+        If (list[node].size()!=0) then
+        for each dest in list
+            indegree[dest]++;
+
+
+
+"""
 
 """
 This solution looks like topological-sort, which iteratively removes the nodes with degree of 1.
@@ -159,4 +200,8 @@ class Solution5:
             return self.find(parent, parent[p])
 
 
+n = 5
+edges = [[0,1], [1,2], [2,3], [1,3], [1,4]]
 
+a = Solution2()
+print(a.validTree(n, edges))
