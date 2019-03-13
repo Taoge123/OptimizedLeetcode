@@ -105,4 +105,23 @@ class SolutionOfficial:
         return  nodes[-1][1] == len(nodes)
 
 
+class Solution:
+  def isCompleteTree(self, root):
+    if not root: return True
+    q = collections.deque([root])
+    missing = False
+    while q:
+      size = len(q)
+      while size > 0:
+        size -= 1
+        node = q.popleft()
+        if node:
+          if missing: return False
+          q.append(node.left)
+          q.append(node.right)
+        else:
+          missing = True
+    return True
+
+
 
