@@ -15,6 +15,13 @@ Output: false
 
 """
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
 class Solution:
     def isUnivalTree(self, root):
         vals = []
@@ -44,5 +51,25 @@ class SolutionLee:
         def dfs(node):
             return not node or node.val == root.val and dfs(node.left) and dfs(node.right)
         return dfs(root)
+
+
+class SolutionBFS:
+    def isUnivalTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        a = set()
+        def judge(node):
+            a.add(node.val)
+            if node.left :
+                judge(node.left)
+            if node.right :
+                judge(node.right)
+        judge(root)
+        if len(a)>1:
+            return False
+        else:
+            return True
 
 
