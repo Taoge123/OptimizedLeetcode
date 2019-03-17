@@ -1,6 +1,10 @@
 
 """
+
+https://leetcode.com/problems/alien-dictionary/discuss/208057/Python-solution
 https://www.youtube.com/watch?v=71eHuQvSwc0
+https://leetcode.com/problems/alien-dictionary/discuss/70280/Python-DFS-BFS-toposort-solutions
+https://segmentfault.com/a/1190000003795463
 
 There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you. You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
 
@@ -95,11 +99,38 @@ it indicates that solution doesn't exist (a cycle in the graph)
 
 import collections
 
+class Solution3:
+    def alienOrder(self, words):
+        # a -> b
+        adj = collections.defaultdict(set)
+        # in-degree
+        degree = {char: 0 for word in words for char in word}
+        for i, w1 in enumerate(words[:-1]):
+            w2 = words[i + 1]
+            for c1, c2 in zip(w1, w2):
+                if c1 == c2: continue
+                if c2 not in adj[c1]:
+                    degree[c2] += 1
+                adj[c1].add(c2)
+                break
+        res = ''
+        # start w 0 indegree nodes
+        queue = collections.deque([char for char in degree if not degree[char]])
+        while queue:
+            char = queue.popleft()
+            res += char
+            for nei in adj[char]:
+                degree[nei] -= 1
+                if not degree[nei]:
+                    queue.append(nei)
+        return res if len(res) == len(degree) else ''
+
+
+
 class Node:
     def __init__(self):
         self.IN = set()
         self.OUT = set()
-
 
 class Solution:
     def alienOrder(self, words):
@@ -169,7 +200,7 @@ Interesting Examples
 """
 
 
-class Solution:
+class Solution2:
     def add_vertices(self, w, graph):
         for ch in w:
             if ch not in graph:
@@ -229,33 +260,42 @@ class Solution:
         return "".join(st)
 
 
-class Solution:
-    def alienOrder(self, words):
-        # a -> b
-        adj = collections.defaultdict(set)
-        # in-degree
-        deg = {c: 0 for w in words for c in w}
-        for i, w1 in enumerate(words[:-1]):
-            w2 = words[i + 1]
-            for c1, c2 in zip(w1, w2):
-                if c1 == c2: continue
-                if c2 not in adj[c1]: deg[c2] += 1
-                adj[c1].add(c2)
-                break
-        res = ''
-        # start w 0 indegree nodes
-        q = collections.deque([c for c in deg if not deg[c]])
-        while q:
-            c = q.popleft()
-            res += c
-            for n in adj[c]:
-                deg[n] -= 1
-                if not deg[n]: q.append(n)
-        return res if len(res) == len(deg) else ''
 
 
 """
-https://leetcode.com/problems/alien-dictionary/discuss/208057/Python-solution
+
+The idea is to create a graph of characters and then find topological sorting 
+of the created graph. Following are the detailed steps.
+
+1) Create a graph g with number of vertices equal to the size of alphabet 
+in the given alien language. For example, if the alphabet size is 5, 
+then there can be 5 characters in words. Initially there are no edges in graph.
+
+2) Do following for every pair of adjacent words in given sorted array.
+…..a) Let the current pair of words be word1 and word2. 
+One by one compare characters of both words and find the first mismatching characters.
+…..b) Create an edge in g from mismatching character of word1 to that of word2.
+
+3) Print topological sorting of the above created graph.
+
+Following is the implementation of the above algorithm.
+
 """
+"""
+思路: 真是麻烦的一笔的题, 让我想起当年写poj 1001的时候.
+
+使用拓扑排序来解决这题吧. 用两个hash表, 一个来存每个出现过的字符的入度, 
+另一个来存一个字符指向的字符集合, 即一个字符应该在另外字符的前面. 
+然后就每次找出一个入度为0的字符, 并且更新这个字符指向的字符集入度减1. 如果还没有遍历完所有的字符, 
+但是找不到入度为0的字符了,那么说明无法排序, 返回"". 有一些情况就是可能一次会有几个入度为0的字符, 
+这样其实是没有严格的顺序的对这些字符, 这种情况就随便哪个都行.
+
+"""
+
+
+
+
+
+
 
 
