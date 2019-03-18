@@ -1,6 +1,11 @@
 
 """
 https://leetcode.com/problems/couples-holding-hands/discuss/220967/UnionFind-python
+http://www.cnblogs.com/grandyang/p/8716597.html
+https://www.itread01.com/content/1544635655.html
+https://www.twblogs.net/a/5bb279b52b71770e645de6cb
+
+
 
 N couples sit in 2N seats arranged in a row and want to hold hands.
 We want to know the minimum number of swaps so that every couple is sitting side by side. A swap consists of choosing any two people, then they stand up and switch seats.
