@@ -63,14 +63,15 @@ We can also use a set to record all routes visted , or just clear a route after 
 
 class SolutionLee:
     def numBusesToDestination(self, routes, S, T):
-        to_routes = collections.defaultdict(set)
-        for i,route in enumerate(routes):
-            for j in route: to_routes[j].add(i)
+        routesMap = collections.defaultdict(set)
+        for i, route in enumerate(routes):
+            for j in route:
+                routesMap[j].add(i)
         bfs = [(S,0)]
         seen = set([S])
         for stop, bus in bfs:
             if stop == T: return bus
-            for route_i in to_routes[stop]:
+            for route_i in routesMap[stop]:
                 for next_stop in routes[route_i]:
                     if next_stop not in seen:
                         bfs.append((next_stop, bus+1))
@@ -97,6 +98,31 @@ class SolutionLee2:
         return -1
 
 
+class Solution2:
+    def numBusesToDestination(self, routes, S, T):
+        if S == T: return 0
+        routes = map(set, routes)
+        graph = collections.defaultdict(set)
+        for i, r1 in enumerate(routes):
+            for j in range(i+1, len(routes)):
+                r2 = routes[j]
+                if any(r in r2 for r in r1):
+                    graph[i].add(j)
+                    graph[j].add(i)
+
+        seen, targets = set(), set()
+        for node, route in enumerate(routes):
+            if S in route: seen.add(node)
+            if T in route: targets.add(node)
+
+        queue = [(node, 1) for node in seen]
+        for node, depth in queue:
+            if node in targets: return depth
+            for nei in graph[node]:
+                if nei not in seen:
+                    seen.add(nei)
+                    queue.append((nei, depth+1))
+        return -1
 
 
 
