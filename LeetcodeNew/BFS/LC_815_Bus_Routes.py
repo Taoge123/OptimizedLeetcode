@@ -26,6 +26,37 @@ we will annotate the depth of each node: info[0] = node, info[1] = depth.
 
 import collections
 
+
+"""
+The first part loop on routes and record stop to routes mapping in to_route.
+The second part is general bfs. Take a stop from queue and find all connected route.
+The set seen record all stops visted and we won't check a stop for twice.
+We can also use a set to record all routes visted , or just clear a route after visit.
+"""
+
+class SolutionLee:
+    def numBusesToDestination(self, routes, S, T):
+        graph = collections.defaultdict(set)
+        for i, route in enumerate(routes):
+            for j in route:
+                graph[j].add(i)
+        bfs = [(S,0)]
+        seen = set([S])
+        for stop, depth in bfs:
+            if stop == T:
+                return depth
+            for i in graph[stop]:
+                for next in routes[i]:
+                    if next not in seen:
+                        bfs.append((next, depth+1))
+                        seen.add(next)
+                routes[i] = []
+        return -1
+
+
+
+
+
 class Solution:
     def numBusesToDestination(self, routes, S, T):
         if S == T: return 0
@@ -54,48 +85,7 @@ class Solution:
         return -1
 
 
-"""
-The first part loop on routes and record stop to routes mapping in to_route.
-The second part is general bfs. Take a stop from queue and find all connected route.
-The set seen record all stops visted and we won't check a stop for twice.
-We can also use a set to record all routes visted , or just clear a route after visit.
-"""
 
-class SolutionLee:
-    def numBusesToDestination(self, routes, S, T):
-        routesMap = collections.defaultdict(set)
-        for i, route in enumerate(routes):
-            for j in route:
-                routesMap[j].add(i)
-        bfs = [(S,0)]
-        seen = set([S])
-        for stop, bus in bfs:
-            if stop == T: return bus
-            for route_i in routesMap[stop]:
-                for next_stop in routes[route_i]:
-                    if next_stop not in seen:
-                        bfs.append((next_stop, bus+1))
-                        seen.add(next_stop)
-                routes[route_i] = []
-        return -1
-
-
-class SolutionLee2:
-    def numBusesToDestination(self, routes, S, T):
-        table = collections.defaultdict(set)
-        for i,route in enumerate(routes):
-            for j in route: table[j].add(i)
-        bfs = [(S,0)]
-        seen = set([S])
-        for stop, bus in bfs:
-            if stop == T: return bus
-            for i in table[stop]:
-                for j in routes[i]:
-                    if j not in seen:
-                        bfs.append((j, bus+1))
-                        seen.add(j)
-                routes[i] = []
-        return -1
 
 
 class Solution2:
