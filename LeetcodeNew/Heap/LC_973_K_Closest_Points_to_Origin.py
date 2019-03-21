@@ -45,7 +45,8 @@ class Solution3:
         heap = []
         for a, b in points:
             d = a * a + b * b
-            heapq.heappush(heap, (-d, a, b))  # -d is for inverse value of data ( pop minimum distance instead of maximum )
+            # -d is for inverse value of data ( pop minimum distance instead of maximum )
+            heapq.heappush(heap, (-d, a, b))  
         if len(heap) > K:  # Keep length of heap in size K
             heapq.heappop(heap)
         return [[b, c] for a, b, c in heap]
