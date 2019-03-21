@@ -46,9 +46,10 @@ class Solution3:
         for a, b in points:
             d = a * a + b * b
             # -d is for inverse value of data ( pop minimum distance instead of maximum )
-            heapq.heappush(heap, (-d, a, b))  
-        if len(heap) > K:  # Keep length of heap in size K
-            heapq.heappop(heap)
+            heapq.heappush(heap, (-d, a, b))
+            # Keep length of heap in size K
+            if len(heap) > K:
+                heapq.heappop(heap)
         return [[b, c] for a, b, c in heap]
 
 
@@ -60,7 +61,6 @@ class Solution2:
             # Partially sorts A[i:j+1] so the first K elements are
             # the smallest K elements.
             if i >= j: return
-
             # Put random element as A[i] - this is the pivot
             k = random.randint(i, j)
             points[i], points[k] = points[k], points[i]
