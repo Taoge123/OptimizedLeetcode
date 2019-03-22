@@ -40,6 +40,11 @@ Condition为两种：如果没找到，返回None，找到则返回当前的root
 
 """
 
+"""
+        2
+      5   4
+    3  6 7  8 
+"""
 
 class Solution(object):
     def lowestCommonAncestor(self, root, p, q):
