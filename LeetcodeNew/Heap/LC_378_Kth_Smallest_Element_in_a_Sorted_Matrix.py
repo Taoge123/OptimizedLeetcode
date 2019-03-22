@@ -156,8 +156,10 @@ class Solution11:
         while L < R:
             mid = L + ((R - L) >> 1)
             temp = sum([self.binary_search(row, mid, n) for row in matrix])
-            if temp < k:  L = mid + 1
-            else:  R = mid
+            if temp < k:
+                L = mid + 1
+            else:
+                R = mid
         return L
 
     def binary_search(self, row, x, n):
