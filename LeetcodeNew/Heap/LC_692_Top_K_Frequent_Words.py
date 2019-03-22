@@ -25,7 +25,7 @@ import heapq
 class Solution:
     def topKFrequent(self, words, k):
         count = collections.Counter(words)
-        candidates = count.keys()
+        candidates = list(count.keys())
         candidates.sort(key = lambda w: (-count[w], w))
         return candidates[:k]
 
@@ -43,9 +43,8 @@ class Solution3:
 
     def topKFrequentWords(self, words, k):
         # Write your code here
-        import heapq
-        from collections import defaultdict
-        dic = defaultdict(int)
+
+        dic = collections.defaultdict(int)
         for word in words:
             dic[word] += 1
         heap = []
