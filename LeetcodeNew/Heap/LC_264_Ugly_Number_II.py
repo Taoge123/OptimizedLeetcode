@@ -1,6 +1,6 @@
 
 """
-
+https://www.cnblogs.com/grandyang/p/4743837.html
 
 Write a program to find the n-th ugly number.
 
@@ -26,7 +26,7 @@ class SolutionHeap:
                     counted.add(mm)
         return heapq.heappop(q)
 
-class Solution(object):
+class SolutionHeap2:
     def nthUglyNumber(self, n):
         heap = [1]
         i = 0
@@ -43,19 +43,20 @@ class Solution(object):
 
 class SolutionCaikehe:
     def nthUglyNumber(self, n):
-        if n <= 0:
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 0:
             return 0
-        ugly = [1] * n
-        i2 = i3 = i5 = 0
+        dp = [1] * n
+        index2, index3, index5 = 0, 0, 0
         for i in range(1, n):
-            ugly[i] = min(ugly[i2] * 2, ugly[i3] * 3, ugly[i5] * 5)
-            if ugly[i] == ugly[i2] * 2:
-                i2 += 1
-            if ugly[i] == ugly[i3] * 3:
-                i3 += 1
-            if ugly[i] == ugly[i5] * 5:
-                i5 += 1
-        return ugly[-1]
+            dp[i] = min(2 * dp[index2], 3 * dp[index3], 5 * dp[index5])
+            if dp[i] == 2 * dp[index2]: index2 += 1
+            if dp[i] == 3 * dp[index3]: index3 += 1
+            if dp[i] == 5 * dp[index5]: index5 += 1
+        return dp[n - 1]
 
     def nthUglyNumber2(self, n):
         ugly = [0] * n
@@ -83,9 +84,9 @@ class Solution2:
         primes = [2, 3, 5]
         i = [-1] * 3
         v = [1] * 3
-        for k in xrange(n):
+        for k in range(n):
             ugly[k] = min(v)
-            for j in xrange(3):
+            for j in range(3):
                 if v[j] == ugly[k]:
                     i[j] += 1
                     v[j] = ugly[i[j]] * primes[j]
