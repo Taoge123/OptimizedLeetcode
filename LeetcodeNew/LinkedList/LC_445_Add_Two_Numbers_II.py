@@ -47,10 +47,10 @@ class Solution2:
 
         # take the sum and reconstruct the number from tail to head, because it's easier
         # to isolate and chop off the little digits with modulus and division.
-        s3 = s1 + s2
+        summ = s1 + s2
         tail = None
         head = None
-        while s3 > 0: head = ListNode(s3 % 10); head.next = tail; tail = head; s3 /= 10
+        while summ > 0: head = ListNode(summ % 10); head.next = tail; tail = head; summ /= 10
         return head if head else ListNode(0)
 
 
