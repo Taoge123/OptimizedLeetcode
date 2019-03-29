@@ -19,6 +19,13 @@ class SolutionLee:
             return head.next if head.next.val == head.val else head
         return head
 
+class Solution:
+    def deleteDuplicates(self, head):
+        if head and head.next and head.val == head.next.val:
+            head = self.deleteDuplicates(head.next)
+        elif head and head.next:
+            head.next = self.deleteDuplicates(head.next)
+        return head
 
 class Solution1:
     def deleteDuplicates(self, head):
