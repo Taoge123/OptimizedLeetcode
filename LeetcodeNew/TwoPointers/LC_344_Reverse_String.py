@@ -47,7 +47,7 @@ class Solution2:
         return ''.join(reversed(s))
 
 
-class Solution3L:
+class Solution3:
     def reverseString(self, s):
         a, b = 0, len(s) - 1
         s = list(s)
