@@ -41,6 +41,38 @@ Given this, we can apply the at most k changes constraint and maintain a sliding
 (length of substring - number of times of the maximum occurring character in the substring) <= k
 """
 import collections
+"""
+字符串牵扯到个数的问题，一般是想到用字典去做。对于这个题，我们使用变长的滑动窗口去做。我们刚开始从0个字符开始，
+把start作为滑动窗口的左边界，依次遍历字符串的每个字符作为窗口的右边界。统计该窗口内出现最多的字符出现了多少次。
+我们把窗口的长度减去出现最多的字符出现的次数，那么就是最少需要修改多少个字符才能把该滑动窗口变为相同的字符。
+如果差值大于k，说明我们要修改的字符数多于k，不满足条件，那么把窗口的左边界向右移动到满足该条件为止，
+移动的同时把因为左边界移动导致的字符离开窗口数-1。我们用res保存最大的滑动窗口长度。
+"""
+"""
+这道题给我们了一个字符串，说我们有k次随意置换任意字符的机会，让我们找出最长的重复字符的字符串。
+这道题跟之前那道Longest Substring with At Most K Distinct Characters很像，都需要用滑动窗口Sliding Window来解。
+我们首先来想，如果没有k的限制，让我们求把字符串变成只有一个字符重复的字符串需要的最小置换次数，
+那么就是字符串的总长度减去出现次数最多的字符的个数。如果加上k的限制，
+我们其实就是求满足(子字符串的长度减去出现次数最多的字符个数)<=k的最大子字符串长度即可，搞清了这一点，
+我们也就应该知道怎么用滑动窗口来解了吧我们用一个变量start记录滑动窗口左边界，初始化为0，然后我们遍历字符串，
+每次累加出现字符的个数，然后更新出现最多字符的个数，然后我们判断当前滑动窗口是否满足之前说的那个条件，如果不满足，
+我们就把滑动窗口左边界向右移动一个，并注意去掉的字符要在counts里减一，直到满足条件，我们更新结果res即可
+"""
+class Solution111:
+    def characterReplacement(self, s, k):
+
+        count = collections.Counter()
+        res = 0
+        start = 0
+        for i, char in enumerate(s):
+            count[char] += 1
+            maxCnt = count.most_common(1)[0][1]
+            while i - start + 1 - maxCnt > k:
+                count[s[start]] = count[s[start]] - 1
+                start += 1
+            res = max(res, i - start + 1)
+        return res
+
 
 class Solution11:
     def characterReplacement(self, s, k):
