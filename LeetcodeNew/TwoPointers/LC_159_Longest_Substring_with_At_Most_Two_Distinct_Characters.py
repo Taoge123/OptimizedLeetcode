@@ -1,5 +1,20 @@
 
 """
+https://www.geeksforgeeks.org/find-the-longest-substring-with-k-unique-characters-in-a-given-string/
+"""
+"""
+思路：
+
+一道two pointers的题目：我们维护一个哈希表，记录当前有效子字符串中出现的字符以及其对应个数，
+以及当前合法子字符串的起始位置start。在扫描字符串的过程中，如果发现当前字符在哈希表中已经出现了，
+那么直接更新哈希表中相应字符的出现次数即可；否则就需要将该字符添加到哈希表中。但是注意添加之后有可能会导致哈希表的容量大于k，
+这时就要移动起始位置start，并且更新哈希表，直到哈希表的容量重新不大于k。该算法的空间复杂度是O(k)，
+因为哈希表中最多有k + 1个字符。时间复杂度是O(n)（请读者分析，for循环里面出现了while循环，为什么时间复杂度还是O(n)呢？
+答案：用后向分析可知，字符串中的每个字符最多加入哈希表一次，弹出哈希表一次，所以while循环的整个执行次数不超过2n次，
+其中n是字符串的长度。）
+"""
+
+"""
 Given a string s , find the length of the longest substring t  that contains at most 2 distinct characters.
 
 Example 1:
