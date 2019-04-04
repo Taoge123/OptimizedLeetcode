@@ -31,6 +31,29 @@ Algorithm
 We can use a "two pointer" approach to process jobs in order. We will keep track of best, the maximum profit seen.
 
 For each worker with a certain skill, after processing all jobs with lower or equal difficulty, we add best to our answer.
+
+思考
+首先数据量很大，直接暴力写是不太可能了，可以先对难度和利润进行排序，这样worker的遍历时就可以及时停止遍历了，
+还有就是使用HashMap记录已经有了的worker数据进行重用，因为能力相同的工人可以得到的最大利润也是相同的。
+
+解题方法
+给的提示是双指针，其实我第一感觉是贪心的。事实上就是贪心。
+
+贪心的策略是给每个工人计算在他的能力范围内，他能获得的最大收益，把这样的工作分配给他。
+
+做的方法是先把困难程度和收益压缩排序，然后对工人排序，再对每个工人，通过从左到右的遍历确定其能获得收益最大值。
+由于工作和工人都已经排好序了，每次只需要从上次停止的位置继续即可，因此各自只需要遍历一次。
+
+你可能会想到，每个工作的收益和其困难程度可能不是正相关的，可能存在某个工作难度小，但是收益反而很大，
+这种怎么处理呢？其实这也就是这个算法妙的地方，curMax并不是在每个工人查找其满足条件的工作时初始化的，
+而是在一开始就初始化了，这样一直保持的是所有的工作难度小于工人能力的工作中，能获得的收益最大值。
+
+也就是说在查找满足条件的工作的时候，curMax有可能不更新，其保存的是目前为止的最大。
+res加的也就是在满足工人能力情况下的最大收益了。
+
+时间复杂度是O(M+N)，空间复杂度是O(MN)。
+
+
 """
 
 class Solution1:
