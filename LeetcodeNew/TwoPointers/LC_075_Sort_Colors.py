@@ -18,6 +18,8 @@ First, iterate the array counting number of 0's, 1's, and 2's, then overwrite ar
 Could you come up with a one-pass algorithm using only constant space?
 
 """
+from collections import Counter
+
 
 class Solution1:
     def sortColors(self, nums):
@@ -90,11 +92,39 @@ class SolutionCaikehe:
             else:
                 l += 1
 
+class Solution4:
+    def sortColors(self, nums):
+        c = Counter(nums)
+        for i in range(c[0]): nums[i] = 0
+        for i in range(c[0], c[0] + c[1]): nums[i] = 1
+        for i in range(c[0] + c[1] ,  c[0] + c[1] + c[2]): nums[i] = 2
 
 
+"""
+1 Pass
+l 的左侧都是0，不含l 。 r 的右侧都是2, 不含 r
+mid 代表着所有的1 (One)，在扫描的时候:
+碰到0，交换到左边的l区间, 碰到2，交换到右边的r区间。扫描完后，中间部分就都是1 (One)
+
+注意边界条件是mid <= r
+"""
 
 
+class Solution5:
+    def sortColors(self, nums):
+        l, r = 0, len(nums) - 1
+        mid = 0
 
+        while mid <= r:
+            if nums[mid] == 0:
+                nums[l], nums[mid] = nums[mid], nums[l]
+                mid += 1;
+                l += 1
+            elif nums[mid] == 1:
+                mid += 1
+            else:
+                nums[mid], nums[r] = nums[r], nums[mid]
+                r -= 1
 
 
 
