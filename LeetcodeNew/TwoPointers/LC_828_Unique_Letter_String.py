@@ -32,6 +32,15 @@ Explanation: The same as example 1, except uni("ABA") = 1.
 """
 
 """
+分别统计每个字母出现的下标
+
+假设字母letter的下标数组为idx，将-1和len(S)插入idx的头部和尾部
+
+则sum((idx[i] - idx[i - 1]) * (idx[i + 1] - idx[i]))为letter出现的总次数
+
+"""
+
+"""
 Approach #2: Split by Character [Accepted]
 Intuition
 
@@ -136,5 +145,59 @@ class Solution2:
             for k in range(1, len(j)-1):
                 s += (j[k] - j[k-1]) * (j[k+1]-j[k])
         return s % (10 ** 9 + 7)
+
+
+
+"""
+肯定不能一个个substring来做，换个角度，求每个字符的有效substring个数
+"""
+
+"""
+解题思路：在任何子串中，只有出现一次的字符才对最终的结果起作用。假设输入的S为 XXXAXXXXAXXAXXXXX，X表示其他任意字符，
+现在我们来计算蓝A对最后的输出贡献了多少，很显然在两个红A之间的子串中，只要是包括蓝A的子串都有蓝A的贡献，
+如果第一个红A到蓝A之间的字符数量是L，蓝A到第二个红A之间的字符数量是R，那么蓝A的贡献就是 L + R + L*R + 1 ，
+其中L表示蓝A与左边字符组成的子串数量，R为与右边的，L*R为同时与左右结合，1表示不与任何字符结合。
+所有只有找出所有字符左右两边相同字符出现的位置，即可计算出最终的答案。
+"""
+
+class Solution3:
+    def uniqueLetterString(self, s):
+
+        d = {}
+        res = 0
+        for i, c in enumerate(s):
+            if c not in d:
+                d[c] = [-1]
+            else:
+                k, j = d[c][-2:]
+                res += (j - k) * (i - j)
+            d[c].append(i)
+
+        for c in d:
+            k, j = d[c][-2:]
+            res += (j - k) * (len(s) - j)
+
+        return res
+
+
+
+class Solution4:
+    def uniqueLetterString(self, S):
+        """
+        :type S: str
+        :rtype: int
+        """
+        ret = 0
+        for i in range(len(S)):
+            left = i - 1
+            right = i + 1
+            while left >= 0 and S[left] != S[i]:
+                left -= 1
+            while right < len(S) and S[right] != S[i]:
+                right += 1
+            ret += (right - i) * (i - left)
+        return ret % (1000000007)
+
+
 
 
