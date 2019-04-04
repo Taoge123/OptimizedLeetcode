@@ -79,7 +79,16 @@ class Solution2:
                 l += 1
             if l >= r: return n - r
 
-
+class Solution3:
+    def numRescueBoats(self, people, limit):
+        people.sort()
+        count,i,j = 0,0,len(people)-1,
+        while(i <= j):
+            if people[i] + people[j] <= limit:
+                i +=1
+            j -=1
+            count +=1
+        return count
 
 
 
