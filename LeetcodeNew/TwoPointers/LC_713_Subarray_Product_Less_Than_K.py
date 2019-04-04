@@ -72,4 +72,49 @@ class Solution2:
         return cnt
 
 
+class Solution3:
+    def numSubarrayProductLessThanK(self, nums, k):
+
+        if len(nums) == 0 or k <= 1:
+            return 0
+
+        start = 0
+        end = 0
+        res = 0
+        prod = 1
+
+        while end < len(nums):
+            prod *= nums[end]
+            end += 1
+            while prod >= k:
+                prod /= nums[start]
+                start += 1
+            res += end - start
+        return res
+
+
+"""
+Two pointer O(n) time O(1) space:
+Initialize a left index j = 0 and a right index i = 0. As we iterate i over range(len(nums)), 
+we keep updating res, the cumulative product of all entries from j to i. As soon as res >= k, 
+we move the left index to the right until res < k. The length i - j + 1 
+is then the number of subarrays ending with i where the product of all elements in the subarray is less than k.
+"""
+class Solution4:
+    def numSubarrayProductLessThanK(self, nums, k):
+
+        if not nums:
+            return 0
+        j = 0
+        res = 1
+        count = 0
+        for i in range(len(nums)):
+            res *= nums[i]
+            if res >= k:
+                while j <= i and res >= k:
+                    res /= nums[j]
+                    j += 1
+            count += i - j + 1
+        return count
+
 
