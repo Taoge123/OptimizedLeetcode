@@ -68,7 +68,7 @@ So, we add it to the set of characters, and increment right.
 We also potentially update longest with the length of the current substring.
 
 If string[right] is in the hash set of characters, we remove string[left] from the hash set, 
-and increment left. This is because the character at right is a duplicate of some character 
+and increment left. This is because the character at right is a dup`licate of some character 
 in the substring; we want to keep removing the leftmost character from the current substring 
 until we remove that character. Then, since we have another candidate for longest non-repeating substring, 
 we can enter the if block, and go back to incrementing right.
