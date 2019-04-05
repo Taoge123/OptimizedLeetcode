@@ -39,7 +39,7 @@ class MagicDictionary:
     def __init__(self):
         self.trie = Trie()
 
-    def buildDict(self, dict)
+    def buildDict(self, dict):
         for word in dict:
             self.addWord(word)
             for i, char in enumerate(word):
