@@ -110,3 +110,26 @@ class Solution2:
         return False
 
 
+class Solution3:
+    def search(self, nums, target):
+
+
+        left, right = 0, len(nums) - 1
+        while left < right and nums[left] == nums[right]:       # to distinguish left ascending array and right ascending array
+            left += 1
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return True
+            if nums[left] <= nums[mid]:                         # nums[mid] at left ascending array
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                else:                                           # nums[mid] < target
+                    left = mid + 1
+            elif nums[mid] <= nums[right]:                      # nums[mid] at right ascending array
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:                                           # nums[mid] > target
+                    right = mid - 1
+        return False
