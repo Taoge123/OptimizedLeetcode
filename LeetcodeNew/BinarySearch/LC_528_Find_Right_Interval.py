@@ -145,3 +145,22 @@ class Solution:
         return first
 
 
+"""
+Explanation
+
+这道题的所用的算法就是二分查找，关键在于在算法的哪一部分使用二分查找以及如何使用二分查找。
+先要注意到两个条件，(1) 区间的end point 大于 start point (2) 不存在两个具有相同的start point 的区间
+我们要寻找的是intervals[i] (区间i)的最小的 right interval, 称之为targetInterval，
+即这个区间targetInterval的start point 要大于等于 intervals[i]的end point，
+而且在所有满足以上条件的区间中，start point必须是最小的。
+所以可以想到要将intervals按照start point来进行排序，这样就可以通过lgn的时间复杂度找到targetInterval。
+考虑到最终的返回结果中要返回的intervals在原序列中的index，所以在排序之前，先将原序列进行保存。
+我的算法实现中保存了两个关于原数组的数据体，第一个是应用哈希表映射了start point和index的关系，
+以确保在通过二分查找到了targetInterval的start point之后，
+可以在O(1)的时间复杂度里找到原序列中的i。第二个是完全复制了原数组，返回结果中是按照原序列排序的，
+在排序之前需要先拷贝一份。
+二分查找的思路很简单，不断地二分比较mid值(mid = (l + r) >> 1)是否符合条件，直至l和r相等，
+最后输出结果到结果数组中去。
+"""
+
+
