@@ -65,10 +65,6 @@ class Trie:
 
 class Solution2:
     def findAllConcatenatedWordsInADict(self, words):
-        """
-        :type words: List[str]
-        :rtype: List[str]
-        """
         self.trie = Trie()
         ans = []
         for word in words:
