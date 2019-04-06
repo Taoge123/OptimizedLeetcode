@@ -112,7 +112,7 @@ class SolutionCaikehe1:
 
 
 
-class Solution3:
+class Solution4:
     def countNodes(self, root):
         if not root:
             return 0
@@ -138,7 +138,7 @@ class Solution3:
         return d
 
 
-class Solution4:
+class Solution5:
     def countNodes(self, root):
         def f(root):
             if root == None:
