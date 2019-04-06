@@ -40,7 +40,7 @@ The number of complete sentences that to be searched won't exceed 100. The lengt
 Please use double-quote instead of single-quote when you write test cases even for a character input.
 Please remember to RESET your class variables declared in class AutocompleteSystem, as static/class variables are persisted across multiple test cases. Please see here for more details.
 """
-
+import collections
 
 class TrieNode(object):
     def __init__(self):
@@ -50,7 +50,7 @@ class TrieNode(object):
         self.rank = 0
 
 
-class AutocompleteSystem(object):
+class AutocompleteSystem0:
     def __init__(self, sentences, times):
         self.root = TrieNode()
         self.keyword = ""
@@ -132,7 +132,7 @@ class ShortList(list):
             self.pop()
 
 
-class AutocompleteSystem(object):
+class AutocompleteSystem1:
 
     def __init__(self, sentences, counts):
         self.curnode = self.trie = _trie()
@@ -222,10 +222,7 @@ class Trie:
 class AutocompleteSystem2:
 
     def __init__(self, sentences, times):
-        """
-        :type sentences: List[str]
-        :type times: List[int]
-        """
+
         self.lookUp = {}
         for i, s in enumerate(sentences):
             self.lookUp[s] = times[i]
@@ -259,43 +256,39 @@ class TrieNode:
 class AutocompleteSystem(object):
 
     def __init__(self, sentences, times):
-        """
-        :type sentences: List[str]
-        :type times: List[int]
-        """
+
         self.buffer = ''
         self.stimes = collections.defaultdict(int)
-        self.trie = TrieNode()
+        self.root = TrieNode()
         for s, t in zip(sentences, times):
             self.stimes[s] = t
             self.addSentence(s)
-        self.tnode = self.trie
+        self.tnode = self.root
 
     def input(self, c):
-        """
-        :type c: str
-        :rtype: List[str]
-        """
+
         ans = []
         if c != '#':
             self.buffer += c
-            if self.tnode: self.tnode = self.tnode.children.get(c)
-            if self.tnode: ans = sorted(self.tnode.sentences, key=lambda x: (-self.stimes[x], x))[:3]
+            if self.tnode:
+                self.tnode = self.tnode.children.get(c)
+            if self.tnode:
+                ans = sorted(self.tnode.sentences, key=lambda x: (-self.stimes[x], x))[:3]
         else:
             self.stimes[self.buffer] += 1
             self.addSentence(self.buffer)
             self.buffer = ''
-            self.tnode = self.trie
+            self.tnode = self.root
         return ans
 
     def addSentence(self, sentence):
-        node = self.trie
+        current = self.root
         for letter in sentence:
-            child = node.children.get(letter)
+            child = current.children.get(letter)
             if child is None:
                 child = TrieNode()
-                node.children[letter] = child
-            node = child
+                current.children[letter] = child
+            current = child
             child.sentences.add(sentence)
 
 
