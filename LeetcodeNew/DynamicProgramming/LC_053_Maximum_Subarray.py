@@ -22,7 +22,6 @@ class Solution1:
         return max(nums)
 
 
-
 class Solution2:
     def maxSubArray(self, A):
         if not A:
