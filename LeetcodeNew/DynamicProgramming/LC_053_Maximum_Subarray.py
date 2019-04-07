@@ -34,6 +34,7 @@ class Solution2:
 
         return maxSum
 
+
 class Solution3:
     def maxSubArray(self, nums):
         for i in range(1,len(nums)):
@@ -73,6 +74,7 @@ class Solution5:
             result = max(current, result)
             current = max(0, current)
         return result
+
 
 class Solution6:
     def maxSubArray(self, nums):
