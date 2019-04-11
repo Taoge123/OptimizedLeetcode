@@ -211,18 +211,20 @@ class Solution3:
 
         n = len(A)
         m_ = [[0 for i in range(n + 1)] for j in range(K + 1)]
-        sum_ = [0] * (n + 1)
+        preSum = [0] * (n + 1)
         for i in range(1, n + 1):
-            sum_[i] = sum_[i - 1] + A[i - 1]
-        return self.LSA(A, sum_, m_, n, K)
+            preSum[i] = preSum[i - 1] + A[i - 1]
+        return self.LSA(A, preSum, m_, n, K)
 
     # Largest sum of averages for first n elements in A partioned into K groups
-    def LSA(self, A, sum_, m_, n, k):
-        if m_[k][n] > 0: return m_[k][n]
-        if k == 1: return sum_[n] / n
+    def LSA(self, A, preSum, matrix, n, k):
+        if matrix[k][n] > 0:
+            return matrix[k][n]
+        if k == 1:
+            return preSum[n] / n
         for i in range(k - 1, n):
-            m_[k][n] = max(m_[k][n], self.LSA(A, sum_, m_, i, k - 1) + (sum_[n] - sum_[i]) / (n - i))
-        return m_[k][n]
+            matrix[k][n] = max(matrix[k][n], self.LSA(A, preSum, matrix, i, k - 1) + (preSum[n] - preSum[i]) / (n - i))
+        return matrix[k][n]
 
 
 
