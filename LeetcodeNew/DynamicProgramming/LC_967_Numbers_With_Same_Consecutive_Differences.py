@@ -34,6 +34,8 @@ If y - K >= 0, we add x * 10 + y - K to the new list.
 
 We repeat this step N - 1 times and return the final result.
 """
+import collections
+
 class Solution1:
     def numsSameConsecDiff(self, N, K):
         cur = range(10)
@@ -102,7 +104,6 @@ class Solution3:
 
 
 # 思路 1 - 时间复杂度: O((10-K)^N)- 空间复杂度: O(1)******
-
 class Solution4:
     def numsSameConsecDiff(self, N, K):
 
@@ -131,5 +132,17 @@ class Solution4:
             self.dfs(path + str(int(path[-1]) - K), N, K)
 
 
+class Solution5:
+    def numsSameConsecDiff(self, N, K):
+        if N == 1: return list(range(10))
+        if not K: return [int(d * N) for d in '123456789']
 
+        q = collections.deque(list('123456789'))
+        while len(q[0]) < N:
+            curr = q.popleft()
+            d = int(curr[-1])
+            if d - K >= 0: q.append(curr + str(d - K))
+            if d + K <= 9: q.append(curr + str(d + K))
+
+        return [int(x) for x in q]
 
