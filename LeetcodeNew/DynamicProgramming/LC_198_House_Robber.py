@@ -2,7 +2,7 @@
 """
 
 https://leetcode.com/problems/house-robber/discuss/164056/Python-or-tm
-
+https://leetcode.com/problems/house-robber/discuss/164056/Python-or-tm
 
 You are a professional robber planning to rob houses along a street.
 Each house has a certain amount of money stashed, the only constraint stopping you
@@ -123,4 +123,64 @@ class SolutionCaikehe:
             b = max(nums[i] + a, b)
             a = tmp
         return b
+
+
+
+"""
+198 House Robber
+> 类型：DP基础题
+> Time Complexity O(N)
+> Space Complexity O(1)
+"""
+
+
+class Solution11:
+    def rob(self, nums):
+        if not nums: return 0
+        if len(nums) <= 2: return max(nums)
+
+        res = [0] * len(nums)
+        res[0], res[1] = nums[0], max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            res[i] = max(res[i - 1], res[i - 2] + nums[i])
+
+        return res[-1]
+
+
+"""
+以上的代码需要O(N)空间，利用滚动数组可以实现O(1)空间, 滚动数组针对这一类的问题，
+当dependency只取决于k个数的时候，一种方法是可以定义k个函数来作为迭代的数据存储，
+另一种方法就是开辟一个长度为k的数组，然后在迭代的时候，更新对应的res[i%k]即可。
+我比较喜欢这种方法的原因是，这种方法对应上面的方式，需要更改的不多，如果在面试时候仅仅想出了上面的代码，
+可以再不花多少时间的情况下，优化出O(1)的空间复杂度。
+"""
+class Solution22:
+    def rob(self, nums):
+        if not nums: return 0
+        if len(nums) <= 2: return max(nums)
+
+        res = [0] * 2
+        res[0], res[1] = nums[0], max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            res[i % 2] = max(res[(i - 1) % 2], res[(i - 2) % 2] + nums[i])
+
+        return max(res[0], res[1])
+
+
+
+"""
+O（1）的存储空间 这个确实是屌 不过为什么res[0], res[1] = nums[0], max(nums[0], nums[1])这里的res[1]要取最大值？
+
+之前我们能够返回dp数组最后一位的原因是，我们创造了和input数组大小一样的dp数组，所以是一一对应的关系，最后一位自然就是最大的。
+因为你并不知道数组是基数还是偶数。此题定义的滚动数组arr[0]存的是基数数组最大值，arr[1]存的是偶数数组最大值
+
+举个例子：
+
+第一种代码，如果input数组是偶数结尾，你返回arr[-1]。然后在滚动数组你也返回arr[-1]，没毛病
+第一种代码，如果input数组是基数结尾，你返回arr[-1]。然后在滚动数组你也返回arr[-1]，这个时候其实最大值是arr[0]，因为最后的数改动的是基数位
+"""
+
+
 
