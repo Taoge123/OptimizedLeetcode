@@ -369,14 +369,7 @@ class Solution22:
 
 class Solution33:
     def findPaths(self, m, n, N, i, j):
-        """
-        :type m: int
-        :type n: int
-        :type N: int
-        :type i: int
-        :type j: int
-        :rtype: int
-        """
+
         dp = [[[0] * n for _ in range(m)] for _ in range(N + 1)]
         ds = [(0, 1), (0, -1), (-1, 0), (1, 0)]
         for s in range(1, N + 1):
