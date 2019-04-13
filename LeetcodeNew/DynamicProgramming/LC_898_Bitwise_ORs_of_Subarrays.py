@@ -41,6 +41,9 @@ Note:
 """
 
 """
+转移方程式dp[i] = [b | A[i] for b in dp[i - 1]] + A[i]，
+即以A[i]结尾的所有子数组异或结果等于以A[i-1]结尾的所有子数组异或结果，和当前的A[i]异或，再加上A[i]这个结果。
+
 Intuition
 
 Let's try to speed up a brute force answer. Evidently, 
