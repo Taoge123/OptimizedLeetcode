@@ -48,12 +48,12 @@ The result is the last index of d."""
 
 class Solution1:
     def word_break(slef, s, words):
-        d = [False] * len(s)
+        dp = [False] * len(s)
         for i in range(len(s)):
             for w in words:
-                if w == s[i - len(w) + 1:i + 1] and (d[i - len(w)] or i - len(w) == -1):
-                    d[i] = True
-        return d[-1]
+                if w == s[i - len(w) + 1:i + 1] and (dp[i - len(w)] or i - len(w) == -1):
+                    dp[i] = True
+        return dp[-1]
 
 class Solution2:
     def wordBreak(self, s, d):
@@ -100,8 +100,8 @@ class Solution4:
         dp[0] = True
         for i in range(len(s)):
             for j in range(i, len(s)):
-                if dp[i] and s[i: j + 1] in wordDict:
-                    dp[j + 1] = True
+                if dp[i] and s[i: j+1] in wordDict:
+                    dp[j+1] = True
 
         return dp[-1]
 
