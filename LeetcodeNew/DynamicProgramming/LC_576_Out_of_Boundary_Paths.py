@@ -1,5 +1,9 @@
 
 """
+
+dp[t + 1][x + dx][y + dy] += dp[t][x][y]
+
+
 There is an m by n grid with a ball. Given the start coordinate (i,j) of the ball,
 you can move the ball to adjacent cell or cross the grid boundary
 in four directions (up, down, left, right). However, you can at most move N times.
@@ -422,7 +426,39 @@ dfs函数代表了我们从(x, y)位置出发，最多移动N次的情况下能�
 时间复杂度是O(Nmn)，空间复杂度是O(Nmn).
 """
 
+"""
+解题思路：
+动态规划（Dynamic Programming）
 
+数组dp[t][x][y]表示第t次移动时，坐标x, y处的移动路径总数。
+
+状态转移方程：
+
+dp[t + 1][x + dx][y + dy] += dp[t][x][y]    
+
+其中t表示移动的次数，dx, dy 取值 (1,0), (-1,0), (0,1), (0,-1)
+当x + dx或者y + dy超出边界时，将结果累加至最终答案。
+"""
+class Solution55:
+    def findPaths(self, m, n, N, i, j):
+
+        MOD = 10**9 + 7
+        dz = zip((1, 0, -1, 0), (0, 1, 0, -1))
+        dp = [[0] *n for x in range(m)]
+        dp[i][j] = 1
+        ans = 0
+        for t in range(N):
+            ndp = [[0] *n for x in range(m)]
+            for x in range(m):
+                for y in range(n):
+                    for dx, dy in dz:
+                        nx, ny = x + dx, y + dy
+                        if 0 <= nx < m and 0 <= ny < n:
+                            ndp[nx][ny] = (ndp[nx][ny] + dp[x][y]) % MOD
+                        else:
+                            ans = (ans + dp[x][y]) % MOD
+            dp = ndp
+        return ans
 
 
 
