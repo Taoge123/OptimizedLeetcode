@@ -2,6 +2,7 @@
 """
 Similar to
 continuous subarray sum equals k
+https://buptwc.com/2018/07/10/Leetcode-523-Continuous-Subarray-Sum/
 
 Given a list of non-negative numbers and a target integer k,
 write a function to check if the array has a continuous subarray of size at least 2
@@ -267,6 +268,69 @@ class Solution7:
             else:
                 map[rem] = i
         return False
+
+"""
+Step 1: check array length, needs to be greater than 1
+Step 2: if k == 0, return true if two consecutive items are 0
+Step 3: Use presum and dictionary to record already appeard sums(%k). If the newly added sum (%k) is in the dic, it tells the newly added slice of array meets the criteria.
+For example, if presum = 3, k =5, we have presume%k = 3 (add to dictionary), so if you added two more numbers 4, and 1, the presume will becomes 8, 8 %5 = 3, and 3 is already in dictionary, so we know the newly added two numbers must be divsible by k(5)
+Step 4: care for the two corner cases:
+a: what if the newly added value is the same as k: for example (1,3,5) k = 5, so we need to exclude this situation: nums[i] != k
+b: what if the first two values are the same as k: for example (1,1), k=1, so we can include this situation by adding nums[0] == nums[1] == k
+Either a or b can happen, so we use or in between
+"""
+class Solution8:
+    def checkSubarraySum(self, nums, k):
+        if len(nums) <= 1:
+            return False
+        if k == 0:
+            for i in range(len(nums)-1):
+                if nums[i] == nums[i+1] == 0:
+                    return True
+                return False
+        presum, dic = 0, {0:1}
+        for i in range(len(nums)):
+            presum += nums[i]
+            if presum % k in dic and (nums[0] == nums[1] == k or nums[i]!=k):
+                return True
+            else:
+                dic[presum%k] = 1
+        return False
+
+
+"""
+分析：
+
+这道题和560题解法一样，强烈建议先看那道题，具体见https://leetcode.com/problems/subarray-sum-equals-k/solution/
+当我们分析数组中连续的若干数之和时，很容易想到先用一个数组sm[i]记录sum(nums[:i])，那么则有sm[j] - sm[i] = sum(nums[i:j])
+但是如果依次遍历时间复杂度为O(n^2)，在这里肯定超时，所以我们得想个简单的办法，这也就是这类型题的经典思想，前缀和处理
+我们先来考虑一个简单的情况，即是否存在连续的子数组的和为k，我们应该怎么做呢？
+假设存在i,j满足sum(nums[i:j]) = k，那么则应有sm[j] - sm[i] = k，也就是如果我们找到i,j满足这个式子就可以说明存在…！
+那当我们遍历sm数组时，将遍历的数依次存进集合，遍历至sm[j]时，我们如果发现sm[j]-k，即sm[i]是存在于集合中的，那么我们就可以确定,确实存在sum(nums[i:j]) = k
+回到我们这道题上，假设确实存在i,j(j-i>=2)满足sum(nums[i:j]) = n * k，即sm[j] - sm[i] = n * k，
+此时用上面的方法是不可行的，因为n*k是个不确定的数，我们无法判断其是否在集合内，
+但我们只用作一个小小的变换————对上式两边同时模k，上式变为sm[j]%k - sm[i]%k = 0，
+此时就和4中情况是等价的，唯独是集合中存储的数从sm[i]变成了sm[i]%k
+思路：
+
+因为j-i>=2，所以更新集合的时候应当推迟一步，即分析完sm[i]之后才将sm[i-1]%k加入集合之中
+注意k = 0的情况，因为模0操作是不被允许的，所以需要单独处理
+"""
+class Solution9:
+    def checkSubarraySum(self, nums, k):
+
+        if k == 0: return '00' in ''.join(map(str,nums))
+        # 初始化集合和前缀和数组
+        s = set([0])
+        sm = [nums[0]] * len(nums)
+        for i in range(1,len(nums)):
+            sm[i] = sm[i-1] + nums[i]
+            if sm[i] % k in s:
+                return True
+            # 分析完之后再更新集合
+            s.add(sm[i-1]%k)
+        return False
+
 
 
 
