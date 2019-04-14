@@ -332,3 +332,7 @@ class Solution3:
         return sum(odd)
 
 
+A = [2,3,1,1,4]
+a = SolutionLee()
+print(a.oddEvenJumps(A))
+
