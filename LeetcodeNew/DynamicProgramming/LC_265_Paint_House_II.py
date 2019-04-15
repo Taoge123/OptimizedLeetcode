@@ -34,11 +34,11 @@ class Solution1:
     def minCostII(self, costs):
         if not costs: return 0
         n, k = len(costs), len(costs[0])
-        for i in xrange(1, n):
+        for i in range(1, n):
             min1 = min(costs[i-1])
             idx = costs[i-1].index(min1)
             min2 = min(costs[i-1][:idx] + costs[i-1][idx+1:])
-            for j in xrange(k):
+            for j in range(k):
                 if j == idx:
                     costs[i][j] += min2
                 else:
@@ -72,10 +72,10 @@ class SolutionCaikehe:
         if not costs:
             return 0
         r, c = len(costs), len(costs[0])
-        dp = [[0 for _ in xrange(c)] for _ in xrange(r)]
+        dp = [[0 for _ in range(c)] for _ in range(r)]
         dp[0] = costs[0]
-        for i in xrange(1, r):
-            for j in xrange(c):
+        for i in range(1, r):
+            for j in range(c):
                 dp[i][j] = costs[i][j] + min(dp[i - 1][:j] + dp[i - 1][j + 1:])
         return min(dp[-1])
 
@@ -85,9 +85,9 @@ class SolutionCaikehe:
             return 0
         r, c = len(costs), len(costs[0])
         cur = costs[0]
-        for i in xrange(1, r):
+        for i in range(1, r):
             pre = cur[:]  # take care here
-            for j in xrange(c):
+            for j in range(c):
                 cur[j] = costs[i][j] + min(pre[:j] + pre[j + 1:])
         return min(cur)
 
