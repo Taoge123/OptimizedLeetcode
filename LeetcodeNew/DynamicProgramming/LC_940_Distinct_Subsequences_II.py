@@ -47,6 +47,31 @@ endsWith[i]来表示以第i个字母结束的sequence数量。
 每次更新的时候，end[i] = sum(end) + 1。
 加一的原因是，比如我们遇到新字母'a'，新的N个seq里不包含“a”，需要额外加上
 """
+
+"""
+使用一个endswith[26]数组，保存的是有多少个子序列以i结尾。
+则，当前总共有N = sum(endswith)个不同的子序列，当我们新增加一个字符c时，
+相当于在以前每个结尾的位置后面又增添了一个新的字符，所以现在有了N个以c结尾的不同的子序列了。
+
+所以，我们遍历一遍s，更新的方式是end[c] = sum(end) + 1。加一是因为c本身也是一个子序列。
+
+比如举个例子。
+
+Input: "aba"
+Current parsed: "ab"
+
+endswith 'a': ["a"]
+endswith 'b': ["ab","b"]
+
+"a" -> "aa"
+"ab" -> "aba"
+"b" -> "ba"
+"" -> "a"
+
+endswith 'a': ["aa","aba","ba","a"]
+endswith 'b': ["ab","b"]
+result: 6
+"""
 import collections
 
 class SolutionLee:
@@ -341,6 +366,16 @@ class Solution33:
         for s in S:
             nums[ord(s) - ord("a")] = (sum(nums) + 1) % (10 ** 9 + 7)
         return sum(nums) % (10 ** 9 + 7)
+
+
+
+
+
+
+
+
+
+
 
 
 
