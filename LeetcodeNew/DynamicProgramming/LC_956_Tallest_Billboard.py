@@ -203,9 +203,128 @@ cur表示当前正在处理的层。dp表示上一层。从这个过程可以看
 
 
 """
+
+"""
+It is like a knapsack problem.
+Consider this problem as:
+Given a list of numbers, multiply each number with 1 or 0 or -1, make the sum of all numbers to 0. Find a combination which has the largest sum of all positive numbers.
+
+We can consider the sum as the key and positive number sum as the value.
+We initally have dp[0] = 0
+
+We iterate through the numbers and calculate the pairs that we got. In the case that we have same sum but different postive number sum, we only keep the largest postive number sum.
+
+Let's run through a example, [1,2,3]
+First we have {0:0}.
+After 1, we have {0: 0, 1: 1, -1: 0}
+After 2, we have {0:0, 2:2, -2:0, 1:1, 3:3,-1:1, -1:0,1:2,-3:0}
+we will drop 1:1 and -1:0 since they have smaller value with the same key[1]and [-1]. That left us with {0:0, 2:2, -2:0, 3:3,-1:1,1:2,-3:0}
+Number 3 is doing pretty much the same.
+Then we will get the final result with dp[0]
+
+"""
+class Solution11:
+    def tallestBillboard(self, rods):
+        dp = dict()
+        dp[0] = 0
+
+        for i in rods:
+            cur = collections.defaultdict(int)
+            for s in dp:
+                cur[s + i] = max(dp[s] + i, cur[s + i])
+                cur[s] = max(dp[s], cur[s])
+                cur[s - i] = max(dp[s], cur[s - i])
+            dp = cur
+        return dp[0]
+
+
+"""
+Similar to Target Sum, the difference is that in this question, 
+we can treat any number num as num, -num, or0, and the final target is 0.
+
+we can maintain a possible prefix sum map, where the key is all possible prefix sum, 
+and the value is the maximum sum of positive numbers.
+"""
+
+class Solution111:
+    def tallestBillboard(self, rods):
+        presum = {0:0}
+
+        for rod in rods:
+            newsum = {}
+            for val, pos_val in presum.items():
+                newsum[val + rod] = max(newsum.get(val + rod, 0), pos_val + rod)
+                newsum[val - rod] = max(newsum.get(val - rod, 0), pos_val)
+                newsum[val] = max(newsum.get(val, 0), pos_val)
+            presum = newsum
+        return presum[0]
+
+"""
+At the very beginning, I came up with the state description:
+DP[i][j] = True or False
+It means if I can make two steel supports of lengths i and j.
+The state description uses a 2D array. 
+And you have another loop to use each rod to update the states. 
+The time complexity is O(nmm).
+
+But don't forget, we don't care every state. We only care about the best state.
+For example, if we have dp[i][j] = True and dp[i+k][j+k] = True. Do we still care dp[i][j] ? No!
+
+So the state description can be simplized to dp[dx] = len, which means we can realize the state (len, len+dx).
+
+Details can be easily understood in my code.
+The time complexity is O(nm).
+"""
+class Solution1111:
+    def tallestBillboard(self, rods):
+        dp = [-1] * (sum(rods) + 2)
+        m = len(dp)
+        # dp[dx] = i -> (i, i+dx)
+        dp[0] = 0
+        n = len(rods)
+        for i in range(n):
+            tmp = [0] * m
+            for j in range(m):
+                tmp[j] = dp[j]
+            for dx in range(m):
+                if tmp[dx] != -1:
+                    maxlen = max(tmp[dx] + rods[i], tmp[dx] + dx)
+                    minlen = min(tmp[dx] + rods[i], tmp[dx] + dx)
+                    dp[maxlen - minlen] = max(minlen, dp[maxlen - minlen])
+                    maxlen = max(tmp[dx], tmp[dx] + dx + rods[i])
+                    minlen = min(tmp[dx], tmp[dx] + dx + rods[i])
+                    dp[maxlen - minlen] = max(minlen, dp[maxlen - minlen])
+
+        return dp[0]
+
+
+"""
+Maintain a dictionary mapping the difference in side heights to the greatest total length used with that difference.
+Use only non-negative differences.
+
+For each rod, update each height difference by both adding and subtracting the rod.
+The solution is the greatest total length with a difference of zero.
+"""
+
+from collections import defaultdict
+
+class Solutin11111:
+    def tallestBillboard(self, rods):
+        diffs = {0: 0}
+
+        for rod in rods:
+
+            new_diffs = defaultdict(int, diffs)
+            for diff, used_len in diffs.items():
+                new_diffs[diff + rod] = max(used_len + rod, new_diffs[diff + rod])
+                new_diffs[abs(diff - rod)] = max(used_len + rod, new_diffs[abs(diff - rod)])
+
+            diffs = new_diffs
+
+        return diffs[0] // 2
+
+
 import collections
-
-
 class Solution1:
 
     def tallestBillboard(self, rods):
