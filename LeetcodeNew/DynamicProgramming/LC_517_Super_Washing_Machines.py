@@ -308,9 +308,9 @@ class Solution3:
         if total % n != 0:
             return -1
         ave = total/n
-        diff = [machines[i]-ave for i in xrange(n)]
+        diff = [machines[i]-ave for i in range(n)]
         result, tmp = 0, 0
-        for i in xrange(n):
+        for i in range(n):
             tmp += diff[i]
             result = max(result, abs(tmp), diff[i])
         return result
@@ -324,7 +324,7 @@ class Solution3:
 """
 class Solution4:
     def findMinMoves(self, machines):
-
+  
         if sum(machines) % len(machines):
             return -1
         avg = sum(machines) / len(machines)
@@ -337,7 +337,7 @@ class Solution4:
 """
 解法II 参考：https://discuss.leetcode.com/topic/79923/c-16ms-o-n-solution
 """
-class Solution5:
+class Solution:
     def findMinMoves(self, machines):
 
         total = sum(machines)
@@ -359,4 +359,5 @@ class Solution5:
             else:
                 ans = max(ans, abs(left), abs(right))
         return ans
-
+    
+    
