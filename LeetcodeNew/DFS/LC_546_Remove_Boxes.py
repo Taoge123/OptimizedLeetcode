@@ -1,5 +1,8 @@
 
 """
+https://leetcode.com/problems/remove-boxes/discuss/101310/Java-top-down-and-bottom-up-DP-solutions
+https://www.cnblogs.com/grandyang/p/6850657.html
+
 
 Given several boxes with different colors represented by different positive numbers.
 You may experience several rounds to remove boxes until there is no box left.
@@ -188,13 +191,9 @@ private:
                             // k same color boxes. Follow does not mean strictly consecutive boxes, for example, 
                             // [1, 3, 2, 3, 4], 3 can be followed by the other 3 because we can remove 2 first.
 
----------------------
-作者：魔豆Magicbean
-来源：CSDN
-原文：https://blog.csdn.net/magicbean2/article/details/78866298
-版权声明：本文为博主原创文章，转载请附上博文链接！
----------------------
 """
+
+
 class Solution:
     def removeBoxes(self, A):
         N = len(A)
@@ -218,10 +217,7 @@ class Solution:
 
 class Solution2:
     def removeBoxes(self, boxes):
-        """
-        :type boxes: List[int]
-        :rtype: int
-        """
+
         N = len(boxes)
         self.boxes = boxes
         self.dp = [[[0] * N for _ in range(N)] for _ in range(N)]
@@ -249,5 +245,446 @@ class Solution2:
         return self.dp[l][r][k]
 
 
+"""
+Since the input is an array, let's begin with the usual approach by breaking it down with the original problem applied to each of the subarrays.
+
+Let the input array be boxes with length n. Define T(i, j) as the maximum points one can get by removing boxes of the subarray boxes[i, j] (both inclusive). The original problem is identified as T(0, n - 1) and the termination condition is as follows:
+
+T(i, i - 1) = 0: no boxes so no points.
+T(i, i) = 1: only one box left so the maximum point is 1.
+Next let's try to work out the recurrence relation for T(i, j). Take the first box boxes[i]
+(i.e., the box at index i) as an example. What are the possible ways of removing it? 
+(Note: we can also look at the last box and the analyses turn out to be the same.)
+
+If it happens to have a color that you dislike, you'll probably say "I don't like this box so let's get rid of it now". 
+In this case, you will first get 1 point for removing this poor box. But still you want maximum points for the remaining boxes,
+which by definition is T(i + 1, j). In total your points will be 1 + T(i + 1, j).
+
+But later after reading the rules more carefully, you realize that you might get more points if this box (boxes[i]) 
+can be removed together with other boxes of the same color. 
+For example, if there are two such boxes, you get 4 points by removing them simultaneously, instead of 2 by removing them one by one. 
+So you decide to let it stick around a little bit longer until another box of the same color (whose index is m) becomes its neighbor. 
+Note up to this moment all boxes from index i + 1 to index m - 1 would have been removed. 
+So if we again aim for maximum points, the points gathered so far will be T(i + 1, m - 1). What about the remaining boxes?
+
+At this moment, the boxes we left behind consist of two parts: 
+the one at index i (boxes[i]) and those of the subarray boxes[m, j], with the former bordering the latter from the left. 
+Apparently there is no way applying the definition of the subproblem to the subarray boxes[m, j], 
+since we have some extra piece of information that is not included in the definition. 
+In this case, I shall call that the definition of the subproblem is not self-contained 
+and its solution relies on information external to the subproblem itself.
+
+Another example of problem that does not have self-contained subproblems is leetcode 312. 
+Burst Balloons, where the maximum coins of subarray nums[i, j] 
+depend on the two numbers adjacent to nums[i] on the left and to nums[j] on the right.
+So you may find some similarities between these two problems.
+
+Problems without self-contained subproblems usually don't have well-defined recurrence relations, 
+which renders it impossible to be solved recursively. The cure to this issue can sound simple and straightforward:
+modify the definition of the problem to absorb the external information so that the new one is self-contained.
+
+So let's see how we can redefine T(i, j) to make it self-contained. First let's identify the external information. 
+On the one hand, from the point of view of the subarray boxes[m, j], 
+it knows nothing about the number (denoted by k) of boxes of the same color as boxes[m]to its left. 
+On the other hand, given this number k, the maximum points can be obtained from removing all these boxes is fixed. 
+Therefore the external information to T(i, j) is this k. 
+Next let's absorb this extra piece of information into the definition of T(i, j) 
+and redefine it as T(i, j, k) which denotes the maximum points possible by removing the boxes of subarray boxes[i, 
+j] with k boxes attached to its left of the same color as boxes[i]. 
+Lastly let's reexamine some of the statements above:
+
+Our original problem now becomes T(0, n - 1, 0), since there is no boxes attached to the left of the input array at the beginning.
+
+The termination conditions now will be:
+a. T(i, i - 1, k) = 0: no boxes so no points, and this is true for any k (you can interpret it as nowhere to attach the boxes).
+b. T(i, i, k) = (k + 1) * (k + 1): only one box left in the subarray but we've already got k boxes of the same color attached to its left, 
+so the total number of boxes of the same color is (k + 1) and the maximum point is (k + 1) * (k + 1).
+
+The recurrence relation is as follows and the maximum points will be the larger of the two cases:
+a. If we remove boxes[i] first, we get (k + 1) * (k + 1) + T(i + 1, j, 0) points, where for the first term, 
+instead of 1 we again get (k + 1) * (k + 1) points for removing boxes[i] due to the attached boxes to its left; 
+and for the second term there will be no attached boxes so we have the 0 in this term.
+b. If we decide to attach boxes[i] to some other box of the same color, say boxes[m], 
+then from our analyses above, the total points will be T(i + 1, m - 1, 0) + T(m, j, k + 1), 
+where for the first term, since there is no attached boxes for subarray boxes[i + 1, m - 1], 
+we have k = 0 for this part; while for the second term, 
+the total number of attached boxes for subarray boxes[m, j] will increase by 1 because apart from the original k boxes, 
+we have to account for boxes[i]now, so we have k + 1 for this term. But we are not done yet. 
+What if there are multiple boxes of the same color as boxes[i] within subarray boxes[i + 1, j]? 
+We have to try each of them and choose the one that yields the maximum points. 
+Therefore the final answer for this case will be: max(T(i + 1, m - 1, 0) + T(m, j, k + 1)) 
+where i < m <= j && boxes[i] == boxes[m].
+
+Before we get to the actual code, it's not hard to discover that there is overlapping among the subproblems T(i, j, k), 
+therefore it's qualified as a DP problem and its intermediate results should be cached for future lookup. 
+Here each subproblem is characterized by three integers (i, j, k), all of which are bounded, i.e, 
+0 <= i, j, k < n, so a three-dimensional array (n x n x n) will be good enough for the cache.
+
+Finally here are the two solutions, one for top-down DP and the other for bottom-up DP. 
+From the bottom-up solution, the time complexity will be O(n^4) and the space complexity will be O(n^3).
+
+public int removeBoxes(int[] boxes) {
+    int n = boxes.length;
+    int[][][] dp = new int[n][n][n];
+    return removeBoxesSub(boxes, 0, n - 1, 0, dp);
+}
+    
+private int removeBoxesSub(int[] boxes, int i, int j, int k, int[][][] dp) {
+    if (i > j) return 0;
+    if (dp[i][j][k] > 0) return dp[i][j][k];
+    
+    for (; i + 1 <= j && boxes[i + 1] == boxes[i]; i++, k++); // optimization: all boxes of the same color counted continuously from the first box should be grouped together
+    int res = (k + 1) * (k + 1) + removeBoxesSub(boxes, i + 1, j, 0, dp);
+    
+    for (int m = i + 1; m <= j; m++) {
+        if (boxes[i] == boxes[m]) {
+            res = Math.max(res, removeBoxesSub(boxes, i + 1, m - 1, 0, dp) + removeBoxesSub(boxes, m, j, k + 1, dp));
+        }
+    }
+        
+    dp[i][j][k] = res;
+    return res;
+}
 
 
+
+
+public int removeBoxes(int[] boxes) {
+    int n = boxes.length;
+    int[][][] dp = new int[n][n][n];
+    	
+    for (int j = 0; j < n; j++) {
+    	for (int k = 0; k <= j; k++) {
+    	    dp[j][j][k] = (k + 1) * (k + 1);
+    	}
+    }
+    	
+    for (int l = 1; l < n; l++) {
+    	for (int j = l; j < n; j++) {
+    	    int i = j - l;
+    	        
+    	    for (int k = 0; k <= i; k++) {
+    	        int res = (k + 1) * (k + 1) + dp[i + 1][j][0];
+    	            
+    	        for (int m = i + 1; m <= j; m++) {
+    	            if (boxes[m] == boxes[i]) {
+    	                res = Math.max(res, dp[i + 1][m - 1][0] + dp[m][j][k + 1]);
+    	            }
+    	        }
+    	            
+    	        dp[i][j][k] = res;
+    	    }
+    	}
+    }
+    
+    return (n == 0 ? 0 : dp[0][n - 1][0]);
+}
+
+"""
+class Solution3:
+    def removeBoxes(self, boxes):
+        mem = {}
+
+        def f(low, high, k):
+            if (low, high, k) in mem:
+                return mem[low, high, k]
+
+            if low > high:
+                return 0
+            if low == high:
+                return (k + 1) * (k + 1)
+
+            # Starting with how many continuous & same-color boxes?
+            while low < high and boxes[low + 1] == boxes[low]:
+                k += 1
+                low += 1
+
+            max_val = (k + 1) * (k + 1) + f(low + 1, high, 0)
+
+            for m in range(low + 1, high + 1):
+                if boxes[m] == boxes[low]:
+                    points = f(low + 1, m - 1, 0) + f(m, high, k + 1)
+                    max_val = max(max_val, points)
+
+            mem[low, high, k] = max_val
+            return max_val
+
+        return f(0, len(boxes) - 1, 0)
+
+
+class Solution33:
+    def removeBoxes(self, boxes):
+        n = len(boxes)
+        dp = [[[0] * n for i in xrange(n)] for i in xrange(n)]
+
+        for j in xrange(n):
+            for k in xrange(j + 1):
+                dp[j][j][k] = (k + 1) * (k + 1)
+
+        for l in xrange(1, n):
+            for j in xrange(l, n):
+                i = j - l
+
+                for k in xrange(i + 1):
+                    res = (k + 1) * (k + 1) + dp[i + 1][j][0]
+
+                    for m in xrange(i + 1, j + 1):
+                        if boxes[m] == boxes[i]:
+                            res = max(res, dp[i + 1][m - 1][0] + dp[m][j][k + 1])
+
+                    dp[i][j][k] = res
+
+        if n == 0:
+            return 0
+        return dp[0][n - 1][0]
+
+
+"""
+13
+awice's avatar
+awice
+Staff
+2214
+Last Edit: October 3, 2018 11:44 AM
+
+3.5K VIEWS
+
+Let A be the array of boxes.
+
+One natural approach is to consider dp(i, j) = the answer for A[i: j+1]. 
+But this isn't flexible enough for divide and conquer style strategies. 
+For example, with [1,2,2,2,1], we don't have enough information when investigating things like [1,2,2,2] and [1] separately.
+
+Let dp(i, j, k) = the maximum value of removing boxes if we have k extra boxes of color A[i] to the left of A[i: j+1]. 
+(We would have at most k < len(A) extra boxes.) Let m <= j be the largest value so that A[i], A[i+1], ... A[m] are all the same color. 
+Because a^2 + b^2 < (a+b)^2, any block of contiguous boxes of the same color must be removed at the same time, 
+so in fact dp(i, j, k) = dp(m, j, k+(m-i)).
+
+Now, we could remove the k boxes we were carrying plus box A[i] (value: (k+1)**2), 
+then remove the rest (value: dp(i+1, j, 0)). Or, for any point m in [i+1, j] with A[i] == A[m], 
+we could remove dp(i+1, m-1) first, then [m, j] would have k+1 extra boxes of color A[m] behind, 
+which has value dp(m, j, k+1).
+
+The "i, k = m, k + m - i" part skips order (m-i)*(j-i) calls to dp, and is necessary to get this kind of solution to pass in Python."""
+
+
+class Solution4:
+    def removeBoxes(self, A):
+        N = len(A)
+        memo = [[[0] * N for _ in xrange(N)] for _ in xrange(N)]
+
+        def dp(i, j, k):
+            if i > j: return 0
+            if not memo[i][j][k]:
+                m = i
+                while m + 1 <= j and A[m + 1] == A[i]:
+                    m += 1
+                i, k = m, k + m - i
+                ans = dp(i + 1, j, 0) + (k + 1) ** 2
+                for m in xrange(i + 1, j + 1):
+                    if A[i] == A[m]:
+                        ans = max(ans, dp(i + 1, m - 1, 0) + dp(m, j, k + 1))
+                memo[i][j][k] = ans
+            return memo[i][j][k]
+
+        return dp(0, N - 1, 0)
+
+
+
+"""
+if A[i] == A[m] and A[m - 1] != A[i]:
+#instead of if A[i] == A[m]:
+
+dp(i, j, k) = dp(m, j, k+(m-i))
+how did you arrive at k+m-i number there?
+
+defines k as # of boxes that are == A[i]. 
+Since m represents how many identical boxes we have at the beginning of the region from i to j, 
+dp for region m to j would have k + (m-i) boxes to the left. 
+Note that it's m-i because i might not be 0.
+
+
+"""
+
+"""
+Basic idea is the same with other dp solution: the subproblem is indexed by start index i , 
+the end index j (both inclusive) and the additional number k of boxes attached to the left of i with the same color as boxes[i]
+
+The idea is that we do not need to compute all types of subproblem with index (i,j,k), For example, 
+if i is in the middle of a bunch of same colored boxes, 
+we can just make i to be the rightmost index of this bunch of boxes and increase k.
+
+So my code optimize the runtime in two aspects:
+
+when give (i,j,k) we first convert it to (i',j,k') 
+such that i' is the rightmost index of the bunch of same colored boxes where i belongs to, and k' to be k+i'-i
+In the recursion step, we do not need to check all boxes in [i,j] that has the same color as boxes[i], 
+we only need to check for different bunch of same colored boxes: 
+say l is the leftmost index and r is the rightmost index of a bunch of same colored boxes (same color with boxes[i] 
+and this bunch of boxes is inside [i,j], then we only need to calculate subproblem (i+1,l-1,0) and (r,j,k+1+r-l) )
+So we can do some preprocessing: O(n) time to construct two dictionary lookup and last.
+lookup stores all two end index pairs for each color and last maps index to the rightmost index of the bunch of same colored boxes
+"""
+class Solution5:
+    def removeBoxes(self, boxes):
+
+        memo={}
+        lookup=collections.defaultdict(set)
+        last={}
+        st=ed=0
+        while st<len(boxes):
+            while ed<len(boxes) and boxes[ed]==boxes[st]:
+                ed+=1
+            lookup[boxes[st]].add((st,ed-1))
+            for k in xrange(st,ed):
+                last[k]=ed-1
+            st=ed
+        def helper(i,j,k):
+            if j>last[i]:
+                i,k = last[i],k+last[i]-i
+            else:
+                return (j-i+1+k)**2
+            if i>j:
+                return 0
+            if (i,j,k) in memo:
+                return memo[i,j,k]
+            ans=(k+1)**2+helper(i+1,j,0)
+            num=boxes[i]
+            for l,r in lookup[num]:
+                if l>i and r<=j:
+                    ans=max(ans,helper(i+1,l-1,0)+helper(r,j,k+1+r-l))
+            memo[i,j,k]=ans
+            return ans
+        return helper(0,len(boxes)-1,0)
+
+
+class Solution6:
+    def removeBoxes(self, boxes):
+
+        N = len(boxes)
+        self.boxes = boxes
+        self.dp = [[[0] * N for _ in range(N)] for _ in range(N)]
+        return self.search(0, N - 1, 0)
+
+    def search(self, l, r, k):
+        if l > r:
+            return 0
+
+        if self.dp[l][r][k] != 0:
+            return self.dp[l][r][k]
+
+        while l < r and self.boxes[r] == self.boxes[r - 1]:
+            r -= 1
+            k += 1
+
+        self.dp[l][r][k] = self.search(l, r - 1, 0) + (k + 1) * (k + 1)
+
+        for i in range(l, r):
+            if self.boxes[i] == self.boxes[r]:
+                self.dp[l][r][k] = max(self.dp[l][r][k], self.search(l, i, k + 1) + self.search(i + 1, r - 1, 0))
+
+        return self.dp[l][r][k]
+
+
+
+class Solution7:
+    def removeBoxes(self, boxes):
+        def dfs(l, r, k):
+            if l > r:
+                return 0
+            if (l, r, k) not in memo:
+                while r > l and boxes[r] == boxes[r-1]:
+                    k += 1
+                    r -= 1
+                while l < r and boxes[l] == boxes[r]:
+                    k += 1
+                    l += 1
+                res = (k+1)**2 + dfs(l, r-1, 0)
+                for i in range(l+1, r-1):
+                    if boxes[i] == boxes[r]:
+                        res = max(res, dfs(l, i, k+1) + dfs(i+1, r-1, 0))
+                memo[l, r, k] = res
+            return memo[l, r, k]
+        memo = {}
+        return dfs(0, len(boxes) - 1, 0)
+
+"""
+I found this solution in the score distribution.
+89% 108ms
+memo[l, r, k] is the maximum points possible by removing the boxes[ l: r ] 
+with k boxes outside boxes[ l : r ] that shares the same color as boxes[r].
+Because our recursion starts with dfs(0,len(boxes)-1, 0), 
+so k doesn't include boxes[r] but the result does: res = (k+1)**2 + dfs(l, r-1, 0)
+
+The core recursion formula
+
+  if boxes[i] == boxes[r]:
+            res = max(res, dfs(l, i, k+1) + dfs(i+1, r-1, 0))
+
+
+We want all boxes[i] that has the same color as boxes[r] to be removed together, dfs(l, i, k+1) does just that.
+
+[1,3,1,3,3,1]
+In this example, i = 2, boxes[2] = boxes[5] = 1, dfs(1, 2, 2) => res = (k+1) ** 2 + dfs(1, 1,0) = 9 + 1 = 10
+
+Example: [1, 3, 1, 2, 1, 3, 1]
+memo:
+{(3, 3, 0): 1, (3, 4, 1): 5, (2, 5, 1): 9, (1, 1, 0): 1, (1, 2, 2): 10, (3, 4, 0): 2, (3, 5, 0): 3, (1, 2, 0): 2, (1, 3, 0): 3, (1, 2, 3): 17, (1, 4, 2): 18, (5, 5, 0): 1, (1, 6, 1): 19}
+Final ans: 19
+
+Let's focus on how we got (2, 5, 1): 9. 2th to 5th subarray is [1,2,1,3]. 
+boxes[r] = 3 and there is exactly one 3 in the rest of the array, that's why we have k = 1.
+
+1. l=0, r=len(boxes)-1=6, because they are equal, l +=1, r -=1
+2. l = 1, r = 5, boxes[l]= boxes[r] = 3
+3. l = 2, r = 4, boxes[l] = boxes[r] = 1
+4. l = r = 3, boxes[l] = 2
+5. We return to the caller l = 2, r = 4, res = 2 ** 2 + 1 = 5, since l + 1= 3 = r - 1, 
+   we return to l = 1, r= 5, res = 2 ** 2 + 5 = 9
+   for i in range(2, 4):
+   if boxes[i] == boxes[5] = 3: 
+   None of the box meets the condition, thus memo[2,5,1] = res = 9.
+
+Why is l = 2 instead of l = 1 as we have passed in, because we increment l when boxes[l] = boxes[r], 
+remember that k is the number of boxes outside of boxes[ l : r] with the same color as boxes[r].
+
+"""
+
+"""
+解题思路：
+动态规划（Dynamic Programming）
+
+首先把连续相同颜色的盒子进行合并，得到数组color以及数组length，分别表示合并后盒子的颜色和长度。
+
+dp[l][r][k]表示第l到第r个合并后的盒子，连同其后颜色为color[r]的长度k一并消去所能得到的最大得分。
+
+dp[l][r][k] = dp[l][r - 1][0] + (length[r] + k) ** 2
+
+dp[l][r][k] = max(dp[l][r][k], dp[l][i][length[r] + k] + dp[i + 1][r - 1][0])  其中 i ∈[l, r - 1]
+"""
+
+class Solution8:
+    def removeBoxes(self, boxes):
+
+        self.color, self.length = [], []
+        for box in boxes:
+            if self.color and self.color[-1] == box:
+                self.length[-1] += 1
+            else:
+                self.color.append(box)
+                self.length.append(1)
+        M, N = len(self.color), len(boxes)
+        self.dp = [[[0] * N for x in range(M)] for y in range(M)]
+        return self.solve(0, M - 1, 0)
+
+    def solve(self, l, r, k):
+        if l > r: return 0
+        if self.dp[l][r][k]: return self.dp[l][r][k]
+        points = self.solve(l, r - 1, 0) + (self.length[r] + k) ** 2
+        for i in range(l, r):
+            if self.color[i] == self.color[r]:
+                points = max(points, self.solve(l, i, self.length[r] + k) + self.solve(i + 1, r - 1, 0))
+        self.dp[l][r][k] = points
+        return points
+
+    
