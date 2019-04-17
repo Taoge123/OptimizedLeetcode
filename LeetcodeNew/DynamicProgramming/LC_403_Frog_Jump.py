@@ -132,7 +132,7 @@ class Solution3:
         d[1].add(1)
 
         # iterate over all the stones after 0
-        for i in xrange(len(stones[1:])):
+        for i in range(len(stones[1:])):
 
             # iterate over each jump length used to reach
             # the current stone
@@ -140,7 +140,7 @@ class Solution3:
 
                 # iterate over every jump length possible
                 # (k-1, k, k+1) given the current jump length
-                for k in xrange(j - 1, j + 2):
+                for k in range(j - 1, j + 2):
 
                     # if that jump length lands on a stone
                     if k > 0 and stones[i] + k in d:
@@ -199,8 +199,8 @@ class Solution6:
     def canCross(self, stones):
         dp = [set() for item in stones]
         dp[0].add(1) #dp[i][j] means if starts from i, we can jump j steps
-        for i in xrange(len(stones)):
-            for j in xrange(i):
+        for i in range(len(stones)):
+            for j in range(i):
                 k = stones[i]-stones[j]
                 if k in dp[j]: #target distance exists in previous stones
                     dp[i].add(k)
