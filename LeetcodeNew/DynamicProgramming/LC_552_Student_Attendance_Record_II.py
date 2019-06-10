@@ -83,7 +83,7 @@ class Solution2:
         MOD = 10 ** 9 + 7
         a = b = d = 1
         c = e = f = 0
-        for _ in xrange(N - 1):
+        for _ in range(N - 1):
             a, b, c, d, e, f = (a + b + c) % MOD, a, b, (a + b + c + d + e + f) % MOD, d, e
 
         return (a + b + c + d + e + f) % MOD
