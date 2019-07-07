@@ -49,10 +49,6 @@ class Solution1:
         return
 
     def depthSumInverse(self, nestedList):
-        """
-        :type nestedList: List[NestedInteger]
-        :rtype: int
-        """
         max_depth = self.depth(nestedList)
         self.d_sum = 0
         self.helper(nestedList, 1, max_depth)
@@ -82,10 +78,6 @@ class Solution2:
         return
 
     def depthSumInverse(self, nestedList):
-        """
-        :type nestedList: List[NestedInteger]
-        :rtype: int
-        """
         cache, self.max_level = defaultdict(int), -1
         self.helper(nestedList, 1, cache)
         total_sum = 0
@@ -110,10 +102,6 @@ https://discuss.leetcode.com/topic/49041/no-depth-variable-no-multiplication/2
 #BFS solution
 class Solution3:
     def depthSumInverse(self, nestedList):
-        """
-        :type nestedList: List[NestedInteger]
-        :rtype: int
-        """
         total_sum, level_sum = 0, 0
         while len(nestedList):
             next_level_list = []
