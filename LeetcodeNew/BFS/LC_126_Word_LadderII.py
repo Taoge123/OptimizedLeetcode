@@ -11,10 +11,7 @@ import collections
 import string
 
 class Solution:
-    # @param start, a string
-    # @param end, a string
-    # @param dict, a set of string
-    # @return a list of lists of string
+
     def findLadders(self, start, end, dic):
         dic.add(end)
         level = {start}
@@ -42,10 +39,11 @@ class Solution:
         return res
 
 
-class Solution(object):
+class Solution2:
     def findLadders(self, beginWord, endWord, wordList):
 
-        wordList = set(wordList)
+        wordList = se
+        t(wordList)
         res = []
         layer = {}
         layer[beginWord] = [[beginWord]]
