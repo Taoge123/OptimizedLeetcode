@@ -42,8 +42,7 @@ class Solution:
 class Solution2:
     def findLadders(self, beginWord, endWord, wordList):
 
-        wordList = se
-        t(wordList)
+        wordList = set(wordList)
         res = []
         layer = {}
         layer[beginWord] = [[beginWord]]
