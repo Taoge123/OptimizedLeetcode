@@ -22,44 +22,21 @@ class TreeNode:
         self.right = None
 
 
+
 class Solution:
-    def findMode(self, root):
-        def dfs(node):
-            if node:
-                cnt[node.val] += 1
-                dfs(node.left)
-                dfs(node.right)
-        cnt = collections.Counter()
-        dfs(root)
-        mx = max(cnt.values() or [0])
-        return [k for k, v in cnt.items() if v == mx]
+    def findMode(self, root: TreeNode):
+        cache = collections.defaultdict(int)
+        self.max = -1
+        self.inorder(root, cache)
+        return [k for k, v in cache.items() if v == self.max]
 
-
-class Solution1:
-    def findMode(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        count = {}
-
-        def DFS(node):
-            if node:
-                count[node.val] = count.get(node.val, 0) + 1
-                DFS(node.left)
-                DFS(node.right)
-
+    def inorder(self, root, cache):
         if not root:
-            return []
-
-        DFS(root)
-        most_frequent = max(count.values())
-
-        res = [n for n, f in count.items() if f == most_frequent]
-
-        return res
-
-
+            return
+        cache[root.val] += 1
+        self.max = max(self.max, cache[root.val])
+        self.inorder(root.left, cache)
+        self.inorder(root.right, cache)
 
 
 
