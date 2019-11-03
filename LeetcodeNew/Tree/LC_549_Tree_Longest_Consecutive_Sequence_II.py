@@ -25,19 +25,28 @@ Explanation: The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 https://leetcode.com/problems/binary-tree-longest-consecutive-sequence-ii/solution/
 
 """
-class Solution(object):
-    def longestConsecutive(self, root):
-        if not root: return 0
-        self.res = 1
-        self.dfs(root)
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.res = 0
+        self.helper(root)
         return self.res
 
-    def dfs(self, root):
-        if not root: return [0, 0]
+    def helper(self, root):
+        if not root:
+            return [0, 0]
+        left = self.helper(root.left)
+        right = self.helper(root.right)
         inc, dec = 1, 1
-        left = self.dfs(root.left)
-        right = self.dfs(root.right)
-
         if root.left:
             if root.left.val - 1 == root.val:
                 inc = max(inc, left[0] + 1)
@@ -50,6 +59,7 @@ class Solution(object):
                 dec = max(dec, right[1] + 1)
         self.res = max(self.res, inc + dec - 1)
         return [inc, dec]
+
 
 
 
