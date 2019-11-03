@@ -42,37 +42,23 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution0:
-    def isMatch(self, s, t):
-        if not(s and t):
-            return s is t
-        return (s.val == t.val and self.isMatch(s.left, t.left) and self.isMatch(s.right, t.right))
-
-    def isSubtree(self, s, t):
-        if self.isMatch(s, t): return True
-        if not s: return False
-        return self.isSubtree(s.left, t) or self.isSubtree(s.right, t)
-
-
 class Solution:
-    def isSubtree(self, s, t):
-        """
-        :type s: TreeNode
-        :type t: TreeNode
-        :rtype: bool
-        """
-        # check if two trees are the same
-        def sametree(p, q):
-            if p and q:
-                return p.val == q.val and sametree(p.left, q.left) and sametree(p.right, q.right)
-            return p is q
 
-        if s is None:
-            return False
-        if sametree(s, t):
+    def sameTree(self, tree1, tree2):
+
+        if not (tree1 and tree2):
+            return tree1 is tree2
+
+        return (tree1.val == tree2.val and self.sameTree(tree1.left, tree2.left) and self.sameTree(tree1.right,
+                                                                                                   tree2.right))
+
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+
+        if self.sameTree(s, t):
             return True
+        if not s:
+            return False
         return self.isSubtree(s.left, t) or self.isSubtree(s.right, t)
-
 
 
 
