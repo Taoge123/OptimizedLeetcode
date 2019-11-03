@@ -24,38 +24,30 @@ The desired length is 1 minus this number.
 """
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
-    def diameterOfBinaryTree(self, root):
-        self.ans = 1
-        def depth(node):
-            if not node: return 0
-            L = depth(node.left)
-            R = depth(node.right)
-            self.ans = max(self.ans, L+R+1)
-            return max(L, R) + 1
 
-        depth(root)
-        return self.ans - 1
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.max = float('-inf')
+        self.helper(root)
+        return self.max - 1
 
+    def helper(self, root):
+        if not root:
+            return 0
 
-class Solution2:
-    def diameterOfBinaryTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        self.ans = 0
+        left = self.helper(root.left)
+        right = self.helper(root.right)
 
-        def depth(p):
-            if not p: return 0
-            left, right = depth(p.left), depth(p.right)
-            self.ans = max(self.ans, left + right)
-            return 1 + max(left, right)
-
-        depth(root)
-        return self.ans
-
+        self.max = max(self.max, left + right + 1)
+        return max(left, right) + 1
 
 
 
