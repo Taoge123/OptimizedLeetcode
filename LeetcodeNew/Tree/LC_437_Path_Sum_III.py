@@ -62,65 +62,6 @@ https://leetcode.com/problems/path-sum-iii/discuss/141424/Python-step-by-step-wa
 Return result: return self.numOfPaths
 
 """
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
-class SolutionBruteForce:
-    def find_paths(self, root, target):
-        if root:
-            return int(root.val == target) + self.find_paths(root.left, target-root.val) + self.find_paths(root.right, target-root.val)
-        return 0
-
-    def pathSum(self, root, sum):
-        """
-        :type root: TreeNode
-        :type sum: int
-        :rtype: int
-        """
-        if root:
-            return self.find_paths(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
-        return 0
-
-class Solution:
-    def pathSum(self, root, target):
-        """
-        :type root: TreeNode
-        :type sum: int
-        :rtype: int
-        """
-        # define global return var
-        self.numOfPaths = 0
-        # 1st layer DFS to go through each node
-        self.dfs(root, target)
-        # return result
-        return self.numOfPaths
-
-    # define: traverse through the tree, at each treenode, call another DFS to test if a path sum include the answer
-    def dfs(self, node, target):
-        # exit condition
-        if node is None:
-            return
-            # dfs break down
-        self.test(node, target)  # you can move the line to any order, here is pre-order
-        self.dfs(node.left, target)
-        self.dfs(node.right, target)
-
-    # define: for a given node, DFS to find any path that sum == target, if find self.numOfPaths += 1
-    def test(self, node, target):
-        # exit condition
-        if node is None:
-            return
-        if node.val == target:
-            self.numOfPaths += 1
-
-        # test break down
-        self.test(node.left, target - node.val)
-        self.test(node.right, target - node.val)
-
-
 
 """
 2. Memorization of path sum: O(n)
@@ -135,35 +76,6 @@ class Solution:
 """
 
 
-class Solution2:
-    def pathSum(self, root, target):
-        # define global result and path
-        self.result = 0
-        cache = {0: 1}
-
-        # recursive to get result
-        self.dfs(root, target, 0, cache)
-
-        # return result
-        return self.result
-
-    def dfs(self, root, target, currPathSum, cache):
-        # exit condition
-        if root is None:
-            return
-            # calculate currPathSum and required oldPathSum
-        currPathSum += root.val
-        oldPathSum = currPathSum - target
-        # update result and cache
-        self.result += cache.get(oldPathSum, 0)
-        cache[currPathSum] = cache.get(currPathSum, 0) + 1
-
-        # dfs breakdown
-        self.dfs(root.left, target, currPathSum, cache)
-        self.dfs(root.right, target, currPathSum, cache)
-        # when move to a different branch, the currPathSum is no longer available, hence remove one.
-        cache[currPathSum] -= 1
-
 
 """
 Two Sum Method: Optimized Solution
@@ -174,52 +86,46 @@ Two Sum Method: Optimized Solution
 - How do we know if we have a path of target sum which ends at this grand-child G? Say there are multiple such paths that end at G and say they start at A, B, C where A,B,C are predecessors of G. Then sum(root->G) - sum(root->A) = target. Similarly sum(root->G)-sum(root>B) = target. Therefore we can compute the complement at G as sum_so_far+G.val-target and look up the hash-table for the number of paths which had this sum
 - Now after we are done with a node and all its grandchildren, we remove it from the hash-table. This makes sure that the number of complement paths returned always correspond to paths that ended at a predecessor node.
 """
+import collections
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        return self.helper(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
+    def helper(self, root, target):
+        if not root:
+            return 0
+        left = self.helper(root.left, target - root.val)
+        right = self.helper(root.right, target - root.val)
+        return left + right + int(root.val == target)
 
 
 
-class SolutionTwoSum:
-    def helper(self, root, target, so_far, cache):
-        if root:
-            complement = so_far + root.val - target
-            if complement in cache:
-                self.result += cache[complement]
-            cache.setdefault(so_far+root.val, 0)
-            cache[so_far+root.val] += 1
-            self.helper(root.left, target, so_far+root.val, cache)
-            self.helper(root.right, target, so_far+root.val, cache)
-            cache[so_far+root.val] -= 1
-        return
-
-    def pathSum(self, root, sum):
-        """
-        :type root: TreeNode
-        :type sum: int
-        :rtype: int
-        """
+    def pathSum2(self, root: TreeNode, sum: int) -> int:
         self.result = 0
-        self.helper(root, sum, 0, {0:1})
+        cache = collections.defaultdict(int)
+        cache[0] = 1
+        self.helper(root, cache, 0, sum)
         return self.result
 
-class SolutionBruteForce2:
-    def pathSum(self, root, sum):
-        """
-        :type root: TreeNode
-        :type sum: int
-        :rtype: int
-        """
+    def helper(self, root, cache, curSum, sum):
+        if not root:
+            return
 
-        def traverse(root, val):
-            if not root: return 0
-            res = (val == root.val)
-            res += traverse(root.left, val - root.val)
-            res += traverse(root.right, val - root.val)
-            return res
-
-        if not root: return 0
-        ans = traverse(root, sum)
-        ans += self.pathSum(root.left, sum)
-        ans += self.pathSum(root.right, sum)
-        return ans
+        curSum += root.val
+        oldSum = curSum - sum
+        self.result += cache[oldSum]
+        cache[curSum] += 1
+        self.helper(root.left, cache, curSum, sum)
+        self.helper(root.right, cache, curSum, sum)
+        cache[curSum] -= 1
 
 
 tree = TreeNode(10)
