@@ -74,28 +74,6 @@ the root.
 (7) The height of a rooted tree is the number of edges on the longest
 downward path between root and a leaf.
 """
-import collections
-
-class Solution:
-    def findMinHeightTrees(self, n, edges):
-        if n == 1: return [0]
-        adj = [set() for _ in range(n)]
-        for i, j in edges:
-            adj[i].add(j)
-            adj[j].add(i)
-
-        leaves = [i for i in range(n) if len(adj[i]) == 1]
-
-        while n > 2:
-            n -= len(leaves)
-            newLeaves = []
-            for i in leaves:
-                j = adj[i].pop()
-                adj[j].remove(i)
-                if len(adj[j]) == 1:
-                    newLeaves.append(j)
-            leaves = newLeaves
-        return leaves
 
 
 """
@@ -107,27 +85,6 @@ class Solution:
 
 时间复杂度：O(n)，其中n为顶点的个数。
 """
-
-class Solution2:
-    def findMinHeightTrees(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: List[int]
-        """
-        children = collections.defaultdict(set)
-        for s, t in edges:
-            children[s].add(t)
-            children[t].add(s)
-        vertices = set(children.keys())
-        while len(vertices) > 2:
-            leaves = [x for x in children if len(children[x]) == 1]
-            for x in leaves:
-                for y in children[x]:
-                    children[y].remove(x)
-                del children[x]
-                vertices.remove(x)
-        return list(vertices) if n != 1 else [0]
 
 
 """
@@ -155,39 +112,31 @@ class Solution2:
 加入队列中，再下一轮删除。那么我们删到什么时候呢，当节点数小于等于2时候停止，
 此时剩下的一个或两个节点就是我们要求的最小高度树的根节点啦"""
 
-class Solution3:
-    def findMinHeightTrees(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: List[int]
-        """
-        if n == 1: return [0]
-        leaves = collections.defaultdict(set)
+import collections
+
+class Solution:
+    def findMinHeightTrees(self, n: int, edges):
+
+        if n == 1:
+            return [0]
+
+        graph = collections.defaultdict(set)
         for u, v in edges:
-            leaves[u].add(v)
-            leaves[v].add(u)
-        que = collections.deque()
-        for u, vs in leaves.items():
-            if len(vs) == 1:
-                que.append(u)
+            graph[u].add(v)
+            graph[v].add(u)
+
+        leaves = [i for i in range(n) if len(graph[i]) == 1]
+
         while n > 2:
-            _len = len(que)
-            n -= _len
-            for _ in range(_len):
-                u = que.popleft()
-                for v in leaves[u]:
-                    leaves[v].remove(u)
-                    if len(leaves[v]) == 1:
-                        que.append(v)
-        return list(que)
-
-
-
-
-
-
-
+            n -= len(leaves)
+            newLeaves = []
+            for leaf in leaves:
+                j = graph[leaf].pop()
+                graph[j].remove(leaf)
+                if len(graph[j]) == 1:
+                    newLeaves.append(j)
+            leaves = newLeaves
+        return leaves
 
 
 
