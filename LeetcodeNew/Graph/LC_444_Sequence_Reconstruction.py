@@ -108,63 +108,6 @@ if we have more than one node whose incoming nodes count is zero then org is not
 At last we check if the topological sort contain all nodes in the in seqs and equal to org
 """
 
-import collections
-
-
-class Solution5:
-    def sequenceReconstruction(self, org, seqs):
-        graph = collections.defaultdict(list)
-        degree = collections.Counter()
-        nodes = {x for seq in seqs for x in seq}
-        for seq in seqs:
-            for i in range(0, len(seq) - 1):
-                s, e = seq[i], seq[i + 1]
-                graph[s].append(e)
-                degree[e] += 1
-        ans = []
-        starts = [k for k in nodes if degree[k] == 0]
-        while len(starts) == 1:
-            start, starts = starts[0], []
-            ans.append(start)
-            for node in graph[start]:
-                degree[node] -= 1
-                if degree[node] == 0:
-                    starts.append(node)
-        return len(set(ans)) == len(nodes) and ans == org
-
-
-
-class Solution(object):
-    def sequenceReconstruction(self, org, seqs):
-        """
-        :type org: List[int]
-        :type seqs: List[List[int]]
-        :rtype: bool
-        """
-        adjacent = collections.defaultdict(list)
-        incoming_nodes = collections.defaultdict(int)
-        nodes = set()
-        for arr in seqs:
-            nodes |= set(arr)
-            for i in range(len(arr)):
-                if i == 0:
-                    incoming_nodes[arr[i]] += 0
-                if i < len(arr) - 1:
-                    adjacent[arr[i]].append(arr[i + 1])
-                    incoming_nodes[arr[i + 1]] += 1
-        cur = [k for k in incoming_nodes if incoming_nodes[k] == 0]
-        res = []
-        while len(cur) == 1:
-            cur_node = cur.pop()
-            res.append(cur_node)
-            for node in adjacent[cur_node]:
-                incoming_nodes[node] -= 1
-                if incoming_nodes[node] == 0:
-                    cur.append(node)
-        if len(cur) > 1:
-            return False
-        return len(res) == len(nodes) and res == org
-
 
 """
 Topological Sort
@@ -178,108 +121,33 @@ then every time there is only one node with no parent can be found.
 At last, check if all nodes in seqs has been visited, and if the answer found equals to the org.
 """
 
+import collections
 
-class Solution2:
-    def sequenceReconstruction(self, org, seqs):
-        """
-        :type org: List[int]
-        :type seqs: List[List[int]]
-        :rtype: bool
-        """
-        children = collections.defaultdict(set)
-        parents = collections.defaultdict(set)
-        nodes = set()
+class Solution:
+    def sequenceReconstruction(self, org: List[int], seqs: List[List[int]]) -> bool:
 
-        for s in seqs:
-            for i in range(len(s)):
-                nodes.add(s[i])
-                if i > 0:
-                    parents[s[i]].add(s[i - 1])
-                if i < len(s) - 1:
-                    children[s[i]].add(s[i + 1])
+        values = {x for seq in seqs for x in seq}
+        graph = collections.defaultdict(list)
+        degree = {char: 0 for char in values}
 
-        potentil_parent = [n for n in nodes if not parents[n]]
-        count = len(potentil_parent)
-        ans = []
+        for seq in seqs:
+            for i in range(len(seq) - 1):
+                graph[seq[i]].append(seq[i + 1])
+                degree[seq[i + 1]] += 1
 
-        while count == 1:
-            cur_parent, count = potentil_parent.pop(), count - 1
-            ans.append(cur_parent)
-            nodes.remove(cur_parent)
-            for n in children[cur_parent]:
-                parents[n].remove(cur_parent)
-                if not parents[n]:
-                    potentil_parent.append(n)
-                    count = count + 1
+        queue = collections.deque([i for i in degree if degree[i] == 0])
+        res = []
 
-        return True if not nodes and ans == org else False
-
-
-class Solution3:
-    def sequenceReconstruction(self, org, seqs):
-        """
-        :type org: List[int]
-        :type seqs: List[List[int]]
-        :rtype: bool
-        """
-        pairs = set()
-        idxs = {}
-
-        for i in range(len(org)):
-            idxs[org[i]] = i
-
-        for i in range(len(seqs)):
-            s = seqs[i]
-            for j in range(len(s)):
-                if s[j] not in idxs:
-                    return False
-                if j > 0 and idxs[s[j - 1]] >= idxs[s[j]]:
-                    return False
-                pairs.add((s[j - 1], s[j]))
-
-        if not pairs: return False
-        for i in range(1, len(org)):
-            if (org[i - 1], org[i]) not in pairs:
+        while queue:
+            if len(queue) != 1:
                 return False
-        return True
-
-
-
-class Solution4:
-    def sequenceReconstruction(self, org, seqs):
-        """
-        :type org: List[int]
-        :type seqs: List[List[int]]
-        :rtype: bool
-        """
-        if not org: # corner case 1
-            return not seqs
-        if not seqs: # corner case 2
-            return not org
-        out_edges=collections.defaultdict(set)
-        nodes=set(org)
-        for seq in seqs: # constructing edges for BFS topological sort
-            n=len(seq)
-            if n==1 and seq[0] not in nodes: # corner case 3
-                return False
-            for i in range(n-1):
-                out_edges[seq[i]].add(seq[i+1])
-        n=len(org)
-        if n==1: # corner case 4
-            for seq in seqs:
-                if seq!=org:
-                    return False
-            return True
-
-        for i in xrange(n-1): # BFS topological sort
-            node=org[i]
-            nxt=org[i+1]
-            if node not in out_edges or nxt not in out_edges[node]:
-                return False
-            out_edges.pop(node)
-        return not out_edges
-
-
+            node = queue.popleft()
+            res.append(node)
+            for i in graph[node]:
+                degree[i] -= 1
+                if degree[i] == 0:
+                    queue.append(i)
+        return len(res) == len(values) and res == org
 
 
 
