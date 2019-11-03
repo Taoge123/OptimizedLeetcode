@@ -84,37 +84,74 @@ class TreeNode:
         self.right = None
 
 class Solution:
-    def isValidBST(self, root, lessThan = float('inf'), largerThan = float('-inf')):
-        if not root:
-            return True
-        if root.val <= largerThan or root.val >= lessThan:
-            return False
-        return self.isValidBST(root.left, min(lessThan, root.val), largerThan) and \
-               self.isValidBST(root.right, lessThan, max(root.val, largerThan))
+    def isValidBST1(self, root: TreeNode) -> bool:
+        res = []
+        self.inorder(root, res)
 
-
-class SolutionInorder:
-    # @param root, a tree node
-    # @return a boolean
-    # 7:38
-    def isValidBST(self, root):
-        output = []
-        self.inOrder(root, output)
-
-        for i in range(1, len(output)):
-            if output[i - 1] >= output[i]:
+        for i in range(1, len(res)):
+            if res[i-1] >= res[i]:
                 return False
-
         return True
 
-    def inOrder(self, root, output):
-        if root is None:
+    def inorder(self, root, res):
+        if not root:
             return
 
-        self.inOrder(root.left, output)
-        output.append(root.val)
-        self.inOrder(root.right, output)
+        self.inorder(root.left, res)
+        res.append(root.val)
+        self.inorder(root.right, res)
 
 
+
+    def isValidBST2(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+
+        stack, res = [root], []
+
+        while stack:
+            node = stack.pop()
+            if isinstance(node, int):
+                res.append(node)
+                continue
+
+            if node.right:
+                stack.append(node.right)
+
+            stack.append(node.val)
+
+            if node.left:
+                stack.append(node.left)
+
+
+    def isValidBST3(self, root: TreeNode) -> bool:
+        self.flag = True
+        res = []
+        self.helper(root, res)
+        return self.flag
+
+    def helper(self, root, res):
+        if root:
+            self.helper(root.left, res)
+            if res and res[-1] >= root.val:
+                self.flag = False
+                return
+            res.append(root.val)
+            self.helper(root.right, res)
+
+
+
+    def isValidBST4(self, root: TreeNode) -> bool:
+        return self.helper(root, float('-inf'), float('inf'))
+
+    def helper(self, root, low, high):
+        if not root:
+            return True
+
+        if not root.left and not root.right:
+            return low < root.val < high
+
+        return low < root.val < high and self.helper(root.left, low, root.val) and self.helper(root.right, root.val,
+                                                                                               high)
 
 
