@@ -15,23 +15,7 @@ Given n = 3, there are a total of 5 unique BST's:
    2     1         2                 3
 
 """
-
-import math
-
-class Solution:
-    def numTrees1(self, n):
-        res = [0] * (n + 1)
-        res[0] = 1
-        for i in range(1, n + 1):
-            for j in range(i):
-                res[i] += res[j] * res[i - 1 - j]
-        return res[n]
-
-    # Catalan Number  (2n)!/((n+1)!*n!)
-    def numTrees(self, n):
-        return math.factorial(2 * n) / (math.factorial(n) * math.factorial(n + 1))
-
-
+import collections
 """
 Let's look at a naive recursive algorithm:
 
@@ -69,10 +53,37 @@ where i is a small number. Naturally, to speed it up,
 you just need to remember the result of countTrees(i), 
 so that when you need it next time, you don't need to calculate. 
 Let's do that explicitly by having a list of n+1 numbers to store the calculation result!
+
+
+n = 3, there are 5 unique BST
+
+root : 1 left : 0 right : 2 f(0) * f(2)
+root : 2 left : 1 right : 1 f(1) * f(1)
+root : 3 left : 2 right : 0 f(2) * f(0)
+
+f(n) = f(0) * f(n-1) + f(1) * f(n-2) + f(n-2) * f(1)
+
+
 """
 
-class DPSolution:
-    def countTrees(self, n, cache):
+
+# class Solution:
+#     def numTrees(self, n: int) -> int:
+#         res = [0] * (n+1)
+#         res[0] = 1
+
+#         for i in range(1, n+1):
+#             for j in range(i):
+#                 res[i] += res[j] * res[i-j-1]
+#         return res[-1]
+
+class SolutionTony:
+
+    def numTrees(self, n: int) -> int:
+        cache = collections.defaultdict(int)
+        return self.dfs(n, cache)
+
+    def dfs(self, n, cache):
         if n == 0:
             return 1
         if n == 1:
@@ -81,13 +92,11 @@ class DPSolution:
         if cache[n] != 0:
             return cache[n]
 
-        Result = 0
+        res = 0
         for i in range(n):
-            LeftTrees = self.countTrees(i, cache)
-            RightTrees = self.countTrees(n - i - 1, cache)
-            Result += LeftTrees * RightTrees
-        cache[n] = Result
-        return Result
-
-
+            left = self.dfs(i, cache)
+            right = self.dfs(n - i - 1, cache)
+            res += left * right
+        cache[n] = res
+        return res
 
