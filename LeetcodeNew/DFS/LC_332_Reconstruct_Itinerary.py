@@ -52,63 +52,34 @@ import heapq
 
 class Solution:
     def findItinerary(self, tickets):
-        d = collections.defaultdict(list)
-        for flight in tickets:
-            d[flight[0]] += flight[1],
-        self.route = ["JFK"]
 
-        def dfs(start='JFK'):
-            myDsts = sorted(d[start])
-            for dst in myDsts:
-                d[start].remove(dst)
-                self.route += dst,
-                dfs(dst)
-                if len(self.route) == len(tickets) + 1:
-                    return self.route
-                self.route.pop()
-                d[start] += dst,
+        graph = collections.defaultdict(list)
 
-        return dfs()
+        for u, v in tickets:
+            heapq.heappush(graph[u], v)
+        start = 'JFK'
+        res = []
+        self.dfs(graph, start, res)
+        return res[::-1]
 
-
-class Solution:
-    def findItinerary(self, tickets):
-        """
-        :type tickets: List[List[str]]
-        :rtype: List[str]
-        """
-        G = collections.defaultdict(list)
-        for u, v in tickets: G[u].append(v)
-        for u in G: G[u].sort()
-
-        route = []
-
-        def dfs(at):
-            while G[at]:
-                to = G[at].pop(0)
-                dfs(to)
-            route.append(at)
-
-        dfs("JFK")
-        return route[::-1]
+    def dfs(self, graph, start, res):
+        while graph[start]:
+            node = heapq.heappop(graph[start])
+            self.dfs(graph, node, res)
+        res.append(start)
 
 
 
-class Solution:
-    def findItinerary(self, tickets):
-        graph, stack, reached = collections.defaultdict(list), ["JFK"], []
-        for a, b in tickets: heapq.heappush(graph[a], b)
-        while stack:
-            if graph[stack[-1]]: stack.append(heapq.heappop(graph[stack[-1]]))
-            else: reached.append(stack.pop())
-        return reached[::-1]
+"""
+defaultdict(<class 'list'>, {'EZE': ['AXA', 'TIA', 'JFK'], 'AUA': ['EZE'], 'JFK': ['ANU', 'ANU', 'AUA'], 'AXA': ['TIA'], 'TIA': ['AUA', 'JFK'], 'ANU': ['EZE', 'EZE']})
+defaultdict(<class 'list'>, {'EZE': ['AXA', 'JFK', 'TIA'], 'AUA': ['EZE'], 'JFK': ['ANU', 'ANU', 'AUA'], 'AXA': ['TIA'], 'TIA': ['AUA', 'JFK'], 'ANU': ['EZE', 'EZE']})
 
+"""
 
+tickets = [["EZE","TIA"],["EZE","AXA"],["AUA","EZE"],["EZE","JFK"],["JFK","ANU"],["JFK","ANU"],["AXA","TIA"],["JFK","AUA"],["TIA","JFK"],["ANU","EZE"],["ANU","EZE"],["TIA","AUA"]]
 
-
-
-
-
+a = Solution()
+print(a.findItinerary(tickets))
 
 
 
