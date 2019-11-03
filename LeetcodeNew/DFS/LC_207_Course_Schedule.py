@@ -85,73 +85,6 @@ findOrder函数中的for循环是怎么回事呢？这个和BFS循环次数不�
 原文：https://blog.csdn.net/fuxuemingzhu/article/details/82951771 
 版权声明：本文为博主原创文章，转载请附上博文链接！
 """
-import collections
-
-
-class SolutionGood:
-    def canFinish(self, N, prerequisites):
-        """
-        :type N,: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
-        graph = collections.defaultdict(list)
-        for u, v in prerequisites:
-            graph[u].append(v)
-        # 0 = Unknown, 1 = visiting, 2 = visited
-        visited = [0] * N
-        for i in range(N):
-            if not self.dfs(graph, visited, i):
-                return False
-        return True
-
-    # Can we add node i to visited successfully?
-    def dfs(self, graph, visited, i):
-        if visited[i] == 1: return False
-        if visited[i] == 2: return True
-        visited[i] = 1
-        for j in graph[i]:
-            if not self.dfs(graph, visited, j):
-                return False
-        visited[i] = 2
-        return True
-
-
-# from set import Set
-class SolutionDFS:
-    # @param {integer} numCourses
-    # @param {integer[][]} prerequisites
-    # @return {boolean}
-    def canFinish(self, num_courses, prereq):
-        if num_courses < 2:
-            return True
-
-        path = collections.defaultdict(list)
-        for c in prereq:
-            path[c[0]].append(c[1])
-
-        searched = set()
-        for start in path.keys():
-            if not self.dfs(path, set(), start, searched):
-                return False
-        return True
-
-    def dfs(self, path, seen, curr, searched):
-        if curr in searched:
-            return True
-
-        for x in path[curr]:
-            if x in seen:
-                return False
-
-            seen.add(x)
-            if not self.dfs(path, seen, x, searched):
-                return False
-
-            seen.remove(x)
-
-        searched.add(curr)
-        return True
 
 """
 
@@ -173,126 +106,29 @@ N次就能把所有的节点都取完了，如果N次操作结束还没判断出
 
 时间复杂度是O(N ^ 2)，空间复杂度是O(N)。
 --------------------- 
-作者：负雪明烛 
-来源：CSDN 
-原文：https://blog.csdn.net/fuxuemingzhu/article/details/82951771 
-版权声明：本文为博主原创文章，转载请附上博文链接！
 """
-class Solution(object):
-    def canFinish(self, n, edges):
-        from collections import deque
-        in_degrees = [0 for i in range(n)]   #入度记录一门课需要上几个pre_req
-        graph = {i: set() for i in range(n)}   #画一幅图
 
-        # 构建图以及入度
-        for i, j in edges:
-            in_degrees[i] += 1
-            graph[j].add(i)
+import collections
 
-        # 如果课没有pre_req，扔到Queue里
-        q = deque()
-        for i, pre_req in enumerate(in_degrees):
-            if not pre_req:
-                q.append(i)
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
 
-        # 进行BFS操作
-        visited = 0
-        while q:
-            node = q.popleft()
-            visited += 1
-            for neigh in graph[node]:
-                in_degrees[neigh] -= 1
-                if in_degrees[neigh] == 0:
-                    q.append(neigh)
-        return visited == n
+        graph = collections.defaultdict(list)
+        indegree = collections.defaultdict(int)
+        for u, v in prerequisites:
+            graph[u].append(v)
+            indegree[v] += 1
 
-
-class Solution2:
-    # BFS: from the end to the front
-    def canFinish1(self, numCourses, prerequisites):
-        forward = {i: set() for i in range(numCourses)}
-        backward = collections.defaultdict(set)
-        for i, j in prerequisites:
-            forward[i].add(j)
-            backward[j].add(i)
-        queue = collections.deque([node for node in forward if len(forward[node]) == 0])
+        queue = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
+        visited = []
         while queue:
             node = queue.popleft()
-            for neigh in backward[node]:
-                forward[neigh].remove(node)
-                if len(forward[neigh]) == 0:
-                    queue.append(neigh)
-            forward.pop(node)
-        return not forward  # if there is cycle, forward won't be None
-
-    # BFS: from the front to the end
-    def canFinish2(self, numCourses, prerequisites):
-        forward = {i: set() for i in range(numCourses)}
-        backward = collections.defaultdict(set)
-        for i, j in prerequisites:
-            forward[i].add(j)
-            backward[j].add(i)
-        queue = collections.deque([node for node in range(numCourses) if not backward[node]])
-        count = 0
-        while queue:
-            node = queue.popleft()
-            count += 1
-            for neigh in forward[node]:
-                backward[neigh].remove(node)
-                if not backward[neigh]:
-                    queue.append(neigh)
-        return count == numCourses
-
-    # DFS: from the end to the front
-    def canFinish3(self, numCourses, prerequisites):
-        forward = {i: set() for i in range(numCourses)}
-        backward = collections.defaultdict(set)
-        for i, j in prerequisites:
-            forward[i].add(j)
-            backward[j].add(i)
-        stack = [node for node in forward if len(forward[node]) == 0]
-        while stack:
-            node = stack.pop()
-            for neigh in backward[node]:
-                forward[neigh].remove(node)
-                if len(forward[neigh]) == 0:
-                    stack.append(neigh)
-            forward.pop(node)
-        return not forward
-
-    # DFS: from the front to the end
-    def canFinish(self, numCourses, prerequisites):
-        forward = {i: set() for i in range(numCourses)}
-        backward = collections.defaultdict(set)
-        for i, j in prerequisites:
-            forward[i].add(j)
-            backward[j].add(i)
-        stack = [node for node in range(numCourses) if not backward[node]]
-        while stack:
-            node = stack.pop()
-            for neigh in forward[node]:
-                backward[neigh].remove(node)
-                if not backward[neigh]:
-                    stack.append(neigh)
-            backward.pop(node)
-        return not backward
-
-
-class Solution4:
-    def canFinish(self, n, prerequisites):
-        G = [[] for i in range(n)]
-        degree = [0] * n
-        for j, i in prerequisites:
-            G[i].append(j)
-            degree[j] += 1
-        bfs = [i for i in range(n) if degree[i] == 0]
-        for i in bfs:
-            for j in G[i]:
-                degree[j] -= 1
-                if degree[j] == 0:
-                    bfs.append(j)
-        return len(bfs) == n
-
+            visited.append(node)
+            for i in graph[node]:
+                indegree[i] -= 1
+                if indegree[i] == 0:
+                    queue.append(i)
+        return len(visited) == numCourses
 
 
 
