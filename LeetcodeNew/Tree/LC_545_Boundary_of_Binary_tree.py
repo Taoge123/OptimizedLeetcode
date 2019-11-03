@@ -177,143 +177,49 @@ public class Solution {
 """
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class Solution:
-    def boundaryOfBinaryTree(self, root):
-        def dfs_leftmost(node):
-            if not node or not node.left and not node.right:
-                return
-            boundary.append(node.val)
-            if node.left:
-                dfs_leftmost(node.left)
-            else:
-                dfs_leftmost(node.right)
-
-        def dfs_leaves(node):
-            if not node:
-                return
-            dfs_leaves(node.left)
-            if node != root and not node.left and not node.right:
-                boundary.append(node.val)
-            dfs_leaves(node.right)
-
-        def dfs_rightmost(node):
-            if not node or not node.left and not node.right:
-                return
-            if node.right:
-                dfs_rightmost(node.right)
-            else:
-                dfs_rightmost(node.left)
-            boundary.append(node.val)
-
+    def boundaryOfBinaryTree(self, root: TreeNode):
         if not root:
             return []
-        boundary = [root.val]
-        dfs_leftmost(root.left)
-        dfs_leaves(root)
-        dfs_rightmost(root.right)
-        return boundary
+        self.res = [root.val]
+        self.left(root.left)
+        self.leaves(root, root)
+        self.right(root.right)
+        return self.res
 
+    def left(self, node):
+        if not node or not node.left and not node.right:
+            return
 
+        self.res.append(node.val)
+        if node.left:
+            self.left(node.left)
+        else:
+            self.left(node.right)
 
-class Solution2:
-    def boundaryOfBinaryTree(self, root):
-        if not root: return []
+    def leaves(self, node, root):
+        if not node:
+            return
 
-        left_bd_nodes = [root]
-        cur = root.left
-        while cur:
-            left_bd_nodes.append(cur)
-            cur = cur.left or cur.right
+        self.leaves(node.left, root)
+        if node != root and not node.left and not node.right:
+            self.res.append(node.val)
+        self.leaves(node.right, root)
 
-        right_bd_nodes = [root]
-        cur = root.right
-        while cur:
-            right_bd_nodes.append(cur)
-            cur = cur.right or cur.left
-
-        leaf_nodes = []
-        stack = [root]
-        while stack:
-            node = stack.pop()
-            if node.right:
-                stack.append(node.right)
-            if node.left:
-                stack.append(node.left)
-            if not node.left and not node.right:
-                leaf_nodes.append(node)
-
-        ans = []
-        seen = set()
-
-        def visit(node):
-            if node not in seen:
-                seen.add(node)
-                ans.append(node.val)
-
-        for node in left_bd_nodes: visit(node)
-        for node in leaf_nodes: visit(node)
-        for node in reversed(right_bd_nodes): visit(node)
-
-        return ans
-
-class Solution2:
-    def boundaryOfBinaryTree(self, root):
-        # The main idea is to carry the flag isleft and isight
-        # in the dfs steps to help decide when to add node
-        # values to the boundary array.
-        if not root: return []
-        boundary = [root.val]
-
-        def dfs(root, isleft, isright):
-            if root:
-                # append when going down from the left or at leaf node
-                if (not root.left and not root.right) or isleft:
-                    boundary.append(root.val)
-
-                if root.left and root.right:
-                    dfs(root.left, isleft, False)
-                    dfs(root.right, False, isright)
-                else:
-                    dfs(root.left, isleft, isright)
-                    dfs(root.right, isleft, isright)
-
-                # append to boundary when coming up from the right
-                if (root.left or root.right) and isright:
-                    boundary.append(root.val)
-
-        dfs(root.left, True, False)
-        dfs(root.right, False, True)
-        return boundary
-
-
-class Solution3:
-    def boundaryOfBinaryTree(self, root):
-        # The main idea is to carry the flag isleft and isight
-        # in the dfs steps to help decide when to add node
-        # values to the boundary array.
-        if not root: return []
-        boundary = [root.val]
-
-        def dfs(root, isleft, isright):
-            if root:
-                # append when going down from the left or at leaf node
-                if (not root.left and not root.right) or isleft:
-                    boundary.append(root.val)
-
-                if root.left and root.right:
-                    dfs(root.left, isleft, False)
-                    dfs(root.right, False, isright)
-                else:
-                    dfs(root.left, isleft, isright)
-                    dfs(root.right, isleft, isright)
-
-                # append to boundary when coming up from the right
-                if (root.left or root.right) and isright:
-                    boundary.append(root.val)
-
-        dfs(root.left, True, False)
-        dfs(root.right, False, True)
-        return boundary
+    def right(self, node):
+        if not node or not node.left and not node.right:
+            return
+        if node.right:
+            self.right(node.right)
+        else:
+            self.right(node.left)
+        self.res.append(node.val)
 
 
 
