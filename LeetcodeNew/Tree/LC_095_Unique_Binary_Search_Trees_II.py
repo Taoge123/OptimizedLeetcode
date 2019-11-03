@@ -47,32 +47,11 @@ root的右子树必然是一个j+1~K的二叉搜索树。
 我们就可以通过枚举S(j-1)中的一个元素和S(K-j)中的一个元素，来拼接成所有的S(K)，
 即可以通过将S(K)转化为更小规模的问题来完成计算。
 
-所以我们可以按照递推的方式，从K=1开始依次对S(K)进行计算，并且在最后计算S(n）。
+所以我们可以按照递推的方式，从K=1开始依次对S(K)进行计算，并且在最后计算S(n)
 """
 
 
-class Solution:
-    # @paramn n: An integer
-    # @return: A list of root
-    def generateTrees(self, n):
-        # write your code here
-        return self.dfs(1, n)
 
-    def dfs(self, start, end):
-        if start > end: return [None]
-        res = []
-        for rootval in range(start, end + 1):
-            LeftTree = self.dfs(start, rootval - 1)
-            RightTree = self.dfs(rootval + 1, end)
-            for i in LeftTree:
-                for j in RightTree:
-                    root = TreeNode(rootval)
-                    root.left = i
-                    root.right = j
-                    res.append(root)
-        return res
-
-import copy
 
 class TreeNode:
     def __init__(self, x):
@@ -80,27 +59,8 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution(object):
-    def generateTrees(self, n):
-        return self.dfs([i for i in range(1, n + 1)])
-
-    def dfs(self, lst):
-        if not lst: return [None]
-        res = []
-        for i in range(len(lst)):
-            for left in self.dfs(lst[:i]):
-                for right in self.dfs(lst[i + 1:]):
-                    node, node.left, node.right = TreeNode(lst[i]), left, right
-                    res += [node]
-        return res
-
-#With cache
 class Solution2:
     def generateTrees(self, n):
-        """
-        :type n: int
-        :rtype: List[TreeNode]
-        """
         if n == 0:
             return []
         return self.gen_helper({}, 1, n)
@@ -121,29 +81,25 @@ class Solution2:
 
 
 
-#use yield
-class Solution3:
-    # @return a list of tree node
-    # 2:30
+class SolutionTony:
     def generateTrees(self, n):
-        nodes = map(TreeNode, range(1, n+1))
-        return map(copy.deepcopy, self.buildTree(nodes))
-
-    def buildTree(self, nodes):
-        n = len(nodes)
         if n == 0:
-            yield None
-            return
+            return []
+        return self.dfs(1, n)
 
-        for i in range(n):
-            root = nodes[i]
-            for left in self.buildTree(nodes[:i]):
-                for right in self.buildTree(nodes[i+1:]):
-                    root.left, root.right = left, right
-                    yield root
+    def dfs(self, start, end):
+        res = []
+        if start > end:
+            res.append(None)
 
-
-
+        for rootVal in range(start, end + 1):
+            for left in self.dfs(start, rootVal - 1):
+                for right in self.dfs(rootVal + 1, end):
+                    root = TreeNode(rootVal)
+                    root.left = left
+                    root.right = right
+                    res.append(root)
+        return res
 
 
 
