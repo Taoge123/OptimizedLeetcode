@@ -61,74 +61,36 @@ can optimize the query to O(1), please correct me if I'm wrong.
 """
 import collections
 
-class Solution(object):
+
+class Solution:
     def calcEquation(self, equations, values, queries):
 
-        graph = {}
-
-        def build_graph(equations, values):
-            def add_edge(f, t, value):
-                if f in graph:
-                    graph[f].append((t, value))
-                else:
-                    graph[f] = [(t, value)]
-
-            for vertices, value in zip(equations, values):
-                f, t = vertices
-                add_edge(f, t, value)
-                add_edge(t, f, 1 / value)
-
-        def find_path(query):
-            b, e = query
-
-            if b not in graph or e not in graph:
-                return -1.0
-
-            q = collections.deque([(b, 1.0)])
-            visited = set()
-
-            while q:
-                front, cur_product = q.popleft()
-                if front == e:
-                    return cur_product
-                visited.add(front)
-                for neighbor, value in graph[front]:
-                    if neighbor not in visited:
-                        q.append((neighbor, cur_product * value))
-
-            return -1.0
-
-        build_graph(equations, values)
-        return [find_path(q) for q in queries]
-
-
-class Solution2:
-    def calcEquation(self, equations, values, queries):
-
-        def dfs(start, end, path, paths):
-            if start == end and start in G:
-                paths[0] = path
-                return
-            if start in vis:
-                return
-            vis.add(start)
-            for node in G[start]:
-                dfs(node, end, path * W[start, node], paths)
-
-        G, W = collections.defaultdict(set), collections.defaultdict(float)
-        for (A, B), V in zip(equations, values):
-            # '|' here is a set union operation, not a bitwise.
-            G[A], G[B] = G[A] | {B}, G[B] | {A}
-            W[A, B], W[B, A] = V, 1.0 / V
+        table = collections.defaultdict(dict)
+        for (x, y), val in zip(equations, values):
+            table[x][y] = val
+            table[y][x] = 1.0 / val
 
         res = []
-        for X, Y in queries:
-            paths, vis = [-1.0], set()
-            dfs(X, Y, 1.0, paths)
-            res += paths[0],
+        for i, j in queries:
+            if i in table and j in table:
+                res.append(self.dfs(i, j, table, set()))
+            else:
+                res.append(-1.0)
         return res
 
+    def dfs(self, i, j, table, visited):
+        if i == j:
+            return 1.0
+        visited.add(i)
 
+        for n in table[i]:
+            if n in visited:
+                continue
+            visited.add(n)
+            div = self.dfs(n, j, table, visited)
+            if div > 0:
+                return div * table[i][n]
+        return -1.0
 
 
 
