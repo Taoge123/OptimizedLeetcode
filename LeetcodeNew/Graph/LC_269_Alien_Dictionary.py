@@ -97,68 +97,6 @@ because if the graph stop shrinking before all nodes are removed,
 it indicates that solution doesn't exist (a cycle in the graph)
 """
 
-import collections
-
-class Solution3:
-    def alienOrder(self, words):
-        # a -> b
-        adj = collections.defaultdict(set)
-        # in-degree
-        degree = {char: 0 for word in words for char in word}
-        for i, w1 in enumerate(words[:-1]):
-            w2 = words[i + 1]
-            for c1, c2 in zip(w1, w2):
-                if c1 == c2: continue
-                if c2 not in adj[c1]:
-                    degree[c2] += 1
-                adj[c1].add(c2)
-                break
-        res = ''
-        # start w 0 indegree nodes
-        queue = collections.deque([char for char in degree if not degree[char]])
-        while queue:
-            char = queue.popleft()
-            res += char
-            for nei in adj[char]:
-                degree[nei] -= 1
-                if not degree[nei]:
-                    queue.append(nei)
-        return res if len(res) == len(degree) else ''
-
-
-
-class Node:
-    def __init__(self):
-        self.IN = set()
-        self.OUT = set()
-
-class Solution:
-    def alienOrder(self, words):
-        # initialization
-        allnodes, graph, res = set("".join(words)), {}, ""
-        for i in allnodes:
-            graph[i] = Node()
-
-        # build the graph
-        for i in range(len(words) - 1):
-            for j in zip(words[i], words[i + 1]):
-                if j[0] != j[1]:
-                    graph[j[0]].OUT.add(j[1])
-                    graph[j[1]].IN.add(j[0])
-                    break
-
-        # topo-sort
-        while allnodes:
-            buff = set([i for i in allnodes if graph[i].OUT and not graph[i].IN])
-            if not buff:
-                # have solution if no connected node
-                return res + "".join(allnodes) if not [i for i in allnodes if graph[i].IN] else ""
-            res += "".join(buff)
-            allnodes -= buff
-            for i in allnodes:
-                graph[i].IN -= buff
-        return res
-
 
 """
 Topological Sort Based Solution
@@ -200,66 +138,6 @@ Interesting Examples
 """
 
 
-class Solution2:
-    def add_vertices(self, w, graph):
-        for ch in w:
-            if ch not in graph:
-                graph[ch] = set([])
-        return
-
-    def add_words_to_graph(self, graph, w1, w2):
-        self.add_vertices(w1, graph)
-        self.add_vertices(w2, graph)
-        min_length = min(len(w1), len(w2))
-        found = False
-        for i in range(min_length):
-            if w1[i] != w2[i]:
-                graph[w1[i]].add(w2[i])
-                found = True
-                break
-        if found == False and len(w1) > len(w2):
-            return False  # "abstract", "abs" is an error. But "abs", "abstract" is perfectly fine.
-        return True
-
-    def build_graph(self, words):
-        graph = {}
-        for i in range(len(words) - 1):
-            w1, w2 = words[i], words[i + 1]
-            if not self.add_words_to_graph(graph, w1, w2):
-                return {}
-        self.add_vertices(words[-1], graph)
-        return graph
-
-    def topo_dfs(self, x, g, visited, visiting, st):  # Return True if there is a cycle
-        visited.add(x)
-        visiting.add(x)
-        for nbr in g[x]:
-            if nbr in visiting:  # Back-Edge!
-                return True
-            if nbr not in visited:
-                if self.topo_dfs(nbr, g, visited, visiting, st):
-                    return True
-        visiting.remove(x)
-        st.append(x)
-        return False
-
-    def alienOrder(self, words):
-        """
-        :type words: List[str]
-        :rtype: str
-        """
-        if words == []:
-            return ""
-        graph = self.build_graph(words)
-        visited, visiting, st = set([]), set([]), []
-        for k in graph.keys():
-            if k not in visited:
-                if self.topo_dfs(k, graph, visited, visiting, st):
-                    return ""
-        st.reverse()
-        return "".join(st)
-
-
 
 
 """
@@ -291,8 +169,31 @@ Following is the implementation of the above algorithm.
 这样其实是没有严格的顺序的对这些字符, 这种情况就随便哪个都行.
 
 """
+import collections
 
-
+class Solution:
+    def alienOrder(self, words) -> str:
+        graph = collections.defaultdict(set)
+        degree = {char: 0 for word in words for char in word}
+        for i, word1 in enumerate(words[:-1]):
+            word2 = words[i + 1]
+            for c1, c2 in zip(word1, word2):
+                if c1 == c2:
+                    continue
+                if c2 not in graph[c1]:
+                    degree[c2] += 1
+                graph[c1].add(c2)
+                break
+        res = ''
+        queue = collections.deque([char for char in degree if not degree[char]])
+        while queue:
+            char = queue.popleft()
+            res += char
+            for nei in graph[char]:
+                degree[nei] -= 1
+                if not degree[nei]:
+                    queue.append(nei)
+        return res if len(res) == len(degree) else ''
 
 
 
