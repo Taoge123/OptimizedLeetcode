@@ -61,108 +61,30 @@ Once we get the max after comparsion, we return 1st or 3rd path sum to the upper
 
 """
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
-    res = -float('inf')
+    def maxPathSum(self, root: TreeNode) -> int:
+        if not root:
+            return
 
-    def maxPathSum(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        if root == None:
-            return 0
+        self.res = float('-inf')
         self.helper(root)
         return self.res
 
     def helper(self, root):
-        if root == None:
-            return 0
-        leftMax = self.helper(root.left)
-        rightMax = self.helper(root.right)
-        tempPath = root.val + leftMax + rightMax
-        sum = root.val + max(leftMax, rightMax, 0)
-        self.res = max(sum, tempPath, self.res)
-        return sum
-
-
-class Solution3:
-    def maxPathSum(self, root):
-        self.max_path_sum = -float('inf')
-        self.helper(root)
-        return self.max_path_sum
-
-    def helper(self, root):
         if not root:
             return 0
-        left = self.helper(root.left)  # left child sum
-        right = self.helper(root.right)  # right right sum
-        # choose left and val (l+0+v), right and val(0+r+v), both and val(l+r+v), or just val(0+0+v)
-        root_sum = max(left, right, 0, left + right) + root.val
-        self.max_path_sum = max(self.max_path_sum, root_sum)
-        return max(0, left, right) + root.val  # parent will use 1 path: root with left / root with right / just root
+        left = max(self.helper(root.left), 0)
+        right = max(self.helper(root.right), 0)
+        self.res = max(self.res, root.val + left + right)
+        return max(left, right) + root.val
 
 
 
-class SolutionCaikehe:
-    def maxPathSum(self, root):
-        if not root:
-            return 0
-        self.res = root.val
-        self.oneSum(root)
-        return self.res
-
-    def oneSum(self, node):
-        if not node:
-            return 0
-        l = max(0, self.oneSum(node.left))
-        r = max(0, self.oneSum(node.right))
-        self.res = max(self.res, node.val + l + r)
-        return node.val + max(l, r)
-
-class Solution2:
-    def maxPathSum(self, root):
-        self.res = - float('inf')
-        self.dfs(root)
-        return self.res
-
-    def dfs(self, root):
-        if not root: return 0
-        left = self.dfs(root.left)
-        right = self.dfs(root.right)
-        self.res = max(self.res, left + right + root.val)
-        cur = max(left, right) + root.val
-        return cur if cur > 0 else 0
-
-
-class Solution2:
-    def maxPathSum(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-
-        def max_gain(node):
-            nonlocal max_sum
-            if not node:
-                return 0
-
-            # max sum on the left and right sub-trees of node
-            left_gain = max(max_gain(node.left), 0)
-            right_gain = max(max_gain(node.right), 0)
-
-            # the price to start a new path where `node` is a highest node
-            price_newpath = node.val + left_gain + right_gain
-
-            # update max_sum if it's better to start a new path
-            max_sum = max(max_sum, price_newpath)
-
-            # for recursion :
-            # return the max gain if continue the same path
-            return node.val + max(left_gain, right_gain)
-
-        max_sum = float('-inf')
-        max_gain(root)
-        return max_sum
 
 
