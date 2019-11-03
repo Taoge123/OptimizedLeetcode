@@ -89,30 +89,20 @@ public class Solution {
 
 
 class Solution:
-    def verifyPreorder(self, preorder):
-        stack = []
-        low = float('-inf')
-        for p in preorder:
-            if p < low:
+    def verifyPreorder(self, preorder) -> bool:
+
+        stack, mini = [], float('-inf')
+
+        for num in preorder:
+            if num < mini:
                 return False
-            while stack and p > stack[-1]:
-                low = stack.pop()
-            stack.append(p)
+
+            while stack and num > stack[-1]:
+                mini = stack.pop()
+
+            stack.append(num)
+
         return True
-
-
-class Solution2:
-    def verifyPreorder(self, preorder):
-        stack = []
-        lower = -1 << 31
-        for x in preorder:
-            if x < lower:
-                return False
-            while stack and x > stack[-1]:
-                lower = stack.pop()
-            stack.append(x)
-        return True
-
 
 
 
