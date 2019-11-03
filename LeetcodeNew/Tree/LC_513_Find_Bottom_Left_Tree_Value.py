@@ -42,44 +42,52 @@ class TreeNode:
 
 
 class Solution:
-    def findBottomLeftValue(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        deque = collections.deque([root])
-        res=TreeNode(0)
-        while deque:
-            res=deque.popleft()
-            if res.right:
-                deque.append(res.right)
-            if res.left:
-                deque.append(res.left)
-        return res.val
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        if not root:
+            return None
 
+        queue = collections.deque([root])
+        while queue:
+            node = queue.popleft()
+            if node.right:
+                queue.append(node.right)
+            if node.left:
+                queue.append(node.left)
 
-class Solution1:
-    def findLeftMostNode(self, root):
-        queue = [root]
-        for node in queue:
-            queue += filter(None, (node.right, node.left))
         return node.val
 
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        if not root:
+            return -1
 
-class Solution2:
-    def findBottomLeftValue(self, root):
-        self.ans = None
-        self.level = -1
-        self.helper(root, 0)
-        return self.ans
+        self.res = 0
+        self.height = 0
+        self.helper(root, 1)
+        return self.res
 
-    def helper(self, node, level):
-        if not node:
+    def helper(self, root, depth):
+        if not root:
             return
-        if self.level < level:
-            self.level = level
-            self.ans = node.val
-        self.helper(node.left, level + 1)
-        self.helper(node.right, level + 1)
+
+        if self.height < depth:
+            self.height = depth
+            self.res = root.val
+
+        self.helper(root.left, depth + 1)
+        self.helper(root.right, depth + 1)
+
+
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+
+        if not root:
+            return
+        queue = collections.deque([root])
+        while queue:
+            size = len(queue)
+            for i in range(size):
+                node = node.popleft()
+
 
 
