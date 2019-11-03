@@ -23,46 +23,6 @@ calculate the sum of the tree, increment the counter ctr, and return the sum.
 
 
 """
-import collections
-
-class Solution:
-    def findFrequentTreeSum(self, root):
-        if root == None: return []
-
-        def getSum(node):
-            if node == None: return 0
-            s = node.val + getSum(node.left) + getSum(node.right)
-            c[s] += 1
-            return s
-
-        c = collections.Counter()
-        getSum(root)
-        frequent = max(c.values())
-        return [s for s in c if c[s] == frequent]
-
-
-class SolutionSameIdea:
-    def findFrequentTreeSum(self, rt):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        if not rt: return []
-
-        ctr = collections.defaultdict(int)
-
-        def traverse(root):
-            if not root: return 0
-            left = traverse(root.left)
-            right = traverse(root.right)
-            root.val = root.val + left + right
-            ctr[root.val] += 1
-            return root.val
-
-        traverse(rt)
-
-        mc = max(ctr.values())
-        return [k for k, v in ctr.items() if v == mc]
 
 
 """
@@ -92,6 +52,35 @@ Traverse map/dict and filter output based on max of frequence of occurence
 Java implementation:
 """
 
+
+import collections
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+        
+class Solution:
+    def findFrequentTreeSum(self, root):
+        if not root:
+            return []
+        self.max = -1
+        cache = collections.defaultdict(int)
+        self.helper(root, cache)
+        return [k for k, v in cache.items() if v == self.max]
+
+    def helper(self, root, cache):
+
+        if not root:
+            return 0
+
+        left = self.helper(root.left, cache)
+        right = self.helper(root.right, cache)
+        sum = root.val + left + right
+        cache[sum] += 1
+        self.max = max(self.max, cache[sum])
+        return sum
 
 
 
