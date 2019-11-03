@@ -28,19 +28,27 @@ which returns the tuple (sum, tilt) of tree
 
 """
 
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class Solution:
-    def findTilt(self, root):
-        self.ans = 0
+    def findTilt(self, root: TreeNode) -> int:
+        self.sum = 0
+        self.helper(root)
+        return self.sum
 
-        def _sum(node):
-            if not node: return 0
-            left, right = _sum(node.left), _sum(node.right)
-            self.ans += abs(left - right)
-            return node.val + left + right
+    def helper(self, root):
+        if not root:
+            return 0
 
-        _sum(root)
-        return self.ans
+        left = self.helper(root.left)
+        right = self.helper(root.right)
+        self.sum += abs(left - right)
 
-
+        return root.val + left + right
 
 
