@@ -15,26 +15,51 @@ Follow up: Recursive solution is trivial, could you do it iteratively?
 
 """
 
-class Solution:
-    def postorderTraversal(self, root):
-        if not root:
-            return []
 
-        stack = [root]
-        ans = []
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def postorderTraversal(self, root: TreeNode):
+
+        res = []
+        self.postorder(root, res)
+        return res
+
+    def postorder(self, root, res):
+        if not root:
+            return None
+
+        self.postorder(root.left, res)
+        self.postorder(root.right, res)
+        res.append(root.val)
+
+
+    def postorderTraversal2(self, root: TreeNode):
+        if not root:
+            return None
+
+        stack, res = [root], []
 
         while stack:
-            node = stack.pop()
-            if isinstance(node, int):
-                ans.append(node)
+            cur = stack.pop()
+
+            if isinstance(cur, int):
+                res.append(cur)
                 continue
 
-            stack.append(node.val)  # Push VALUE into stack, in between left and right
+            stack.append(cur.val)
 
-            if node.right:  # if has right node, push into stack
-                stack.append(node.right)
+            if cur.right:
+                stack.append(cur.right)
 
-            if node.left:  # if has left node, push into stack
-                stack.append(node.left)
+            if cur.left:
+                stack.append(cur.left)
 
-        return ans
+        return res
+
+
+
