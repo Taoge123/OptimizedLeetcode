@@ -46,11 +46,22 @@ Condition为两种：如果没找到，返回None，找到则返回当前的root
     3  6 7  8 
 """
 
-class Solution(object):
-    def lowestCommonAncestor(self, root, p, q):
-        if not root: return None
-        if p == root or q == root:
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+
+        if not root:
+            return None
+
+        if root == p or root == q:
             return root
+
         left = self.lowestCommonAncestor(root.left, p, q)
         right = self.lowestCommonAncestor(root.right, p, q)
 
@@ -60,6 +71,7 @@ class Solution(object):
             return right
         if not right:
             return left
+
 
 
 
