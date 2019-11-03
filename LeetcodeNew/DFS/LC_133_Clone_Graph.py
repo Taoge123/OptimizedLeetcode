@@ -20,57 +20,26 @@ Node 4's value is 4, and it has two neighbors: Node 1 and 3.
 
 """
 
-class UndirectedGraphNode:
-    def __init__(self, x):
-        self.label = x
-        self.neighbors = []
+import collections
+
+class Node:
+    def __init__(self, val, neighbors):
+        self.val = val
+        self.neighbors = neighbors
+
+
 
 class Solution:
-    def __init__(self):
-        self.visited = {}
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        self.graph = collections.defaultdict(list)
+        return self.dfs(node)
 
-    def cloneGraph(self, node):
-        if not node:
-            return None
-        if node.label in self.visited:
-            return self.visited[node.label]
+    def dfs(self, node):
 
-        cloneNode = UndirectedGraphNode(node.label)
-        self.visited[node.label] = cloneNode
-
-        for n in node.neighbors:
-            cloneNode.neighbors.append(self.cloneGraph(n))
-        return cloneNode
-
-
-#Normal thought
-class Solution2:
-    def cloneGraph(self, node):
-        if not node:
-            return None
-        self.newNodeDict = {}
-        return self.createNode(node)
-
-    def createNode(self, oldNode):
-        newNode = UndirectedGraphNode(oldNode.label)
-        self.newNodeDict[newNode.label] = newNode
-
-        for i in oldNode.neighbors:
-            if i.label not in self.newNodeDict:
-                self.createNode(i)  # recursively create nodes
-            newNode.neighbors.append(self.newNodeDict[i.label])
+        if self.graph[node]:
+            return self.graph[node]
+        newNode = Node(node.val, [])
+        self.graph[node] = newNode
+        for nei in node.neighbors:
+            newNode.neighbors.append(self.dfs(nei))
         return newNode
-
-
-class Solution3:
-    def cloneGraph(self, node):
-        return self.dfs(node, {})
-
-    def dfs(self, node, dic):
-        if not node: return None
-        if node not in dic:
-            dic[node] = UndirectedGraphNode(node.label)
-            dic[node].neighbors += [self.dfs(n, dic) for n in node.neighbors]
-        return dic[node]
-
-
