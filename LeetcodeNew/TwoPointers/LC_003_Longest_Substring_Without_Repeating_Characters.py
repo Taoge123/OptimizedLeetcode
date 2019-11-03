@@ -21,38 +21,6 @@ Explanation: The answer is "wke", with the length of 3.
 """
 
 
-class Solution1:
-    # @return an integer
-    def lengthOfLongestSubstring(self, s):
-        start = maxLength = 0
-        usedChar = {}
-
-        for i in range(len(s)):
-            if s[i] in usedChar and start <= usedChar[s[i]]:
-                start = usedChar[s[i]] + 1
-            else:
-                maxLength = max(maxLength, i - start + 1)
-
-            usedChar[s[i]] = i
-
-        return maxLength
-
-
-class SolutionCaikehe:
-    def lengthOfLongestSubstring(self, s):
-        dic, res, start, = {}, 0, 0
-        for i, ch in enumerate(s):
-            if ch in dic:
-                # update the res
-                res = max(res, i - start)
-                # here should be careful, like "abba"
-                start = max(start, dic[ch] + 1)
-            dic[ch] = i
-        # return should consider the last
-        # non-repeated substring
-        return max(res, len(s) - start)
-
-
 
 """
 This solution uses a "sliding window" hash set. Let me know if you have any questions!
@@ -78,17 +46,21 @@ and we know the length of the longest. left and right were incremented linearly 
 and the hash set allowed for O(1) lookups, so the time complexity is O(n).
 """
 
-class Solution4:
-    def lengthOfLongestSubstring(self, s):
 
-        maxlen = 0
-        start = 0
-        dt = {}
-        for i, c in enumerate(s):
-            if c in dt:
-                start = max(start, dt[c] + 1)
-            maxlen = max(maxlen, i - start + 1)
-            dt[c] = i
-        return maxlen
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        start, res = 0, 0
+        table = {}
+        n = len(s)
+
+        for i in range(n):
+            if s[i] in table and start <= table[s[i]]:
+                start = table[s[i]] + 1
+            else:
+                res = max(res, i - start + 1)
+            table[s[i]] = i
+
+        return res
+
 
 
