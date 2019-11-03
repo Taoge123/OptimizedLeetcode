@@ -23,57 +23,23 @@ But the following [1,2,2,null,3,null,3] is not:
 空间复杂度 : O(N) or O(Height)
 
 """
-import collections
 
-class SolutionBFS:
-    # @param root, a tree node
-    # @return a boolean
-    def isSymmetric(self, root):
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
         if not root:
             return True
+        return self.dfs(root.left, root.right)
 
-        dq = collections.deque([(root.left,root.right)])
-        while dq:
-            node1, node2 = dq.popleft()
-            if not node1 and not node2:
-                continue
-            if not node1 or not node2:
-                return False
-            if node1.val != node2.val:
-                return False
-            # node1.left and node2.right are symmetric nodes in structure
-            # node1.right and node2.left are symmetric nodes in structure
-            dq.append((node1.left,node2.right))
-            dq.append((node1.right,node2.left))
-        return True
+    def dfs(self, p, q):
+        if p and q:
+            return p.val == q.val and self.dfs(p.left, q.right) and self.dfs(p.right, q.left)
 
-
-class SolutionDFS:
-    def isSymmetric(self, root):
-        if not root: return True
-        return self.dfs_helper(root.left, root.right)
-
-    def dfs_helper(self, n1, n2):
-        if not n1 and not n2: return True
-        if not n1 or not n2: return False
-        if n1.val != n2.val: return False
-        left = self.dfs_helper(n1.left, n2.right)
-        right = self.dfs_helper(n1.right, n2.left)
-        return left and right
-
-class SolutionGoogle:
-    # @param {TreeNode} root
-    # @return {boolean}
-    def isSymmetric(self, root):
-        if not root:
-            return True
-
-        return self.isSymmetricTree(root.left, root.right)
-
-    def isSymmetricTree(self, node1, node2):
-        if node1 and node2:
-            return node1.val == node2.val and self.isSymmetricTree(node1.left, node2.right) and self.isSymmetricTree(node1.right, node2.left)
-        else:
-            return node1 == node2
+        return p == q
 
 
