@@ -27,40 +27,21 @@ Build a (int parent: list[int] children)hashMap and do a simple bfs.
 import collections
 
 class Solution:
-    def killProcess(self, pid, ppid, kill):
-        dic = collections.defaultdict(list)
-        for p, pp in zip(pid, ppid):
-            dic[p].append(pp)
+    import collections
 
-        queue = [kill]
-        for i in queue:
-            queue.extend(dic.get(i, []))
-        return queue
+    class Solution:
+        def killProcess(self, pid, ppid, kill: int):
+            graph = collections.defaultdict(list)
+            for i, j in zip(ppid, pid):
+                graph[i].append(j)
+
+            res = []
+            self.helper(graph, kill, res)
+            return res
+
+        def helper(self, graph, kill, res):
+            res.append(kill)
+            for i in graph[kill]:
+                self.helper(graph, i, res)
 
 
-class Solution2:
-    def killProcess(self, pid, ppid, kill):
-        dic, queue, res = collections.defaultdict(list), collections.deque([kill]), []
-        for parent, child in zip(ppid, pid):
-            dic[parent].append(child)
-        while queue:
-            parent = queue.popleft()
-            res.append(parent)
-            queue.extend(dic[parent])
-        return res
-
-class SolutioinDFS:
-    def killProcess(self, pid, ppid, kill):
-        dic, visited = collections.defaultdict(list), set()
-        for parent, child in zip(ppid, pid):
-            dic[parent].append(child)
-        self.help(dic, kill, visited)
-        return list(visited)
-
-    def help(self, dic, kill, visited):
-        visited.add(kill)
-        for child in dic[kill]:
-            if child not in visited:
-                self.help(dic, child, visited)
-
-                
