@@ -39,51 +39,58 @@ After calling your function, the tree should look like:
     4-> 5 -> 7 -> NULL
 
 ---------------------
-作者：负雪明烛
-来源：CSDN
-原文：https://blog.csdn.net/fuxuemingzhu/article/details/79560379
-版权声明：本文为博主原创文章，转载请附上博文链接！
 """
+
+class Node:
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 import collections
 
-def connect(self, root):
-    if not root:
-        return
-    # connect nodes level by level,
-    # similar to level order traversal
-    queue = collections.deque([root])
-    nextLevel = collections.deque([])
-    while queue:
-        node = queue.popleft()
-        if node.left:
-            nextLevel.append(node.left)
-        if node.right:
-            nextLevel.append(node.right)
-        if queue:
-            node.next = queue[0]
-        if not queue:
-            queue, nextLevel = nextLevel, queue
-
-
-
 class Solution:
-    # @param root, a tree link node
-    # @return nothing
-    def connect(self, root):
-        if not root: return
-        queue = collections.deque()
-        queue.append(root)
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
+
+        queue, nextLevel = collections.deque([root]), collections.deque()
+
         while queue:
-            _len = len(queue)
-            for i in range(_len):
-                node = queue.popleft()
-                if i < _len - 1:
-                    node.next = queue[0]
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
+            node = queue.popleft()
+            if node.left:
+                nextLevel.append(node.left)
+            if node.right:
+                nextLevel.append(node.right)
+            if queue:
+                node.next = queue[0]
+            if not queue:
+                queue, nextLevel = nextLevel, queue
+
+        return root
+
+
+    def connect2(self, root: 'Node') -> 'Node':
+        queue, level, curr = root, None, None
+
+        while queue:
+            if queue.left:
+                if not level:
+                    level = curr = queue.left
+                else:
+                    curr.next = queue.left
+                    curr = curr.next
+            if queue.right:
+                if not level:
+                    level = curr = queue.right
+                else:
+                    curr.next = queue.right
+                    curr = curr.next
+            queue = queue.next
+            if not queue and level:
+                queue, level, curr = level, None, None
+        return root
 
 
 
