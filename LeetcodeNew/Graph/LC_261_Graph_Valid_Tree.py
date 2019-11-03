@@ -77,53 +77,7 @@ the rest part of it is still a tree.
 遍历完成后需要将节点删掉，参见代码如下：
 
 """
-import collections
 
-class Solution:
-    # @param {integer} n
-    # @param {integer[][]} edges
-    # @return {boolean}
-    def validTree(self, n, edges):
-        graph = {i:set() for i in range(n)}
-        for p, q in edges:
-            graph[p].add(q)
-            graph[q].add(p)
-        while len(graph) > 0:
-            leaves = list()
-            for node, neighbors in graph.items():
-                if len(neighbors) <= 1:
-                    leaves.append(node)
-            if len(leaves) == 0:
-                return False # a cycle exists
-            for n in leaves:
-                if len(graph[n]) == 0:
-                    # must be one connected component
-                    return len(graph) == 1
-                nei = graph[n].pop()
-                graph[nei].remove(n)
-                del graph[n]
-        return True
-
-
-class Solution2:
-    def validTree(self, n, edges):
-        dic = {i: set() for i in range(n)}
-        for i, j in edges:
-            dic[i].add(j)
-            dic[j].add(i)
-
-        stack = [dic.keys()[0]]
-        visited = set()
-        while stack:
-            node = stack.pop()
-            if node in visited:
-                return False
-            visited.add(node)
-            for neighbour in dic[node]:
-                stack.append(neighbour)
-                dic[neighbour].remove(node)
-            dic.pop(node)
-        return not dic
 
 """
 这道题给了我们一个无向图，让我们来判断其是否为一棵树，我们知道如果是树的话，所有的节点必须是连接的，
@@ -136,72 +90,52 @@ class Solution2:
 我们就把和节点0相邻的节点都标记为true，然后我们在看v里面是否还有没被访问过的节点，如果有，
 则说明图不是完全连通的，返回false，反之返回true
 """
-#DFS
-class Solution3:
-    def validTree(self, n, edges):
-        visited, adj = [0] * n, collections.defaultdict(set)
-        for a, b in edges:
-            adj[a].add(b)
-            adj[b].add(a)
-        def dfs(i, pre):
-            visited[i] = 1
-            for v in adj[i]:
-                if v != pre and (visited[v] or not dfs(v, i)):
-                    return False
-            return True
-        return dfs(0, -1) and sum(visited) == n
 
 
-class Solution4:
-    def validTree(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: bool
-        """
-        visited = set()
-        graph = collections.defaultdict(list)
-        for edge in edges:
-            graph[edge[0]].append(edge[1])
-            graph[edge[1]].append(edge[0])
-        return not self.hasCycle(graph,-1,0,visited) and len(visited) == n
+# class Solution:
+#     def validTree(self, n: int, edges: List[List[int]]) -> bool:
+#         graph = collections.defaultdict(list)
+#         visited = set()
+#         for u, v in edges:
+#             graph[u].append(v)
+#             graph[v].append(u)
 
-    def hasCycle(self,graph,parent,node,visited):
-        visited.add(node)
-        for v in graph[node]:
-            if v != parent:
-                if v in visited or self.hasCycle(graph,node,v,visited):
-                    return True
-        return False
+#         return not self.dfs(graph, visited, 0, -1) and n == len(visited)
 
 
-#union Find
-class Solution5:
-    def validTree(self, n, edges):
-        """
-        :type n: int
-        :type edges: List[List[int]]
-        :rtype: bool
-        """
-        parent = [i for i in range(n)]
-        for edge in edges:
-            root1 = self.find(parent, edge[0])
-            root2 = self.find(parent, edge[1])
-            if root1 == root2:
+#     def dfs(self, graph, visited, node, parent):
+#         visited.add(node)
+#         for i in graph[node]:
+#             if i != parent:
+#                 if i in visited or self.dfs(graph, visited, i, node):
+#                     return True
+#         return False
+
+
+class Solution:
+    def validTree(self, n: int, edges) -> bool:
+        nums = [-1] * n
+        for u, v in edges:
+            if not self.union(nums, u, v):
                 return False
-            else:
-                parent[root1] = root2
         return len(edges) == n - 1
 
-    def find(self, parent, p):
-        if parent[p] == p:
-            return p
+    def find(self, nums, i):
+        if nums[i] == -1:
+            return i
+        return self.find(nums, nums[i])
+
+    def union(self, nums, i, j):
+        x, y = self.find(nums, i), self.find(nums, j)
+        if x == y:
+            return False
         else:
-            return self.find(parent, parent[p])
+            nums[x] = y
+            return True
 
 
 n = 5
 edges = [[0,1], [1,2], [2,3], [1,3], [1,4]]
 
-a = Solution2()
+a = Solution()
 print(a.validTree(n, edges))
