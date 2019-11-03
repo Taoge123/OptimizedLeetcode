@@ -33,69 +33,35 @@ then make its parent to be its right most subtree recursively.
 
 Here is a small point to be noticed, when you connect the root to the right subtree,
 you need to make sure you are not copying the original root, otherwise it will become cyclic!
-"""
 
-
-class TreeNode(object):
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
-
-class Solution:
-    def upsideDownBinaryTree(self, root):
-        if not root or not root.left:
-            return root
-        lRoot = self.upsideDownBinaryTree(root.left)
-        rMost = lRoot
-        while rMost.right:
-            rMost = rMost.right
-
-        root = lRoot
-        rMost.left = root.right
-        rMost.right = TreeNode(root.val)
-
-        return root
-
-"""
 1. root's right node becomes the left node of the left node of root
 2. root becomes the right node of root's left node
 3. above rules apply on the left edge and return left node along the path.
 
 """
 
-class Solution2:
-    def upsideDownBinaryTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: TreeNode
-        """
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+    def upsideDownBinaryTree(self, root: TreeNode) -> TreeNode:
         if not root or (not root.left and not root.right):
             return root
-        #1 - 2 - 4 = then do modification on 4
-        left = self.upsideDownBinaryTree(root.left)
+
+        newRoot = self.upsideDownBinaryTree(root.left)
+
         root.left.left = root.right
         root.left.right = root
-        root.left = None
-        root.right = None
-        return left
+        root.left = root.right = None
+
+        return newRoot
 
 
-# suppose the root.left part has been upsideDowned,
-# then connect the root node (not root) to the right
-# side of the right-most node of the already upsideDowned
-# root.left part, root.right to the left side
-class SolutionCaikehe:
-    def upsideDownBinaryTree(self, root):
-        if not root or (not root.left and not root.right):
-            return root
-        node = self.upsideDownBinaryTree(root.left)
-        tmp = node
-        while tmp.right:
-            tmp = tmp.right
-        tmp.right = TreeNode(root.val)
-        tmp.left = root.right
-        return node
+
 
 tree = TreeNode(1)
 tree.left = TreeNode(2)
