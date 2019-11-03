@@ -13,48 +13,6 @@ Output: [1, 3, 9]
 
 """
 
-import collections
-
-class Solution11:
-    def largestValues(self, root):
-        if not root:
-            return []
-        res = []
-        q = collections.deque([root])
-        while q:
-            res.append(max(x.val for x in q))
-            for _ in range(len(q)):
-                node = q.popleft()
-                if node.left: q.append(node.left)
-                if node.right: q.append(node.right)
-        return res
-
-
-class Solution22:
-    def largestValues(self, root):
-        self.ans = []
-        self.helper(root, 0)
-        return self.ans
-
-    def helper(self, node, level):
-        if not node:
-            return
-        if len(self.ans) == level:
-            self.ans.append(node.val)
-        else:
-            self.ans[level] = max(self.ans[level], node.val)
-        self.helper(node.left, level + 1)
-        self.helper(node.right, level + 1)
-
-
-
-class Solution:
-    def largestValues(self, root):
-        if not root:
-            return []
-        left = self.largestValues(root.left)
-        right = self.largestValues(root.right)
-        return [root.val] + map(max, left, right)
 
 """
 Note that map(max, left, right) will behave differently under Python3, 
@@ -63,18 +21,37 @@ corresponding to different depths of the tree,
 max will produce a result with a length of the shorter of the two.
 """
 
-class Solution2:
-    def findValueMostElement(self, root):
-        maxes = []
-        row = [root]
-        while any(row):
-            maxes.append(max(node.val for node in row))
-            row = [kid for node in row for kid in (node.left, node.right) if kid]
-        return maxes
+import collections
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
+class Solution:
+    def largestValues(self, root: TreeNode):
 
+        if not root:
+            return []
+        queue = collections.deque([root])
+        res = [root.val]
+        while queue:
+            nextLevel = collections.deque()
+            size = len(queue)
+
+            for i in range(size):
+                node = queue.popleft()
+                if node.left:
+                    nextLevel.append(node.left)
+                if node.right:
+                    nextLevel.append(node.right)
+                if not queue and nextLevel:
+                    res.append(max(i.val for i in nextLevel))
+                    queue, nextLevel = nextLevel, queue
+
+        return res
 
 
 
