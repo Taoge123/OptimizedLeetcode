@@ -47,58 +47,37 @@ Explanation: There is no in-order successor of the current node, so the answer i
 """
 
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class Solution:
-    def inorderSuccessor(self, root, p):
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        res = None
+        while root:
+            if root.val <= p.val:
+                root = root.right
+            else:
+                res = root
+                root = root.left
+        return res
+
+
+    def inorderSuccessor2(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         self.res = None
         self.dfs(root, p)
         return self.res
 
     def dfs(self, root, p):
-        if not root: return
+        if not root:
+            return
         if p.val < root.val:
             self.res = root
             self.dfs(root.left, p)
         else:
             self.dfs(root.right, p)
-
-
-class Solution2:
-    def inorderSuccessor(self, root, p):
-        succ = None
-        while root:
-            if p.val < root.val:
-                succ = root
-                root = root.left
-            else:
-                root = root.right
-        return succ
-
-class Solution22:
-    def inorderSuccessor(self, root, p):
-
-        if not root:
-            return None
-        if root.val <= p.val:
-            return self.inorderSuccessor(root.right,p)
-        return self.inorderSuccessor(root.left,p) or root
-
-class Solution3:
-    def inorderSuccessor(self, root, p):
-        self.arr = []
-        self.dfs(root)
-        print(self.arr)
-        if self.arr[-1] == p.val:
-            return None
-        else:
-            for i, num in enumerate(self.arr):
-                if num == p.val:
-                    return self.arr[i+1]
-
-    def dfs(self, root):
-        if not root: return
-        self.dfs(root.left)
-        self.arr.append(root.val)
-        self.dfs(root.right)
 
 
 
