@@ -39,6 +39,7 @@ Steps:
     - node has both left and right - find the minimum value in the right subtree, set that value to the currently found node, then recursively delete the minimum value in the right subtree
 """
 
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -46,31 +47,30 @@ class TreeNode:
         self.right = None
 
 class Solution:
-    def deleteNode(self, root, key):
-        if not root:  # if root doesn't exist, just return it
-            return root
-        if root.val > key:  # if key value is less than root value, find the node in the left subtree
-            root.left = self.deleteNode(root.left, key)
-        elif root.val < key:  # if key value is greater than root value, find the node in right subtree
+    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+        if not root:
+            return None
+
+        if root.val < key:
             root.right = self.deleteNode(root.right, key)
-        else:  # if we found the node (root.value == key), start to delete it
-            if not root.right:  # if it doesn't have right children, we delete the node then new root would be root.left
-                return root.left
-            if not root.left:  # if it has no left children, we delete the node then new root would be root.right
-                return root.right
-            # if the node have both left and right children,  we replace its value with the minmimum value in the right subtree and then delete that minimum node in the right subtree
-            temp = root.right
-            mini = temp.val
-            while temp.left:
-                temp = temp.left
-                mini = temp.val
-            root.val = mini  # replace value
-            root.right = self.deleteNode(root.right, root.val)  # delete the minimum node in right subtree
+        elif root.val > key:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            if root.left and root.right:
+                tmp = self.finMin(root.right)
+                root.val = tmp.val
+                root.right = self.deleteNode(root.right, tmp.val)
+            else:
+                if not root.left:
+                    return root.right
+                if not root.right:
+                    return root.left
         return root
 
-
-
-
+    def finMin(self, node):
+        while node.left:
+            node = node.left
+        return node
 
 
 
