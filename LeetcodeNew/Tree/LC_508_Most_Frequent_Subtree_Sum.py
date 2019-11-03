@@ -60,7 +60,7 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
-        
+
 class Solution:
     def findFrequentTreeSum(self, root):
         if not root:
