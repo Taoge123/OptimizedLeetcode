@@ -25,98 +25,82 @@ This way, every time we saw a number in the stack,
 we know we are done with a left sub-tree and this number is what's in order.
 
 """
+
+
+# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
 
-class SolutionBest:
-    def inorderTraversal(self, root):
-        if not root:
-            return []
 
-        stack = [root]
-        ans = []
+class Solution:
+    def inorderTraversal1(self, root):
+        if not root:
+            return None
+
+        stack, res = [root], []
 
         while stack:
-            node = stack.pop()
-            if isinstance(node, int):
-                ans.append(node)
+            cur = stack.pop()
+            if isinstance(cur, int):
+                res.append(cur)
                 continue
 
-            if node.right:  # if has right node, push into stack
-                stack.append(node.right)
+            if cur.right:
+                stack.append(cur.right)
 
-            stack.append(node.val)  # Push VALUE into stack, in between left and right
+            stack.append(cur.val)
 
-            if node.left:  # if has left node, push into stack
-                stack.append(node.left)
+            if cur.left:
+                stack.append(cur.left)
 
-        return ans
+        return res
 
 
+    def inorderTraversal2(self, root):
 
-class Solution(object):
-    def inorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        res, stack = [], []
-        cur=root
-        while len(stack)>0 or cur:
+        stack, res = [], []
+        cur = root
+
+        while cur or stack:
             while cur:
                 stack.append(cur)
-                cur=cur.left
-            cur=stack.pop()
+                cur = cur.left
+
+            cur = stack.pop()
             res.append(cur.val)
-            cur=cur.right
+            cur = cur.right
+
         return res
 
-class Solution3:
-    # iteratively
-    def inorderTraversal(self, root):
-        res, stack = [], []
-        while True:
-            while root:
-                stack.append(root)
-                root = root.left
-            if not stack:
-                return res
-            node = stack.pop()
-            res.append(node.val)
-            root = node.right
+    def inorderTraversal3(self, root):
 
-
-
-class Solution2:
-    # recursively
-    def inorderTraversal1(self, root):
-        res = []
-        self.helper(root, res)
-        return res
-
-    def helper(self, root, res):
-        if root:
-            self.helper(root.left, res)
-            res.append(root.val)
-            self.helper(root.right, res)
-
-
-class Solution3:
-    def inorderTraversal(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        res, stack = [], []
+        stack, res = [], []
         cur = root
+
         while cur or stack:
-          while cur: # travel to each node's left child, till reach the left leaf
-            stack.append(cur)
-            cur = cur.left
-          cur = stack.pop() # this node has no left child
-          res.append(cur.val) # so let's append the node value
-          cur = cur.right # visit its right child --> if it has left child ? append left and left.val, otherwise append node.val, then visit right child again... cur = node.right
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+
+            cur = stack.pop()
+            res.append(cur.val)
+            cur = cur.right
+
         return res
+
+
+    def inorderTraversal4(self, root):
+        res = []
+        self.inorder(root, res)
+        return res
+
+    def inorder(self, root, res):
+        if not root:
+            return None
+        self.inorder(root.left, res)
+        res.append(root.val)
+        self.inorder(root.right, res)
+
