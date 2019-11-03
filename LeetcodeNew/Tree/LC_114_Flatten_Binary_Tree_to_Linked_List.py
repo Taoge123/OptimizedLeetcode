@@ -83,36 +83,32 @@ n.right - > n.left
 p->right -> n.right
 
 """
-class Solution2:
-    # @param root, a tree node
-    # @return nothing, do it in place
-    prev = None
-    def flatten(self, root):
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Solution:
+
+    def __init__(self):
+        self.prev = None
+
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
         if not root:
-            return
-        self.prev = root
+            return None
+
+        self.flatten(root.right)
         self.flatten(root.left)
+        root.right = self.prev
+        root.left = None
+        self.prev = root
 
-        #temp is right, right point to left, left point to None, prev.right = right
-        temp = root.right
-        root.right, root.left = root.left, None
-        self.prev.right = temp
-
-        self.flatten(temp)
-
-
-class Solution3:
-    def flatten(self, root):
-        while root:
-            if root.left:
-                self.flatten(root.left)
-                tail = root.left
-                while tail.right:
-                    tail = tail.right
-                tail.right = root.right
-                root.right = root.left
-                root.left = None
-            root = root.right
 
 
 
