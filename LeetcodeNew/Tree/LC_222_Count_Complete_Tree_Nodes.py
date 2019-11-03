@@ -82,90 +82,40 @@ one of them must be a full tree due to the condition of the problem.
     空间复杂度是递归栈的深度，是O(logn)
 """
 
-class Solution0:
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution:
     def countNodes(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
-        if not root: return 0
-        nodes = 0
-        left_height = self.getHeight(root.left)
-        right_height = self.getHeight(root.right)
-        if left_height == right_height:
-            nodes = 2 ** left_height + self.countNodes(root.right)
-        else:
-            nodes = 2 ** right_height + self.countNodes(root.left)
-        return nodes
+        left = self.helper(root, True)
+        right = self.helper(root, False)
+        if left == right:
+            return (1 << left) - 1
 
-
-    def getHeight(self, root):
-        height = 0
-        while root:
-            height += 1
-            root = root.left
-        return height
-
-class Solution2:
-    def countNodes(self, root):
-        leftdepth = self.getdepth(root, True)
-        rightdepth = self.getdepth(root, False)
-
-        if leftdepth == rightdepth:
-            return 2 ** leftdepth - 1
         else:
             return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 
-    def getdepth(self, root, isLeft):
-        if root is None:
-            return 0
-        if isLeft:
-            return 1 + self.getdepth(root.left, isLeft)
-        else:
-            return 1 + self.getdepth(root.right, isLeft)
-
-
-class Solution:
-    # @param {TreeNode} root
-    # @return {integer}
-    def countNodes(self, root):
-        if not root:
-            return 0
-        leftDepth = self.getDepth(root.left)
-        rightDepth = self.getDepth(root.right)
-        if leftDepth == rightDepth:
-            return pow(2, leftDepth) + self.countNodes(root.right)
-        else:
-            return pow(2, rightDepth) + self.countNodes(root.left)
-
-    def getDepth(self, root):
-        if not root:
-            return 0
-        return 1 + self.getDepth(root.left)
-
-class SolutionCaikehe:
-    def countNodes(self, root):
-        if not root:
-            return 0
-        h1 = self.height(root.left)
-        h2 = self.height(root.right)
-        if h1 > h2:  # right child is full
-            return self.countNodes(root.left) + 2 ** h2
-        else:  # left child is full
-            return self.countNodes(root.right) + 2 ** h1
-
-    # the height of the left-most leaf node
-    def height1(self, root):
-        h = 0
+    def leftDepth(self, root):
+        res = 0
         while root:
-            h += 1
+            res += 1
             root = root.left
-        return h
+        return res
 
-    def height(self, root):
+    def rightDepth(self, root):
+        res = 0
+        while root:
+            res += 1
+            root = root.right
+        return res
+
+    def helper(self, root, isLeft):
         if not root:
             return 0
-        return self.height(root.left) + 1
+        return self.helper(root.left, isLeft) + 1 if isLeft else self.helper(root.right, isLeft) + 1
 
 
 
