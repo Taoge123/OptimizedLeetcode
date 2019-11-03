@@ -13,46 +13,25 @@ size用来记录queue的在增加子孙node之前大小，因为之后我们会�
 for loop终止后，就可以把记录好的整层的数值，放入我们的return数组里。
 """
 
-from collections import deque
 
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
-    def levelOrder(self, root):
-        if not root: return []
-        queue, res = deque([root]), []
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return self.dfs(root.left, root.right)
 
-        while queue:
-            cur_level, size = [], len(queue)
-            for i in range(size):
-                node = queue.popleft()
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-                cur_level.append(node.val)
-            res.append(cur_level)
-        return res
+    def dfs(self, p, q):
+        if p and q:
+            return p.val == q.val and self.dfs(p.left, q.right) and self.dfs(p.right, q.left)
 
+        return p == q
 
-class SolutionBFS:
-    def levelOrder(self, root):
-        if root is None: return []
-        q = [[root]]
-        for level in q:
-            record = []
-            for node in level:
-                if node.left: record.append(node.left)
-                if node.right: record.append(node.right)
-            if record: q.append(record)
-        return [[x.val for x in level] for level in q]
-
-class SolutionPythonic:
-    def levelOrder(self, root):
-        ans, level = [], [root]
-        while root and level:
-            ans.append([node.val for node in level])
-            level = [kid for n in level for kid in (n.left, n.right) if kid]
-        return ans
 
 
 
