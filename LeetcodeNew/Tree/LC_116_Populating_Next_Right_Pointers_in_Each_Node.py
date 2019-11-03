@@ -16,80 +16,58 @@ Initially, all next pointers are set to NULL.
 
 """
 
-
-class Solution:
-    # @param root, a tree link node
-    # @return nothing
-    def connect(self, root):
-        if root and root.left:  # 如有root和左孩子
-            root.left.next = root.right  # 左孩子指向右孩子
-            if root.next:  # 如链表有右边，那么其右孩子指向右边节点左孩子
-                root.right.next = root.next.left
-            else:
-                root.right.next = None
-            self.connect(root.left)
-            self.connect(root.right)
+import collections
 
 
-class SolutionBFS:
-    def connect(self, root):
-        """
-        :type root: TreeLinkNode
-        :rtype: nothing
-        """
-
-        if not root:
-            return None
-        cur = root
-        next = root.left
-
-        while cur.left:
-            cur.left.next = cur.right
-            if cur.next:
-                cur.right.next = cur.next.left
-                cur = cur.next
-            else:
-                cur = next
-                next = cur.left
+class Node:
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
 
 
 class Solution:
-    def connect1(self, root):
-        if root and root.left and root.right:
-            root.left.next = root.right
-            if root.next:
-                root.right.next = root.next.left
-            self.connect(root.left)
-            self.connect(root.right)
+    def connect(self, root: 'Node') -> 'Node':
 
-    # BFS
-    def connect2(self, root):
         if not root:
             return
-        queue = [root]
+
+        queue = collections.deque()
+        queue.append(root)
         while queue:
-            curr = queue.pop(0)
-            if curr.left and curr.right:
-                curr.left.next = curr.right
-                if curr.next:
-                    curr.right.next = curr.next.left
-                queue.append(curr.left)
-                queue.append(curr.right)
+            node = queue.popleft()
+            if node.left and node.right:
+                node.left.next = node.right
 
-    # DFS
-    def connect(self, root):
+                if node.next:
+                    node.right.next = node.next.left
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+        return root
+
+
+    def connect2(self, root: 'Node') -> 'Node':
         if not root:
             return
-        stack = [root]
-        while stack:
-            curr = stack.pop()
-            if curr.left and curr.right:
-                curr.left.next = curr.right
-                if curr.next:
-                    curr.right.next = curr.next.left
-                stack.append(curr.right)
-                stack.append(curr.left)
 
+        stack = [root]
+
+        while stack:
+            node = stack.pop()
+            if node.left and node.right:
+                node.left.next = node.right
+                if node.next:
+                    node.right.next = node.next.left
+
+                stack.append(node.left)
+                stack.append(node.right)
+
+        return root
 
 
 
