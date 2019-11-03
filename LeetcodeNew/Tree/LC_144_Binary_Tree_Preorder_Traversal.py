@@ -24,28 +24,55 @@ class TreeNode:
         self.right = None
 
 class Solution:
-    def preorderTraversal(self, root):
+    def preorderTraversal(self, root: TreeNode):
 
+        res = []
+        self.preorder(root, res)
+        return res
+
+    def preorder(self, root, res):
         if not root:
-            return []
+            return None
 
-        stack = [root]
-        ans = []
+        res.append(root.val)
+        self.preorder(root.left, res)
+        self.preorder(root.right, res)
+
+    def preorderTraversal2(self, root: TreeNode):
+        if not root:
+            return None
+
+        stack, res = [root], []
 
         while stack:
             node = stack.pop()
+            # print(node)
             if isinstance(node, int):
-                ans.append(node)
+                res.append(node)
                 continue
 
-
-
-            if node.right:  # if has right node, push into stack
+            if node.right:
                 stack.append(node.right)
-
-
-            if node.left:  # if has left node, push into stack
+            if node.left:
                 stack.append(node.left)
-            stack.append(node.val)  # Push VALUE into stack, in between left and right
 
-        return ans
+            stack.append(node.val)
+
+        return res
+
+
+    def preorderTraversal3(self, root: TreeNode):
+
+        if not root:
+            return None
+
+        stack, res = [root], []
+
+        while stack:
+            cur = stack.pop()
+            if cur:
+                stack.append(cur.right)
+                stack.append(cur.left)
+                res.append(cur.val)
+        return res
+
