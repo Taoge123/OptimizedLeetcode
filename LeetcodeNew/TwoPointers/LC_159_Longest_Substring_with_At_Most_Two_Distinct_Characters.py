@@ -71,39 +71,6 @@ Submissions
 """
 
 
-import collections
-
-class Solution1:
-    def lengthOfLongestSubstringTwoDistinct(self, s: 'str') -> 'int':
-        n = len(s)
-        if n < 3:
-            return n
-
-        # sliding window left and right pointers
-        left, right = 0, 0
-        # hashmap character -> its rightmost position
-        # in the sliding window
-        hashmap = collections.defaultdict()
-
-        max_len = 2
-
-        while right < n:
-            # slidewindow contains less than 3 characters
-            if len(hashmap) < 3:
-                hashmap[s[right]] = right
-                right += 1
-
-            # slidewindow contains 3 characters
-            if len(hashmap) == 3:
-                # delete the leftmost character
-                del_idx = min(hashmap.values())
-                del hashmap[s[del_idx]]
-                # move left pointer of the slidewindow
-                left = del_idx + 1
-
-            max_len = max(max_len, right - left)
-
-        return max_len
 
 """
 I used a hash to store a mapping of the character to its latest position within the string. 
@@ -112,37 +79,22 @@ with the smallest (left-most) position and eliminate it from the hash.
 The left pointer then starts from the next character after the eliminated character.
 """
 
-class Solution2:
-    def lengthOfLongestSubstringTwoDistinct(self, s):
+import collections
 
-        left, longest, d = 0, 0, {}
-        maximum_distinct = 2
-        for index, char in list(enumerate(s)):
-            d[char] = index
-            if len(d.keys()) == maximum_distinct + 1:
-                index_to_remove = min([d[char] for char in d.keys()])
-                d.pop(s[index_to_remove], None)
-                left = index_to_remove + 1
-            longest = max(longest, index - left + 1)
-        return longest
 
-class Solution3:
-    def lengthOfLongestSubstringTwoDistinct(self, s):
-        dic = collections.defaultdict(int)
-        start, end = 0, 0
-        maxlen = -float('inf')
-        n = len(s)
-        while end < n:
-            cur = s[end]
-            if len(dic) == 2 and cur not in dic:  # find the third distinct char
-                maxlen = max(maxlen, end - start)  # update max length
-                pos = min(dic.values())  # find the last position of the first char in current window
-                start = pos + 1  # update window (start from the second char)
-                del dic[s[pos]]  # update dictionary by deleting the first char
-            dic[cur] = end  # update position of current char
-            end += 1
-        return max(maxlen, n - start)
+class Solution:
+    def lengthOfLongestSubstringTwoDistinct(self, s: str) -> int:
 
+        start, res = 0, 0
+        table = collections.defaultdict(int)
+        for i, char in enumerate(s):
+            table[char] = i
+            if len(table) > 2:
+                start = min(table.values())
+                del table[s[start]]
+                start += 1
+            res = max(i - start + 1, res)
+        return res
 
 
 
