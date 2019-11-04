@@ -95,22 +95,26 @@ The main method that uses double dp is nothing novel.
 However, if I add a few more lines at the beginning to avoid the long cases in which mincut = 0 
 or mincut = 1, the time cost optimized so dramatically that I got really surprised...
 """
-class Solution3:
-    def minCut(self, s):
+class SolutionTony:
+    def minCut(self, s: str) -> int:
+
         if s == s[::-1]: return 0
-        lens = len(s)
-        for i in range(1, lens):
+        n = len(s)
+        for i in range(1, n):
             if s[:i] == s[:i][::-1] and s[i:] == s[i:][::-1]:
                 return 1
 
-        isPal = [[False] * (i + 1) for i in range(lens)]
-        dp = range(lens) + [-1]
-        for i in range(lens):
+        isPal = [[False] * (i + 1) for i in range(n)]
+        dp = [i for i in range(n)] + [-1]
+        for i in range(n):
             for j in range(i, -1, -1):
                 if s[i] == s[j] and (i - j < 2 or isPal[i - 1][j + 1]):
                     isPal[i][j] = True
                     dp[i] = min(dp[i], dp[j - 1] + 1)
-        return dp[lens - 1]
+        return dp[n - 1]
 
+
+a = SolutionTony()
+print(a.minCut("leet"))
 
 

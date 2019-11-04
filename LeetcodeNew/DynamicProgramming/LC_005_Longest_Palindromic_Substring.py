@@ -151,3 +151,28 @@ count)。然后在longestPalindrome函数中，寻找最大的回文子串。
 """
 
 
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if len(set(s)) == 1:
+            return s
+
+        n = len(s)
+        start, end, maxL = 0, 0, 0
+        dp = [[0] * n for i in range(n)]
+        res = []
+        for i in range(n):
+            for j in range(i):
+                dp[j][i] = (s[j] == s[i]) and ((i - j < 2) or dp[j + 1][i - 1])
+                if dp[j][i] and maxL < i - j + 1:
+                    maxL = i - j + 1
+                    start = j
+                    end = i
+                    res.append(s[start, end + 1])
+                    print(start, end)
+            dp[i][i] = 1
+        # print(start, end + 1, res)
+        return s[start: end + 1]
+
+
+a = Solution()
+print(a.longestPalindrome("ac"))

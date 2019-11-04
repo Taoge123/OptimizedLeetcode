@@ -104,8 +104,10 @@ class Solution:
 
     def backTrack(self, nums, index, currTuple, prev, hashset):
         # print currList
-        if len(currTuple) > 1: hashset.add(currTuple)
-        if index == len(nums): return
+        if len(currTuple) > 1:
+            hashset.add(currTuple)
+        if index == len(nums):
+            return
         for i in range(index, len(nums)):
             if nums[i] >= prev:
                 self.backTrack(nums, i + 1, currTuple + (nums[i],), nums[i], hashset)

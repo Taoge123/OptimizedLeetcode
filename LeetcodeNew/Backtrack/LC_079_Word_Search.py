@@ -25,8 +25,8 @@ class Solution:
     def exist(self, board, word):
         if not board:
             return False
-        for i in xrange(len(board)):
-            for j in xrange(len(board[0])):
+        for i in range(len(board)):
+            for j in range(len(board[0])):
                 if self.dfs(board, i, j, word):
                     return True
         return False

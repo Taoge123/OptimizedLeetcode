@@ -18,20 +18,6 @@ Explanation: The answer should be the total numbers in the range of 0 ≤ x < 10
 """
 
 
-class Solution(object):
-    def countNumbersWithUniqueDigits(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        choices = [9, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-        ans, product = 1, 1
-
-        for i in range(n if n <= 10 else 10):
-            product *= choices[i]
-            ans += product
-
-        return ans
 
 
 class Solution(object):
@@ -155,4 +141,21 @@ class Solution(object):
             return 10
         else:
             return 9 * reduce(lambda x, y: x * y, range(11 - n, 10)) + self.countNumbersWithUniqueDigits(n - 1)
+
+
+class SolutionTony:
+    def countNumbersWithUniqueDigits(self, n):
+        choices = [9, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+        ans, product = 1, 1
+
+        for i in range(n if n <= 10 else 10):
+
+            product = product * choices[i]
+            ans += product
+
+        return ans
+
+a = SolutionTony()
+print(a.countNumbersWithUniqueDigits(2))
+
 

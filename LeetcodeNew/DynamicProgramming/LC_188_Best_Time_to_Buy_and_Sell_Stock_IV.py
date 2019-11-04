@@ -189,7 +189,7 @@ https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/discuss/306282/
 """
 
 class Solution11:
-    def maxProfit1(self, prices: List[int]) -> int:
+    def maxProfit1(self, prices):
         if len(prices) < 2:
             return 0
         max_profit, min_prev = 0, prices[0]
@@ -422,4 +422,30 @@ class Solution44:
                 local_max = max(local_max, dp[i-1][k1-1] - prices[i])
         return dp[n-1][k]
 
+
+class SolutionTony:
+    def maxProfi(self, k, prices):
+        if k <= 0 or not prices:
+            return 0
+        n = len(prices)
+        if k >= n:
+            total = 0
+            for i in range(1, n):
+                if prices[i] > prices[i - 1]:
+                    total += prices[i] - prices[i - 1]
+            return total
+        local = [0] * (k + 1)
+        res = [0] * (k + 1)
+        for i in range(n - 1):
+            profit = prices[i + 1] - prices[i]
+            for j in range(k, 0, -1):
+                local[j] = max(res[j - 1] + max(profit, 0), local[j] + profit)
+                res[j] = max(local[j], res[j])
+        return res[-1]
+
+k = 2
+prices = [2,4,1]
+
+a = SolutionTony()
+print(a.maxProfi(k, prices))
 

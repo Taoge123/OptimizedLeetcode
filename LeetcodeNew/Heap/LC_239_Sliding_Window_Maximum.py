@@ -37,49 +37,6 @@ For each index i:
 3. Pop (from the front) the index i - k, if it's still in the deque (it falls out of the window).
 4. If our window has reached size k, append the current window maximum to the output."""
 
-import collections
-import heapq
-
-class SolutionStefan:
-    def maxSlidingWindow(self, nums, k):
-        res = []
-        bigger = collections.deque()
-        for i, n in enumerate(nums):
-            # make sure the rightmost one is the smallest
-            while bigger and nums[bigger[-1]] <= n:
-                bigger.pop()
-
-            # add in
-            bigger += [i]
-
-            # make sure the leftmost one is in-bound
-            if i - bigger[0] >= k:
-                bigger.popleft()
-
-            # if i + 1 < k, then we are initializing the bigger array
-            if i + 1 >= k:
-                res.append(nums[bigger[0]])
-        return res
-
-
-# Brute Force: O(n * k)
-class Solution2:
-    def get_max(self, nums, start, end):
-        answer = -2 ** 31
-        for i in range(start, end + 1):
-            answer = max(answer, nums[i])
-        return answer
-
-    def maxSlidingWindow(self, nums, k):
-        start, end = 0, k - 1
-        result = []
-        while end < len(nums) and len(nums):
-            result.append(self.get_max(nums, start, end))
-            start, end = start + 1, end + 1
-        return result
-
-
-
 
 
 
@@ -97,29 +54,6 @@ Max Heap Solution: O(NlogN)
   That would be very hard to implement. Instead we maintain the index in heap and "delete" 
   when the maximum number is out of bounds.
 """
-
-class Solution3:
-    def get_next_max(self, heap, start):
-        while True:
-            x, idx = heapq.heappop(heap)
-            if idx >= start:
-                return x * -1, idx
-
-    def maxSlidingWindow(self, nums, k):
-        if k == 0:
-            return []
-        heap = []
-        for i in range(k):
-            heapq.heappush(heap, (nums[i] * -1, i))
-        result, start, end = [], 0, k - 1
-        while end < len(nums):
-            x, idx = self.get_next_max(heap, start)
-            result.append(x)
-            heapq.heappush(heap, (x * -1, idx))
-            start, end = start + 1, end + 1
-            if end < len(nums):
-                heapq.heappush(heap, (nums[end] * -1, end))
-        return result
 
 
 """
@@ -150,34 +84,6 @@ and these useful elements are maintained in sorted order.
 The element at front of the Qi is the largest and element at rear of Qi is the smallest of current window. 
 """
 
-class Solution(object):
-    def add_to_deque(self, deque, nums, i):
-        while len(deque) and nums[deque[-1]] <= nums[i]:
-            deque.pop()
-        deque.append(i)
-        return
-
-    def maxSlidingWindow(self, nums, k):
-        if k == 0:
-            return []
-        deque = collections.deque()
-
-        for i in range(k):
-            self.add_to_deque(deque, nums, i)
-
-        result, start, end = [], 0, k-1
-        while end < len(nums):
-            while True:
-                if deque[0] >= start:
-                    result.append(nums[deque[0]])
-                    break
-                else:
-                    deque.popleft()
-            start, end = start+1,end+1
-            if end < len(nums):
-                self.add_to_deque(deque, nums, end)
-        return result
-
 """
 遍历数组nums，使用双端队列deque维护滑动窗口内有可能成为最大值元素的数组下标
 
@@ -193,22 +99,6 @@ class Solution(object):
 
 deque的队头元素即为当前滑动窗口的最大值
 """
-
-class Solution4:
-
-    def maxSlidingWindow(self, nums, k):
-        deque = collections.deque()
-        ans = []
-        for i in range(len(nums)):
-            while deque and nums[deque[-1]] <= nums[i]:
-                deque.pop()
-            deque.append(i)
-            if deque[0] == i - k:
-                deque.popleft()
-            if i >= k - 1:
-                ans.append(nums[deque[0]])
-        return ans
-
 
 """
 Algorithm
@@ -232,49 +122,59 @@ The algorithm is quite straigthforward :
     - Return the output array.
 
 """
+import heapq
+import collections
 
+class Solution3:
+    def get_next_max(self, heap, start):
+        while True:
+            x, idx = heapq.heappop(heap)
+            if idx >= start:
+                return x * -1, idx
 
-class SolutionL1:
     def maxSlidingWindow(self, nums, k):
-        # base cases
-        n = len(nums)
-        if n * k == 0:
+        if k == 0:
             return []
-        if k == 1:
-            return nums
-
-        def clean_deque(i):
-            # remove indexes of elements not from sliding window
-            if deq and deq[0] == i - k:
-                deq.popleft()
-
-            # remove from deq indexes of all elements
-            # which are smaller than current element nums[i]
-            while deq and nums[i] > nums[deq[-1]]:
-                deq.pop()
-
-        # init deque and output
-        deq = collections.deque()
-        max_idx = 0
+        heap = []
         for i in range(k):
-            clean_deque(i)
-            deq.append(i)
-            # compute max in nums[:k]
-            if nums[i] > nums[max_idx]:
-                max_idx = i
-        output = [nums[max_idx]]
+            heapq.heappush(heap, (nums[i] * -1, i))
+        result, start, end = [], 0, k - 1
+        while end < len(nums):
+            x, idx = self.get_next_max(heap, start)
+            result.append(x)
+            heapq.heappush(heap, (x * -1, idx))
+            start, end = start + 1, end + 1
+            if end < len(nums):
+                heapq.heappush(heap, (nums[end] * -1, end))
+        return result
 
-        # build output
-        for i in range(k, n):
-            clean_deque(i)
-            deq.append(i)
-            output.append(nums[deq[0]])
-        return output
+
+class Solution:
+    def maxSlidingWindow(self, nums, k):
+
+        queue = collections.deque([])
+        res = []
+
+        for i in range(len(nums)):
+            # checking front
+            if queue and queue[0] < i - k + 1:
+                queue.popleft()
+            # checking back
+            while queue and nums[i] > nums[queue[-1]]:
+                queue.pop()
+
+            queue.append(i)
+
+            if queue and i >= k - 1:
+                res.append(nums[queue[0]])
+
+        return res
+
 
 nums = [1,3,-1,-3,5,3,6,7]
 k = 3
 
-a = Solution4()
+a = Solution()
 print(a.maxSlidingWindow(nums, k))
 
 

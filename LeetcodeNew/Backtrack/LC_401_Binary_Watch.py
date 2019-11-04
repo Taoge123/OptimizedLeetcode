@@ -94,3 +94,40 @@ class Solution3(object):
                 ans.append("{}:{:02}".format(hr, minutes))
         return ans
 
+
+import itertools
+
+
+class SolutionTony:
+    def readBinaryWatch(self, num):
+        res = []
+        self.dfs(num, 0, res)
+        return res
+
+    def dfs(self, num, hours, res):
+        if hours > num:
+            return
+        for hour in itertools.combinations([1, 2, 4, 8], hours):
+            hours = sum(hour)
+            if hours >= 12:
+                continue
+            for min in itertools.combinations([1, 2, 4, 8, 16, 32], num - hours):
+                mins = sum(min)
+                if mins >= 60:
+                    continue
+                res.append("%d:%02d" % (hours, mins))
+                print("%d:%02d" % (hours, mins))
+        self.dfs(num, hours + 1, res)
+
+a = SolutionTony()
+print(a.readBinaryWatch(1))
+
+
+
+
+
+
+
+
+
+

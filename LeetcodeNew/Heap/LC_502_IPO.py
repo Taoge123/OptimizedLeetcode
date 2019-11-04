@@ -88,3 +88,75 @@ class SolutionStefan:
             if current:
                 W -= heapq.heappop(current)
         return W
+
+
+class SolutionRefactor:
+    def findMaximizedCapital(self, k, W, Profits, Capital):
+        projects = sorted(zip(Profits,Capital), key = lambda project : project[1])
+        heap     = []
+        project = 0
+        while k:
+            while project < len(projects) and projects[project][1] <= W:
+                heapq.heappush(heap,-projects[project][0])
+                project += 1
+            if heap:
+                W -= heapq.heappop(heap)
+            k -= 1
+        return W
+#
+# def find(worst, expected):
+#     projects = sorted(zip(worst, expected), key=lambda project: project[1])
+#     print(projects)
+#
+#     W = max([i[0] for i in projects])
+#     print([i[0] for i in projects])
+#     res = W
+#     # print(W, res)
+#     for i, project in enumerate(projects):
+#         if W >= project[0]:
+#             W -= project[1]
+#         else:
+#             res += abs(W - project[0])
+#     # print(W, res)
+#     # print(res)
+#     return res
+#
+#
+# find([6,5,7, 8], [4,2,1, 1])
+
+
+import bisect
+def test(a, b):
+    res = 2
+    dp = [1, 2]
+    diff = a[1] - a[0]
+    for i in range(2, len(a)):
+        if a[i] - a[i-1] == diff:
+            dp.append(dp[-1] + 1)
+        else:
+            next = bisect.bisect_right(b, a[i], 0, len(b))
+            if b[next] - a[i-1] == diff:
+                dp.append(dp[-1] + 1)
+            else:
+                diff = a[i] - a[i-1]
+                dp.append(1)
+    print(dp)
+
+    return max([i for i in dp])
+
+
+a = [1,2,3,5,6,67]
+b = [6,7]
+
+print(test(a, b))
+
+
+
+
+
+
+
+
+
+
+

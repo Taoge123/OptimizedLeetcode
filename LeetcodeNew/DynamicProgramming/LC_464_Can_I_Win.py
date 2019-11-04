@@ -450,4 +450,32 @@ class SolutionHuahua:
     return win(M, T, m, 0)
 
 
+class SolutionTony:
+    def canIWin(self, num: int, target: int) -> bool:
+        if num * (num + 1) // 2 < target:
+            return False
+        cache = {}
+
+        return self.helper(tuple(range(1, num + 1)), target, cache)
+
+    def helper(self, nums, target, cache):
+        if not nums:
+            return False
+        if nums in cache:
+            return cache[nums]
+        if nums[-1] >= target:
+            return True
+
+        for i in range(len(nums)):
+            if not self.helper(nums[:i] + nums[i + 1:], target - nums[i], cache):
+                cache[nums] = True
+                return True
+        cache[nums] = False
+
+        return False
+
+
+a = SolutionTony()
+print(a.canIWin(10, 11))
+
 

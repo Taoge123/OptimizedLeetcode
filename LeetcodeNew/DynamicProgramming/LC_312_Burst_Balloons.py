@@ -336,3 +336,27 @@ l与r的跨度k从2开始逐渐增大；
 
 状态转移方程在形式上有点类似于Floyd最短路算法。"""
 
+
+class SolutionTony:
+    def maxCoins(self, nums):
+        nums = [1] + nums + [1]
+        n = len(nums)
+
+        dp = [[0] * (n + 2) for i in range(n)]
+
+        for len_ in range(2, n):
+            for left in range(n - len_):
+                right = left + len_
+                for i in range(left + 1, right):
+                    dp[left][right] = max(dp[left][right],
+                                          dp[left][i] + dp[i][right] + nums[left] * nums[i] * nums[right])
+        return dp[0][n - 1]
+
+
+a = SolutionTony()
+print(a.maxCoins([3,1,5,8]))
+
+
+
+
+

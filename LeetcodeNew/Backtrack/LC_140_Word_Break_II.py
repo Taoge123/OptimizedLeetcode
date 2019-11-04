@@ -144,7 +144,7 @@ class Solution:
     def wordBreak(self, s, dict):
         sentences = [[] for i in range(len(s))]
         wordLenList = set(map(len, dict))
-        for startIndex in xrange(len(s) - 1, -1, -1):
+        for startIndex in range(len(s) - 1, -1, -1):
             for wordLen in wordLenList:
                 if startIndex + wordLen > len(s) or s[startIndex: startIndex + wordLen] not in dict:
                     continue
@@ -156,6 +156,35 @@ class Solution:
         return sentences[0]
 
 
+class SolutionTony:
+    def wordBreak(self, s, wordDict):
+        return self.helper(s, wordDict, {})
 
+    def helper(self, s, wordDict, memo):
+        if s in memo:
+            return memo[s]
+        if not s:
+            return []
+        res = []
+        for word in wordDict:
+            if not s.startswith(word):
+                continue
+            if len(word) == len(s):
+                res.append(word)
+            else:
+                list = self.helper(s[len(word):], wordDict, memo)
+                for item in list:
+                    item = word + ' ' + item
+                    res.append(item)
+        memo[s] = res
+        return res
+
+
+
+s = "catsanddog"
+wordDict = ["cat","cats","and","sand","dog"]
+
+a = SolutionTony()
+print(a.wordBreak(s, wordDict))
 
 

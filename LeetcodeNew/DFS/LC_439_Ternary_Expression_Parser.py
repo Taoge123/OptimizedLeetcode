@@ -43,37 +43,13 @@ base on the requirement.
 """
 
 
-class Solution:
-    def parseTernary(self, expression):
-        """
-        :type expression: str
-        :rtype: str
-        """
-        stack = list()
 
-        for c in reversed(expression):
-            if stack and stack[-1] == "?":
-                stack.pop()
-                first = stack.pop()
-                stack.pop()
-                second = stack.pop()
-                if c == "T":
-                    stack.append(first)
-                else:
-                    stack.append(second)
-
-            else:
-                stack.append(c)
-        return stack[0]
 
 
 
 class Solution2:
     def parseTernary(self, expression):
-        """
-        :type expression: str
-        :rtype: str
-        """
+
         stack = []
         d = {}
         for i in range(0, len(expression)):
@@ -97,10 +73,12 @@ class Solution3:
         stack = list(s)[::-1]
 
         def helper():
-            if len(stack) == 1: return stack[0]
+            if len(stack) == 1:
+                return stack[0]
             n = stack.pop()
             op = stack.pop()
-            if op == ':': return n
+            if op == ':':
+                return n
             a = helper()
             b = helper()
             return a if n == 'T' else b
@@ -124,3 +102,27 @@ class Solution3:
         return expression
 
 
+class Solution:
+    def parseTernary(self, expression):
+
+        stack = []
+        expression = reversed(expression)
+        for c in expression:
+            if stack and stack[-1] == "?":
+                stack.pop()
+                first = stack.pop()
+                stack.pop()
+                second = stack.pop()
+                if c == "T":
+                    stack.append(first)
+                else:
+                    stack.append(second)
+
+            else:
+                stack.append(c)
+        print(stack)
+        return stack[0]
+
+expression = "F?1:T?4:5"
+a = Solution()
+print(a.parseTernary(expression))
