@@ -42,12 +42,16 @@ n = 3: [0,1,3,2] + [4 + 0, 4 +1, 4 +3, 4 + 2][::-1] = [0,1,3,2,6,7,5,4]
 
 """
 
+
 class Solution:
-    def grayCode(self, n):
-        dp = [[0]]
-        for i in range(1,n+1):
-            dp.append(dp[i-1] + [2**(i-1) + j for j in dp[i-1]][::-1])
-        return dp[n]
+    def grayCode(self, n: int) -> List[int]:
+        results = [0]
+        for i in range(n):
+            for x in reversed(results):
+                print(x, pow(2, i), list(reversed(results)))
+                results.append(x + pow(2, i))
+
+        return results
 
 
 class Solution:
