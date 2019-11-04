@@ -43,7 +43,7 @@ class Solution3:
     def permuteUnique(self, nums):
         """
         :type nums: List[int]
-        :rtype: List[List[int]]
+        :rtype: List[List[int]]Ω
         """
         nums.sort()
         result = []
