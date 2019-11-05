@@ -245,16 +245,143 @@ a g b d b a
 -   - - - -
 
     0  1  2  3  4  5 
-0   1  1  1  1  1           
-1      1  1  1  1  1        
-2         1  1  3  1       
+0   1  1  1  1  3  5         
+1      1  1  1  3  3        
+2         1  1  3  3       
 3            1  1  1      
 4               1  1     
 5                  1                       
                    
-                                    
+
+if s[i] == s[j]:
+    T[i][j] = T[i+1][j-1] + 1                 
+else:
+    T[i][j] = max(T[i+1][j], T[i][j-1])
                    
-                   
+
+        
+         
+-----------------------------------------------------------------------------------------------
+problem 9:
+Cutting Rod to maxium profits
+
+len = 5
+
+1 2 3 4
+2 5 7 8 
+
+Option 1:
+2 3 
+5 7 = 12
+
+Option 2:
+1 2 2 
+2 5 5 = 12 
+
+      0  1  2  3  4  5
+(2)1     2  4  6  8  10      
+(5)2     2  5  7  10 12-       
+(7)3     2  5  7  10 12-        
+(8)4     2  5  7  10 12-        
+                    
+if (j >= i):
+    T[i][j] = max(T[i-1][j], val[i] + T[i][j-i])                    
+else:
+    T[i][j] = T[i-1][j]
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 10:
+Coin Changing Number of ways to get total
+
+coins 1 2 3   total = 5
+
+   0  1  2  3  4  5  
+1  1  1  1  1  1  1         
+2  1  1  2  2  3  3                
+3  1  1  2  3  4  5         
+                     
+if j >= coins[i]:
+    T[i][j] = T[i-1][j] + T[i][j-coins[i]]
+else:
+    T[i][j] = T[i-1][j]                  
+                     
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 10:
+Egg Dropping Dynamic Programming
+
+
+   1  2  3  4  5  6
+1  1  2  3  4  5  6                   
+2  1  2  2  3  3  3              
+[1, 3] 
+1 + max(0,2) = 3
+1 + max(1,1) = 2
+1 + max(2,0) = 3
+
+[1, 4]
+1 + max(0, 2) = 3
+1 + max(1, 2) = 3
+1 + max(2, 1) = 3
+1 + max(3, 0) = 4
+
+[1, 5]
+1 + max(0, 3) = 4
+1 + max(1, 2) = 3
+1 + max(2, 2) = 3
+1 + max(3, 1) = 4
+1 + max(4, 0) = 5
+
+[1, 6]
+1 + max(0, 3) = 4
+1 + max(1, 3) = 4
+1 + max(2, 2) = 3
+1 + max(3, 2) = 5
+1 + max(4, 1) = 6
+1 + max(5, 0) = 6
+
+
+
+#eggs more than floor 
+if i > j:
+    T[i][j] = T[i-1][j]
+else:
+    T[i][j] = 1 + max(T[i-1][k-1], T[i][j-k]) for k in range(i, j)
+
+if breaks, i-1 eggs left and k-1 floors left
+if doesn't, i eggs left and j-k floors left
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 11:
+Weighted Job Scheduling Dynamic Programming
+
+  j                               i
+(1,3)   (2,5)   (4,6)   (6,7)   (5,8)   (7,9)
+  5       6       5       4       11      2
+  5       6       10      14      17      16                                             
+                                              
+                                              
+for i in range(1, len):
+    for j in range(0, i):
+        #do not overlap 
+        if i.start >= j.end:
+            T[i] = max(T[i], T[j] + profit[i])            
+
+
+
+
+
+
+
+
+
                    
 """
 
