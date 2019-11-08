@@ -651,8 +651,356 @@ else:
                       
 
 
+-----------------------------------------------------------------------------------------------
+problem 25:
+Box Stacking Dynamic Programming
+
+    1  2  4 
+    3  2  5
+         
+    l  w  h       
+    4  2  1 - 8       
+    4  1  2 - 4   
+    2  1  4 - 2  
+    5  3  2 - 15   
+    5  2  3 - 10   
+    3  2  5 - 6   
 
 
+l  w  h
+5  3  2 - 0 
+5  2  3 - 1
+4  2  1 - 2
+3  2  5 - 3
+4  1  2 - 4
+2  1  4 - 5
+
+
+2 3 3 7 5 7
+0 1 2 3 4 5 
+
+0 1 2 3 4 5
+0 1 2 3 4 5
+
+
+-----------------------------------------------------------------------------------------------
+problem 25:
+Optimal Strategy Game Pick from Ends of array Dynamic Programming
+
+  1  2  3  4          
+  3  9  1  2 
+
+     1     2     3     4
+1  (3,0) (9,3) (4,9)  (11,4)
+2        (9,0) (9,1)  (10,2)      
+3              (1,0)  (2,1)  
+4                     (2,0)          
+            
+T[i][j].first = max(T[i+1][j].second + val[i], T[i][j-1].second + val[j])   
+T[i][j].second= T[i+1][j].first or T[i][j-1].first
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 26:
+Burst Balloon Dynamic Programming[Leetcode]
+ 3  1  5  8 
+ 0  1  2  3
+ 
+ 
+   0   1   2   3
+0  3   30         
+1      15         
+2          40      
+3              40 
+             
+             
+for len in range(len(nums)):
+    for i in range(len(nums) - len):
+        for k in range(j):
+            leftValue = 1
+            rightValue = 1
+            
+            T[i][j] = max(leftValue * nums[k] * rightValue + T[i][k-1] + T[k+1][j])          
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 26:
+Maximum Sub Square Matrix Dynamic Programming
+
+0 0 1 1 1 
+1 0 1 1 1 
+0 1 1 1 1 
+1 0 1 1 1
+
+
+
+0  0  0  0  0  0
+0  0  0  1  1  1
+0  1  0  1  2  2
+0  0  1  1  2  3
+0  1  0  1  2  3
+
+T[i][j] = T[i-1][j-1] + 1 if i == 1 and j == 1
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 26:
+Maximum Sum Increasing Subsequence Dynamic Programming
+ 
+ j              j
+ 0  1  2  3  4  5  6
+ 4  6  1  3  8  4  6
+
+ 4  10 1  4  18 8  14
+
+ 0  1  2  3  4  3  6
+
+if nums[j] < nums[i]:
+    T[i] = max(T[i], T[j] + nums[i])
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 27:
+Staircase Problem Fibonacci Series
+
+T[n] = T[n-1] + F[n-2] + F[n-3]
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 28:
+Maximum Sum Subsequence Non-Adjacent
+
+inclusive 
+exclusive
+
+ 0  1  2  3  4  5
+ 4  1  1  4  2  1
+                  
+temp = incl
+incl = max(incl, excl + nums[i])
+excl = temp
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 29:
+String Interleaving Dynamic Programming
+
+ a a b
+ a x y
+
+   0  a  a  b
+0  T  T  T  F
+a  T  T  F  F
+x  F  T  T  T          
+y  F  F  F  T    
+
+if s3[i+j] == s1[i]:
+    T[i][j] = T[i-1][j]
+if s3[i+j] == s2[j]:
+    T[i][j] = T[i][j-1]
+else:
+    T[i][j] = False
+    
+    
+
+-----------------------------------------------------------------------------------------------
+problem 30:
+Count Number of Binary Search Tree Possible given n keys Dynamic Programming
+
+
+
+Catalan number
+T[0] = 1
+T[1] = 1 
+for i in range(2, n):
+    for j in range(i):
+        T[i] += T[j] * T[i-j-1]
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 31:
+0/1 Knapsack Problem Top Down Dynamic Programming
+          a  b  c  d
+     val  2  2  4  5
+      wt  2  4  6  9
+total wt = 8                  
+
+max(val[i] + f(W-wt[i], i+1), f(W, i+1))
+
+(Remaining wt, remaining items), maxValue
+
+                        8(a b c d)
+          6(b c d)                                                                                         
+   4(c d)        6(c d)                                                     
+0(d)    4(d)  2(d)   6(d)                                                           
+                   1(no) 6(no)                                       
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 32:
+Total Ways in Matrix Dynamic Programming
+
+1  2  3  4 
+5  6  7  8
+9  10 11 12
+13 14 15 16
+
+1  1  1  1
+1  2  3  4
+1  3  6  10 
+1  4  10 20
+
+T[i][j] = T[i-1][j] + T[i][j-1]
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 33:
+Longest Bitonic Subsequence
+
+
+  2  -1  4  3  5  -1  3  2
+ --        ------    ------
+  1  1   2  2  3  1   2  2
+  2  1   3  2  3  1   2  1
+-----------------------------
+  2  1   4  3  5  1   3  2
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 34:
+Coin Change Top down dynamic programming
+
+total = 5
+coins = 1, 2, 3
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 35:
+Numbers Without Consecutive 1s in binary representation
+
+n = 1
+1
+0
+
+n = 2
+0 0 
+0 1
+1 0
+1 1
+
+n = 3
+0 0 0
+0 0 1
+0 1 0
+0 1 1
+1 0 0
+1 0 1
+1 1 0
+1 1 1
+
+n = 4
+0000 1000
+0001 1001 
+0010 1010
+0011 1011
+0100 1100
+0101 1101
+0110 1110
+0111 1111
+
+It's actually fibonacci
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 35:
+Sum Query in 2D Immutable Array Dynamic Programming
+
+   0  1  2  3
+0  2  0 -3  4 
+1  6  3  2 -1
+2  5  4  7  3
+3  2 -6  8  1
+
+   0  1  2  3  4
+0  0  0  0  0  0 
+1  0  2  2  -1 3
+2  0  8  11 10 13 
+3  0  13 20 26 32
+4  0  15 16 30 37
+
+sum = T[r2][c2] - T[r1-1][c2] - T[r2][c1-1] + T[r1-1][c1-1]
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 35:
+Maximum Subsquare With Sides as X
+
+o o o o x
+x o x x x
+x o x o x
+x x x x x
+o o x x x
+
+(0,0) (0,0) (0,0) (0,0) (1,1)
+(1,1) (0,0) (1,1) (1,2) (2,3)
+(2,1) (0,0) (2,1) (0,0) (3,1)
+(3,1) (1,2) (3,3) (1,4) (4,5) 
+(0,0) (0,0) (4,1) (2,2) (5,3)
+
+if nums[i][j] == x:
+    T[i][j] = (T[i-1][j]+1, T[i][j-1]+1)
+else:
+    T[i][j] = (0,0)
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+problem 36:
+Count Number of Binary Tree Possible given Preorder Sequence length dynamic programming
+
+n = 1
+1
+
+n = 2
+2
+
+n = 3
+
+
+0  1  2  3  4  5
+1  1  2  5  14 42
+
+T[0] = 1
+T[1] = 1
+for i in range(2, n):
+    for j in range(i):
+        T[i] += T[j] * T[i-j-1]
 
 
 
