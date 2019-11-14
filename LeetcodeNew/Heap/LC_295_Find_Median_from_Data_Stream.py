@@ -41,9 +41,14 @@ class MedianFinder:
 
     def addNum(self, num):
         if len(self.small) == len(self.large):
-            heapq.heappush(self.large, -heapq.heappushpop(self.small, -num))
+            replace = -heapq.heappushpop(self.small, -num)
+            heapq.heappush(self.large, replace)
         else:
-            heapq.heappush(self.small, -heapq.heappushpop(self.large, num))
+            replace = -heapq.heappushpop(self.large, num)
+            heapq.heappush(self.small, replace)
+
+        print(self.small)
+        print(self.large)
 
     def findMedian(self):
         if len(self.small) == len(self.large):
@@ -54,6 +59,17 @@ class MedianFinder:
 
 
 
+# Your MedianFinder object will be instantiated and called as such:
+obj = MedianFinder()
+obj.addNum(2)
+obj.addNum(7)
+obj.addNum(26)
+obj.addNum(1)
+obj.addNum(9)
+obj.addNum(211)
+obj.addNum(232)
+
+print(obj.findMedian())
 
 
 
