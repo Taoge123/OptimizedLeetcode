@@ -165,3 +165,34 @@ class Solution22:
         return val
 
 
+class SolutionTony:
+    def nthUglyNumber(self, n: int) -> int:
+        nums = [0] * n
+        nums[0] = 1
+
+        i2, i3, i5 = 0, 0, 0
+        for i in range(1, len(nums)):
+            n2, n3, n5 = nums[i2] * 2, nums[i3] * 3, nums[i5] * 5
+
+            nums[i] = min(n2, n3, n5)
+            if nums[i] == n2:
+                i2 += 1
+            if nums[i] == n3:
+                i3 += 1
+            if nums[i] == n5:
+                i5 += 1
+
+            print(nums, i2, i3, i5)
+
+        return nums[-1]
+
+
+
+
+n = 12
+a = SolutionTony()
+print(a.nthUglyNumber(n))
+
+
+
+
