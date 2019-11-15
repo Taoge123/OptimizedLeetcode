@@ -1,4 +1,9 @@
+"""
+Example:
 
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+"""
 class Solution:
     def letterCombinations(self, digits):
         self.phone = {'2': ['a', 'b', 'c'],
