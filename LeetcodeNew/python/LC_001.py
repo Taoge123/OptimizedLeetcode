@@ -20,3 +20,5 @@ class Solution:
             if target - value in dict_temp:
                 return [dict_temp[target - value], index]
             dict_temp[value] = index
+
+
