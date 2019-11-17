@@ -48,8 +48,6 @@ Output: false
 
 class Solution:
     def isMatch(self, s, p):
-
-
         n = len(s)
         m = len(p)
 
@@ -69,7 +67,12 @@ class Solution:
                         M[i][j] = True
                 else:
                     M[i][j] = M[i - 1][j - 1] and p[j - 1] == s[i - 1]
-
+        print(M)
         return M[n][m]
 
+
+s = "aab"
+p = "c*a*b"
+a = Solution()
+print(a.isMatch(s, p))
 

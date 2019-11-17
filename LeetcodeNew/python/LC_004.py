@@ -43,14 +43,16 @@ class Solution:
 
         ia, ib = len(a) // 2, len(b) // 2
         ma, mb = a[ia], b[ib]
-
+        #we wanna search on the right becuz the k is larger and we are searching the smallest k
         if ia + ib < k:
             if ma < mb:
+                #since we search on the right, and a < b, then we remove a's left, else b's left
                 return self.kth(a[ia + 1:], b, k - ia - 1)
             else:
                 return self.kth(a, b[ib + 1:], k - ib - 1)
 
         else:
+            #Now k is less than the search, then we will search on the left, then we delete the larger part since we search on the left
             if ma < mb:  # now k is <= middle number index
                 return self.kth(a, b[:ib], k)
             else:
