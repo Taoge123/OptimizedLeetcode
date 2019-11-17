@@ -60,6 +60,13 @@ def bisect_left(nums, target):
             hi = mid
     return lo
 
+nums = [2, 4, 5, 6, 9]
+nums2 = [0, 1, 1, 1, 1]
+print(search2(nums, 4))
+print(bisect_left(nums, 4))
+print(search2(nums2, 1))
+print(bisect_left(nums2, 1))
+
 """
 这一类可以轻松的变形为查找最后一个小于目标值的数，怎么变呢。
 我们已经找到了第一个不小于目标值的数，
@@ -99,11 +106,17 @@ def bisect_right(nums, target):
     lo, hi = 0, len(nums)
     while lo < hi:
         mid = (lo+hi)//2
-        if target >= nums[mid]:
+        if nums[mid] <= target:
             lo = mid+1
         else:
             hi = mid
     return lo
+
+print(search3(nums, 4))
+print(bisect_right(nums, 4))
+print(search3(nums2, 1))
+print(bisect_right(nums2, 1))
+
 
 def bisect_right2(nums, target):
     lo, hi = 0, len(nums)
