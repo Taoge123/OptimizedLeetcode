@@ -68,45 +68,37 @@ class Solution:
 
 
 
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+
+        stack, res = [], []
+        cur = root
+
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+
+            cur = stack.pop()
+            res.append(cur.val)
+            cur = cur.right
+
+        return res
 
 
 
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        self.inorder(root, res)
+        return res
 
-
-
-
-# class Solution:
-#     def inorderTraversal(self, root: TreeNode) -> List[int]:
-
-#         stack, res = [], []
-#         cur = root
-
-#         while cur or stack:
-#             while cur:
-#                 stack.append(cur)
-#                 cur = cur.left
-
-#             cur = stack.pop()
-#             res.append(cur.val)
-#             cur = cur.right
-
-#         return res
-
-
-
-
-# class Solution:
-#     def inorderTraversal(self, root: TreeNode) -> List[int]:
-#         res = []
-#         self.inorder(root, res)
-#         return res
-
-#     def inorder(self, root, res):
-#         if not root:
-#             return None
-#         self.inorder(root.left, res)
-#         res.append(root.val)
-#         self.inorder(root.right, res)
+    def inorder(self, root, res):
+        if not root:
+            return None
+        self.inorder(root.left, res)
+        res.append(root.val)
+        self.inorder(root.right, res)
 
 
 
