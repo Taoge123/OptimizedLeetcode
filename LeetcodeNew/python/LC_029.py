@@ -33,7 +33,6 @@ class Solution:
                 res += index
                 index += index
 
-
         if (dividend < 0 and divisor > 0) or (dividend > 0 and divisor < 0):
             res = -res
         return min(max(res, -pow(2 ,31)), pow(2 ,31) - 1)

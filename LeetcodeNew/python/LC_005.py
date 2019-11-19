@@ -20,7 +20,6 @@ class Solution:
             return ""
         if len(set(s)) == 1:
             return s
-
         n = len(s)
 
         dp = [[0] * n for i in range(n)]

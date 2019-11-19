@@ -21,7 +21,6 @@ All given inputs are in lowercase letters a-z.
 class Solution:
     def longestCommonPrefix(self, strs):
 
-
         if not strs:
             return ''
 

@@ -15,10 +15,10 @@ return [0, 1].
 class Solution:
     def twoSum(self, nums, target):
 
-        dict_temp = dict()
-        for index, value in enumerate(nums):
-            if target - value in dict_temp:
-                return [dict_temp[target - value], index]
-            dict_temp[value] = index
+        dic = dict()
+        for i, val in enumerate(nums):
+            if target - val in dic:
+                return [dic[target - val], i]
+            dic[val] = i
 
 
