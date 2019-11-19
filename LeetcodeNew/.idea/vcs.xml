@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/BFS" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/BinarySearch" vcs="Git" />
   </component>
 </project>
