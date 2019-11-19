@@ -27,7 +27,7 @@ from collections import deque
 
 
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+    def levelOrder(self, root: TreeNode):
 
         if not root:
             return []

@@ -39,26 +39,24 @@ class TreeNode:
         self.left = None
         self.right = None
 
-# class Solution:
-#     def isBalanced(self, root: TreeNode) -> bool:
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        self.flag = True
+        self.post(root)
+        return self.flag
 
-#         self.flag = True
-#         self.post(root)
-#         return self.flag
+    def post(self, root):
+        if not root:
+            return True
 
-#     def post(self, root):
+        left = self.post(root.left)
+        right = self.post(root.right)
 
-#         if not root:
-#             return True
+        if abs(left - right) > 1:
+            self.flag = False
+            return -1
 
-#         left = self.post(root.left)
-#         right = self.post(root.right)
-
-#         if abs(left - right) > 1:
-#             self.flag = False
-#             return -1
-
-#         return max(left, right) + 1
+        return max(left, right) + 1
 
 
 class Solution:

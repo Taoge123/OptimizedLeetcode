@@ -11,27 +11,28 @@ class Node:
         self.right = right
         self.next = next
 """
+import collections
 
 # Level order traversal
-# class Solution:
-#     def connect(self, root: 'Node') -> 'Node':
-#         if not root:
-#             return
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
 
-#         queue, nextLevel = collections.deque([root]), collections.deque()
+        queue, nextLevel = collections.deque([root]), collections.deque()
 
-#         while queue:
-#             node = queue.popleft()
-#             if node.left:
-#                 nextLevel.append(node.left)
-#             if node.right:
-#                 nextLevel.append(node.right)
-#             if queue:
-#                 node.next = queue[0]
-#             if not queue:
-#                 queue, nextLevel = nextLevel, queue
+        while queue:
+            node = queue.popleft()
+            if node.left:
+                nextLevel.append(node.left)
+            if node.right:
+                nextLevel.append(node.right)
+            if queue:
+                node.next = queue[0]
+            if not queue:
+                queue, nextLevel = nextLevel, queue
 
-#         return root
+        return root
 
 #
 # cur = queue

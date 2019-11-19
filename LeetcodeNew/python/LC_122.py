@@ -29,14 +29,11 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 class Solution:
     def maxProfit(self, prices):
-
-
         n = len(prices)
         ans = 0
         for i in range(1, n):
             if prices[i] > prices[i - 1]:
                 ans += prices[i] - prices[i - 1]
-
         return ans
 
 
@@ -54,6 +51,5 @@ dp=[           ]
 3  0 0 4 4 7 7
 4  0
 5  0 
-
 
 """
