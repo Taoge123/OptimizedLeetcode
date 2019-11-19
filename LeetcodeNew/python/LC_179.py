@@ -15,7 +15,6 @@ Note: The result may be very large, so you need to return a string instead of an
 
 from functools import cmp_to_key
 
-
 class Solution:
 
     def largestNumber(self, nums):

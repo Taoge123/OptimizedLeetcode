@@ -20,7 +20,7 @@ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (m
 
 
 class Solution:
-    def rob(self, nums: List[int]) -> int:
+    def rob(self, nums) -> int:
         n = len(nums)
 
         if n == 0:
@@ -38,6 +38,9 @@ class Solution:
                 res = dp[i]
         return res
 
+nums = [2,7,9,3,1]
+a = Solution()
+print(a.rob(nums))
 
 
 

@@ -23,29 +23,29 @@ cache.get(1);       // returns -1 (not found)
 cache.get(3);       // returns 3
 cache.get(4);       // returns 4
 """
+import collections
 
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.dic = collections.OrderedDict()
+        self.remain = capacity
 
-# class LRUCache:
-#     def __init__(self, capacity: int):
-#         self.dic = collections.OrderedDict()
-#         self.remain = capacity
+    def get(self, key: int) -> int:
+        if key not in self.dic:
+            return -1
+        node = self.dic.pop(key)
+        self.dic[key] = node
+        return node
 
-#     def get(self, key: int) -> int:
-#         if key not in self.dic:
-#             return -1
-#         node = self.dic.pop(key)
-#         self.dic[key] = node
-#         return node
-
-#     def put(self, key: int, value: int) -> None:
-#         if key in self.dic:
-#             self.dic.pop(key)
-#         else:
-#             if self.remain > 0:
-#                 self.remain -= 1
-#             else:
-#                 self.dic.popitem(last=False)
-#         self.dic[key] = value
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            self.dic.pop(key)
+        else:
+            if self.remain > 0:
+                self.remain -= 1
+            else:
+                self.dic.popitem(last=False)
+        self.dic[key] = value
 
 class Node:
     def __init__(self, k, v):

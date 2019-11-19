@@ -23,20 +23,20 @@ class TreeNode:
         self.left = None
         self.right = None
 
-# class Solution:
-#     def postorderTraversal(self, root: TreeNode) -> List[int]:
+class Solution:
+    def postorderTraversal(self, root: TreeNode):
 
-#         res = []
-#         self.postorder(root, res)
-#         return res
+        res = []
+        self.postorder(root, res)
+        return res
 
-#     def postorder(self, root, res):
-#         if not root:
-#             return None
+    def postorder(self, root, res):
+        if not root:
+            return None
 
-#         self.postorder(root.left, res)
-#         self.postorder(root.right, res)
-#         res.append(root.val)
+        self.postorder(root.left, res)
+        self.postorder(root.right, res)
+        res.append(root.val)
 
 class Solution:
     def postorderTraversal(self, root: TreeNode):
@@ -59,13 +59,7 @@ class Solution:
 
             if cur.left:
                 stack.append(cur.left)
-
-
         return res
-
-
-
-
 
 
 

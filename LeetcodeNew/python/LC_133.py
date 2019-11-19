@@ -20,13 +20,11 @@ You must return the copy of the given node as a reference to the cloned graph.
 
 import collections
 
-"""
-# Definition for a Node.
 class Node:
     def __init__(self, val, neighbors):
         self.val = val
         self.neighbors = neighbors
-"""
+
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         self.graph = collections.defaultdict(list)

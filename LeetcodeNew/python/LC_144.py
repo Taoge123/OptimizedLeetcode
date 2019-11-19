@@ -21,43 +21,43 @@ class TreeNode:
         self.left = None
         self.right = None
 
-# class Solution:
-#     def preorderTraversal(self, root: TreeNode) -> List[int]:
+class Solution:
+    def preorderTraversal(self, root: TreeNode):
 
-#         res = []
-#         self.preorder(root, res)
-#         return res
+        res = []
+        self.preorder(root, res)
+        return res
 
-#     def preorder(self, root, res):
-#         if not root:
-#             return None
+    def preorder(self, root, res):
+        if not root:
+            return None
 
-#         res.append(root.val)
-#         self.preorder(root.left, res)
-#         self.preorder(root.right, res)
+        res.append(root.val)
+        self.preorder(root.left, res)
+        self.preorder(root.right, res)
 
-# class Solution:
-#     def preorderTraversal(self, root: TreeNode) -> List[int]:
-#         if not root:
-#             return None
+class Solution:
+    def preorderTraversal(self, root: TreeNode):
+        if not root:
+            return None
 
-#         stack, res = [root], []
+        stack, res = [root], []
 
-#         while stack:
-#             node = stack.pop()
-#             # print(node)
-#             if isinstance(node, int):
-#                 res.append(node)
-#                 continue
+        while stack:
+            node = stack.pop()
+            # print(node)
+            if isinstance(node, int):
+                res.append(node)
+                continue
 
-#             if node.right:
-#                 stack.append(node.right)
-#             if node.left:
-#                 stack.append(node.left)
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
 
-#             stack.append(node.val)
+            stack.append(node.val)
 
-#         return res
+        return res
 
 
 class Solution:
@@ -75,15 +75,6 @@ class Solution:
                 stack.append(cur.left)
                 res.append(cur.val)
         return res
-
-
-
-
-
-
-
-
-
 
 
 

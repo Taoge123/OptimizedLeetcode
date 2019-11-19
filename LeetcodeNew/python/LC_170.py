@@ -23,18 +23,12 @@ from collections import defaultdict
 class TwoSum:
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
+
         self.cache = defaultdict(int)
 
 
     def add(self, number):
-        """
-        Add the number to an internal data structure..
-        :type number: int
-        :rtype: void
-        """
+
         self.cache[number] += 1
 
 

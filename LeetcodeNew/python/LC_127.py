@@ -57,8 +57,5 @@ class Solution:
                             queue.append((newWord, dist + 1))
                             visited.add(newWord)
 
-
-
-
         return 0
 
