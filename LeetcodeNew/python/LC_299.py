@@ -30,35 +30,35 @@ Note: You may assume that the secret number and your friend's guess only contain
 
 import collections
 
-# class Solution:
-#     def getHint(self, secret: str, guess: str) -> str:
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
 
-#         s = collections.defaultdict(int)
-#         g = collections.defaultdict(int)
+        s = collections.defaultdict(int)
+        g = collections.defaultdict(int)
 
-#         A, B = 0, 0
+        A, B = 0, 0
 
-#         for i in range(len(guess)):
-#             if secret[i] == guess[i]:
-#                 A += 1
-#             else:
-#                 s[secret[i]] += 1
-#                 g[guess[i]] += 1
+        for i in range(len(guess)):
+            if secret[i] == guess[i]:
+                A += 1
+            else:
+                s[secret[i]] += 1
+                g[guess[i]] += 1
 
-#         for item in g:
-#             B += min(g[item], s[item])
+        for item in g:
+            B += min(g[item], s[item])
 
-#         return '%dA%dB'% (A, B)
+        return '%dA%dB'% (A, B)
 
 
 
-# class Solution:
-#     def getHint(self, secret: str, guess: str) -> str:
-#         s = collections.Counter(secret)
-#         g = collections.Counter(guess)
-#         A = sum(i == j for i, j in zip(secret, guess))
-#         B = sum((s & g).values()) - A
-#         return '%dA%dB'% (A, B)
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        s = collections.Counter(secret)
+        g = collections.Counter(guess)
+        A = sum(i == j for i, j in zip(secret, guess))
+        B = sum((s & g).values()) - A
+        return '%dA%dB'% (A, B)
 
 
 class Solution:

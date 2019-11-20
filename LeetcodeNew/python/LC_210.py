@@ -29,33 +29,33 @@ You may assume that there are no duplicate edges in the input prerequisites.
 
 import collections
 
-# class Solution:
-#     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites):
 
-#         graph = collections.defaultdict(list)
-#         visited = [False for i in range(numCourses)]
-#         res = []
-#         for u, v in prerequisites:
-#             graph[u].append(v)
+        graph = collections.defaultdict(list)
+        visited = [False for i in range(numCourses)]
+        res = []
+        for u, v in prerequisites:
+            graph[u].append(v)
 
-#         for i in range(numCourses):
-#             if not self.dfs(i, graph, visited, res):
-#                 return []
-#         return res
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visited, res):
+                return []
+        return res
 
-#     def dfs(self, i, graph, visited, res):
-#         if visited[i] == '-1':
-#             return False
-#         if visited[i] == '1':
-#             return True
+    def dfs(self, i, graph, visited, res):
+        if visited[i] == '-1':
+            return False
+        if visited[i] == '1':
+            return True
 
-#         visited[i] = '-1'
-#         for j in graph[i]:
-#             if not self.dfs(j, graph, visited, res):
-#                 return False
-#         visited[i] = '1'
-#         res.append(i)
-#         return True
+        visited[i] = '-1'
+        for j in graph[i]:
+            if not self.dfs(j, graph, visited, res):
+                return False
+        visited[i] = '1'
+        res.append(i)
+        return True
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites):
@@ -79,11 +79,6 @@ class Solution:
         if len(visited) == numCourses:
             return visited[::-1]
         return []
-
-
-
-
-
 
 
 

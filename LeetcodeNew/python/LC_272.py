@@ -20,6 +20,7 @@ Output: [4,3]
 Follow up:
 Assume that the BST is balanced, could you solve it in less than O(n) runtime (where n = total nodes)?
 """
+import collections
 
 
 class TreeNode:
@@ -27,8 +28,6 @@ class TreeNode:
         self.val = x
         self.left = None
         self.right = None
-
-import collections
 
 class Solution:
     def closestKValues(self, root: TreeNode, target, k):

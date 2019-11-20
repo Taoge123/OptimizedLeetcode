@@ -15,15 +15,15 @@ Note: If there are several possible values for h, the maximum one is taken as th
 """
 
 
-# class Solution:
-#     def hIndex(self, citations: List[int]) -> int:
-#         citations = sorted(citations)
-#         n = len(citations)
-#         res = 0
-#         while res < len(citations) and citations[n - 1 - res] > res:
-#             res += 1
+class Solution:
+    def hIndex(self, citations) -> int:
+        citations = sorted(citations)
+        n = len(citations)
+        res = 0
+        while res < len(citations) and citations[n - 1 - res] > res:
+            res += 1
 
-#         return res
+        return res
 
 
 class Solution:

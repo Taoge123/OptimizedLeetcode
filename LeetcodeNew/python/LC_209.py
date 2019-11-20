@@ -11,38 +11,20 @@ If you have figured out the O(n) solution, try coding another solution of which 
 
 """
 
-import collections
-
-class TrieNode:
-    # Initialize your data structure here.
-    def __init__(self):
-        self.children = collections.defaultdict(TrieNode)
-        self.is_word = False
 
 
-class Trie:
+class Solution:
+    def minSubArrayLen(self, s, nums):
 
-    def __init__(self):
-        self.root = TrieNode()
+        total, left = 0, 0
+        res = float('inf')
 
-    def insert(self, word):
-        current = self.root
-        for letter in word:
-            current = current.children[letter]
-        current.is_word = True
+        for right, num in enumerate(nums):
+            total += num
+            while total >= s:
+                res = min(res, right - left + 1)
+                total -= nums[left]
+                left += 1
 
-    def search(self, word):
-        current = self.root
-        for letter in word:
-            current = current.children.get(letter)
-            if current is None:
-                return False
-        return current.is_word
+        return res if res <= len(nums) else 0
 
-    def startsWith(self, prefix):
-        current = self.root
-        for letter in prefix:
-            current = current.children.get(letter)
-            if current is None:
-                return False
-        return True

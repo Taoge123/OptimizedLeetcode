@@ -25,7 +25,6 @@ After running your function, the 2D grid should be:
 
 import collections
 
-
 class Solution:
     def wallsAndGates(self, rooms):
         if not rooms:
