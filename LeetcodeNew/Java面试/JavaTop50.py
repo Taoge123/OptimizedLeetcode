@@ -621,10 +621,22 @@ https://github.com/rajan2275/Python-Design-Patterns/tree/master/Creational
 https://github.com/ivkalita/python-design-patterns
 
 
+a b
 
+x = a
+y = b
 
+x = 1
+y = 1
 
+if x > y:
+    x = x - y
+if x < y:
+    y = y - x
 
+A <- B <- C
+
+if obj is B then obj is C
 
 
 

@@ -115,5 +115,40 @@ class Solution3:
         return max_profit
 
 
+#!/bin/python3
 
+import math
+import os
+import random
+import re
+import sys
+
+
+
+#
+# Complete the 'maxDifference' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts INTEGER_ARRAY arr as parameter.
+#
+
+def maxDifference(arr):
+    # Write your code here
+    if not arr:
+        return 0
+
+    if len(arr) == 1:
+        return arr[0]
+
+    res = 0
+    mini = float('inf')
+
+    for num in arr:
+        mini = min(mini, num)
+        res = max(res, num - mini)
+
+    return res
+
+
+if __name__ == '__main__':
 
