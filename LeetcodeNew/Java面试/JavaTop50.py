@@ -1,4 +1,11 @@
 """
+https://github.com/faif/python-patterns
+https://github.com/PacktPublishing/Mastering-Python-Design-Patterns-Second-Edition/tree/master/chapter07
+
+https://github.com/rajan2275/Python-Design-Patterns/tree/master/Creational
+https://github.com/ivkalita/python-design-patterns
+
+
 
 1、面向对象的特征有哪些方面?
 1)抽象
@@ -614,29 +621,358 @@ Web容器加载Servlet并将其实例化后，Servlet生命周期开始，容器
 请求到达时调用Servlet的service()方法，service()方法会根据需要调用与请求对应的doGet或doPost等方法；
 当服务器关闭或项目被卸载时服务器会将Servlet实例销毁，此时会调用Servlet的destroy()方法。
 
-https://github.com/faif/python-patterns
-https://github.com/PacktPublishing/Mastering-Python-Design-Patterns-Second-Edition/tree/master/chapter07
+53、转发（forward）和重定向（redirect）的区别？
+答：forward是容器中控制权的转向，是服务器请求资源，服务器直接访问目标地址的URL，把那个URL 的响应内容读取过来，
+然后把这些内容再发给浏览器，浏览器根本不知道服务器发送的内容是从哪儿来的，所以它的地址栏中还是原来的地址。
 
-https://github.com/rajan2275/Python-Design-Patterns/tree/master/Creational
-https://github.com/ivkalita/python-design-patterns
+redirect就是服务器端根据逻辑，发送一个状态码，告诉浏览器重新去请求那个地址，因此从浏览器的地址栏中可以看到跳转后的链接地址，
+很明显redirect无法访问到服务器保护起来资源，但是可以从一个网站redirect到其他网站。
+
+forward更加高效，所以在满足需要时尽量使用forward（通过调用RequestDispatcher对象的forward()方法，该对象可以通过ServletRequest对象的getRequestDispatcher()方法获得），
+并且这样也有助于隐藏实际的链接；在有些情况下，比如需要访问一个其它服务器上的资源，则必须使用重定向（通过HttpServletResponse对象调用其sendRedirect()方法实现）。
+
+54、JSP有哪些内置对象？作用分别是什么？
+答：JSP有9个内置对象：
+- request：封装客户端的请求，其中包含来自GET或POST请求的参数；
+- response：封装服务器对客户端的响应；
+- pageContext：通过该对象可以获取其他对象；
+- session：封装用户会话的对象；
+- application：封装服务器运行环境的对象；
+- out：输出服务器响应的输出流对象；
+- config：Web应用的配置对象；
+- page：JSP页面本身（相当于Java程序中的this）；
+- exception：封装页面抛出异常的对象。
+
+55、讲解JSP中的四种作用域。
+答：JSP中的四种作用域包括page、request、session和application，具体来说：
+- page代表与一个页面相关的对象和属性。
+- request代表与Web客户机发出的一个请求相关的对象和属性。一个请求可能跨越多个页面，涉及多个Web组件；需要在页面显示的临时数据可以置于此作用域。
+- session代表与某个用户与服务器建立的一次会话相关的对象和属性。跟某个用户相关的数据应该放在用户自己的session中。
+
+- application代表与整个Web应用程序相关的对象和属性，它实质上是跨越整个Web应用程序，包括多个页面、请求和会话的一个全局作用域。
+
+https://blog.csdn.net/chao_ji_cai/article/details/98937250
+
+Java框架
+1. Spring的核心特性是什么？Spring优点？
+2. spring框架中需要引用哪些jar包，以及这些jar包的用途
+3. 理解AOP、IoC的基本原理；
+4. AOP的一些场景应用；
+5. spring注入的几种方式
+6. Spring容器的加载顺序？
+7. spring如何实现事务管理的
+8. Spring中Bean的作用域有哪些
+9. 请介绍一下bean的生命周期
+10. Spring中自动装配的方式有哪些
+11. @Resource 和 @Autowired 区别？分别用在什么场景？
+12. 静态代理和动态代理的区别？
+13. Hibernate和mybatis的区别？
+14. mybatis是如何工作的？
+15. Hibernate对象有几个状态值？
+16. 对ajax的理解
+17. session和cookie的区别和联系，session的生命周期，多个服务部署时session管理
+18. 简述Springmvc的流程；
+19. spring中beanFactory和ApplicationContext的联系和区别
+20. Springmvc和Springboot有什么区别？
+21. Springboot为什么配置简单？（即它自动做了什么操作才能简化程序员的操作）
+22. 持久层设计要考虑的问题有哪些？请谈一下你用过的持久层框架都有哪些？
+
+专业理论知识
+计算机网络
+TCP三次握手过程、参数；
+TCP四次挥手过程、参数；
+TCP和UDP的区别？应用场景有何不同？
+TCP阻塞控制；
+OSI七层模型、各层所用到的协议；
+一些常见协议的原理：ARP、ICMP、FTP等（TCP UDP更不用说啦，一定要了解）
+
+数据库
+数据库有哪些索引？原理是什么？
+索引有什么作用？有什么特点（索引的优缺点，什么字段上建立索引）
+索引为什么用B+树？
+B+树和B-树有什么区别？
+mysql中MyISAM和InnoDB的区别？
+事务的四大特性（常考）
+数据库隔离级别及各自能解决的问题
+数据库优化的一些策略；
+增删改查要熟悉，随时可能提一个需求让你写一个SQL语句；
+数据库索引：聚集索引和非聚集索引的区别？
+数据库的视图和索引都有什么特点，有什么区别？
+高并发处理的理解
+数据库连接池作用
+
+Linux
+https://www.cnblogs.com/passzhang/p/8552757.html
+问题一：
+
+绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？
+
+答案：
+绝对路径： 如/etc/init.d
+当前目录和上层目录： ./  ../
+主目录： ~/
+切换目录： cd
 
 
-a b
 
-x = a
-y = b
 
-x = 1
-y = 1
+Java基础（题目太多了，Java程序员面试宝典基础部分总结的蛮好的）
+面向对象的特性？（封装继承多态）如何体现出来？
+重载和重写有什么区别？
+集合类有哪些？（常考）
+Set和List、Map的区别；
+ArrayList、Linkedlist、Vector区别？（常考，建议看下底层实现代码）
+ArrayList如何扩容？（常考）
+Map下Hashmap、TreeMap的区别？
+TreeMap底层是什么？红黑树还是二叉树？
+Map、List下哪些类是线程安全的？（常考）
+Hashmap的扩容机制；
+Hashmap如何解决哈希冲突？与HashTable有何不同？
+正则表达式；（服务端岗位常考）
+接口跟抽象类的区别？
+Java可以多继承吗？
+JVM垃圾回收机制；（常考）
+Java中是值传递还是引用传递？
+Java中锁机制；
+Lock的底层怎么实现的？源码怎么写的？
+sychronized的底层实现？
+sychronized修饰静态方法和修饰普通方法有什么区别？
+异常类有哪些实现类、子类？
+多线程中如何保证线程安全？
+多线程有哪些常见的线程安全的类？
+如何开启一个线程？
+get请求和post请求有什么区别？
+反射的原理？
+ClassLoader和Class.forName()这两个有什么区别？（反射源码的考察）
+NIO这一块有什么了解？
+谈谈堆和栈的区别
+谈谈你所了解的设计模式，并简单描述其特点和用法，或简单写一个某某设计模式！
+HTTP基本的状态码
+监听器、过滤器、拦截器、servlet的区别
+web.xml 的加载顺序是：context- param -> listener -> filter -> servlet
+监听器（listener）：
+在request、session、application三个对象创建消亡或者往其中增/删/改属性时自动执行指定代码的功能组件。
+生命周期：随web应用的启动而启动，只初始化一次，随web应用的停止而销毁。
+作用：做一些初始化的内容添加工作、设置一些基本的内容、比如一些参数或者是一些固定的对象等等。
+过滤器（filter）：
+拦截请求，filter能够在一个请求到达控制层之前预处理用户请求，也可以在离开控制层时处理http 响应,进行一些设置以及逻辑判断,然后再传入servlet或者struts的 action进行业务逻辑，基于函数回调。
+生命周期：它是随你的web应用启动而启动的，只初始化一次，以后就可以拦截相关请求，只有当你的web应用停止或重新部署的时候才销毁。
+作用：a.对请求或响应(Request、Response)统一设置统一编码，简化操作；b.进行逻辑判断，如用户是否已经登陆、有没有权限访问该页面等等工作。c.过滤掉非法url
+拦截器（interceptor）：
+拦截器是在面向切面编程中应用的，基于JAVA的反射机制，在一个业务逻辑（某个方法) 前、后调用另一个方法。
+servlet：
+servlet是一种运行服务器端的java应用程序，具有独立于平台和协议的特性，并且可以动态的生成web页面，它工作在客户端请求与服务器响应的中间层。
+当在浏览器输入一个网址，所要经过的全部在过程，请详细描述
+类加载的过程？类加载器有哪些？为什么使用双亲委派模式
+接口和抽象类的区别是什么？
+什么是值传递和引用传递？
+Java的内存模型以及GC算法
+Java堆的结构是什么样子的？什么是堆中的永久代(Perm Gen space)?
+串行(serial)收集器和吞吐量(throughput)收集器的区别是什么？
+在Java中，对象什么时候可以被垃圾回收？
+JVM的永久代中会发生垃圾回收么？
+Serial 与 Parallel GC之间的不同之处？
+Java 中 WeakReference 与 SoftReference的区别？
+动态代理的两种方式，以及区别
+.Java内存泄露的问题调查定位
+什么是迭代器(Iterator)？Iterator和ListIterator的区别是什么？
+快速失败(fail-fast)和安全失败(fail-safe)的区别是什么？
 
-if x > y:
-    x = x - y
-if x < y:
-    y = y - x
+https://blog.csdn.net/chao_ji_cai/article/details/98960419
+Java框架
+1. Spring的核心特性是什么？Spring优点？
+Spring的核心是控制反转（IoC）和面向切面（AOP）
+Spring优点：
+（1）方便解耦，简化开发 （高内聚低耦合）
+Spring就是一个大工厂（容器），可以将所有对象创建和依赖关系维护，交给Spring管理
+spring工厂是用于生成bean
 
-A <- B <- C
+（2）AOP编程的支持
+Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能
 
-if obj is B then obj is C
+（3） 声明式事务的支持
+只需要通过配置就可以完成对事务的管理，而无需手动编程
+
+（4） 方便程序的测试
+Spring对Junit4支持，可以通过注解方便的测试Spring程序
+
+（5）方便集成各种优秀框架
+Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架（如：Struts、Hibernate、MyBatis、Quartz等）的直接支持
+
+（6） 降低JavaEE API的使用难度
+Spring 对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低
+
+2. spring框架中需要引用哪些jar包，以及这些jar包的用途
+4 + 1 ： 4个核心（beans、core、context、expression） + 1个依赖（commons-loggins…jar）
+
+3. 理解AOP、IoC的基本原理；
+IOC：控制反转（IoC）与依赖注入（DI）是同一个概念，
+控制反转的思想：
+传统的 java 开发模式中，当需要一个对象时，我们会自己使用 new 或者 getInstance 等直接或者间接调用构造方法创建一个对象。
+而在 spring 开发模式中，spring 容器使用了工厂模式为我们创建了所需要的对象，不需要我们自己创建了，
+直接调用 spring 提供的对象就可以了
+
+引入IOC的目的：
+（1）脱开、降低类之间的耦合；（2）倡导面向接口编程、实施依赖倒换原则；
+（3）提高系统可插入、可测试、可修改等特性
+
+AOP：面向切面编程（AOP）
+面向切面编程思想：
+在面向对象编程（oop）思想中，我们将事物纵向抽成一个个的对象。而在面向切面编程中，
+我们将一个个的对象某些类似的方面横向抽成一个切面，对这个切面进行一些如权限控制、事物管理，记录日志等公用操作处理的过程。
+切面：简单说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，
+降低模块之间的耦合度，并有利于未来的可操作性和可维护性。
+AOP 底层：动态代理。
+如果是接口采用 JDK 动态代理，如果是类采用CGLIB 方式实现动态代理。
+
+4. AOP的一些场景应用；
+AOP用来封装横切关注点，具体可以在下面的场景中使用:
+
+Authentication 权限
+Caching 缓存
+Context passing 内容传递
+Error handling 错误处理
+Lazy loading　懒加载
+Debugging　　调试
+logging, tracing, profiling and monitoring　记录跟踪　优化　校准
+Performance optimization　性能优化
+Persistence　　持久化
+Resource pooling　资源池
+Synchronization　同步
+Transactions 事务
+
+
+5. spring注入的几种方式
+
+（1）构造方法注入
+（2）setter注入
+（3）基于注解
+6. Spring容器的加载顺序？
+7. spring如何实现事务管理的
+8. Spring中Bean的作用域有哪些
+
+作用域：用于确定spring创建bean实例个数
+取值（常用的两个）：
+singleton 单例，默认值。
+prototype 多例，一个 bean 的定义可以有多个实例。每执行一次getBean将获得一个实例。
+9. 请介绍一下bean的生命周期
+（1）bean 定义：在配置文件里面用来进行定义。
+（2）bean 初始化：有两种方式初始化:
+在配置文件中通过指定 init-method 属性来完成
+实现 org.springframwork.beans.factory.InitializingBean 接口
+（3）bean 调用：有三种方式可以得到 bean 实例，并进行调用
+（4）bean 销毁：销毁有两种方式
+使用配置文件指定的 destroy-method 属性
+实现 org.springframwork.bean.factory.DisposeableBean 接口
+
+10. Spring中自动装配的方式有哪些
+
+no：不进行自动装配，手动设置Bean的依赖关系。
+byName：根据Bean的名字进行自动装配。
+byType：根据Bean的类型进行自动装配。
+constructor：类似于byType，不过是应用于构造器的参数，如果正好有一个Bean与构造器的参数类型相同则可以自动装配，否则会导致错误。
+autodetect：如果有默认的构造器，则通过constructor的方式进行自动装配，否则使用byType的方式进行自动装配。
+（自动装配没有自定义装配方式那么精确，而且不能自动装配简单属性（基本类型、字符串等），在使用时应注意。）
+
+11. @Resource 和 @Autowired 区别？分别用在什么场景？
+（1）共同点：两者都可以写在字段和setter方法上。两者如果都写在字段上，那么就不需要再写setter方法。
+（2）不同点：
+@Autowired
+@Autowired为Spring提供的注解，需要导入包org.springframework.beans.factory.annotation.Autowired;只按照byType注入。
+@Autowired注解是按照类型（byType）装配依赖对象，默认情况下它要求依赖对象必须存在，如果允许null值，可以设置它的required属性为false。
+如果我们想使用按照名称（byName）来装配，可以结合@Qualifier注解一起使用。
+@Resource
+@Resource默认按照ByName自动注入，由J2EE提供，需要导入包javax.annotation.Resource。
+@Resource有两个重要的属性：name和type，而Spring将@Resource注解的name属性解析为bean的名字，
+而type属性则解析为bean的类型。所以，如果使用name属性，则使用byName的自动注入策略，
+而使用type属性时则使用byType自动注入策略。如果既不制定name也不制定type属性，这时将通过反射机制使用byName自动注入策略。
+
+12. 静态代理和动态代理的区别？
+
+13. Hibernate和mybatis的区别？
+（1）两者最大的区别
+　　针对简单逻辑，Hibernate与MyBatis都有相应的代码生成工具，可以生成简单基本的DAO层方法。
+　　针对高级查询，MyBatis需要手动编写SQL语句，以及ResultMap，而Hibernate有良好的映射机制，
+   开发者无需关心SQL的生成与结果映射，可以更专注于流程。
+（2）开发难度对比
+　　Hibernate的开发难度大于MyBatis，主要由于Hibernate比较复杂，庞大，学习周期比较长。
+　　MyBatis则相对简单，并且MyBatis主要依赖于生气了的书写，让开发者刚进更熟悉。
+（3）sql书写比较
+　　Hibernate也可以自己写sql来指定需要查询的字段，但这样就破坏了Hibernate开发的简洁性，不过Hibernate具有自己的日志统计。
+　　MyBatis的sql是手动编写的，所以可以按照要求指定查询的字段，不过没有自己的日志统计，所以要借助Log4j来记录日志。
+（4）数据库扩展性计较
+　　Hibernate与数据库具体的关联在XML中，所以HQL对具体是用什么数据库并不是很关心
+　　MyBatis由于所有sql都是依赖数据库书写的，所以扩展性、迁移性比较差。
+（5）缓存机制比较
+　　Hibernate的二级缓存配置在SessionFactory生成配置文件中进行详细配置，然后再在具体的表对象映射中配置那种缓存。
+　　MyBatis的二级缓存配置都是在每个具体的表对象映射中进行详细配置，这样针对不同的表可以自定义不同的缓冲机制，
+并且MyBatis可以在命名空间中共享相同的缓存配置和实例，通过Cache-ref来实现。
+
+https://blog.csdn.net/u014745069/article/details/80788127
+
+15. Hibernate对象有几个状态值？
+Transient 瞬时 ：对象刚new出来，还没设id，设了其他值。
+Persistent 持久：调用了save()、saveOrUpdate()，就变成Persistent，有id
+Detached 脱管 ： 当session close()完之后，变成Detached。
+
+16. 对ajax的理解
+17. session和cookie的区别和联系，session的生命周期，多个服务部署时session管理
+
+18. 简述Springmvc的流程；
+参考博客 https://blog.csdn.net/qinqigang/article/details/78540543
+
+19. spring中beanFactory和ApplicationContext的联系和区别
+
+20. Springmvc和Springboot有什么区别？
+Spring MVC 是基于Spring的一个 MVC 框架 ；
+Spring Boot 是基于Spring4的条件注册的一套快速开发整合包。
+
+21. Springboot为什么配置简单？（即它自动做了什么操作才能简化程序员的操作）
+主要是使用了spring3之后提供的注解，来代替xml文件的配置，最核心的是以下两个注解
+@Configuration，标注在类上，相当于定义一个配置类，一份spring的配置文件
+@Bean，类似于spring配置文件中的
+通过这两个注解就可以用java代码的方式来完成相关spring配置
+
+22. 持久层设计要考虑的问题有哪些？请谈一下你用过的持久层框架都有哪些？
+"持久"就是将数据保存到可掉电式存储设备中以便今后使用，简单的说，就是将内存中的数据保存到关系型数据库、文件系统、消息队列等提供持久化支持的设备中。持久层就是系统中专注于实现数据持久化的相对独立的层面。
+
+持久层设计的目标包括：
+
+数据存储逻辑的分离，提供抽象化的数据访问接口。
+数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。
+资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。
+数据抽象，提供更面向对象的数据操作。
+持久层框架有： Hibernate、MyBatis、TopLink、 Guzz、 jOOQ、 Spring Data、ActiveJDBC
+
+spring工作的流程
+https://blog.csdn.net/qinqigang/article/details/78540543
+
+1. 用户发起请求到前端控制器（DispatcherServlet），该控制器会过滤出哪些请求可以访问Servlet、哪些不能访问。就是url-pattern的作用，并且会加载springmvc.xml配置文件。
+1. 前端控制器会找到处理器映射器（HandlerMapping），通过HandlerMapping完成url到controller映射的组件，
+   简单来说，就是将在springmvc.xml中配置的或者注解的url与对应的处理类找到并进行存储，用map<url,handler>这样的方式来存储。
+1. HandlerMapping有了映射关系，并且找到url对应的处理器，HandlerMapping就会将其处理器（Handler）返回，在返回前，会加上很多拦截器。
+1. DispatcherServlet拿到Handler后，找到HandlerAdapter（处理器适配器），通过它来访问处理器，并执行处理器。
+1. 执行处理器
+1. 处理器会返回一个ModelAndView对象给HandlerAdapter
+1. 通过HandlerAdapter将ModelAndView对象返回给前端控制器(DispatcherServlet)
+1. 前端控制器请求视图解析器(ViewResolver)去进行视图解析，根据逻辑视图名解析成真正的视图(jsp)，
+   其实就是将ModelAndView对象中存放视图的名称进行查找，找到对应的页面形成视图对象
+1. 返回视图对象到前端控制器。
+1. 视图渲染，就是将ModelAndView对象中的数据放到request域中，用来让页面加载数据的。
+1. 通过第8步，通过名称找到了对应的页面，通过第10步，request域中有了所需要的数据，那么就能够进行视图渲染了。最后将其返回即可。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
