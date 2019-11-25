@@ -23,6 +23,7 @@ Explanation: By calling next repeatedly until hasNext returns false,
 # This is the interface that allows for creating nested lists.
 # You should not implement it, or speculate about its implementation
 # """
+import collections
 
 class NestedInteger:
    def isInteger(self):

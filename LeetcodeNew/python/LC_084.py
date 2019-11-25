@@ -24,7 +24,9 @@ class Solution:
         return res
 
 
-
+heights = [2,1,6,5,2,3]
+a = Solution()
+print(a.largestRectangleArea(heights))
 
 
 

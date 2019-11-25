@@ -16,7 +16,7 @@ Output: [[0,1],[1,0]]
 Explanation: The palindromes are ["battab","tabbat"]
 """
 
-class Solution(object):
+class Solution:
     def palindromePairs(self, words):
         table, r = dict(map(reversed, enumerate(words))), set()
         for i, word in enumerate(words):

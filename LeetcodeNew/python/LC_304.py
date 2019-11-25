@@ -25,7 +25,7 @@ You may assume that row1 ≤ row2 and col1 ≤ col2.
 
 class NumMatrix:
 
-    def __init__(self, matrix: List[List[int]]):
+    def __init__(self, matrix):
         if not matrix or not matrix[0]:
             m, n = 0, 0
         else:
