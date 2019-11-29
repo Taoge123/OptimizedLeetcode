@@ -34,6 +34,7 @@ twitter.unfollow(1, 2);
 twitter.getNewsFeed(1);
 """
 
+import collections
 
 class Twitter:
 

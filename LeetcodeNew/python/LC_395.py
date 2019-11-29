@@ -21,7 +21,7 @@ Output:
 
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 """
-
+import collections
 
 class Solution:
     def longestSubstring(self, s: str, k: int) -> int:

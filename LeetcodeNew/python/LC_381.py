@@ -31,7 +31,7 @@ collection.getRandom();
 """
 
 
-
+import collections, random
 
 class RandomizedCollection:
 

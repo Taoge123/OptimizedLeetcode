@@ -24,31 +24,31 @@ Can you do it in O(n) time?
 """
 
 
-# class Solution:
-#     def wiggleMaxLength(self, nums: List[int]) -> int:
-
-#         if not nums:
-#             return 0
-#         n= len(nums)
-#         up = [0] * n
-#         down = [0] * n
-#         up[0], down[0] = 1, 1
-
-#         for i in range(1, n):
-#             if nums[i-1] < nums[i]:
-#                 up[i] = down[i-1] + 1
-#                 down[i] = down[i-1]
-#             elif nums[i-1] > nums[i]:
-#                 up[i] = up[i-1]
-#                 down[i] = up[i-1] + 1
-#             else:
-#                 up[i] = up[i-1]
-#                 down[i] = down[i-1]
-#         return max(up[-1], down[-1])
-
-
 class Solution:
-    def wiggleMaxLength(self, nums: List[int]) -> int:
+    def wiggleMaxLength(self, nums) -> int:
+
+        if not nums:
+            return 0
+        n= len(nums)
+        up = [0] * n
+        down = [0] * n
+        up[0], down[0] = 1, 1
+
+        for i in range(1, n):
+            if nums[i-1] < nums[i]:
+                up[i] = down[i-1] + 1
+                down[i] = down[i-1]
+            elif nums[i-1] > nums[i]:
+                up[i] = up[i-1]
+                down[i] = up[i-1] + 1
+            else:
+                up[i] = up[i-1]
+                down[i] = down[i-1]
+        return max(up[-1], down[-1])
+
+
+class Solution2:
+    def wiggleMaxLength(self, nums) -> int:
         if not nums:
             return 0
 

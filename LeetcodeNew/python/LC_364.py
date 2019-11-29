@@ -65,26 +65,26 @@ Explanation: One 1 at depth 3, one 4 at depth 2, and one 6 at depth 1; 1*3 + 4*2
 import collections
 
 
-# class Solution:
-#     def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
-#         queue = collections.deque([item for item in nestedList])
-
-#         stack = []
-#         res = 0
-#         while len(queue) > 0:
-#             n = len(queue)
-#             for i in range(n):
-#                 item = queue.popleft()
-#                 if item.isInteger():
-#                     res += item.getInteger()
-#                 else:
-#                     queue += item.getList()
-#             stack.append(res)
-
-#         return sum(stack)
-
-
 class Solution:
+    def depthSumInverse(self, nestedList) -> int:
+        queue = collections.deque([item for item in nestedList])
+
+        stack = []
+        res = 0
+        while len(queue) > 0:
+            n = len(queue)
+            for i in range(n):
+                item = queue.popleft()
+                if item.isInteger():
+                    res += item.getInteger()
+                else:
+                    queue += item.getList()
+            stack.append(res)
+
+        return sum(stack)
+
+
+class Solution2:
     def depthSumInverse(self, nestedList):
 
         cache = collections.defaultdict(int)

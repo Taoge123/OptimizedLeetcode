@@ -23,24 +23,24 @@ Given a particular n ≥ 1, find out how much money you need to have to guarante
 """
 
 
-# class Solution:
-#     def getMoneyAmount(self, n: int) -> int:
-#         cache = [[0] * (n+1) for i in range(n+1)]
-#         return self.helper(1, n, cache)
-
-#     def helper(self, i, j, cache):
-#         if i >= j:
-#             return 0
-#         if cache[i][j] != 0:
-#             return cache[i][j]
-#         res = float('inf')
-#         for x in range(i, j+1):
-#             res = min(res, max(self.helper(i, x-1, cache), self.helper(x+1, j, cache)) + x)
-#         cache[i][j] = res
-#         return res
-
-
 class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        cache = [[0] * (n+1) for i in range(n+1)]
+        return self.helper(1, n, cache)
+
+    def helper(self, i, j, cache):
+        if i >= j:
+            return 0
+        if cache[i][j] != 0:
+            return cache[i][j]
+        res = float('inf')
+        for x in range(i, j+1):
+            res = min(res, max(self.helper(i, x-1, cache), self.helper(x+1, j, cache)) + x)
+        cache[i][j] = res
+        return res
+
+
+class Solution2:
     def getMoneyAmount(self, n: int) -> int:
 
         cache = [[0 for i in range(n + 1)] for j in range(n + 1)]

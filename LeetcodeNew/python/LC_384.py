@@ -20,7 +20,7 @@ solution.reset();
 solution.shuffle();
 
 """
-
+import random
 
 class Solution():
     def __init__(self, nums):

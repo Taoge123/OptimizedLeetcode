@@ -27,19 +27,19 @@ How does it change the problem?
 What limitation we need to add to the question to allow negative numbers?
 """
 
-# class Solution:
-#     def combinationSum4(self, nums: List[int], target: int) -> int:
+class Solution:
+    def combinationSum4(self, nums, target: int) -> int:
 
-#         n = len(nums)
-#         nums = sorted(nums)
-#         dp = [1] + [0] * target
-#         for i in range(1, target+1):
-#             for num in nums:
-#                 if i - num < 0:
-#                     break
-#                 dp[i] += dp[i-num]
+        n = len(nums)
+        nums = sorted(nums)
+        dp = [1] + [0] * target
+        for i in range(1, target+1):
+            for num in nums:
+                if i - num < 0:
+                    break
+                dp[i] += dp[i-num]
 
-#         return dp[target]
+        return dp[target]
 
 
 
