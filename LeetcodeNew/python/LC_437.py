@@ -27,26 +27,28 @@ Return 3. The paths that sum to 8 are:
 3. -3 -> 11
 """
 
+import collections
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
 
-# class Solution:
-#     def pathSum(self, root: TreeNode, sum: int) -> int:
-#         if not root:
-#             return 0
-#         return self.helper(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
-#     def helper(self, root, target):
-#         if not root:
-#             return 0
-#         left = self.helper(root.left, target - root.val)
-#         right = self.helper(root.right, target - root.val)
-#         return left + right + int(root.val == target)
-
-import collections
 class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        return self.helper(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
+    def helper(self, root, target):
+        if not root:
+            return 0
+        left = self.helper(root.left, target - root.val)
+        right = self.helper(root.right, target - root.val)
+        return left + right + int(root.val == target)
+
+
+class Solution2:
     def pathSum(self, root: TreeNode, sum: int) -> int:
         self.result = 0
         cache = collections.defaultdict(int)

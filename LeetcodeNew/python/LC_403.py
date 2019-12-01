@@ -45,7 +45,7 @@ class Solution:
                 for step in range(k - 1, k + 2):
                     if step > 0 and step + stones[i] in table:
                         table[step + stones[i]].add(step)
-        print(table)
+
         return len(table[stones[-1]]) > 0
 
 
