@@ -21,7 +21,7 @@ class Solution:
     # incrementing n - 1 elements by 1. is the same as decrement one element by 1
     # Then all we need is to deal with one of the num
 
-    def minMoves(self, nums: List[int]) -> int:
+    def minMoves(self, nums) -> int:
 
         mini = min(nums)
         res = 0

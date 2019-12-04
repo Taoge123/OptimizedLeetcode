@@ -19,22 +19,31 @@ Only two moves are needed (remember each move increments or decrements one eleme
 
 """
 
+import math
 
-class Solution(object):
-    def find132pattern(self, nums):
+import math
 
-        mid = float('-inf')
-        stack = []
 
-        for item in nums[::-1]:
-            if item < mid:
-                return True
+class Solution:
+    def minMoves2(self, nums) -> int:
+        nums = sorted(nums)
 
-            while stack and stack[-1] < item:
-                mid = stack.pop()
-            stack.append(item)
+        #         left = 0
+        #         right = len(nums) - 1
+        #         res = 0
 
-        return False
+        #         while left < right:
+        #             res += (nums[right] - nums[left])
+        #             right -= 1
+        #             left += 1
+
+        #         return res
+
+        # Find the mid element and then use all elements to subtract the mid element
+
+        mid = nums[len(nums) // 2]
+        return sum(abs(num - mid) for num in nums)
+
 
 
 

@@ -18,22 +18,22 @@ The given array may contain duplicates, and two equal integers should also be co
 """
 
 
-# class Solution:
-#     def findSubsequences(self, nums: List[int]) -> List[List[int]]:
-#         res = set()
-#         self.backTrack(nums, 0, [], res)
-#         return list(res)
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        res = set()
+        self.backTrack(nums, 0, [], res)
+        return list(res)
 
-#     def backTrack(self, nums, index, path, res):
-#         if len(path) > 1:
-#             res.add(tuple(path))
-#         if index == len(nums):
-#             return
-#         for i in range(index, len(nums)):
-#             if not path or nums[i] >= path[-1]:
-#                 path.append(nums[i])
-#                 self.backTrack(nums, i + 1, path, res)
-#                 path.pop()
+    def backTrack(self, nums, index, path, res):
+        if len(path) > 1:
+            res.add(tuple(path))
+        if index == len(nums):
+            return
+        for i in range(index, len(nums)):
+            if not path or nums[i] >= path[-1]:
+                path.append(nums[i])
+                self.backTrack(nums, i + 1, path, res)
+                path.pop()
 
 
 class Solution:

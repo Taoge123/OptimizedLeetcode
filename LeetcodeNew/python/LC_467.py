@@ -21,25 +21,27 @@ Output: 6
 Explanation: There are six substrings "z", "a", "b", "za", "ab", "zab" of string "zab" in the string s.
 """
 
-
-# class Solution:
-#     def findSubstringInWraproundString(self, p: str) -> int:
-
-#         count = collections.Counter()
-#         curMax = 0
-#         for i, val in enumerate(p):
-#             a, b = ord(p[i-1]), ord(p[i])
-#             if i > 0 and (b - a == 1 or a - b == 25):
-#                 curMax += 1
-#             else:
-#                 curMax = 1
-#             count[ord(val) - ord('a')] = max(curMax, count[ord(val) - ord('a')])
-
-#         res = sum([v for k, v in count.items()])
-#         return res
-
+import collections
 
 class Solution:
+    def findSubstringInWraproundString(self, p: str) -> int:
+
+        count = collections.Counter()
+        curMax = 0
+        for i, val in enumerate(p):
+            a, b = ord(p[i-1]), ord(p[i])
+            if i > 0 and (b - a == 1 or a - b == 25):
+                curMax += 1
+            else:
+                curMax = 1
+            count[ord(val) - ord('a')] = max(curMax, count[ord(val) - ord('a')])
+
+        res = sum([v for k, v in count.items()])
+        return res
+
+
+
+class Solution2:
     def findSubstringInWraproundString(self, p: str) -> int:
         res = {char: 1 for char in p}
         count = 1

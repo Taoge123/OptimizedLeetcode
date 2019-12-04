@@ -25,27 +25,30 @@ Your output answer is guaranteed to be fitted in a 32-bit integer.
 
 import collections
 
-# class Solution:
-#     def findTargetSumWays(self, nums: List[int], S: int) -> int:
-
-#         cache = {}
-#         return self.helper(nums, 0, S, cache)
-
-#     def helper(self, nums, pos, target, cache):
-#         if (pos, target) not in cache:
-#             res = 0
-#             if pos == len(nums):
-#                 if target == 0:
-#                     res = 1
-
-#             else:
-#                 add = self.helper(nums, pos + 1, target + nums[pos], cache)
-#                 minus = self.helper(nums, pos + 1, target - nums[pos], cache)
-#                 res = add + minus
-#             cache[(pos, target)] = res
-#         return cache[(pos, target)]
-
 class Solution:
+    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+
+        cache = {}
+        return self.helper(nums, 0, S, cache)
+
+    def helper(self, nums, pos, target, cache):
+        if (pos, target) not in cache:
+            res = 0
+            if pos == len(nums):
+                if target == 0:
+                    res = 1
+
+            else:
+                add = self.helper(nums, pos + 1, target + nums[pos], cache)
+                minus = self.helper(nums, pos + 1, target - nums[pos], cache)
+                res = add + minus
+            cache[(pos, target)] = res
+        return cache[(pos, target)]
+
+
+
+
+class Solution2:
     def findTargetSumWays(self, nums: List[int], S: int) -> int:
         dp = collections.defaultdict(int)
         dp[0] = 1

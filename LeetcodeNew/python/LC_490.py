@@ -55,35 +55,35 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
 import collections
 
 
-# class Solution:
-#     def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
-
-#         m, n = len(maze), len(maze[0])
-#         self.directions = [(-1, 0),(1, 0),(0, -1),(0, 1)]
-#         return self.dfs(maze, start[0], start[1], destination, set(), m, n)
-
-#     def dfs(self, maze, i, j, destination, visited, m, n):
-
-#         if (i, j) in visited:
-#             return False
-#         if [i, j] == destination:
-#             return True
-#         visited.add((i, j))
-#         for dire in self.directions:
-#             x, y = i, j
-#             while 0<=x+dire[0]<m and 0<=y+dire[1]<n and maze[x+dire[0]][y+dire[1]] != 1:
-
-#                 x += dire[0]
-#                 y += dire[1]
-
-#             if self.dfs(maze, x, y, destination, visited, m, n):
-#                 return True
-
-#         return False
-
-
 class Solution:
-    def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+    def hasPath(self, maze, start, destination) -> bool:
+
+        m, n = len(maze), len(maze[0])
+        self.directions = [(-1, 0),(1, 0),(0, -1),(0, 1)]
+        return self.dfs(maze, start[0], start[1], destination, set(), m, n)
+
+    def dfs(self, maze, i, j, destination, visited, m, n):
+
+        if (i, j) in visited:
+            return False
+        if [i, j] == destination:
+            return True
+        visited.add((i, j))
+        for dire in self.directions:
+            x, y = i, j
+            while 0<=x+dire[0]<m and 0<=y+dire[1]<n and maze[x+dire[0]][y+dire[1]] != 1:
+
+                x += dire[0]
+                y += dire[1]
+
+            if self.dfs(maze, x, y, destination, visited, m, n):
+                return True
+
+        return False
+
+
+class Solution2:
+    def hasPath(self, maze, start, destination) -> bool:
 
         visited = set()
         visited.add((start[0], start[1]))
@@ -106,11 +106,6 @@ class Solution:
                 if (x, y) not in visited:
                     visited.add((x, y))
                     queue.append((x, y))
-
-
-
-
-
 
 
 

@@ -25,6 +25,50 @@ a = Solution()
 print(a.test(arr))
 
 
+#        1
+#       / \
+#     -10   3
+#     / \   \
+#    1   7 -10
+
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+
+class Test:
+    def maxSumPath(self, node):
+
+        if not node:
+            return 0
+
+        self.res = float('-inf')
+        self.helper(node)
+        return self.res
+
+    def helper(self, node):
+
+        if not node:
+            return 0
+
+        left = max(self.helper(node.left), 0)
+        right = max(self.helper(node.right), 0)
+
+        self.res = max(self.res, node.val + left + right)
+
+        return node.val + max(left, right)
+
+
+"""
+self.res = 7
+"""
+
+
+
+
 
 
 
