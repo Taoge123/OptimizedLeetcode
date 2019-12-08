@@ -37,29 +37,33 @@ There are at least one 0 in the given matrix.
 The cells are adjacent in only four directions: up, down, left and right.
 """
 
-
-# class Solution:
-#     def updateMatrix(self, matrix):
-#         m, n = len(matrix), len(matrix and matrix[0])
-#         for i in range(m):
-#             for j in range(n):
-#                 if matrix[i][j] != 0:
-#                     matrix[i][j] = float("inf")
-#                     if i > 0 and matrix[i - 1][j] + 1 < matrix[i][j]:
-#                         matrix[i][j] = matrix[i - 1][j] + 1
-#                     if j > 0 and matrix[i][j - 1] + 1 < matrix[i][j]:
-#                         matrix[i][j] = matrix[i][j - 1] + 1
-#         for i in range(m - 1, -1, -1):
-#             for j in range(n - 1, -1, -1):
-#                 if matrix[i][j] != 0:
-#                     if i + 1 < m and matrix[i + 1][j] + 1 < matrix[i][j]:
-#                         matrix[i][j] = matrix[i + 1][j] + 1
-#                     if j + 1 < n and matrix[i][j + 1] + 1 < matrix[i][j]:
-#                         matrix[i][j] = matrix[i][j + 1] + 1
-#         return matrix
+import collections
 
 class Solution:
-    def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
+    def updateMatrix(self, matrix):
+        m, n = len(matrix), len(matrix and matrix[0])
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] != 0:
+                    matrix[i][j] = float("inf")
+                    if i > 0 and matrix[i - 1][j] + 1 < matrix[i][j]:
+                        matrix[i][j] = matrix[i - 1][j] + 1
+                    if j > 0 and matrix[i][j - 1] + 1 < matrix[i][j]:
+                        matrix[i][j] = matrix[i][j - 1] + 1
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                if matrix[i][j] != 0:
+                    if i + 1 < m and matrix[i + 1][j] + 1 < matrix[i][j]:
+                        matrix[i][j] = matrix[i + 1][j] + 1
+                    if j + 1 < n and matrix[i][j + 1] + 1 < matrix[i][j]:
+                        matrix[i][j] = matrix[i][j + 1] + 1
+        return matrix
+
+
+
+
+class Solution2:
+    def updateMatrix(self, matrix):
         queue = collections.deque()
         m, n = len(matrix), len(matrix[0])
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]

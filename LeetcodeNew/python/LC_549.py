@@ -28,12 +28,11 @@ Note: All the values of tree nodes are in the range of [-1e7, 1e7].
 """
 
 
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution:
     def longestConsecutive(self, root: TreeNode) -> int:

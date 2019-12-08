@@ -51,26 +51,26 @@ class Solution:
 
         return node.val
 
-# class Solution:
-#     def findBottomLeftValue(self, root: TreeNode) -> int:
-#         if not root:
-#             return -1
+class Solution2:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        if not root:
+            return -1
 
-#         self.res = 0
-#         self.height = 0
-#         self.helper(root, 1)
-#         return self.res
+        self.res = 0
+        self.height = 0
+        self.helper(root, 1)
+        return self.res
 
-#     def helper(self, root, depth):
-#         if not root:
-#             return
+    def helper(self, root, depth):
+        if not root:
+            return
 
-#         if self.height < depth:
-#             self.height = depth
-#             self.res = root.val
+        if self.height < depth:
+            self.height = depth
+            self.res = root.val
 
-#         self.helper(root.left, depth + 1)
-#         self.helper(root.right, depth + 1)
+        self.helper(root.left, depth + 1)
+        self.helper(root.right, depth + 1)
 
 
 
