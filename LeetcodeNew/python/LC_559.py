@@ -21,13 +21,10 @@ The depth of the tree is at most 1000.
 The total number of nodes is at most 5000.
 """
 
-"""
-# Definition for a Node.
 class Node:
     def __init__(self, val, children):
         self.val = val
         self.children = children
-"""
 
 
 class Solution:
