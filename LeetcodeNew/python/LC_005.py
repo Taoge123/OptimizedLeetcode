@@ -35,6 +35,8 @@ class Solution:
                     maxi = j - i + 1
                     res = s[i: j + 1]
 
+        for i in dp:
+            print(i)
         return res if res else s[0]
 
 
@@ -50,16 +52,28 @@ class Solution:
 [ 2 ] [ 4 ] + [ 3 ] [ 3 ]
 [ 3 ] [ 4 ] + [ 4 ] [ 3 ]
 
+
+ b  a  b  a  d
 [1, F, 1, F, F]
 [0, 1, F, 1, F]
 [0, 0, 1, F, F]
 [0, 0, 0, 1, F]
 [0, 0, 0, 0, 1]
+ 
+ a  b  b  b  b  c  a  d
+[1, F, F, F, F, F, F, F]
+[0, 1, T, 1, T, F, F, F]
+[0, 0, 1, T, 1, F, F, F]
+[0, 0, 0, 1, T, F, F, F]
+[0, 0, 0, 0, 1, F, F, F]
+[0, 0, 0, 0, 0, 1, F, F]
+[0, 0, 0, 0, 0, 0, 1, F]
+[0, 0, 0, 0, 0, 0, 0, 1]
 """
 
 
 
-s = "babad"
+s = "abbbbcad"
 a = Solution()
 print(a.longestPalindrome(s))
 
