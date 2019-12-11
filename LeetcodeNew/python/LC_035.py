@@ -32,3 +32,19 @@ class Solution:
             else:
                 l = mid+1
         return l
+
+class Solution:
+    def searchInsert(self, nums, target: int) -> int:
+
+        left = 0
+        right = len(nums)
+
+        while left < right:
+            mid = (right - left) // 2 + left
+            if nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left
+

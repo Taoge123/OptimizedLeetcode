@@ -59,12 +59,33 @@ class Solution:
             for j in range(9):
                 if board[i][j] != '.':
                     cur = board[i][j]
-                    if (i, cur) in visited or (cur, j) in visited or ( i//3, j// 3, cur) in visited:
+                    print(i, cur, '---', cur, j, '---', i // 3, j // 3, cur)
+                    if (i, cur) in visited or (cur, j) in visited or (i//3, j// 3, cur) in visited:
                         return False
                     visited.add((i, cur))
                     visited.add((cur, j))
                     visited.add((i // 3, j // 3, cur))
 
         return True
+
+
+board = [
+          ["5","3",".",".","7",".",".",".","."],
+          ["6",".",".","1","9","5",".",".","."],
+          [".","9","8",".",".",".",".","6","."],
+          ["8",".",".",".","6",".",".",".","3"],
+          ["4",".",".","8",".","3",".",".","1"],
+          ["7",".",".",".","2",".",".",".","6"],
+          [".","6",".",".",".",".","2","8","."],
+          [".",".",".","4","1","9",".",".","5"],
+          [".",".",".",".","8",".",".","7","9"]
+        ]
+
+
+
+a = Solution()
+print(a.isValidSudoku(board))
+
+
 
 

@@ -26,7 +26,7 @@ class Solution:
                     return False
         return True
 
-
+    #replace board[i][j] to temp and check row, col and corners
     def isValid(self, board, i, j):
         temp = board[i][j]
         board[i][j] = '.'
@@ -36,8 +36,11 @@ class Solution:
 
         for row in range(3):
             for col in range(3):
-                if board[( i//3 ) *3 + row][( j//3 ) *3 + col] == temp:
+                if board[( i//3 ) * 3 + row][( j//3 ) * 3 + col] == temp:
                     return False
         board[i][j] = temp
         return True
+
+
+
 
