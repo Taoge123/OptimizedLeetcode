@@ -15,7 +15,7 @@ Output:
 class Solution:
     def generateMatrix(self, n):
 
-        matrix = [[0 ] *n for _ in range(n)]
+        matrix = [[0 ] * n for _ in range(n)]
         dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         d = 0
         i, j = 0, 0

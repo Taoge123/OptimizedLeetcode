@@ -17,7 +17,7 @@ class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.rstrip(' ').split(' ')[-1])
 
-class Solution:
+class Solution2:
     def lengthOfLastWord(self, s):
         start, res = 0, 0
         calc = True
