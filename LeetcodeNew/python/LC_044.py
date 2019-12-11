@@ -81,7 +81,7 @@ class Solution:
         return False
 
 
-class Solution:
+class Solution2:
     def isMatch(self, s: str, p: str) -> bool:
 
         dp = [[False for _ in range(len(p) + 1)] for i in range(len(s) + 1)]

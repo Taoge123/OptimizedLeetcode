@@ -48,6 +48,7 @@ class Solution:
         # anti-diagonal mirror
         for i in range(n):
             for j in range(n - i):
+                print(i, j, '-----', n-1-j, n-1-i)
                 matrix[i][j], matrix[n-1-j][n-1-i] = matrix[n-1-j][n-1-i], matrix[i][j]
         # horizontal mirror
         for i in range(n // 2):
@@ -55,4 +56,14 @@ class Solution:
                 matrix[i][j], matrix[n-1-i][j] = matrix[n-1-i][j], matrix[i][j]
 
 
+matrix =[
+          [1,2,3,4,5],
+          [6,7,8,9,10],
+          [11,12,13,14,15],
+          [16,17,18,19,20]
+        ]
+
+
+a = Solution()
+print(a.rotate(matrix))
 

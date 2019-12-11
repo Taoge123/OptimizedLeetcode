@@ -17,24 +17,24 @@ Output:
 
 """
 
-
 class Solution:
     def permute(self, nums):
 
         res = []
-        self.backtrack(nums, 0, [], res)
+        self.backtrack(nums, [], res)
         return res
 
-    def backtrack(self, nums, index, path, res):
+    def backtrack(self, nums, path, res):
         if not nums:
             res.append(path)
 
         for i in range(len(nums)):
-            self.backtrack(nums[:i] + nums[i + 1:], i, path + [nums[i]], res)
+            self.backtrack(nums[:i] + nums[i+1:], path + [nums[i]], res)
 
 
-
-
+nums = [1,4,3,5,6,1,4,3,5]
+a = Solution()
+print(a.permute(nums))
 
 
 

@@ -21,10 +21,6 @@ class Interval:
 
 class Solution:
     def merge(self, intervals):
-        """
-        :type intervals: List[Interval]
-        :rtype: List[Interval]
-        """
 
         if len(intervals) == 0:
             return []
@@ -36,6 +32,7 @@ class Solution:
 
         for interval in intervals[1:]:
 
+            #Basically if the new interval is less than last end, then we merge, else its a new interval
             if interval.start <= res[-1].end:
                 res[-1].end = max(interval.end, res[-1].end)
 

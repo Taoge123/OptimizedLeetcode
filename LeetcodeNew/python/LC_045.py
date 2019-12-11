@@ -32,3 +32,10 @@ class Solution:
 
 
 
+nums = [2,3,1,1,4]
+a = Solution()
+print(a.jump(nums))
+
+
+
+
