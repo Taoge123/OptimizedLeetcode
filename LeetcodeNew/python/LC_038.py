@@ -39,10 +39,10 @@ class Solution:
                 if curr == letter:
                     count += 1
                 else:
-                    temp += str(count) +curr
+                    temp += str(count) + curr
                     curr = letter
                     count = 1
-            temp += str(count ) +curr
+            temp += str(count) +curr
             res = temp
 
         return res
@@ -67,12 +67,13 @@ class SolutionTony:
         return res
 
 
+
 """
 Input: 4
 Output: "1211
 """
 
-n = 4
+n = 6
 a = SolutionTony()
 print(a.countAndSay(n))
 
