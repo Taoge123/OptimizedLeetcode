@@ -26,12 +26,22 @@ class Solution:
 
         dp = [[0 for i in range(n)] for j in range(n)]
 
-        for len_ in range(2, n):
-            for left in range(n-len_):
-                right = left + len_
+        for step in range(2, n):
+            for left in range(n-step):
+                right = left + step
                 for i in range(left+1, right):
                     dp[left][right] = max(dp[left][right], dp[left][i]+dp[i][right] + nums[left]*nums[i]*nums[right])
         return dp[0][n-1]
+
+"""
+[0, 0, 3, 30, 159, 167]
+[0, 0, 0, 15, 135, 159]
+[0, 0, 0, 0,  40,  48]
+[0, 0, 0, 0,  0,   40]
+[0, 0, 0, 0,  0,   0]
+[0, 0, 0, 0,  0,   0]
+
+"""
 
 
 class Solution2:
@@ -52,6 +62,11 @@ class Solution2:
         return coins
 
 
+
+
+nums = [1,2,3,4,5,6,7]
+a = Solution()
+print(a.maxCoins(nums))
 
 
 

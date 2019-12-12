@@ -33,22 +33,26 @@ please click the reload button to reset your code definition.
 """
 
 class Solution:
-    def minPathSum(self, grid):
-        if not grid:
-            return
-        m, n = len(grid) ,len(grid[0])
-        cur = [0] * n
-        cur[0] = grid[0][0]
-
-        for j in range(1, n):
-            cur[j] = cur[ j -1] + grid[0][j]
-        for i in range(1, m):
-            cur[0] += grid[i][0]
-            for j in range(1, n):
-                cur[j] = min(cur[ j -1], cur[j]) + grid[i][j]
-        return cur[-1]
-
-
+    def isNumber(self, s: str) -> bool:
+        s = s.strip()
+        dot = e = digit = False
+        for i, char in enumerate(s):
+            if char in ['+', '-']:
+                if i > 0 and s[i-1] != 'e':
+                    return False
+            elif char == '.':
+                if dot or e:
+                    return False
+                dot = True
+            elif char == 'e':
+                if e or not digit:
+                    return False
+                e, digit = True, False
+            elif char.isdigit():
+                digit = True
+            else:
+                return False
+        return digit
 
 
 
