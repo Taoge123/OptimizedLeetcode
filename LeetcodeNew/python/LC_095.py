@@ -51,6 +51,9 @@ class Solution:
 
 
 
+a = Solution()
+print(a.generateTrees(6))
+
 
 
 

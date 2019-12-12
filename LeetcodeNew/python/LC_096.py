@@ -38,7 +38,9 @@ class Solution:
                 res[i] += res[j] * res[i-j-1]
         return res[-1]
 
-class Solution:
+
+
+class Solution2:
 
     def numTrees(self, n: int) -> int:
         cache = collections.defaultdict(int)
@@ -46,9 +48,7 @@ class Solution:
 
 
     def dfs(self, n, cache):
-        if n == 0:
-            return 1
-        if n == 1:
+        if n == 0 or n == 1:
             return 1
 
         if cache[n] != 0:

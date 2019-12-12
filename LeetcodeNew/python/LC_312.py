@@ -34,7 +34,7 @@ class Solution:
         return dp[0][n-1]
 
 
-class Solution:
+class Solution2:
     def maxCoins(self, nums):
         nums = [1] + nums + [1]
         n = len(nums)

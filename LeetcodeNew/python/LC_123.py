@@ -32,11 +32,24 @@ class Solution:
         buy1, buy2 = float('-inf'), float('-inf')
         sell1, sell2 = 0, 0
         for price in prices:
-            buy1 = max(buy1, -price)
+            buy1 = max(buy1, - price)
             sell1 = max(sell1, buy1 + price)
             buy2 = max(buy2, sell1 - price)
             sell2 = max(sell2, buy2 + price)
         return sell2
+
+
+
+
+class Solution3:
+    def maxProfit(self, p):
+        if not p: return 0
+        sell, buyd, n, minp, maxp = [0], [0], len(p), p[0], p[-1]
+        for i in range(1, n):
+            minp, maxp = min(minp, p[i]), max(maxp, p[n-i-1])
+            sell.append(max(sell[i-1], p[i] - minp))
+            buyd.append(max(buyd[i-1], maxp - p[n-i-1]))
+        return max(sell[i] + buyd[n-i-1] for i in range(n))
 
 
 

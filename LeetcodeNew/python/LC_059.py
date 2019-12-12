@@ -22,10 +22,11 @@ class Solution:
         for k in range(1, n ** 2 + 1):
             matrix[i][j] = k
             x, y = i + dirs[d][0], j + dirs[d][1]
+            # matrix[x][y] != 0 means if the spot has value, we should turn
             if x < 0 or y < 0 or x >= n or y >= n or matrix[x][y] != 0:
                 d = (d + 1) % 4
             i, j = i + dirs[d][0], j + dirs[d][1]
-            print(i, j)
+            # print(i, j)
         return matrix
 
 
