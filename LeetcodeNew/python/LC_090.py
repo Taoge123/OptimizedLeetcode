@@ -32,11 +32,9 @@ class Solution:
 
         for i in range(index, len(nums)):
 
-            if i > index and nums[ i -1] == nums[i]:
+            if i > index and nums[i -1] == nums[i]:
                 continue
             self.backtrack(nums, i + 1, path + [nums[i]], res)
-
-
 
 
 

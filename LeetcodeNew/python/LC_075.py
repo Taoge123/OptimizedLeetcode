@@ -19,19 +19,24 @@ Could you come up with a one-pass algorithm using only constant space?
 
 class Solution:
     def sortColors(self, nums):
-        red, white, blue = 0, 0, len(nums) - 1
+        first, second, last = 0, 0, len(nums) - 1
 
-        while white <= blue:
-            if nums[white] == 0:
-                nums[red], nums[white] = nums[white], nums[red]
-                white += 1
-                red += 1
+        while white <= last:
+            if nums[second] == 0:
+                nums[first], nums[second] = nums[second], nums[first]
+                second += 1
+                first += 1
 
-            elif nums[white] == 1:
-                white += 1
+            elif nums[second] == 1:
+                second += 1
 
-            elif nums[white] == 2:
-                nums[white], nums[blue] = nums[blue], nums[white]
-                blue -= 1
+            elif nums[second] == 2:
+                nums[second], nums[last] = nums[last], nums[second]
+                last -= 1
 
+
+nums = [2,0,2,1,1,0]
+
+a = Solution()
+print(a.sortColors(nums))
 
