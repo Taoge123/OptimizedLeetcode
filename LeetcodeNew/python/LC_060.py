@@ -28,6 +28,7 @@ Output: "2314"
 
 
 from itertools import permutations
+import math
 
 class Solution:
     def getPermutation(self, n, k):
@@ -37,6 +38,34 @@ class Solution:
             res = next(permutation)
             k -= 1
         return ''.join([str(i) for i in res])
+
+
+
+class SolutionCaikehe:
+    def getPermutation(self, n, k):
+        res, nums = "", range(1, n + 1)
+        k -= 1
+        while n:
+            n -= 1
+            index, k = divmod(k, math.factorial(n))
+            res += str(nums.pop(index))
+        return res
+
+
+class Solution2:
+    def getPermutation(self, n, k):
+        numbers = range(1, n+1)
+        permutation = ''
+        k -= 1
+        while n > 0:
+            n -= 1
+            # get the index of current digit
+            index, k = divmod(k, math.factorial(n))
+            permutation += str(numbers[index])
+            # remove handled number
+            numbers.remove(numbers[index])
+
+        return permutation
 
 
 
