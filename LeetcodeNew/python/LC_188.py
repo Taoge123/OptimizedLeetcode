@@ -31,9 +31,9 @@ class Solution:
         for i in range(1, k + 1):
             local = [0] * n
             for j in range(1, n):
-                profit = prices[j] - prices[ j -1]
-                local[j] = max(res[ i -1][ j -1] + max(profit, 0), local[ j -1] + profit)
-                res[i][j] = max(res[i][ j -1], local[j])
+                profit = prices[j] - prices[j -1]
+                local[j] = max(res[i-1][j-1] + max(profit, 0), local[j-1] + profit)
+                res[i][j] = max(res[i][j-1], local[j])
         return res[k][-1]
 
 

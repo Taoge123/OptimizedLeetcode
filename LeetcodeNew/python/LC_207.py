@@ -27,7 +27,33 @@ You may assume that there are no duplicate edges in the input prerequisites.
 
 import collections
 
+
 class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+
+        graph = [[] for _ in range(numCourses)]
+        visited = [0 for _ in range(numCourses)]
+        for x, y in prerequisites:
+            graph[x].append(y)
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visited):
+                return False
+        return True
+
+    def dfs(self, i, graph, visited):
+        if visited[i] == -1:
+            return False
+        if visited[i] == 1:
+            return True
+        visited[i] = -1
+        for j in graph[i]:
+            if not self.dfs(j, graph, visited):
+                return False
+        visited[i] = 1
+        return True
+
+
+class Solution2:
     def canFinish(self, numCourses, prerequisites):
 
         graph = collections.defaultdict(list)

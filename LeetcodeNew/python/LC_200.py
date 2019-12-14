@@ -21,6 +21,7 @@ Input:
 Output: 3
 """
 
+import collections
 
 class Solution:
     def numIslands(self, grid):
@@ -48,6 +49,28 @@ class Solution:
             self.dfs(x, y, grid, m, n, visited)
 
 
+class Solution2:
+    def numIslands(self, grid) -> int:
+        if not grid or not grid[0]:
+            return 0
+        M, N = len(grid), len(grid[0])
+        queue = collections.deque()
+        res = 0
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        for i in range(M):
+            for j in range(N):
+                if grid[i][j] == '1':
+                    res += 1
+                    grid[i][j] = '0'
+                    queue.append((i, j))
+                    while queue:
+                        x, y = queue.pop()
+                        for d in directions:
+                            nx, ny = x + d[0], y + d[1]
+                            if 0 <= nx < M and 0 <= ny < N and grid[nx][ny] == '1':
+                                grid[nx][ny] = '0'
+                                queue.append((nx, ny))
+        return res
 
 
 

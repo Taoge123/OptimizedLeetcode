@@ -15,14 +15,32 @@ class Solution:
         if n<= 2:
             return 0
 
-        ans = [True] * n
-        ans[0] = ans[1] = False
+        prime = [True] * n
+        prime[0] = prime[1] = False
 
         for i in range(2, n):
-            if ans[i] == True:
+            if prime[i] == True:
                 for j in range(2, (n - 1) // i + 1):
-                    ans[i * j] = False
+                    prime[i * j] = False
 
-        return sum(ans)
+        return sum(prime)
+
+
+class Solution2:
+    def countPrimes(self, n):
+
+        if n < 3:
+            return 0
+        primes = [True] * n
+        primes[0] = primes[1] = False
+        for i in range(2, int(n ** 0.5) + 1):
+            if primes[i]:
+                primes[i * i: n: i] = [False] * len(primes[i * i: n: i])
+        return sum(primes)
+
+
+n = 10
+a = Solution2()
+print(a.countPrimes(n))
 
 

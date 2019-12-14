@@ -43,7 +43,7 @@ class Solution:
         return dp[0][0]
 
 
-    def calculateMinimumHP(self, dungeon):
+    def calculateMinimumHP2(self, dungeon):
         if not dungeon:
             return
         r, c = len(dungeon), len(dungeon[0])
@@ -65,7 +65,13 @@ class Solution:
         return dp[0][0]
 
 
+dungeon = [[-1,-2,-3],
+           [-4,-5,-6],
+           [-7,-8,-9]
+           ]
 
+a = Solution()
+print(a.calculateMinimumHP(dungeon))
 
 
 
