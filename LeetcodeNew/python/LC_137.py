@@ -25,7 +25,7 @@ class Solution:
         return a
 
 
-class Solution:
+class Solution2:
     def singleNumber(self, nums) -> int:
         ones, twos = 0, 0
 
@@ -36,5 +36,18 @@ class Solution:
         return ones
 
 
+class Solution3:
+    def singleNumber(self, nums):
+        res = 0
+        for i in range(32):
+            summ = 0
+            for num in nums:
+                summ += (num >> i) & 1
+            rem = summ % 3
 
+            if i == 31 and rem:
+                res -= 1 << 31
+            else:
+                res |= rem * (1 << i)
+        return res
 
