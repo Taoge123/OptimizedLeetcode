@@ -14,31 +14,29 @@ class Node:
 import collections
 
 
-# class Solution:
-#     def connect(self, root: 'Node') -> 'Node':
-
-#         if not root:
-#             return
-
-#         queue = collections.deque()
-#         queue.append(root)
-#         while queue:
-#             node = queue.popleft()
-#             if node.left and node.right:
-#                 node.left.next = node.right
-
-#                 if node.next:
-#                     node.right.next = node.next.left
-
-#                 if node.left:
-#                     queue.append(node.left)
-#                 if node.right:
-#                     queue.append(node.right)
-
-#         return root
-
-
 class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
+
+        queue = collections.deque()
+        queue.append(root)
+        while queue:
+            node = queue.popleft()
+            if node.left and node.right:
+                node.left.next = node.right
+                if node.next:
+                    node.right.next = node.next.left
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return root
+
+
+
+class Solution2:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
             return
@@ -56,12 +54,6 @@ class Solution:
                 stack.append(node.right)
 
         return root
-
-
-
-
-
-
 
 
 

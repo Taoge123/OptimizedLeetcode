@@ -59,8 +59,8 @@ class Solution:
                         for char in lowercase:
                             newWord = word[:i] + char + word[ i +1:]
                             if newWord in wordList:
-                                for j in layer[word]:
-                                    newLayer[newWord].append(j + [newWord])
+                                for valList in layer[word]:
+                                    newLayer[newWord].append(valList + [newWord])
 
             wordList -= set(newLayer.keys())
             layer = newLayer

@@ -30,7 +30,9 @@ class Solution:
                     self.dfs(s[i:], index + 1, path + s[:i] + ".", res)
 
 
-
+s = "25525511135"
+a = Solution()
+print(a.restoreIpAddresses(s))
 
 
 

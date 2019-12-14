@@ -52,17 +52,15 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
     def recoverTree(self, root: TreeNode) -> None:
-
         if not root:
             return
 
         self.prev, self.first, self.second = None, None, None
         self.helper(root)
-        temp = self.first.val
-        self.first.val = self.second.val
-        self.second.val = temp
+        self.first.val, self.second.val = self.second.val, self.first.val,
 
     def helper(self, root):
         if not root:
@@ -75,8 +73,6 @@ class Solution:
             self.second = root
         self.prev = root
         self.helper(root.right)
-
-
 
 
 

@@ -102,6 +102,27 @@ class Solution:
 
 
 
+class SolutionTony:
+    def inorderTraversal(self, root):
+        if not root:
+            return []
+
+        stack = [root]
+        res = []
+
+        while stack:
+            node = stack.pop()
+            if isinstance(node, int):
+                res.append(node)
+                continue
+
+            if node.right:  # if has right node, push into stack
+                stack.append(node.right)
+            stack.append(node.val)  # Push VALUE into stack, in between left and right
+            if node.left:  # if has left node, push into stack
+                stack.append(node.left)
+
+        return res
 
 
 

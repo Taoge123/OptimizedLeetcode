@@ -53,3 +53,31 @@ class Solution3:
 
 
 
+class Solution4:
+    def maxProfit(self, prices) -> int:
+        if not prices:
+            return 0
+
+        # forward traversal, profits record the max profit
+        # by the ith day, this is the first transaction
+        profits = []
+        profit = 0
+        mini = prices[0]
+        for price in prices:
+            mini = min(mini, price)
+            profit = max(profit, price - mini)
+            profits.append(profit)
+
+        # backward traversal, profit records the max profit
+        # after the ith day, this is the second transaction
+        res = 0
+        profit = 0
+        maxi = prices[-1]
+        for i in range(len(prices) - 1, -1, -1):
+            maxi = max(maxi, prices[i])
+            profit = max(profit, maxi - prices[i])
+            res = max(res, profit + profits[i])
+
+        return res
+
+
