@@ -42,3 +42,9 @@ class Solution:
         return max(bucket[i][0] - bucket[i - 1][1] for i in range(1, len(bucket)))
 
 
+
+nums = [3,6,9,1,17,19,28]
+a = Solution()
+print(a.maximumGap(nums))
+
+

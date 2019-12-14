@@ -37,4 +37,7 @@ class Solution:
 
         return res
 
+n = 98
+a = Solution()
+print(a.convertToTitle(n))
 
