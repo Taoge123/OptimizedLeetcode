@@ -37,7 +37,7 @@ class Solution:
 
         return res
 
-n = 98
+n = 701
 a = Solution()
 print(a.convertToTitle(n))
 

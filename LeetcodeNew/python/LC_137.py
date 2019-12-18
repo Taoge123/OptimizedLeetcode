@@ -43,11 +43,22 @@ class Solution3:
             summ = 0
             for num in nums:
                 summ += (num >> i) & 1
+                print(num, i, num >> i, (num >> i) & 1, summ)
             rem = summ % 3
 
             if i == 31 and rem:
                 res -= 1 << 31
             else:
                 res |= rem * (1 << i)
+
         return res
+
+
+
+nums = [2, 2, 3, 2]
+a = Solution3()
+print(a.singleNumber(nums))
+
+
+
 

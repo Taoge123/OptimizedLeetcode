@@ -14,6 +14,7 @@ Note:
 You may assume k is always valid, 1 ≤ k ≤ array's length.
 """
 
+import heapq
 
 class Solution:
     def findKthLargest(self, nums, k):
@@ -46,5 +47,20 @@ class Solution:
         nums[lo], nums[right] = nums[right], nums[lo]
 
         return lo
+
+class Solution2:
+    # O(k+(n-k)lgk) time, min-heap
+    def findKthLargest4(self, nums, k):
+        heap = []
+        for num in nums:
+            heapq.heappush(heap, num)
+        for _ in range(len(nums)-k):
+            heapq.heappop(heap)
+        return heapq.heappop(heap)
+
+    # O(k+(n-k)lgk) time, min-heap
+    def findKthLargest5(self, nums, k):
+        return heapq.nlargest(k, nums)[k-1]
+
 
 

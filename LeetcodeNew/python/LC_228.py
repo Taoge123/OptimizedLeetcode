@@ -27,9 +27,16 @@ class Solution:
             if j == i + 1:
                 res.append(str(nums[i]))
             else:
-                res.append(str(nums[i]) + '->' + str(nums[ j -1]))
+                res.append(str(nums[i]) + '->' + str(nums[j-1]))
             i = j
         return res
+
+
+nums1 = [0,1,2,4,5,7]
+nums2 = [0,2,3,4,6,8,9]
+
+a = Solution()
+print(a.summaryRanges(nums1))
 
 
 

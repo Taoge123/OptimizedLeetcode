@@ -21,31 +21,42 @@ Do not use the eval built-in library function.
 
 """
 
-class Solution:
-    def calculate(self, s: str) -> int:
 
-        res, num, sign, stack = 0, 0, 1, []
+"""
+- 如果當前是數字，那麼更新計算當前數字；
+- 如果當前是操作符+或者-，那麼需要更新計算當前計算的結果res，並把當前數字num設為0，sign設為正負，重新開始；
+- 如果當前是(，那麼說明後面的小括號裡的內容需要優先計算，所以要把res，sign進棧，更新res和sign為新的開始；
+- 如果當前是)，那麼說明當前括號裡的內容已經計算完畢，所以要把之前的結果出棧，然後計算整個式子的結果；
+- 最後，當所有數字結束的時候，需要把結果進行計算，確保結果是正確的。
+"""
 
+
+
+class Solution2:
+    def calculate(self, s):
+
+        res, num, sign = 0, 0, 1
+        stack = []
         for char in s:
             if char.isdigit():
-                num = num * 10 + int(char)
-            elif char in ["+", "-"]:
-                res = sign * num
+                num = 10 * num + int(char)
+            elif char == "+" or char == "-":
+                res = res + sign * num
                 num = 0
                 sign = 1 if char == "+" else -1
-
             elif char == "(":
-                stack.append(num)
+                stack.append(res)
                 stack.append(sign)
-                num, sign = 0, 1
-
+                res = 0
+                sign = 1
             elif char == ")":
-                res += num * sign
+                res = res + sign * num
+                num = 0
                 res *= stack.pop()
                 res += stack.pop()
-                num = 0
+        res = res + sign * num
+        return res
 
-        return res + num * sign
 
 
 
