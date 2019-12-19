@@ -71,3 +71,40 @@ class Solution:
         return res if len(res) == len(degree) else ''
 
 
+class Solution2:
+    def alienOrder(self, words):
+        if len(words) == 1:
+            return words[0]
+        graph = collections.defaultdict(set)
+        visited = [1] * 26
+        res = []
+        for w1, w2 in zip(words, words[1:]):
+            for c1, c2 in zip(w1, w2):
+                if c1 != c2:
+                    graph[ord(c1) - ord("a")].add(ord(c2) - ord("a"))
+                    break
+            for c in w1 + w2:
+                visited[ord(c) - ord("a")] = -1
+        for i in range(26):
+            if visited[i] == -1 and not self.dfs(graph, visited, res, i): return ""
+        return "".join(res)[::-1]
+
+    def dfs(self, graph, visited, res, i):
+        visited[i] = 0
+        for v in graph[i]:
+            if visited[v] == 0 or (visited[v] == -1 and not self.dfs(graph, visited, res, v)): return False
+        res.append(chr(97 + i))
+        visited[i] = 1
+        return True
+
+
+words =  ["wrt",
+          "wrf",
+          "er",
+          "ett",
+          "rftt"]
+
+a = Solution()
+print(a.alienOrder(words))
+
+

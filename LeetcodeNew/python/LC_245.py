@@ -35,3 +35,10 @@ class Solution:
         return res
 
 
+words = ["practice", "makes", "perfect", "coding", "makes"]
+word1 = "makes"
+word2 = "makes"
+a = Solution()
+print(a.shortestWordDistance(words, word1, word2))
+
+

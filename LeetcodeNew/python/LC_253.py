@@ -12,6 +12,7 @@ Output: 1
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 """
 
+import heapq
 
 class Solution:
     def minMeetingRooms(self, intervals) -> int:
@@ -27,5 +28,18 @@ class Solution:
         return res
 
 
+
+class Solution2:
+    def minMeetingRooms(self, intervals):
+        intervals.sort(key=lambda x: x.start)
+        heap = []  # stores the end time of intervals
+        for i in intervals:
+            if heap and i.start >= heap[0]:
+                # means two intervals can use the same room
+                heapq.heapreplace(heap, i.end)
+            else:
+                # a new room is allocated
+                heapq.heappush(heap, i.end)
+        return len(heap)
 
 

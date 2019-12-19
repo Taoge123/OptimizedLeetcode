@@ -30,7 +30,19 @@ class Solution:
         for i in range(1, m):
             pre = dp[:]
             for j in range(n):
-                dp[j] = costs[i][j] + min(pre[:j] + pre[ j +1:])
+                dp[j] = costs[i][j] + min(pre[:j] + pre[j+1:])
         return min(dp)
+
+
+costs = [[1,5,3],
+         [2,9,4],
+         [3,3,3],
+         [4,5,6],
+         ]
+
+a = Solution()
+print(a.minCostII(costs))
+
+
 
 
