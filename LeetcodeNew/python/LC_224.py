@@ -58,6 +58,43 @@ class Solution2:
         return res
 
 
+#To be modidied
+class Solution3:
+    def calculate(self, s):
+
+        res = 0
+        num = 0
+        sign = 1
+        n = len(s)
+
+        for i, char in enumerate(s):
+            if char.isdigit():
+                num = 10 * num + ord(char) - ord('0')
+            elif char == '(':
+                j = i
+                count = 0
+                for i in range(n):
+                    if char == '(':
+                        count += 1
+                    if char == ")":
+                        count -= 1
+                    if count == 0:
+                        break
+                num = self.calculate(s[j + 1: i - j - 1])
+            if char == "+" or char == '-' or i == n - 1:
+                res += sign * num
+                num = 0
+                sign = 1 if (char == "+") else -1
+
+        return res
+
+
+
+
+s = "(1+(4+5+2)-3)+(6+8)"
+a = Solution2()
+print(a.calculate(s))
+
 
 
 

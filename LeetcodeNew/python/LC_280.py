@@ -10,16 +10,19 @@ Output: One possible answer is [3,5,1,6,2,4]
 
 
 class Solution:
-    def numSquares(self, n):
-        dp = [n ] *( n +1)
-        dp[0] = 0
-        dp[1] = 1
-        for i in range(2, n+ 1):
-            j = 1
-            while j * j <= i:
-                dp[i] = min(dp[i], dp[i - j * j] + 1)
-                j += 1
-        return dp[-1]
+    def wiggleSort(self, nums):
+
+        if not nums:
+            return
+
+        n = len(nums)
+
+        for i in range(1, n, 2):
+            if nums[i] < nums[i - 1]:
+                nums[i - 1], nums[i] = nums[i], nums[i - 1]
+
+            if i + 1 < n and nums[i] < nums[i + 1]:
+                nums[i + 1], nums[i] = nums[i], nums[i + 1]
 
 
 

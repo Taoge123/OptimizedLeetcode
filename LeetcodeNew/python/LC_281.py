@@ -46,4 +46,11 @@ class ZigzagIterator:
 # Your ZigzagIterator object will be instantiated and called as such:
 # i, v = ZigzagIterator(v1, v2), []
 # while i.hasNext(): v.append(i.next())
+v1 = [1,2]
+v2 = [3,4,5,6]
 
+a = ZigzagIterator(v1, v2)
+print(a.next())
+print(a.next())
+print(a.next())
+print(a.next())
