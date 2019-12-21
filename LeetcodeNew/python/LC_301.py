@@ -18,6 +18,7 @@ Input: ")("
 Output: [""]
 """
 
+import collections
 
 class Solution0:
     def removeInvalidParentheses(self, s):
@@ -84,6 +85,41 @@ class Solution:
             b += (a < 0)
             a = max(a, 0)
         return a + b
+
+
+class SolutionBFS:
+    def removeInvalidParentheses(self, s):
+
+        if not s:
+            return ['']
+        queue = collections.deque([s])
+        res, visited = [], set([s])
+        found = False
+        while queue:
+            cur = queue.popleft()
+            if self.isValidParentheses(cur):
+                found = True
+                res.append(cur)
+            elif not found:
+                for i in range(len(cur)):
+                    if cur[i] == '(' or cur[i] == ')':
+                        new = cur[:i] + cur[i + 1:]
+                        if new not in visited:
+                            queue.append(new)
+                            visited.add(new)
+        return res
+
+    def isValidParentheses(self, s):
+        cnt = 0
+        for c in s:
+            if c == '(':
+                cnt += 1
+            elif c == ')':
+                if cnt == 0:
+                    return False
+                cnt -= 1
+        return cnt == 0
+
 
 
 s = "(a)())()"
