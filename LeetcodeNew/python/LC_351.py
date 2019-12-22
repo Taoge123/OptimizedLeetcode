@@ -65,6 +65,7 @@ class Solution:
         visited[curr] = True
         count = 0
         for i in range(1, 10):
+            #never used before or related or jumped and visited
             if not visited[i] and (skip[curr][i] == 0 or visited[skip[curr][i]]):
                 count += self.dfs(i, remaining - 1, visited, skip)
         visited[curr] = False

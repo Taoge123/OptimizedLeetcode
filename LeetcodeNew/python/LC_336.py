@@ -16,24 +16,59 @@ Output: [[0,1],[1,0]]
 Explanation: The palindromes are ["battab","tabbat"]
 """
 
+"""
+O(k * n ^2)解法 其中k为单词个数，n为单词的长度：
+
+利用字典wmap保存单词 -> 下标的键值对
+
+遍历单词列表words，记当前单词为word，下标为idx：
+
+1). 若当前单词word本身为回文，且words中存在空串，则将空串下标bidx与idx加入答案
+
+2). 若当前单词的逆序串在words中，则将逆序串下标ridx与idx加入答案
+
+3). 将当前单词word拆分为左右两半left，right。
+
+     3.1) 若left为回文，并且right的逆序串在words中，则将right的逆序串下标rridx与idx加入答案
+     
+     3.2) 若right为回文，并且left的逆序串在words中，则将left的逆序串下标idx与rlidx加
+"""
+
 class Solution:
     def palindromePairs(self, words):
-        table, r = dict(map(reversed, enumerate(words))), set()
+        table, res = dict(map(reversed, enumerate(words))), set()
         for i, word in enumerate(words):
             for k in range(len(word) + 1):
                 a, b = word[:k], word[k:]
 
                 if a == a[::-1] and table.get(b[::-1], -1) not in [-1, i]:
-                    r.add((table[b[::-1]], i))
+                    res.add((table[b[::-1]], i))
 
                 if b == b[::-1] and table.get(a[::-1], -1) not in [-1, i]:
-                    r.add((i, table[a[::-1]]))
+                    res.add((i, table[a[::-1]]))
 
-        return list(r)
-
-
+        return list(res)
 
 
+class Solution2:
+    def palindromePairs(self, words):
+
+        table, res = dict([(w[::-1], i) for i, w in enumerate(words)]), []
+        for i, word in enumerate(words):
+            for j in range(len(word) + 1):
+                a, b = word[:j], word[j:]
+                if a in table and i != table[a] and b == b[::-1]:
+                    res.append([i, table[a]])
+                if j > 0 and b in table and i != table[b] and a == a[::-1]:
+                    res.append([table[b], i])
+        return res
+
+
+
+words = ["abcd","dcba","lls","s","sssll"]
+
+a = Solution()
+print(a.palindromePairs(words))
 
 
 

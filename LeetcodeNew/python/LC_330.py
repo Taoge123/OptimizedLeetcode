@@ -52,5 +52,21 @@ class Solution:
         return res
 
 
+class Solution2:
+    def minPatches(self, nums, n: int) -> int:
+
+        i, res = 0, 0
+        miss = 1
+
+        while miss <= n:
+            if i < len(nums) and nums[i] <= miss:
+                miss += nums[i]
+                i += 1
+            else:
+                miss += miss
+                res += 1
+
+        return res
+
 
 
