@@ -30,6 +30,32 @@ class Solution:
 
 
 
+class Solution2:
+    def coinChange(self, coins, amount: int) -> int:
+
+        cache = {}
+        cache[0] = 0
+        return self.helper(coins, amount, cache)
+
+    def helper(self, coins, amount, cache):
+        if amount in cache:
+            return cache[amount]
+        mini = amount + 1
+        for coin in coins:
+            if amount >= coin:
+                count = 1
+                left = self.helper(coins, amount - coin, cache)
+                if left != -1:
+                    count += left
+                    mini = min(mini, count)
+        cache[amount] = mini if mini != amount + 1 else -1
+        return cache[amount]
 
 
+
+
+coins = [1, 2, 5]
+amount = 11
+a = Solution()
+print(a.coinChange(coins, amount))
 

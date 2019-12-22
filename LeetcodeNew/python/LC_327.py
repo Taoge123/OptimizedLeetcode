@@ -24,12 +24,12 @@ class Solution:
     def countRangeSum(self, nums, lower: int, upper: int) -> int:
 
         presum = [0]
-        curr = 0
+        summ = 0
         res = 0
         for num in nums:
-            curr += num
-            res += bisect.bisect_right(presum, curr-lower) - bisect.bisect_left(presum, curr-upper)
-            bisect.insort_right(presum, curr)
+            summ += num
+            res += bisect.bisect_right(presum, summ-lower) - bisect.bisect_left(presum, summ-upper)
+            bisect.insort_right(presum, summ)
         return res
 
 
@@ -40,16 +40,48 @@ class Solution2:
         for n in nums:
             presum.append(presum[-1] + n)
 
-        record = collections.defaultdict(int)
+        table = collections.defaultdict(int)
 
         res = 0
         for num in presum:
             for target in range(lower, upper + 1):
-                if num - target in record:
-                    res += record[num - target]
-            record[num] += 1
+                if num - target in table:
+                    res += table[num - target]
+            table[num] += 1
         return res
 
+
+class Solution3:
+    def countRangeSum(self, nums, lower: int, upper: int) -> int:
+
+        if not nums:
+            return 0
+
+        n = len(nums)
+        if n == 1:
+            return int(lower <= nums[0] <= upper)
+
+        mid = n >> 1
+        count = sum([
+            self.countRangeSum(array, lower, upper)
+            for array in [nums[:mid], nums[mid:]]
+        ])
+
+        suffix, prefix = [0] * (mid + 1), [0] * (n - mid + 1)
+        for i in range(mid - 1, -1, -1):
+            suffix[i] = suffix[i + 1] + nums[i]
+
+        for i in range(mid, n):
+            prefix[i - mid + 1] = prefix[i - mid] + nums[i]
+
+        suffix, prefix = suffix[:-1], sorted(prefix[1:])
+        count += sum([
+            bisect.bisect_right(prefix, upper - s) -
+            bisect.bisect_left(prefix, lower - s)
+            for s in suffix
+        ])
+
+        return count
 
 
 nums = [-2,5,-1]

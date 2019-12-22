@@ -29,14 +29,14 @@ Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not a
 import collections
 
 
-class Solution:
+class Solution1:
     def countComponents(self, n: int, edges) -> int:
-        result = n
+        res = n
         nums = [-1] * n
         for u, v in edges:
             if self.union(nums, u, v):
-                result -= 1
-        return result
+                res -= 1
+        return res
 
     def find(self, nums, i):
         if nums[i] == -1:
@@ -53,14 +53,14 @@ class Solution:
 
 class Solution:
     def countComponents(self, n: int, edges) -> int:
-        result = n
+        res = n
         nums = [i for i in range(n)]
 
         for edge in edges:
             if self.unite(edge[0], edge[1], nums):
-                result -= 1
+                res -= 1
 
-        return result
+        return res
 
 
     def find(self, nums, i):
@@ -78,7 +78,7 @@ class Solution:
             return True
 
 
-class Solution:
+class Solution3:
     def countComponents(self, n, edges):
         graph = collections.defaultdict(list)
         visited = set()
@@ -105,10 +105,10 @@ class Solution:
 
 
 
-
-
-
-
+n = 5
+edges = [[0, 1], [1, 2], [3, 4]]
+a = Solution3()
+print(a.countComponents(n, edges))
 
 
 

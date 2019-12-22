@@ -41,9 +41,18 @@ class Solution:
             summ += nums[i]
             if summ - k in table:
                 res = max(res, i - table[summ - k])
+            #we dont update the table since we want to have max
             if summ not in table:
                 table[summ] = i
         return res
+
+
+
+nums = [1, 1, 1, 1, 1]
+k = 3
+
+a = Solution()
+print(a.maxSubArrayLen(nums, k))
 
 
 
