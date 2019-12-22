@@ -45,7 +45,7 @@ class Solution:
         for word in words:
             mask = 0
             for char in word:
-                mask |= (1 << (ord(char) - 97))
+                mask |= (1 << (ord(char) - ord('a')))
             byte[mask] = max(byte.get(mask, 0), len(word))
 
         res = 0
@@ -57,5 +57,8 @@ class Solution:
 
 
 
+words = ["abcw","baz","foo","bar","xtfn","abcdef"]
+a = Solution()
+print(a.maxProduct(words))
 
 

@@ -54,6 +54,7 @@ class Solution:
             n -= len(leaves)
             newLeaves = []
             for leaf in leaves:
+                #remove from both direction
                 j = graph[leaf].pop()
                 graph[j].remove(leaf)
                 if len(graph[j]) == 1:

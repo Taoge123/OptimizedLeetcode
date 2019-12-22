@@ -47,19 +47,20 @@ class Solution:
                             r = x + dirs[0]
                             c = y + dirs[1]
 
-                            if 0 <= r < m and 0 <= c < n and grid[r][c] == 0 and not visited[r][c]:
+                            if 0 <= r < m and 0 <= c < n and grid[r][c] == 0 \
+                                    and not visited[r][c]:
                                 distance[r][c] += dist + 1
                                 reach[r][c] += 1
                                 visited[r][c] = True
                                 queue.append((r, c, dist + 1))
 
-        shortest = float("inf")
+        res = float("inf")
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 0 and reach[i][j] == buildingNum:
-                    shortest = min(shortest, distance[i][j])
+                    res = min(res, distance[i][j])
 
-        return shortest if shortest < float("inf") else -1
+        return res if res < float("inf") else -1
 
 
 grid = [[1,0,2,0,1],

@@ -25,17 +25,21 @@ import heapq
 class Solution:
     def nthSuperUglyNumber(self, n, primes):
 
-        h, heap = set([1]), [1]
+        visited = set([1])
+        heap = [1]
         while n:
-            a = heapq.heappop(heap)
+            node = heapq.heappop(heap)
             for i in primes:
-                m = a * i
-                if not m in h:
+                m = node * i
+                if not m in visited:
                     heapq.heappush(heap, m)
-                    h.add(m)
+                    visited.add(m)
             n -= 1
-        return a
+        return node
 
+n = 12
+primes = [2,7,13,19]
 
-
+a = Solution()
+print(a.nthSuperUglyNumber(n, primes))
 

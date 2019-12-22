@@ -34,6 +34,10 @@ class Solution:
 
 
 
+s = "cbacdcbc"
+a = Solution()
+print(a.removeDuplicateLetters(s))
+
 
 
 

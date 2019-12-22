@@ -13,6 +13,11 @@ Output: 3
 Explanation: transactions = [buy, sell, cooldown, buy, sell]
 
 """
+"""
+buy[i]  = max(rest[i-1] - price, buy[i-1]) 
+sell[i] = max(buy[i-1] + price, sell[i-1])
+rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
+"""
 
 class Solution:
     def maxProfit(self, prices):
@@ -26,9 +31,9 @@ class Solution:
         buy[0] = -prices[0]
 
         for i in range(1, n):
-            buy[i] = max(buy[ i -1], cool[ i -1] - prices[i])
-            sell[i] = max(sell[ i -1], buy[ i -1] + prices[i])
-            cool[i] = max(cool[ i -1], sell[ i -1])
+            buy[i] = max(buy[i-1], cool[i-1] - prices[i])
+            sell[i] = max(sell[i-1], buy[i-1] + prices[i])
+            cool[i] = max(cool[i-1], sell[i-1])
         return sell[-1]
 
 

@@ -64,6 +64,9 @@ class Solution2:
 
         return count
 
+n = 10
+a = Solution2()
+print(a.bulbSwitch(n))
 
 
 

@@ -1,7 +1,8 @@
 """
 Additive number is a string whose digits can form additive sequence.
 
-A valid additive sequence should contain at least three numbers. Except for the first two numbers, each subsequent number in the sequence must be the sum of the preceding two.
+A valid additive sequence should contain at least three numbers. Except for the first two numbers,
+each subsequent number in the sequence must be the sum of the preceding two.
 
 Given a string containing only digits '0'-'9', write a function to determine if it's an additive number.
 

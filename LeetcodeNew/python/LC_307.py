@@ -21,7 +21,8 @@ class NumArray:
 
     def __init__(self, nums):
         self.n = len(nums)
-        self.a, self.c = nums, [0] * (self.n + 1)
+        self.a = nums
+        self.c = [0] * (self.n + 1)
         for i in range(self.n):
             k = i + 1
             while k <= self.n:
