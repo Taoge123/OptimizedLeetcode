@@ -21,6 +21,13 @@ are small compared to the data stream's size?
 
 import heapq
 
+class Interval:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+
+
 class SummaryRanges:
 
     def __init__(self):
@@ -42,6 +49,28 @@ class SummaryRanges:
                 else:
                     stack.append((idx, cur))
         self.intervals = stack
-        return list(map(lambda x: x[1], stack))
+        res = list(map(lambda x: x[1], stack))
+
+        for i in res:
+            print(i.start, i.end)
+
+        return res
+
+
+
+
+
+a = SummaryRanges()
+print(a.addNum(1))
+print(a.getIntervals())
+print(a.addNum(3))
+print(a.getIntervals())
+print(a.addNum(7))
+print(a.getIntervals())
+print(a.addNum(2))
+print(a.getIntervals())
+print(a.addNum(6))
+print(a.getIntervals())
+
 
 
