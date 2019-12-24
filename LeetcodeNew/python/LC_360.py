@@ -33,13 +33,20 @@ class Solution:
             index += step
         return res
 
+
 # nums = [-4,-2,2,4]
 # a = 1
 # b = 3
 # c = 5
+# nums = {list: 4} [9, 3, 15, 33]
+# res = {list: 4} [3, 9, 15, 33]
+
 nums = [-4,-2,2,4]
 a = -1
 b = 3
 c = 5
 obj = Solution()
+# nums = {list: 4} [-23, -5, 7, 1]
+# res = {list: 4} [-23, -5, 1, 7]
+
 print(obj.sortTransformedArray(nums, a, b, c))

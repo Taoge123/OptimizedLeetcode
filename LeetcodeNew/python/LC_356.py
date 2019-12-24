@@ -30,5 +30,9 @@ class Solution:
         return True
 
 
+points = [[1,1],[-1,1]]
+a = Solution()
+print(a.isReflected(points))
+
 
 

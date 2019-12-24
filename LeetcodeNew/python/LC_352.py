@@ -26,8 +26,6 @@ class Interval:
         self.start = start
         self.end = end
 
-
-
 class SummaryRanges:
 
     def __init__(self):
@@ -51,12 +49,49 @@ class SummaryRanges:
         self.intervals = stack
         res = list(map(lambda x: x[1], stack))
 
-        for i in res:
-            print(i.start, i.end)
-
         return res
 
 
+
+class SummaryRanges2:
+    def __init__(self):
+        self.visited=set()
+
+    def addNum(self, val: int) -> None:
+        self.visited.add(val)
+
+    def getIntervals(self):
+        res = []
+        for val in sorted(self.visited):
+            if not res or val > res[-1][1] + 1:
+                res.append([val,val])
+            elif res and val == res[-1][1] + 1:
+                res[-1][1] = val
+        return res
+
+
+
+class SummaryRanges3:
+    def __init__(self):
+        self.seen = set()
+        self.start, self.end = dict(), dict()
+
+    def addNum(self, val: int) -> None:
+        if val in self.seen:
+            return
+        self.seen.add(val)
+        interval = [val, val]
+        if val + 1 in self.start.keys():
+            interval[1] = self.start[val + 1]
+            self.start.pop(val + 1)
+        if val - 1 in self.end.keys():
+            interval[0] = self.end[val - 1]
+            self.end.pop(val - 1)
+        self.start[interval[0]] = interval[1]
+        self.end[interval[1]] = interval[0]
+
+    def getIntervals(self):
+        return sorted(self.start.items())
 
 
 
@@ -71,6 +106,3 @@ print(a.addNum(2))
 print(a.getIntervals())
 print(a.addNum(6))
 print(a.getIntervals())
-
-
-
