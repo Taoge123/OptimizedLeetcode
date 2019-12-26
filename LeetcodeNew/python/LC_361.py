@@ -30,27 +30,30 @@ class Solution:
 
         for i in range(1, m):
             for j in range(n):
-                top[i][j] = top[i - 1][j] + (grid[i - 1][j] == 'E')
                 if grid[i - 1][j] == 'W':
                     top[i][j] = 0
-
+                else:
+                    top[i][j] = top[i - 1][j] + (grid[i - 1][j] == 'E')
         for i in range(m):
             for j in range(1, n):
-                left[i][j] = left[i][j - 1] + (grid[i][j - 1] == 'E')
                 if grid[i][j - 1] == 'W':
                     left[i][j] = 0
+                else:
+                    left[i][j] = left[i][j - 1] + (grid[i][j - 1] == 'E')
 
         for i in range(m - 1)[::-1]:
             for j in range(n):
-                bot[i][j] = bot[i + 1][j] + (grid[i + 1][j] == 'E')
                 if grid[i + 1][j] == 'W':
                     bot[i][j] = 0
+                else:
+                    bot[i][j] = bot[i + 1][j] + (grid[i + 1][j] == 'E')
 
         for i in range(m):
             for j in range(n - 1)[::-1]:
-                right[i][j] = right[i][j + 1] + (grid[i][j + 1] == 'E')
                 if grid[i][j + 1] == 'W':
                     right[i][j] = 0
+                else:
+                    right[i][j] = right[i][j + 1] + (grid[i][j + 1] == 'E')
 
         res = 0
         for i in range(m):
@@ -60,9 +63,7 @@ class Solution:
         return res
 
 
-
-
-class Solution:
+class Solution2:
     def maxKilledEnemies(self, grid):
 
         if grid is None or len(grid) == 0 or len(grid[0]) == 0:
@@ -91,5 +92,49 @@ class Solution:
                         maxKilled = curKilled
 
         return maxKilled
+
+
+
+
+class Solution3:
+    def maxKilledEnemies(self, grid) -> int:
+
+        if not grid or len(grid[0]) == 0:
+            return 0
+
+        m, n = len(grid), len(grid[0])
+        res = 0
+        rowCount = 0
+        colCount = [0] * n
+
+        for i in range(m):
+            for j in range(n):
+                if j == 0 or grid[i][j - 1] == 'W':
+                    rowCount = 0
+                    for k in range(j, n):
+                        if grid[i][k] == 'E':
+                            rowCount += 1
+                        elif grid[i][k] == 'W':
+                            break
+
+                if i == 0 or grid[i - 1][j] == 'W':
+                    colCount[j] = 0
+                    for k in range(i, m):
+                        if grid[k][j] == 'E':
+                            colCount[j] += 1
+                        elif grid[k][j] == 'W':
+                            break
+
+                if grid[i][j] == '0':
+                    res = max(res, rowCount + colCount[j])
+        return res
+
+
+grid = [["0","E","0","0"],
+        ["E","0","W","E"],
+        ["0","E","0","0"]]
+
+a = Solution3()
+print(a.maxKilledEnemies(grid))
 
 
