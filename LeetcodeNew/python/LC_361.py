@@ -109,6 +109,7 @@ class Solution3:
 
         for i in range(m):
             for j in range(n):
+                #When we are in first column or when previous
                 if j == 0 or grid[i][j - 1] == 'W':
                     rowCount = 0
                     for k in range(j, n):
@@ -128,6 +129,7 @@ class Solution3:
                 if grid[i][j] == '0':
                     res = max(res, rowCount + colCount[j])
         return res
+
 
 
 grid = [["0","E","0","0"],
