@@ -29,7 +29,7 @@ class Solution:
 
         if not nums:
             return 0
-        n= len(nums)
+        n = len(nums)
         up = [0] * n
         down = [0] * n
         up[0], down[0] = 1, 1
