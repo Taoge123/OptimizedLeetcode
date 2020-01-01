@@ -36,24 +36,18 @@ import collections, random
 class RandomizedCollection:
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
+
         self.nums = []
         self.index = collections.defaultdict(set)
 
     def insert(self, val: int) -> bool:
-        """
-        Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
-        """
+
         self.nums.append(val)
         self.index[val].add(len(self.nums) - 1)
         return len(self.index[val]) == 1
 
     def remove(self, val: int) -> bool:
-        """
-        Removes a value from the collection. Returns true if the collection contained the specified element.
-        """
+
         if self.index[val]:
             idx=self.index[val].pop()
             temp_val=self.nums[-1]
@@ -65,10 +59,21 @@ class RandomizedCollection:
         return False
 
     def getRandom(self) -> int:
-        """
-        Get a random element from the collection.
-        """
+
         return random.choice(self.nums)
 
+
+
+a = RandomizedCollection()
+print(a.insert(2))
+print(a.getRandom())
+print(a.insert(2))
+print(a.getRandom())
+print(a.insert(3))
+print(a.getRandom())
+print(a.remove(2))
+print(a.insert(4))
+print(a.getRandom())
+print(a.insert(5))
 
 
