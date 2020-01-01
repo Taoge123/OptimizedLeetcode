@@ -48,6 +48,7 @@ class Solution2:
                 heapq.heappush(heap, (matrix[row + 1][col], row + 1, col))
         return res
 
+
 class Solution3:
     def kthSmallest(self, matrix, k):
         heap = [(row[0], i, 0) for i, row in enumerate(matrix) if row]
@@ -60,6 +61,7 @@ class Solution3:
                 heapq.heappush(heap, (matrix[row][col + 1], row, col + 1))
         return res
 
+
 matrix = [
    [ 1,  5,  9],
    [10, 11, 13],
@@ -68,7 +70,7 @@ matrix = [
 k = 8
 
 
-a = Solution2()
+a = Solution()
 print(a.kthSmallest(matrix, k))
 
 

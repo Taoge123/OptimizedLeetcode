@@ -62,6 +62,13 @@ class Solution2:
         return max(up, down)
 
 
+# nums = [1,2,3,4,5,6,7,8,9]
+nums = [1,3,1,4,5,2,1]
+
+a = Solution2()
+print(a.wiggleMaxLength(nums))
+
+
 
 
 
