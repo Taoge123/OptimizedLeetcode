@@ -36,18 +36,15 @@ import collections, random
 class RandomizedCollection:
 
     def __init__(self):
-
         self.nums = []
         self.index = collections.defaultdict(set)
 
     def insert(self, val: int) -> bool:
-
         self.nums.append(val)
         self.index[val].add(len(self.nums) - 1)
         return len(self.index[val]) == 1
 
     def remove(self, val: int) -> bool:
-
         if self.index[val]:
             idx=self.index[val].pop()
             temp_val=self.nums[-1]
@@ -59,7 +56,6 @@ class RandomizedCollection:
         return False
 
     def getRandom(self) -> int:
-
         return random.choice(self.nums)
 
 
