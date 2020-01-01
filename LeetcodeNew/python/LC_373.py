@@ -34,6 +34,7 @@ class Solution:
                 if len(heap) < k:
                     heapq.heappush(heap, (-n1 - n2, [n1, n2]))
                 else:
+                    print(-heap[0][0], n1 + n2)
                     if -heap[0][0] > n1 + n2:
                         heapq.heappop(heap)
                         heapq.heappush(heap, (-n1 - n2, [n1, n2]))
@@ -42,6 +43,12 @@ class Solution:
         return [heapq.heappop(heap)[1] for _ in range(k) if heap]
 
 
+nums1 = [2,4,6]
+nums2 = [1,7,11]
 
+k = 3
+
+a = Solution()
+print(a.kSmallestPairs(nums1, nums2, k))
 
 

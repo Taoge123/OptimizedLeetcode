@@ -34,6 +34,7 @@ class Solution:
                     top[i][j] = 0
                 else:
                     top[i][j] = top[i - 1][j] + (grid[i - 1][j] == 'E')
+
         for i in range(m):
             for j in range(1, n):
                 if grid[i][j - 1] == 'W':
@@ -132,11 +133,13 @@ class Solution3:
 
 
 
-grid = [["0","E","0","0"],
-        ["E","0","W","E"],
-        ["0","E","0","0"]]
+# grid = [["0","E","0","0"],
+#         ["E","0","W","E"],
+#         ["0","E","0","0"]]
 
-a = Solution3()
+grid = [['E','E','W','E','E']]
+
+a = Solution()
 print(a.maxKilledEnemies(grid))
 
 

@@ -34,8 +34,8 @@ class Solution:
         if cache[i][j] != 0:
             return cache[i][j]
         res = float('inf')
-        for x in range(i, j+1):
-            res = min(res, max(self.helper(i, x-1, cache), self.helper(x+1, j, cache)) + x)
+        for num in range(i, j+1):
+            res = min(res, max(self.helper(i, num-1, cache), self.helper(num+1, j, cache)) + num)
         cache[i][j] = res
         return res
 
@@ -54,6 +54,9 @@ class Solution2:
 
 
 
+n = 4
+a = Solution2()
+print(a.getMoneyAmount(n))
 
 
 

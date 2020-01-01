@@ -38,28 +38,61 @@ import collections
 
 class HitCounter:
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.num_of_hits = 0
-        self.time_hits = collections.deque()
+        self.res = 0
+        self.hits = collections.deque()
 
     def hit(self, timestamp: int) -> None:
-        """
-        Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity).
-        """
-        if not self.time_hits or self.time_hits[-1][0] != timestamp:
-            self.time_hits.append([timestamp, 1])
+        if not self.hits or self.hits[-1][0] != timestamp:
+            self.hits.append([timestamp, 1])
         else:
-            self.time_hits[-1][1] += 1
-        self.num_of_hits += 1
+            self.hits[-1][1] += 1
+        self.res += 1
 
     def getHits(self, timestamp: int) -> int:
-        """
-        Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity).
-        """
-        while self.time_hits and self.time_hits[0][0] <= timestamp - 300:
-            self.num_of_hits -= self.time_hits.popleft()[1]
-        return self.num_of_hits
+        while self.hits and self.hits[0][0] <= timestamp - 300:
+            self.res -= self.hits.popleft()[1]
+        return self.res
+
+
+
+
+"""
+hit 1
+self.hits = [[1, 1]]
+self.res = 1
+
+hit 1
+self.hits = [[1, 2]] 
+self.res = 2
+
+hit 3
+self.hits = [[1, 2], [3, 1]]
+self.res = 3
+
+hit 4 
+self.hits = [[1, 2], [3, 1], [4, 1]]
+self.res = 4
+
+hit 303
+self.hits = [[1, 2], [3, 1], [4, 1], [303, 1]]
+self.res = 5
+
+getHit 303
+self.hits = [[3, 1], [4, 1], [303, 1]]
+self.res -= 2
+"""
+
+
+a = HitCounter()
+print(a.hit(1))
+print(a.getHits(2))
+print(a.hit(2))
+print(a.getHits(2))
+print(a.hit(3))
+print(a.getHits(3))
+print(a.getHits(300))
+print(a.getHits(301))
+
+
+
+

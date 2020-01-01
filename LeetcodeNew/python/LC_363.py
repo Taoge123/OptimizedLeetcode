@@ -43,10 +43,9 @@ import bisect
 
 class Solution:
     def maxSumSubmatrix(self, matrix, k):
-        if not matrix or not matrix[0]: return 0
-        L, R = 0, 0
+        if not matrix or not matrix[0]:
+            return 0
         curSum, maxSum = float('-inf'), float('-inf')
-        maxLeft, maxRight, maxUp, maxDown = 0, 0, 0, 0
         M, N = len(matrix), len(matrix[0])
         for L in range(N):
             curArr = [0] * M
@@ -69,6 +68,7 @@ class Solution:
                 if curSum <= k and curSum > res:
                     res = curSum
         return res
+
 
 
 class Solution2:
