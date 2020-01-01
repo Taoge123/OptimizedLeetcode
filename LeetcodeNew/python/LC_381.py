@@ -62,14 +62,12 @@ class RandomizedCollection:
 
 a = RandomizedCollection()
 print(a.insert(2))
-print(a.getRandom())
 print(a.insert(2))
-print(a.getRandom())
+print(a.insert(2))
+print(a.insert(2))
 print(a.insert(3))
-print(a.getRandom())
 print(a.remove(2))
-print(a.insert(4))
-print(a.getRandom())
+print(a.remove(2))
 print(a.insert(5))
 
 

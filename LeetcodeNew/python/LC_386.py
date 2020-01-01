@@ -18,16 +18,16 @@ Please optimize your algorithm to use less time and space. The input size may be
 class Solution:
     def lexicalOrder(self, n: int):
 
-        ans = [1]
-        while len(ans) < n:
-            newNum = ans[-1] * 10
+        res = [1]
+        while len(res) < n:
+            newNum = res[-1] * 10
             while newNum > n:
                 newNum //= 10
                 newNum += 1
                 while newNum % 10 == 0:    # deal with case like 199+1=200 when we need to restart from 2.
                     newNum //= 10
-            ans.append(newNum)
-        return ans
+            res.append(newNum)
+        return res
 
 class Solution2:
     def lexicalOrder(self, n: int):
@@ -43,6 +43,7 @@ class Solution2:
                     last //= 10
                 res.append(last + 1)
         return res
+
 
 class Solution3:
     def lexicalOrder(self, n: int):
@@ -61,7 +62,9 @@ class Solution3:
 
 
 
-
+n = 14
+a = Solution2()
+print(a.lexicalOrder(n))
 
 
 
