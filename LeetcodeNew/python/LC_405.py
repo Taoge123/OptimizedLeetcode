@@ -30,13 +30,16 @@ class Solution:
         if not num:
             return '0'
         mp = '0123456789abcdef'  # like a map
-        ans = ''
+        res = ''
         for i in range(8):
             n = num & 15       # this means num & 1111b
             c = mp[n]          # get the hex char
-            ans = c + ans
+            res = c + res
             num = num >> 4
-        return ans.lstrip('0')  # strip leading zeroes
+        return res.lstrip('0')  # strip leading zeroes
 
 
+num = 23
+a = Solution()
+print(a.toHex(num))
 
