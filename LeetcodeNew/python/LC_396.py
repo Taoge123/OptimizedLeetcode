@@ -54,6 +54,7 @@ F(3) = F(2) + sum - 4B
 时间复杂度是O(N)，空间复杂度是O(1).
 """
 
+
 class Solution:
     def maxRotateFunction(self, A) -> int:
 
@@ -66,11 +67,15 @@ class Solution:
             f += i * a
 
         res = f
-        for i in range(n - 1, 0, -1):
-            f = f + summ - n * A[i]
-            res = max(res, f)
-        return res
+        #         for i in range(n - 1, 0, -1):
+        #             f = f + summ - n * A[i]
+        #             res = max(res, f)
 
+        for i in range(n - 1):
+            f = f + summ - n * A[n - i - 1]
+            res = max(res, f)
+
+        return res
 
 
 

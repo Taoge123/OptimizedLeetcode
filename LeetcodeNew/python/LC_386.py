@@ -62,7 +62,7 @@ class Solution3:
 
 
 
-n = 14
+n = 200
 a = Solution2()
 print(a.lexicalOrder(n))
 

@@ -37,7 +37,7 @@ class Solution:
     def lengthLongestPath(self, input: str) -> int:
 
         dict = {}
-        longest = 0
+        res = 0
         fileList = input.split("\n")
         for file in fileList:  # 是文件夹
             if "." not in file:
@@ -48,12 +48,15 @@ class Solution:
                 key = file.count("\t")
                 # 　文件的长度：所有目录的长度＋文件的长度＋“\”的数量
                 length = sum([dict[j] for j in dict.keys() if j < key]) + len(file.replace("\t", "")) + key
-                longest = max(longest, length)
-        return longest
+                res = max(res, length)
+        return res
 
 
 
+input = "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"
 
+a = Solution()
+print(a.lengthLongestPath(input))
 
 
 
