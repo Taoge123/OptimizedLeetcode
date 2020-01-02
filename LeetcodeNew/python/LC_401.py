@@ -21,6 +21,15 @@ The minute must be consist of two digits and may contain a leading zero, for exa
 
 import itertools
 
+class Solution0:
+    def readBinaryWatch(self, num):
+        return ['%d:%02d' % (h, m)
+                for h in range(12) for m in range(60)
+                if (bin(h) + bin(m)).count('1') == num]
+
+
+
+
 class Solution:
     def readBinaryWatch(self, num):
         res = []
@@ -43,7 +52,9 @@ class Solution:
         self.dfs(num, hours + 1, res)
 
 
-
+n = 1
+a = Solution()
+print(a.readBinaryWatch(n))
 
 
 

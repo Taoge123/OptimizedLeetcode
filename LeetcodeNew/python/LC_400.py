@@ -42,5 +42,8 @@ class Solution:
 
 
 
+n = 20
+a = Solution()
+print(a.findNthDigit(n))
 
 

@@ -15,6 +15,17 @@ queries = [ ["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"] ].
 
 
 The input is always valid. You may assume that evaluating the queries will result in no division by zero and there is no contradiction."""
+"""
+这个题其实是一个带权有向图。
+
+题目中给了顶点和顶点之间的关系，其实就是绘制了这个图。然后要求的新的比值其实就是从一个顶点到达另外一个顶点的路径，并且把这条路径上所有的权重相乘。
+
+注意，如果a/b=3，那么从a到b是3，那么从b到a是1/3.
+
+既然是从一个顶点出发到达另外一个顶点，所以应该是dfs解决的问题。
+
+为了防止在DFS中走已经走过了的路，所以需要使用visited保存每次已经访问过的节点
+"""
 
 import collections
 
@@ -49,6 +60,15 @@ class Solution:
         return -1.0
 
 
+
+
+
+equations = [ ["a", "b"], ["b", "c"] ]
+values = [2.0, 3.0]
+queries = [ ["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"]]
+
+a = Solution()
+print(a.calcEquation(equations, values, queries))
 
 
 

@@ -28,7 +28,7 @@ class Solution:
     def removeKdigits(self, num, k):
 
         stack = []
-        if k == len(num):
+        if k >= len(num):
             return "0"
 
         for item in num:
@@ -39,10 +39,8 @@ class Solution:
         while k:
             stack.pop()
             k -= 1
-        if not stack:
-            return "0"
-        return str(int("".join(stack)))
 
+        return str(int("".join(stack)))
 
 
 

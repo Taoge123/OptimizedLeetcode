@@ -40,6 +40,7 @@ class Solution:
         for stone in stones:
             table[stone] = set()
         table.get(0).add(0)
+
         for i in range(len(stones)):
             for k in table.get(stones[i]):
                 for step in range(k - 1, k + 2):
@@ -49,6 +50,11 @@ class Solution:
         return len(table[stones[-1]]) > 0
 
 
+
+
+stones = [0,1,3,5,6,8,12,17]
+a = Solution()
+print(a.canCross(stones))
 
 
 
