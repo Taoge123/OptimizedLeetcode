@@ -36,7 +36,25 @@ class Solution:
         return res
 
 
-# Your Solution object will be instantiated and called as such:
+class Solution2:
+
+    def __init__(self, nums):
+        self.nums = nums
+
+    def pick(self, target):
+        res = -1
+        count = 0
+        for i, num in enumerate(self.nums):
+            if num == target:
+                if random.randint(0, count) == 0:
+                    res = i
+                count += 1
+        return res
+
+
+
+
+    # Your Solution object will be instantiated and called as such:
 # obj = Solution(nums)
 # param_1 = obj.pick(target)
 
