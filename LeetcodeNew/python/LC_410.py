@@ -23,6 +23,15 @@ where the largest sum among the two subarrays is only 18.
 
 """
 
+"""
+410. Split Array Largest Sum
+774. Minimize Max Distance to Gas Station
+875. Koko Eating Bananas
+1011. Capacity To Ship Packages Within D Days
+1231. Divide Chocolate
+1201. Ugly Number III
+"""
+
 
 class Solution:
     def splitArray(self, nums, m):
@@ -48,6 +57,28 @@ class Solution:
                     return False
         return True
 
+
+
+
+class Solution2:
+    def splitArray(self, nums, m: int) -> int:
+
+        n = len(nums)
+        summ = [0] * (n + 1)
+        dp = [[float('inf') for i in range(n + 1)] for j in range(m + 1)]
+
+        dp[0][0] = 0
+
+        for i in range(1, n + 1):
+            summ[i] = summ[i - 1] + nums[i - 1]
+
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                for k in range(i - 1, j):
+                    val = max(dp[i - 1][k], summ[j] - summ[k])
+                    dp[i][j] = min(dp[i][j], val)
+
+        return dp[m][n]
 
 
 

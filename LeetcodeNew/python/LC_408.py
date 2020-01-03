@@ -44,4 +44,9 @@ class Solution:
         return i == m and j == n
 
 
+word = "apple"
+abbr = "a2e"
+
+a = Solution()
+print(a.validWordAbbreviation(word, abbr))
 
