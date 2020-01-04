@@ -65,5 +65,8 @@ class Solution:
 
 
 
+expression = "F?1:T?4:5"
+a = Solution()
+print(a.parseTernary(expression))
 
 
