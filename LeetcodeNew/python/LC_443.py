@@ -78,6 +78,36 @@ class Solution:
 
 
 
+class Solution2:
+    def compress(self, chars):
+
+        pre = chars[0]
+        count = 0
+        pos = 0
+        for char in chars:
+            if pre == char:
+                count += 1
+            else:
+                chars[pos] = pre
+                pos += 1
+                if count > 1:
+                    count = str(count)
+                    for i in range(len(count)):
+                        chars[pos] = count[i]
+                        pos += 1
+                count = 1
+                pre = char
+        chars[pos] = pre
+        pos += 1
+        if count > 1:
+            count = str(count)
+            for i in range(len(count)):
+                chars[pos] = count[i]
+                pos += 1
+        return pos
+
+
+
 chars = ["a","a","b","b","c","c","c"]
 a = Solution()
 print(a.compress(chars))
