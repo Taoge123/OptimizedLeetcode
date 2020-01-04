@@ -63,10 +63,20 @@ class Solution:
         for i in range(rows):
             start += cols
             while s[start % length] != ' ':
+                print(start % length)
                 start -= 1
             start += 1
         return start // length
 
+
+
+
+rows = 4
+cols = 8
+sentence = ["hello", "world"]
+
+a = Solution()
+print(a.wordsTyping(sentence, rows, cols))
 
 
 

@@ -37,8 +37,18 @@ class Solution:
         dp = [True] + [False] * target
         for num in nums:
             for i in range(target, num - 1, -1):
+                print(i, i - num)
                 dp[i] = dp[i] or dp[i - num]
         return dp[target]
+
+
+
+
+nums = [1, 5, 11, 5]
+a = Solution()
+print(a.canPartition(nums))
+
+
 
 
 

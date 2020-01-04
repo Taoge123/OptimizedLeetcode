@@ -16,6 +16,12 @@ class Node(object):
 
 
 class Codec:
+
+    def serialize(self, root: 'Node') -> str:
+        res = []
+        self.preorder(root, res)
+        return "".join(res)
+
     def preorder(self, node, res):
         if not node:
             return
@@ -25,11 +31,14 @@ class Codec:
             self.preorder(child, res)
 
         res.append("#")
+    def deserialize(self, data: str) -> 'Node':
+        if not data:
+            return
 
-    def serialize(self, root: 'Node') -> str:
-        res = []
-        self.preorder(root, res)
-        return "".join(res)
+        tokens = collections.deque(data.split())
+        root = Node(int(tokens.popleft()), [])
+        self.helper(root, tokens)
+        return root
 
     def helper(self, node, tokens):
         if not tokens:
@@ -41,15 +50,6 @@ class Codec:
             node.children.append(child)
             self.helper(child, tokens)
         tokens.popleft()
-
-    def deserialize(self, data: str) -> 'Node':
-        if not data:
-            return
-
-        tokens = collections.deque(data.split())
-        root = Node(int(tokens.popleft()), [])
-        self.helper(root, tokens)
-        return root
 
 
 """
