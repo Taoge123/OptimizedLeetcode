@@ -60,7 +60,7 @@ class Solution:
                 return step
             for i in range(len(node)):
                 for char in "ACGT":
-                    nextNode = node[:i] + char + node[ i +1:]
+                    nextNode = node[:i] + char + node[i +1:]
                     if nextNode in bank and nextNode != node:
                         queue.append((nextNode, step + 1))
                         bank.remove(nextNode)
