@@ -19,3 +19,6 @@ class Solution:
         return count
 
 
+s = "Hello, my name is John"
+a = Solution()
+print(a.countSegments(s))

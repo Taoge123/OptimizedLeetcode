@@ -44,4 +44,7 @@ class Solution:
         return res
 
 
+intervals = [[1,2],[2,3],[3,4],[1,3]]
 
+a = Solution()
+print(a.eraseOverlapIntervals(intervals))
