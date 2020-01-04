@@ -22,12 +22,16 @@ Do not use class member/global/static variables to store states. Your encode and
 
 """
 
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
-
 
 class Codec:
 
@@ -59,4 +63,33 @@ class Codec:
 
         return nary
 
+
+class Codec2:
+    def encode(self, root: 'Node') -> TreeNode:
+        if not root:
+            return None
+
+        res = TreeNode(root.val)
+        if len(root.children) > 0:
+            res.left = self.encode(root.children[0])
+
+        cur = res.left
+        for i in range(1, len(root.children)):
+            cur.right = self.encode(root.children[i])
+            cur = cur.right
+
+        return res
+
+    def decode(self, data: TreeNode) -> 'Node':
+        if not data:
+            return None
+
+        res =Node(data.val, [])
+        cur = data.left
+
+        while cur:
+            res.children.append(self.decode(cur))
+            cur = cur.right
+
+        return res
 
