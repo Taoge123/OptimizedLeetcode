@@ -34,3 +34,20 @@ class Solution:
 
 
 
+
+l1 = ListNode(7)
+l1.next = ListNode(2)
+l1.next.next = ListNode(4)
+l1.next.next.next = ListNode(5)
+
+
+l2 = ListNode(6)
+l2.next = ListNode(6)
+l2.next.next = ListNode(4)
+
+a = Solution()
+print(a.addTwoNumbers(l1, l2))
+
+
+
+
