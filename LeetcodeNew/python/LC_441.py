@@ -30,7 +30,18 @@ Because the 4th row is incomplete, we return 3.
 """
 
 
-class Solution:
+class Solution1:
+    def arrangeCoins(self, n: int) -> int:
+        i = 0
+        while n > 0:
+            i += 1
+            n -= i
+
+        return i if n == 0 else i - 1
+
+
+
+class Solution2:
     def arrangeCoins(self, n: int) -> int:
 
         left = 1

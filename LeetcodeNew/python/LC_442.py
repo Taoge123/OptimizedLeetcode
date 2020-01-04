@@ -25,6 +25,7 @@ class Solution:
 
         return res
 
+
 nums = [4,3,2,7,8,2,3,1]
 a = Solution()
 print(a.findDuplicates(nums))
