@@ -42,4 +42,18 @@ class Solution:
 
 
 
+class Solution2:
+    def findMinArrowShots(self, points) -> int:
+
+        points = sorted(points, key = lambda x: x[1])
+        res, end = 0, -float('inf')
+        for interval in points:
+            if interval[0] > end:
+                res += 1
+                end = interval[1]
+            else:
+                end = min(end, interval[1])
+        return res
+
+
 
