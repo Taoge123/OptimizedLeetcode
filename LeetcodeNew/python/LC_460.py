@@ -1,4 +1,7 @@
 """
+
+https://leetcode.com/problems/lfu-cache/discuss/207673/Python-concise-solution-**detailed**-explanation%3A-Two-dict-%2B-Doubly-linked-list
+
 Design and implement a data structure for Least Frequently Used (LFU) cache. It should support the following operations: get and put.
 
 get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
@@ -306,60 +309,131 @@ class LFUCacheAgain:
 
 
 
-class Node2:
-    def __init__(self, key, val, count):
-        self.key = key
-        self.val = val
-        self.freq = count
-
 
 class LFUCache2:
+    def __init__(self, capacity: int):
+        self.capacity=capacity
+        self.minfreq=None
+        self.freq={}
+        self.keys=collections.defaultdict(collections.OrderedDict)
+
+    def get(self, key: int) -> int:
+        if key not in self.freq:
+            return -1
+        freq=self.freq[key]
+        val=self.keys[freq][key]
+        del self.keys[freq][key]
+        if not self.keys[freq]:
+            if freq==self.minfreq:
+                self.minfreq+=1
+            del self.keys[freq]
+        self.freq[key]=freq+1
+        self.keys[freq+1][key]=val
+        return val
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity<=0:
+            return
+        if key in self.freq:
+            freq=self.freq[key]
+            self.keys[freq][key]=value
+            self.get(key)
+            return
+        if self.capacity==len(self.freq):
+            delkey,delval=self.keys[self.minfreq].popitem(last=False)
+            del self.freq[delkey]
+        self.freq[key]=1
+        self.keys[1][key]=value
+        self.minfreq=1
+
+
+class Node3:
+    def __init__(self, k, v):
+        self.prev = None
+        self.next = None
+        self.key = k
+        self.val = v
+        self.cnt = 1
+
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = Node3(0, 0)  # head is a dummy head node
+        self.tail = Node3(0, 0)  # tail is a dummy tail node
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.size = 0
+
+    def add(self, node):
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+        node.prev = self.head
+        self.size += 1
+
+    def removeTail(self):
+        prevTail = self.tail.prev
+        node = self.tail.prev
+        node.prev.next = self.tail
+        self.tail.prev = node.prev
+        self.size -= 1
+        return prevTail
+
+    def removeNode(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        self.size -= 1
+
+
+class LFUCache3:
     def __init__(self, capacity):
+        self.keys = {}
+        self.freq = collections.defaultdict(DoublyLinkedList)
         self.capacity = capacity
-        self.key = {}
-        self.frequency = {}
-        self.minVal = None
+        self.size = 0
+        self.minFreq = 0
 
     def get(self, key):
-        if not key in self.key:
+        if key not in self.keys:
             return -1
-        node = self.key[key]
-        del self.frequency[node.freq][key]
-        if not self.frequency[node.freq]:
-            del self.frequency[node.freq]
-        node.freq += 1
-        if not node.freq in self.frequency:
-            self.frequency[node.freq] = collections.OrderedDict()
-
-        self.frequency[node.freq][key] = node
-
-        if not self.minVal in self.frequency:
-            self.minVal += 1
-        return node.val
+        else:
+            node = self.keys[key]
+            prevCount = node.cnt
+            node.cnt += 1
+            self.freq[prevCount].removeNode(node)
+            self.freq[node.cnt].add(node)
+            if prevCount == self.minFreq and self.freq[prevCount].size == 0:
+                self.minFreq += 1
+            return node.val
 
     def put(self, key, value):
-        # 如果存在该如何处理 更新value且计数+1
-        if self.capacity == 0:
-            return None
-        if key in self.key:
-            self.key[key].val = value
-            self.get(key)
+        if self.capacity <= 0:
+            return
+        if key not in self.keys:
+            node = Node3(key, value)
+            self.keys[key] = node
+            if self.size != self.capacity:
+                self.freq[1].add(node)
+                self.size += 1
+            else:
+                prevTail = self.freq[self.minFreq].removeTail()
+                self.keys.pop(prevTail.key)
+                self.freq[1].add(node)
+            self.minFreq = 1
         else:
-            if len(self.key) == self.capacity:
-                item = self.frequency[self.minVal].popitem(last=False)
-                del self.key[item[0]]
-            node = Node2(key, value, 1)
-            self.key[key] = node
-            if not 1 in self.frequency:
-                self.frequency[1] = collections.OrderedDict()
-
-            self.frequency[1][key] = node
-            self.minVal = 1
+            node = self.keys[key]
+            node.val = value
+            prevCount = node.cnt
+            node.cnt += 1
+            self.freq[prevCount].removeNode(node)
+            self.freq[node.cnt].add(node)
+            if prevCount == self.minFreq and self.freq[prevCount].size == 0:
+                self.minFreq += 1
 
 
 
 
-cache = LFUCache(2)
+cache = LFUCacheAgain(2)
 print(cache.put(1, 1))
 print(cache.put(2, 2))
 print(cache.get(1))       # returns 1
