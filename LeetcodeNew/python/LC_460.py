@@ -360,7 +360,6 @@ class LFUCache2:
 
 
 cache = LFUCache(2)
-
 print(cache.put(1, 1))
 print(cache.put(2, 2))
 print(cache.get(1))       # returns 1
