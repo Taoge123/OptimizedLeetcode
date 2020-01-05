@@ -78,8 +78,10 @@ class Solution:
 
 
 
-
-transactions = [[0,1,10], [1,0,1], [1,2,5], [2,0,5]]
+transactions = [[0,1,10],
+                [1,0,1],
+                [1,2,5],
+                [2,0,5]]
 a = Solution()
 print(a.minTransfers(transactions))
 
