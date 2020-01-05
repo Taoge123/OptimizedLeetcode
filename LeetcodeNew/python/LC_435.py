@@ -31,7 +31,8 @@ Intervals like [1,2] and [2,3] have borders "touching" but they don't overlap ea
 class Solution:
     def eraseOverlapIntervals(self, intervals) -> int:
 
-        if not intervals: return 0
+        if not intervals:
+            return 0
         intervals.sort(key=lambda x: x[0])  # sort on start time
         currEnd = intervals[0][1]
         res = 0
