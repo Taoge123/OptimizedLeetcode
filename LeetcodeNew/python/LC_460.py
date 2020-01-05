@@ -165,7 +165,7 @@ class LFUCache:
         self.minfreq = 0
 
 
-    def _update(self, node):
+    def update(self, node):
         """
         This is a helper function that used in the following two cases:
 
@@ -200,14 +200,14 @@ class LFUCache:
     def get(self, key):
         """
         Through checking self.node[key], we can get the node in O(1) time.
-        Just performs self._update, then we can return the value of node.
+        Just performs self.update, then we can return the value of node.
 
         """
         if key not in self.node:
             return -1
 
         node = self.node[key]
-        self._update(node)
+        self.update(node)
         return node.val
 
     def put(self, key, value):
@@ -238,7 +238,7 @@ class LFUCache:
 
         if key in self.node:
             node = self.node[key]
-            self._update(node)
+            self.update(node)
             node.val = value
         else:
             if self.size == self.capacity:
@@ -264,7 +264,7 @@ class LFUCacheAgain:
         self.minfreq = 0
 
 
-    def _update(self, node):
+    def update(self, node):
         freq = node.freq
 
         self.freq[freq].pop(node)
@@ -280,7 +280,7 @@ class LFUCacheAgain:
             return -1
 
         node = self.node[key]
-        self._update(node)
+        self.update(node)
         return node.val
 
     def put(self, key, value):
@@ -289,7 +289,7 @@ class LFUCacheAgain:
 
         if key in self.node:
             node = self.node[key]
-            self._update(node)
+            self.update(node)
             node.val = value
         else:
             if self.size == self.capacity:
@@ -306,7 +306,7 @@ class LFUCacheAgain:
 
 
 
-class Node:
+class Node2:
     def __init__(self, key, val, count):
         self.key = key
         self.val = val
@@ -348,7 +348,7 @@ class LFUCache2:
             if len(self.key) == self.capacity:
                 item = self.frequency[self.minVal].popitem(last=False)
                 del self.key[item[0]]
-            node = Node(key, value, 1)
+            node = Node2(key, value, 1)
             self.key[key] = node
             if not 1 in self.frequency:
                 self.frequency[1] = collections.OrderedDict()
@@ -359,7 +359,17 @@ class LFUCache2:
 
 
 
+cache = LFUCache(2)
 
-
+print(cache.put(1, 1))
+print(cache.put(2, 2))
+print(cache.get(1))       # returns 1
+print(cache.put(3, 3))    # evicts key 2
+print(cache.get(2))       # returns -1 (not found)
+print(cache.get(3))       # returns 3.
+print(cache.put(4, 4))    # evicts key 1.
+print(cache.get(1))       # returns -1 (not found)
+print(cache.get(3))       # returns 3
+print(cache.get(4))       # returns 4
 
 
