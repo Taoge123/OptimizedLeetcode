@@ -37,11 +37,15 @@ class Solution:
 
             while stack and stack[-1] < item:
                 mid = stack.pop()
+                
             stack.append(item)
 
         return False
 
 
+nums = [3, 1, 4, 2]
+a = Solution()
+print(a.find132pattern(nums))
 
 
 
