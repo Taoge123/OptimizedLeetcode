@@ -347,6 +347,8 @@ class LFUCache2:
         self.minfreq=1
 
 
+
+
 class Node3:
     def __init__(self, k, v):
         self.prev = None
