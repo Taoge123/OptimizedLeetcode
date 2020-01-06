@@ -57,8 +57,26 @@ class Solution:
         return True
 
 
+class Solution2:
+    def isConvex(self, points):
+        direct = 0
+        for i in range(len(points)):
+            currDirect = self.crossProduct(points[i - 2], points[i - 1], points[i])
+            if currDirect == 0:
+                continue
+            if not direct:
+                direct = currDirect
+            else:
+                if direct * currDirect < 0:
+                    return False
+        return True
+
+    def crossProduct(self, a, b, c):
+        return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
 
 
 
-
+points = [[0,0],[0,10],[10,10],[10,0],[5,5]]
+a = Solution2()
+print(a.isConvex(points))
 
