@@ -39,12 +39,14 @@ class Solution:
             for x in range(m, -1, -1):
                 for y in range(n, -1, -1):
                     if x >= zero and y >= one:
-                        dp[x][y] = max(dp[x][y], dp[ x -zero][ y -one] + 1)
+                        dp[x][y] = max(dp[x][y], dp[x - zero][y - one] + 1)
 
         return dp[m][n]
 
     def count(self, s):
         return sum(1 for char in s if char == '0'), sum(1 for char in s if char == '1')
+
+
 
 
 strs = ["10", "0001", "111001", "1", "0"]
@@ -53,5 +55,7 @@ n = 3
 
 a = Solution()
 print(a.findMaxForm(strs, m, n))
+
+
 
 

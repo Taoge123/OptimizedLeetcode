@@ -41,6 +41,21 @@ class Solution:
 
 
 
+class Solution2:
+    def largestPalindrome(self, n):
+
+        maxi = 10 ** n - 1
+        mini = maxi // 10
+        for left in range(maxi, mini, -1):
+            right = str(left)[::-1]
+            target = int(str(left) + right)
+            i = maxi
+            while i * i > target:
+                if target % i == 0:
+                    return target % 1337
+                i -= 1
+        return 9
+
 
 
 

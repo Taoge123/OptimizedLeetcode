@@ -36,5 +36,8 @@ class Solution2:
         return num
 
 
+num = 5
+a = Solution()
+print(a.findComplement(num))
 
 
