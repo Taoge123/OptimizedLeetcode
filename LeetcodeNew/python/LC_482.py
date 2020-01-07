@@ -38,4 +38,23 @@ class Solution:
         return res
 
 
+class Solution2:
+    def licenseKeyFormatting(self, S, K):
+        res = []
+        for i in range(len(S) - 1, -1, -1):
+            if S[i] != '-':
+                if len(res) % (K + 1) == K:
+                    res.append('-')
+                    res.append(S[i])
+                else:
+                    res.append(S[i])
+
+        return "".join(res[::-1]).upper()
+
+
+
+S = "5F3Z-2e-9-w"
+K = 3
+a = Solution2()
+print(a.licenseKeyFormatting(S, K))
 
