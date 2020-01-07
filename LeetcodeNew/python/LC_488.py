@@ -94,4 +94,9 @@ class SolutionFast2:
             i = j
 
 
+board = "WWRRBBWW"
+hand = "WRBRW"
+
+a = SolutionFast()
+print(a.findMinStep(board, hand))
 
