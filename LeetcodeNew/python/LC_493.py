@@ -41,13 +41,15 @@ class Solution2:
         self.mergeSort(nums)
         return self.res
 
-    def mergeSort(self, lst):
+    def mergeSort(self, nums):
         # merge sort body
-        L = len(lst)
-        if L <= 1:  # base case
-            return lst
+        n = len(nums)
+        if n <= 1:  # base case
+            return nums
         else:  # recursive case
-            return self.merge(self.mergeSort(lst[:int(L / 2)]), self.mergeSort(lst[int(L / 2):]))
+            left = self.mergeSort(nums[:int(n / 2)])
+            right = self.mergeSort(nums[int(n / 2):])
+            return self.merge(left, right)
 
     def merge(self, left, right):
         # merge
