@@ -57,7 +57,6 @@ class Solution:
         return str(len(temp) // pos) + '[' + dp[i][i + pos - 1] + ']'
 
     def encode(self, s):
-
         n = len(s)
         dp = [[''] * n for _ in range(n)]
 
