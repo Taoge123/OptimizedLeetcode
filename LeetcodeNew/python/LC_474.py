@@ -47,3 +47,11 @@ class Solution:
         return sum(1 for char in s if char == '0'), sum(1 for char in s if char == '1')
 
 
+strs = ["10", "0001", "111001", "1", "0"]
+m = 5
+n = 3
+
+a = Solution()
+print(a.findMaxForm(strs, m, n))
+
+
