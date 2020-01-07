@@ -46,16 +46,17 @@ class SolutionFast:
             j = i + 1
             while j < len(board) and board[i] == board[j]:
                 j += 1
-            ball = 3 - (j - i)
-            if counter[board[i]] >= ball:
-                ball = 0 if ball < 0 else ball
-                counter[board[i]] -= ball
+            need = 3 - (j - i)
+            if counter[board[i]] >= need:
+                need = 0 if need < 0 else need
+                counter[board[i]] -= need
                 temp = self.dfs(board[:i] + board[j:], counter)
                 if temp >= 0:
-                    res = min(res, temp + ball)
-                counter[board[i]] += ball
+                    res = min(res, temp + need)
+                counter[board[i]] += need
             i = j
         return res if res != float("inf") else -1
+
 
 
 
