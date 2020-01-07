@@ -44,6 +44,9 @@ class Solution:
 
 
 
+s = "DIDDDDD"
+a = Solution()
+print(a.findPermutation(s))
 
 
 

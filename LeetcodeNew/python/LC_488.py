@@ -32,41 +32,65 @@ The number of balls in your hand won't exceed 5, and the string represents these
 Both input strings will be non-empty and only contain characters 'R','Y','B','G','W'.
 """
 
-from collections import Counter
+import collections
+
+class SolutionFast:
+    def findMinStep(self, board, hand):
+        return self.dfs(board, collections.Counter(hand))
+
+    def dfs(self, board, counter):
+        if not board:
+            return 0
+        res, i = float("inf"), 0
+        while i < len(board):
+            j = i + 1
+            while j < len(board) and board[i] == board[j]:
+                j += 1
+            ball = 3 - (j - i)
+            if counter[board[i]] >= ball:
+                ball = 0 if ball < 0 else ball
+                counter[board[i]] -= ball
+                temp = self.dfs(board[:i] + board[j:], counter)
+                if temp >= 0:
+                    res = min(res, temp + ball)
+                counter[board[i]] += ball
+            i = j
+        return res if res != float("inf") else -1
 
 
-class Solution:
-    def findMinStep(self, board: 'str', hand: 'str') -> 'int':
 
-        self.ans = 2147483647
-        self.initlenofhand = len(hand)
-        dic = Counter(hand)
+class SolutionFast2:
+    def findMinStep(self, board: str, hand: str) -> int:
+        count = collections.Counter(hand)
+        self.res = len(hand) + 1
+        self.dfs(list(board + '#'), count, hand)
+        return -1 if self.res > len(hand) else self.res
 
-        def helper(board, n, dic):
+    def reduce(self, balls):
+        i = 0
+        for j, ball in enumerate(balls):
+            if ball == balls[i]:
+                continue
+            if j - i >= 3:
+                return self.reduce(balls[0:i] + balls[j:])
+            else:
+                i = j
+        return balls
 
-            if not board:
-                self.ans = min(self.ans, self.initlenofhand - n)
-                return
-
-            for i, char in enumerate(board):
-                if i > 0 and char == board[i - 1]:
-                    continue
-                j = i
-                while j < len(board) and board[j] == char:
-                    j += 1
-                if j - i >= 3:
-                    helper(board[:i] + board[j:], n, dic)
-                elif j - i == 2 and dic[char] > 0:
-                    dic[char] -= 1
-                    helper(board[:i] + board[j:], n - 1, dic)
-                    dic[char] += 1
-                elif dic[char] > 0:
-                    dic[char] -= 1
-                    helper(board[:i] + char + board[i:], n - 1, dic)
-                    dic[char] += 1
-
-        helper(board, len(hand), dic)
-        return self.ans if self.ans != 2147483647 else -1
+    def dfs(self, board, count, hand):
+        board = self.reduce(board)
+        if board == ['#']:
+            self.res = min(self.res, len(hand) - sum(list(count.values())))
+        i = 0
+        for j in range(len(board)):
+            if board[i] == board[j]:
+                continue
+            need = 3 - (j - i)
+            if count[board[i]] >= need:
+                count[board[i]] -= need
+                self.dfs(board[0:i] + board[j:], count, hand)
+                count[board[i]] += need
+            i = j
 
 
 
