@@ -1,6 +1,7 @@
 """
 315. Count of Smaller Numbers After Self
 327. Count of Range Sum
+https://leetcode.com/problems/count-of-range-sum/discuss/407655/Python-different-concise-solutions
 493. Reverse Pairs
 
 Given an integer array nums, return the number of range sums that lie in [lower, upper] inclusive.
@@ -82,6 +83,36 @@ class Solution3:
         ])
 
         return count
+
+
+class Solution4:
+    # prefix-sum + merge-sort | time complexity: O(nlogn)
+    def countRangeSum(self, nums, lower: int, upper: int) -> int:
+        preSum = [0]
+        for n in nums:
+            preSum.append(preSum[-1] + n)
+        return self.mergesort(preSum, 0, len(preSum) - 1, lower, upper)
+
+    # inclusive
+    def mergesort(self, preSum, left, right, lower, upper):
+        if left == right:
+            return 0
+        mid = (left + right) // 2
+        res = self.mergesort(preSum, left, mid, lower, upper) + \
+              self.mergesort(preSum, mid + 1, right, lower, upper)
+
+        i = j = mid + 1
+        # O(n)
+        for num in preSum[left:mid + 1]:
+            while i <= right and preSum[i] - num < lower:
+                i += 1
+            while j <= right and preSum[j] - num <= upper:
+                j += 1
+            res += j - i
+
+        preSum[left:right + 1] = sorted(preSum[left:right + 1])
+        return res
+
 
 
 nums = [-2,5,-1]

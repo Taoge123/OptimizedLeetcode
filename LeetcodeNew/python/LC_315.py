@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/408322/Python-Different-Concise-Solutions
+
 315. Count of Smaller Numbers After Self
 327. Count of Range Sum
 493. Reverse Pairs
@@ -30,6 +32,31 @@ class Solution:
 
         return res[::-1]
 
+
+class Solution2:
+    def countSmaller(self, nums):
+        nums = nums[::-1]
+        nums = [(num, i) for i, num in enumerate(nums)]
+        res = [0] * len(nums)
+
+        self.mergesort(nums, 0, len(nums) - 1, res) if nums else None
+        return res[::-1]
+
+    def mergesort(self, nums, left, right, res):
+        if left == right:
+            return
+        mid = (left + right) // 2
+        self.mergesort(nums, left, mid, res)
+        self.mergesort(nums, mid + 1, right, res)
+
+        i = left
+        # O(n)
+        for j in range(mid + 1, right + 1):
+            while i < mid + 1 and nums[i][0] < nums[j][0]:
+                i += 1
+            res[nums[j][1]] += i - left
+
+        nums[left:right + 1] = sorted(nums[left:right + 1])
 
 
 

@@ -33,4 +33,61 @@ class Solution:
         return res
 
 
+class Solution2:
+    def __init__(self):
+        self.res = 0
+
+    def reversePairs(self, nums):
+        self.mergeSort(nums)
+        return self.res
+
+    def mergeSort(self, lst):
+        # merge sort body
+        L = len(lst)
+        if L <= 1:  # base case
+            return lst
+        else:  # recursive case
+            return self.merge(self.mergeSort(lst[:int(L / 2)]), self.mergeSort(lst[int(L / 2):]))
+
+    def merge(self, left, right):
+        # merge
+        i, j = 0, 0  # increase l and r iteratively
+        while i < len(left) and j < len(right):
+            if left[i] <= 2 * right[j]:
+                i += 1
+            else:
+                self.res += len(left) - i  # add here
+                j += 1
+        return sorted(left + right)  # I can't avoid TLE without timsort...
+
+
+
+
+class Solution3:
+    def reversePairs(self, nums):
+        if len(nums) <= 1:
+            return 0
+        res = [0]
+        self.merge(nums, res)
+        return res[0]
+
+    def merge(self, nums, res):
+        if len(nums) <= 1:
+            return nums
+
+        left = self.merge(nums[:len(nums) // 2], res)
+        right = self.merge(nums[len(nums) // 2:], res)
+        i = j = 0
+
+        while i < len(left) and j < len(right):
+            if left[i] <= 2 * right[j]:
+                i += 1
+            else:
+                res[0] += len(left) - i
+                j += 1
+
+        return sorted(left + right)
+
+
+
 

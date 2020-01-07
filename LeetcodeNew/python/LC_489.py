@@ -86,8 +86,6 @@ Assume all four edges of the grid are all surrounded by wall.
 class Solution:
     def cleanRoom(self, robot):
 
-        # self.directions = [(-1, 0),(1, 0),(0, -1),(0, 1)]
-        # self.dfs(robot, 0, 0, set(), 0)
         self.directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
         self.dfs(robot, 0, 0, set(), 0)
 
@@ -105,8 +103,6 @@ class Solution:
                 robot.turnLeft()
                 robot.turnLeft()
             robot.turnLeft()
-
-
 
 
 
