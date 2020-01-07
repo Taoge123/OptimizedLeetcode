@@ -29,7 +29,6 @@ The length of input string is a positive integer and will not exceed 10,000
 
 class Solution:
     def findPermutation(self, s: str):
-
         res = [i for i in range(1, len(s) + 2)]
 
         hi = 0
