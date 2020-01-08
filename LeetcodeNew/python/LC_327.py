@@ -84,8 +84,8 @@ class Solution3:
 
 
 
-nums = [-2,5,-1]
-lower = -2
+nums = [1,1,1,1,1,1,1,1]
+lower = 0
 upper = 2
 
 a = Solution()

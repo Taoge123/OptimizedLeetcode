@@ -91,6 +91,8 @@ class Solution3:
         return sorted(left + right)
 
 
-
+nums = [1,2,3,4,5,6,7,8]
+a = Solution()
+print(a.reversePairs(nums))
 
 
