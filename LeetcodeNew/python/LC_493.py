@@ -69,26 +69,27 @@ class Solution3:
     def reversePairs(self, nums):
         if len(nums) <= 1:
             return 0
-        res = [0]
-        self.mergesort(nums, res)
-        return res[0]
+        self.res = 0
+        self.merge(nums)
+        return self.res
 
-    def mergesort(self, nums, res):
+    def merge(self, nums):
         if len(nums) <= 1:
             return nums
 
-        left = self.mergesort(nums[:len(nums) // 2], res)
-        right = self.mergesort(nums[len(nums) // 2:], res)
+        left = self.merge(nums[:len(nums) // 2])
+        right = self.merge(nums[len(nums) // 2:])
         i = j = 0
 
         while i < len(left) and j < len(right):
             if left[i] <= 2 * right[j]:
                 i += 1
             else:
-                res[0] += len(left) - i
+                self.res += len(left) - i
                 j += 1
 
         return sorted(left + right)
+
 
 
 
