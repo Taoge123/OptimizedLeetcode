@@ -70,15 +70,15 @@ class Solution3:
         if len(nums) <= 1:
             return 0
         res = [0]
-        self.merge(nums, res)
+        self.mergesort(nums, res)
         return res[0]
 
-    def merge(self, nums, res):
+    def mergesort(self, nums, res):
         if len(nums) <= 1:
             return nums
 
-        left = self.merge(nums[:len(nums) // 2], res)
-        right = self.merge(nums[len(nums) // 2:], res)
+        left = self.mergesort(nums[:len(nums) // 2], res)
+        right = self.mergesort(nums[len(nums) // 2:], res)
         i = j = 0
 
         while i < len(left) and j < len(right):
