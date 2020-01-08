@@ -41,13 +41,19 @@ class Solution:
             return 0
 
         res = 0
-
         for i in range(len(timeSeries) - 1):
             res += min(timeSeries[i + 1] - timeSeries[i], duration)
 
         return res + duration
 
 
+
+
+
+timeSeries = [1, 4]
+duration = 2
+a = Solution()
+print(a.findPoisonedDuration(timeSeries, duration))
 
 
 
