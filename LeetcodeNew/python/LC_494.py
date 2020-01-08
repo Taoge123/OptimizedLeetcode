@@ -26,8 +26,7 @@ Your output answer is guaranteed to be fitted in a 32-bit integer.
 import collections
 
 class Solution:
-    def findTargetSumWays(self, nums: List[int], S: int) -> int:
-
+    def findTargetSumWays(self, nums, S: int) -> int:
         cache = {}
         return self.helper(nums, 0, S, cache)
 
@@ -49,7 +48,7 @@ class Solution:
 
 
 class Solution2:
-    def findTargetSumWays(self, nums: List[int], S: int) -> int:
+    def findTargetSumWays(self, nums, S: int) -> int:
         dp = collections.defaultdict(int)
         dp[0] = 1
         for num in nums:
@@ -63,4 +62,8 @@ class Solution2:
 
 
 
+nums = [1, 1, 1, 1, 1]
+S = 3
+a = Solution2()
+print(a.findTargetSumWays(nums, S))
 
