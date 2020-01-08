@@ -98,8 +98,8 @@ class Solution4:
         if left == right:
             return 0
         mid = (left + right) // 2
-        res = self.mergesort(preSum, left, mid, lower, upper) + \
-              self.mergesort(preSum, mid + 1, right, lower, upper)
+        res = self.mergesort(preSum, left, mid, lower, upper) \
+              + self.mergesort(preSum, mid + 1, right, lower, upper)
 
         i = j = mid + 1
         # O(n)
