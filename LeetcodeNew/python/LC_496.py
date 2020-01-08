@@ -23,6 +23,9 @@ All elements in nums1 and nums2 are unique.
 The length of both nums1 and nums2 would not exceed 1000.
 """
 
+"""
+{1: 3, 3: 4, 2: 5, 4: 5}
+"""
 
 class Solution:
     def nextGreaterElement(self, nums1, nums2):
@@ -39,5 +42,10 @@ class Solution:
         return res
 
 
+
+num1 = [4,1,2]
+num2 = [1,3,4,2,5]
+a = Solution()
+print(a.nextGreaterElement(num1, num2))
 
 
