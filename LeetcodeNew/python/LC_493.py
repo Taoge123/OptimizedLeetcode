@@ -3,7 +3,7 @@
 327. Count of Range Sum
 493. Reverse Pairs
 
-Given an array nums, we call (i, j) an important reverse pair if i < j and nums[i] > 2*nums[j].
+Given an array nums, we call (i, j) an important reverse pair if i < j and nums[i] > 2 * nums[j].
 
 You need to return the number of important reverse pairs in the given array.
 
@@ -91,7 +91,7 @@ class Solution3:
         return sorted(left + right)
 
 
-nums = [1,2,3,4,5,6,7,8]
+nums = [4,3,2,1]
 a = Solution()
 print(a.reversePairs(nums))
 

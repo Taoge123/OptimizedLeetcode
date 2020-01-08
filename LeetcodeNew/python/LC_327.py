@@ -37,7 +37,6 @@ class Solution:
 
 class Solution2:
     def countRangeSum(self, nums, lower: int, upper: int) -> int:
-
         presum = [0]
         for n in nums:
             presum.append(presum[-1] + n)
