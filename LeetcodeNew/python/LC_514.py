@@ -48,7 +48,7 @@ class Solution1:
         for i, val in enumerate(ring):
             table[val].append(i)
 
-        rsize = len(ring)
+        n = len(ring)
         init = {0: 0}
 
         for char in key:
@@ -56,7 +56,7 @@ class Solution1:
             for i in table[char]:
                 dp[i] = float('inf')
                 for j in init:
-                    dp[i] = min(dp[i], init[j] + min(abs(i - j), rsize - abs(i - j)))
+                    dp[i] = min(dp[i], init[j] + min(abs(i - j), n - abs(i - j)))
             init = dp
 
         return min(dp.values()) + len(key)
@@ -129,5 +129,5 @@ class Solution4:
 ring = "godding"
 key = "gd"
 
-a = Solution3()
+a = Solution2()
 print(a.findRotateSteps(ring, key))
