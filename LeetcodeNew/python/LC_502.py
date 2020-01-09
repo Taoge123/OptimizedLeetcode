@@ -31,8 +31,8 @@ class Solution:
         projects = sorted(zip(Profits, Capital), key=lambda l: l[1])
 
         i = 0
-
         for _ in range(k):
+            # add small capital's profits into heap
             while i < len(projects) and projects[i][1] <= W:
                 heapq.heappush(heap, -projects[i][0])
                 i += 1
@@ -43,8 +43,13 @@ class Solution:
 
 
 
+k = 2
+W = 0
+Profits = [1,2,3]
+Capital = [0,0,0]
 
-
+a = Solution()
+print(a.findMaximizedCapital(k, W, Profits, Capital))
 
 
 
