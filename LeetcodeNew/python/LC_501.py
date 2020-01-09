@@ -52,5 +52,37 @@ class Solution:
 
 
 
+class Solution2:
+    def findMode(self, root):
+        self.prev = None
+        self.maxi, self.count = 0, 0
+        self.res = []
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, node):
+        if not node:
+            return
+        self.dfs(node.left)
+
+        if node.val == self.prev:
+            self.count += 1
+        else:
+            self.count = 1
+
+        if self.count == self.maxi:
+            self.res.append(node.val)
+        elif self.count > self.maxi:
+            self.res = [node.val]
+            self.maxi = self.count
+        self.prev = node.val
+
+        self.dfs(node.right)
 
 
+root = TreeNode(1)
+root.right = TreeNode(2)
+root.right.left = TreeNode(2)
+
+a = Solution2()
+print(a.findMode(root))

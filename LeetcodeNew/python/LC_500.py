@@ -32,7 +32,9 @@ class Solution:
         return res
 
 
-
+words = ["Hello", "Alaska", "Dad", "Peace"]
+a = Solution()
+print(a.findWords(words))
 
 
 
