@@ -20,7 +20,7 @@ The length of the given list will be in the range of [2, 50].
 
 
 class Solution:
-    def findLUSlength(self, strs: List[str]) -> int:
+    def findLUSlength(self, strs) -> int:
         strs.sort(key=len, reverse=True)
         for i, word1 in enumerate(strs):
             if all(not self.isSubsequence(word1, word2) for j, word2 in enumerate(strs) if i != j):
@@ -44,5 +44,8 @@ class Solution:
 
 
 
+strs = ["aba", "cdc", "eae"]
+a = Solution()
+print(a.findLUSlength(strs))
 
 

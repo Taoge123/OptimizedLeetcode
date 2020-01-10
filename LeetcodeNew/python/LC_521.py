@@ -27,6 +27,11 @@ class Solution:
         return -1 if a == b else max(len(a), len(b))
 
 
+s1 = "abc"
+s2 = "bcd"
+
+a = Solution()
+print(a.findLUSlength(s1, s2))
 
 
 
