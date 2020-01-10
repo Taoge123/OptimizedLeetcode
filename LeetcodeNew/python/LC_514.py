@@ -96,9 +96,9 @@ class Solution3:
         for i, char in enumerate(ring):
             table[char].append(i)
         n = len(ring)
-        return self.dfs(ring, key, 0, table, n, cache)
+        return self.dfs(key, 0, table, n, cache)
 
-    def dfs(self, ring, key, pos, table, n, cache):
+    def dfs(self, key, pos, table, n, cache):
         if (pos, key) in cache:
             return cache[pos, key]
         if not key:
@@ -107,10 +107,9 @@ class Solution3:
         toChar = key[0]
         for i in table[toChar]:
             diff = min(n - abs(pos - i), abs(pos - i))
-            res = min(res, diff + 1 + self.dfs(ring, key[1:], i, table, n, cache))
+            res = min(res, diff + 1 + self.dfs(key[1:], i, table, n, cache))
         cache[pos, key] = res
         return res
-
 
 
 class Solution4:
