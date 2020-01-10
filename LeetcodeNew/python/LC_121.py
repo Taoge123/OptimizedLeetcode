@@ -29,7 +29,7 @@ class Solution:
             res = max(res, profit)
         return res
 
-class Solution:
+class Solution2:
     def maxProfit(self, prices):
         if not prices:
             return 0
