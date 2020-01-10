@@ -28,7 +28,6 @@ class Solution:
         return -1
 
     def isSubsequence(self, s: str, t: str) -> bool:
-
         if not s:
             return True
         if not t:
