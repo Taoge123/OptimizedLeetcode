@@ -37,16 +37,22 @@ the answer is guaranteed to fit into signed 32-bit integer
 
 class Solution:
     def change(self, amount: int, coins) -> int:
-
         dp = [0] * (amount + 1)
         dp[0] = 1
         for coin in coins:
             for j in range(1, amount + 1):
-
                 if j >= coin:
                     dp[j] += dp[j - coin]
 
         return dp[amount]
+
+
+
+amount = 5
+coins = [1, 2, 5]
+a = Solution()
+print(a.change(amount, coins))
+
 
 
 """
