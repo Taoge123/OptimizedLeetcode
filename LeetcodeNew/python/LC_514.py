@@ -89,7 +89,7 @@ class Solution2:
         return min(dp[i] for i in table[key[-1]])
 
 
-class Solution3:
+class Solution3Fast:
     def findRotateSteps(self, ring, key):
         cache = {}
         table = collections.defaultdict(list)
