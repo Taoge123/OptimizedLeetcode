@@ -52,3 +52,8 @@ class Solution:
 
 
 
+N = 15
+a = Solution()
+print(a.countArrangement(N))
+
+

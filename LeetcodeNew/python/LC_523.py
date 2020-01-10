@@ -40,5 +40,9 @@ class Solution:
 
 
 
+nums = [23, 2, 6, 4, 7]
+k=6
+a = Solution()
+print(a.checkSubarraySum(nums, k))
 
 

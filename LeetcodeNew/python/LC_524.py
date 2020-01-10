@@ -1,6 +1,8 @@
 
 """
-Given a string and a string dictionary, find the longest string in the dictionary that can be formed by deleting some characters of the given string. If there are more than one possible results, return the longest word with the smallest lexicographical order. If there is no possible result, return the empty string.
+Given a string and a string dictionary, find the longest string in the dictionary that can be formed by deleting some characters of the given string.
+If there are more than one possible results, return the longest word with the smallest lexicographical order.
+If there is no possible result, return the empty string.
 
 Example 1:
 Input:
@@ -25,11 +27,12 @@ class Solution:
     def findLongestWord(self, s: str, d) -> str:
         res = ''
         for cand in d:
-            if self.check(s, cand) and (len(cand) > len(res) or (len(cand) == len(res) and cand < res)):
+            if self.isSubsequence(s, cand) and (len(cand) > len(res)
+                         or (len(cand) == len(res) and cand < res)):
                 res = cand
         return res
 
-    def check(self, s, t):
+    def isSubsequence(self, s, t):
         i, j = 0, 0
         while i < len(s) and j < len(t):
             if s[i] == t[j]:
