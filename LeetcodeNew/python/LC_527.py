@@ -17,6 +17,15 @@ The words consist of lowercase English letters only.
 The return answers should be in the same order as the original array.
 """
 
+"""
+'l2e' = {list: 1} ['like']
+'god' = {list: 1} ['god']
+'i6l' = {list: 2} ['internal', 'interval']
+'me' = {list: 1} ['me']
+'i6t' = {list: 1} ['internet']
+'i7n' = {list: 2} ['intension', 'intrusion']
+'f2e' = {list: 1} ['face']
+"""
 
 import collections
 
@@ -49,5 +58,9 @@ class Solution:
         return res
 
 
+
+dict = ["like", "god", "intenal", "me", "internet", "interval", "intension", "face", "intrusion"]
+a = Solution()
+print(a.wordsAbbreviation(dict))
 
 
