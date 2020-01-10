@@ -26,3 +26,9 @@ class Solution:
 
 
 
+nums = [5, 1,2,3,4]
+a = Solution()
+print(a.nextGreaterElements(nums))
+
+
+
