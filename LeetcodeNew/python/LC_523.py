@@ -44,7 +44,7 @@ class SolutionNaive:
 class Solution:
     def checkSubarraySum(self, nums, k: int) -> bool:
 
-        table = {0: -1}
+        table = {0 : -1}
         summ = 0
         for i, num in enumerate(nums):
             summ = (summ + num) % k if k else summ + num
