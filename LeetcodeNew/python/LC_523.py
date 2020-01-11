@@ -24,6 +24,23 @@ You may assume the sum of all the numbers is in the range of a signed 32-bit int
 """
 
 
+class SolutionNaive:
+    def checkSubarraySum(self, nums, k: int) -> bool:
+
+        for i in range(len(nums)):
+            summ = nums[i]
+            for j in range(i + 1, len(nums)):
+                summ += nums[j]
+                if summ == k:
+                    return True
+                if k != 0 and summ % k == 0:
+                    return True
+
+        return False
+
+
+
+
 class Solution:
     def checkSubarraySum(self, nums, k: int) -> bool:
 
