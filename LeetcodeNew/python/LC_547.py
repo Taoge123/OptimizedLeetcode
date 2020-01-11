@@ -27,19 +27,54 @@ M[i][i] = 1 for all students.
 If M[i][j] = 1, then M[j][i] = 1.
 """
 
+
 class Solution:
     def findCircleNum(self, M):
-        def find(x):
-            if x != parents[x]:
-                parents[x] = find(parents[x])
-            return parents[x]
-        def union(x, y):
-            parents[find(x)] = find(y)
         n = len(M)
         parents = list(range(n))
         for i in range(len(M)):
             for j in range(len(M[i])):
                 if M[i][j]:
-                    union(i, j)
-        circle = set(find(i) for i in range(n))
-        return len(circle)
+                    self.union(parents, i, j)
+        res = set(self.find(parents, i) for i in range(n))
+        return len(res)
+
+    def find(self, parents, x):
+        if x != parents[x]:
+            parents[x] = self.find(parents, parents[x])
+        return parents[x]
+
+    def union(self, parents, x, y):
+        parents[self.find(parents, x)] = self.find(parents, y)
+
+
+
+class Solution2:
+    def findCircleNum(self, M):
+        N = len(M)
+        visited = set()
+        res = 0
+        for i in range(N):
+            if i not in visited:
+                self.dfs(i, M, visited)
+                res += 1
+        return res
+
+    def dfs(self, node, M, visited):
+        for i, val in enumerate(M[node]):
+            if val and i not in visited:
+                visited.add(i)
+                self.dfs(i, M, visited)
+
+
+
+M = [[1,1,0],
+     [1,1,0],
+     [0,0,1]]
+
+a = Solution()
+print(a.findCircleNum(M))
+
+
+
+
