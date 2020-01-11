@@ -23,7 +23,9 @@ class Solution:
         return int(time[:2]) * 60 + int(time[3:])
 
 
-
+timePoints = ["23:59","00:00"]
+a = Solution()
+print(a.findMinDifference(timePoints))
 
 
 

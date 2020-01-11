@@ -31,6 +31,13 @@ class Solution:
         return nums[2 * start]
 
 
+class Solution2:
+    def singleNonDuplicate(self, nums) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+
+        return res
 
 
 
