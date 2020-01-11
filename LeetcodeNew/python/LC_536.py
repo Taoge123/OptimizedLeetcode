@@ -60,5 +60,8 @@ class Solution:
         return root
 
 
+s = "4(2(3)(1))(6(5))"
+a = Solution()
+print(a.str2tree(s))
 
 
