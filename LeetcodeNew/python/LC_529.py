@@ -74,7 +74,6 @@ class Solution:
 
 
 class Solution2:
-
     def __init__(self):
         self.directions = [[1 ,0], [0 ,1], [-1 ,0] ,[0 ,-1] ,[1 ,1] ,[-1 ,-1] ,[1 ,-1] ,[-1 ,1]]
 
@@ -115,5 +114,13 @@ class Solution2:
 
 
 
+board = [['B', '1', 'E', '1', 'B'],
+         ['B', '1', 'M', '1', 'B'],
+         ['B', '1', '1', '1', 'B'],
+         ['B', 'B', 'B', 'B', 'B']]
+click = [0,2]
+
+a = Solution2()
+print(a.updateBoard(board, click))
 
 
