@@ -43,4 +43,37 @@ class Solution:
         return j == len(t)
 
 
+class Solution1:
+    def findLongestWord(self, s: str, d) -> str:
+        d.sort(key=lambda x: (-len(x), x))
+        for word in d:
+            if self.check(s, word):
+                return word
+        return ""
+
+    def check(self, s, t):
+        i, j = 0, 0
+        while i < len(s) and j < len(t):
+            if s[i] == t[j]:
+                i += 1
+                j += 1
+                continue
+            i += 1
+        return j == len(t)
+
+
+
+class Solution2:
+    def findLongestWord(self, s: str, d) -> str:
+        d.sort(key=lambda x: (-len(x), x))
+        for word in d:
+            i = 0
+            for char in s:
+                if i < len(word) and word[i] == char:
+                    i += 1
+            if i == len(word):
+                return word
+        return ""
+
+
 
