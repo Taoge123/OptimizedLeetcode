@@ -29,3 +29,25 @@ class Solution:
 
 
 
+class Solution2:
+    def findUnsortedSubarray(self, nums) -> int:
+        n = len(nums)
+        start, end = -1, -2
+        mini = nums[n - 1]
+        maxi = nums[0]
+
+        for i in range(1, n):
+            maxi = max(maxi, nums[i])
+            mini = min(mini, nums[n - 1 - i])
+
+            if nums[i] < maxi:
+                end = i
+            if nums[n - 1 - i] > mini:
+                start = n - 1 - i
+
+        return end - start + 1
+
+
+
+
+
