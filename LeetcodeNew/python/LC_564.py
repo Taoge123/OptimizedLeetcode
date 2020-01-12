@@ -14,54 +14,51 @@ If there is a tie, return the smaller one as answer.
 
 
 class Solution:
-    def nearestPalindromic(self, n):
+    def nearestPalindromic(self, s: str) -> str:
+        n = len(s)
+        isEven = (n % 2 == 0)
+        mid = n // 2 - 1 if isEven else n // 2
 
-        if int(n) <= 10:
-            return str(int(n) - 1)
+        left = int(s[0:mid + 1])
 
-        elif len(n) == 2:
-            if n == '99':
-                return '101'
-            elif n == '11':
-                return '9'
-            else:
-                options = [n[0] * 2, str(int(n[0]) - 1) * 2, str(int(n[0]) + 1) * 2]
-                res = filter(lambda x: x != n, options)
-                diff = [abs(int(x) - int(n)) for x in res]
-                res = filter(lambda x: abs(int(x) - int(n)) == min(diff), options)
-                return res[0]
-        else:
-            m = n[len(n) / 2 - 1:len(n) / 2 + 2] if len(n) % 2 != 0 else n[len(n) / 2 - 2:len(n) / 2 + 2]
-            front = n[:(len(n) - len(m)) / 2]
-            end = front[::-1]
+        candidates = []
+        candidates.append(self.getPalindrome(left, isEven))
+        candidates.append(self.getPalindrome(left + 1, isEven))
+        candidates.append(self.getPalindrome(left - 1, isEven))
+        candidates.append(pow(10, n - 1) - 1)
+        candidates.append(pow(10, n) + 1)
 
-            l1 = list(m)
-            if l1[1] == '9':
-                l1[1] = '0'
-                l1[0] = str(int(l1[0]) + 1)
-            else:
-                l1[1] = str(int(l1[1]) + 1)
-            m1 = ''.join(l1)
+        diff = float('inf')
+        res = 0
+        num = int(s)
 
-            l2 = list(m)
-            if l2[1] == '0':
-                l2[1] = '9'
-                l2[0] = str(int(l2[0]) - 1) if l2[0] != '0' else '0'
-            else:
-                l2[1] = str(int(l2[1]) - 1)
-            m2 = ''.join(l2)
+        for cand in candidates:
+            if cand == num:
+                continue
 
-            options = [x[:len(x) / 2] + x[::-1][len(x) / 2:] for x in [m, m1, m2]]
-            p = [front + x + end for x in options]
-            p.append('9' * (len(n) - 1))
-            p.append('1' + '0' * (len(n) - 1) + '1')
+            if abs(cand - num) < diff:
+                diff = abs(cand - num)
+                res = cand
+            elif abs(cand - num) == diff:
+                res = min(res, cand)
 
-            res = filter(lambda x: x != n, p)
-            diff = [abs(int(x) - int(n)) for x in res]
-            res = filter(lambda x: abs(int(x) - int(n)) == min(diff), res)
-            res = map(lambda x: int(x), res)
-            res.sort()
-            return str(res[0])
+        return str(res)
+
+    def getPalindrome(self, left, isEven):
+        res = left
+        if not isEven:
+            left = left // 10
+
+        while left > 0:
+            res = res * 10 + left % 10
+            left //= 10
+
+        return res
+
+
+
+
+
 
 
 
