@@ -32,10 +32,50 @@ class Solution:
             for s in [word, word[::-1]]:
                 for j in range(len(s)):
                     cur = s[j:] + ''.join(arr[i + 1:] + arr[:i]) + s[:j]
+                    # print(cur)
                     res = max(res, cur)
         return res
 
 
 
+strs = ["abc", "xyz", "opq"]
+a = Solution()
+print(a.splitLoopedString(strs))
 
 
+"""
+cbazyx
+bazyxc
+azyxcb
+abczyx
+bczyxa
+czyxab
+zyxcba
+yxcbaz
+xcbazy
+xyzcba
+yzcbax
+zcbaxy
+zyxcba
+"""
+"""
+cbazyxqpo
+bazyxqpoc
+azyxqpocb
+abczyxqpo
+bczyxqpoa
+czyxqpoab
+zyxqpocba
+yxqpocbaz
+xqpocbazy
+xyzqpocba
+yzqpocbax
+zqpocbaxy
+qpocbazyx
+pocbazyxq
+ocbazyxqp
+opqcbazyx
+pqcbazyxo
+qcbazyxop
+zyxqpocba
+"""
