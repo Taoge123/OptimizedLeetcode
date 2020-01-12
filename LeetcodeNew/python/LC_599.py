@@ -46,3 +46,12 @@ class Solution:
         return res
 
 
+list1 = ["Shogun", "Tapioca Express", "Burger King", "KFC"]
+list2 = ["Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun"]
+
+a = Solution()
+print(a.findRestaurant(list1, list2))
+
+
+
+
