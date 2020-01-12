@@ -43,5 +43,27 @@ class Solution:
 
 
 
+class Solution2:
+    def checkRecord(self, n: int) -> int:
+        M = 1000000007
+        PorL = [0] * (n + 1)
+        P = [0] * (n + 1)
+        PorL[0] = P[0] = 1
+        PorL[1] = 2
+        P[1] = 1
+
+        for i in range(2, n + 1):
+            P[i] = PorL[i - 1]
+            PorL[i] = (P[i] + P[i - 1] + P[i - 2]) % M
+
+        res = PorL[n]
+
+        for i in range(n):
+            insertA = (PorL[i] * PorL[n - 1 - i]) % M
+            res = (res + insertA) % M
+
+        return res
+
+
 
 
