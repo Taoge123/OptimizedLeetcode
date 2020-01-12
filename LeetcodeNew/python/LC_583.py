@@ -25,7 +25,8 @@ class Solution:
             elif word1[i] == word2[j]:
                 res = self.dfs(word1, word2, i+1, j+1, memo)
             else:
-                res = 1 + min(self.dfs(word1, word2, i+1, j, memo), self.dfs(word1, word2, i, j+1, memo))
+                res = 1 + min(self.dfs(word1, word2, i+1, j, memo),
+                              self.dfs(word1, word2, i, j+1, memo))
 
             memo[i, j] = res
 
@@ -72,5 +73,8 @@ class Solution2:
 
 
 
+word1 = "sea"
+word2 = "eat"
 
-
+a = Solution2()
+print(a.minDistance(word1, word2))
