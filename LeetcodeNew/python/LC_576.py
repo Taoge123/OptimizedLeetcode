@@ -25,8 +25,51 @@ The length and height of the grid is in range [1,50].
 N is in range [0,50].
 """
 
+import collections
 
-class Solution:
+class SolutionTLE:
+    def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
+        mod = 10 ** 9 + 7
+        queue = collections.deque([(i, j, 0)])
+        res = 0
+        while queue:
+            x, y, step = queue.popleft()
+            if step > N:
+                break
+            if 0 <= x < m and 0 <= y < n:
+                queue.append((x + 1, y, step + 1))
+                queue.append((x - 1, y, step + 1))
+                queue.append((x, y + 1, step + 1))
+                queue.append((x, y - 1, step + 1))
+            else:
+                res += 1
+        return res % mod
+
+
+
+class Solution1:
+    def findPaths(self, m, n, N, i, j):
+        memo = {}
+        self.MOD = 10 ** 9 + 7
+        return self.helper(N, i, j, m, n, memo) % self.MOD
+
+    def helper(self, N, i, j, m, n, memo):
+        if (N, i, j) in memo:
+            return memo[(N, i, j)]
+        if N == 0:
+            return 0
+        res = 0
+        for x, y in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+            if i + x >= 0 and i + x < m and j + y >= 0 and j + y < n:
+                res += self.helper(N - 1, i + x, j + y, m, n, memo)
+            else:
+                res += 1
+        memo[(N, i, j)] = res
+        return res
+
+
+
+class Solution2:
     def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
 
         dp = [[0] * n for i in range(m)]
@@ -43,6 +86,31 @@ class Solution:
             dp = state
 
         return dp[i][j]
+
+
+class Solution3:
+    def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
+
+        MOD = 10 ** 9 + 7
+        nxt = [[0] * n for _ in range(m)]
+        nxt[i][j] = 1
+
+        res = 0
+        for step in range(N):
+            cur = nxt
+            nxt = [[0] * n for _ in range(m)]
+            for i, row in enumerate(cur):
+                for j, val in enumerate(row):
+                    for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+                        if 0 <= x < m and 0 <= y < n:
+                            nxt[x][y] += val
+                            nxt[x][y] %= MOD
+                        else:
+                            res += val
+                            res %= MOD
+
+        return res
+
 
 
 
