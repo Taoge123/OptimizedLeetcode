@@ -22,23 +22,52 @@ import collections
 
 class Solution:
     def splitArray(self, nums):
-        preSum = [0]
+        dp = [0]
         for num in nums:
-            preSum.append(preSum[-1] + num)
+            dp.append(dp[-1] + num)
 
         N = len(nums)
         visited = collections.defaultdict(list)
-        for i, u in enumerate(preSum):
-            visited[u].append(i)
+        for i, val in enumerate(dp):
+            visited[val].append(i)
 
         for j in range(1, N-1):
             for k in range(j+1, N-1):
-                for i in visited[preSum[-1] - preSum[k+1]]:
+                for i in visited[dp[-1] - dp[k+1]]:
                     if i >= j:
                         break
-                    if preSum[i] == preSum[j] - preSum[i+1] == preSum[k] - preSum[j+1]:
+                    if dp[i] == dp[j] - dp[i+1] == dp[k] - dp[j+1]:
                         return True
         return False
+
+
+
+class Solution2:
+    def splitArray(self, nums):
+        t = 0
+        for i, n in enumerate(nums):
+            if n == 0:
+                continue
+            t += n
+            if self.dfs(3, nums[i + 2:], t, {}):
+                return True
+        return False
+
+    def dfs(self, parts, nums, target, mem):
+        if not nums:
+            return False
+        if parts == 1:
+            return sum(nums) == target
+        elif len(nums) <= parts:
+            return False
+        t = 0
+        for i, n in enumerate(nums):
+            t += n
+            if t == target:
+                if self.dfs(parts - 1, nums[i + 2:], target, mem):
+                    return True
+        return False
+
 
 
 nums = [1,2,1,2,1,2,1]

@@ -32,11 +32,13 @@ class Solution:
     def findCircleNum(self, M):
         n = len(M)
         parents = list(range(n))
-        for i in range(len(M)):
+        for i in range(n):
             for j in range(len(M[i])):
                 if M[i][j]:
                     self.union(parents, i, j)
-        res = set(self.find(parents, i) for i in range(n))
+        res = set()
+        for i in range(n):
+            res.add(self.find(parents, i))
         return len(res)
 
     def find(self, parents, x):
@@ -46,6 +48,7 @@ class Solution:
 
     def union(self, parents, x, y):
         parents[self.find(parents, x)] = self.find(parents, y)
+
 
 
 
