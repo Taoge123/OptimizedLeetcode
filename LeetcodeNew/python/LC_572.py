@@ -39,15 +39,16 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution:
 
+class Solution:
     def sameTree(self, tree1, tree2):
 
         if not (tree1 and tree2):
             return tree1 is tree2
 
-        return (tree1.val == tree2.val and self.sameTree(tree1.left, tree2.left) and self.sameTree(tree1.right,
-                                                                                                   tree2.right))
+        return (tree1.val == tree2.val
+                and self.sameTree(tree1.left, tree2.left)
+                and self.sameTree(tree1.right, tree2.right))
 
     def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
 

@@ -41,6 +41,10 @@ class Solution:
         return counter1 == counter2
 
 
+s1 = "ab"
+s2 = "eidbaooo"
 
+a = Solution()
+print(a.checkInclusion(s1, s2))
 
 
