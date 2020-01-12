@@ -48,16 +48,19 @@ class Solution:
         left = self.helper(root.left)
         right = self.helper(root.right)
         inc, dec = 1, 1
+
         if root.left:
             if root.left.val - 1 == root.val:
                 inc = max(inc, left[0] + 1)
             if root.left.val + 1 == root.val:
                 dec = max(dec, left[1] + 1)
+
         if root.right:
             if root.right.val - 1 == root.val:
                 inc = max(inc, right[0] + 1)
             if root.right.val + 1 == root.val:
                 dec = max(dec, right[1] + 1)
+
         self.res = max(self.res, inc + dec - 1)
         return [inc, dec]
 

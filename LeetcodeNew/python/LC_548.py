@@ -41,32 +41,58 @@ class Solution:
         return False
 
 
-
 class Solution2:
+    def splitArray(self, nums) -> bool:
+
+        if len(nums) < 7:
+            return False
+
+        n = len(nums)
+        dp = [nums[0]]
+
+        for i in range(1, n):
+            dp.append(dp[-1] + nums[i])
+
+        for j in range(3, n - 3):
+            res = set()
+            for i in range(1, j - 1):
+                if dp[i - 1] == dp[j - 1] - dp[i]:
+                    res.add(dp[i - 1])
+
+            for k in range(j + 2, n - 1):
+                if dp[n - 1] - dp[k] == dp[k - 1] - dp[j] and (dp[k - 1] - dp[j]) in res:
+                    return True
+
+        return False
+
+
+
+class Solution3:
     def splitArray(self, nums):
-        t = 0
-        for i, n in enumerate(nums):
-            if n == 0:
+        temp = 0
+        for i, num in enumerate(nums):
+            if num == 0:
                 continue
-            t += n
-            if self.dfs(3, nums[i + 2:], t, {}):
+            temp += num
+            if self.dfs(3, nums[i + 2:], temp, {}):
                 return True
         return False
 
-    def dfs(self, parts, nums, target, mem):
+    def dfs(self, parts, nums, target, memo):
         if not nums:
             return False
         if parts == 1:
             return sum(nums) == target
         elif len(nums) <= parts:
             return False
-        t = 0
-        for i, n in enumerate(nums):
-            t += n
-            if t == target:
-                if self.dfs(parts - 1, nums[i + 2:], target, mem):
+        temp = 0
+        for i, num in enumerate(nums):
+            temp += num
+            if temp == target:
+                if self.dfs(parts - 1, nums[i + 2:], target, memo):
                     return True
         return False
+
 
 
 
