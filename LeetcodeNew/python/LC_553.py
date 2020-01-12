@@ -27,7 +27,7 @@ There is only one optimal division for each test case.
 
 
 class Solution:
-    def optimalDivision(self, nums: List[int]) -> str:
+    def optimalDivision(self, nums) -> str:
         nums = [str(num) for num in nums]
 
         if len(nums) <= 2:
