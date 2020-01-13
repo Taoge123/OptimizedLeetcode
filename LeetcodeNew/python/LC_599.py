@@ -27,7 +27,7 @@ No duplicates in both lists.
 class Solution:
     def findRestaurant(self, list1, list2):
 
-        table = {item: idx for idx, item in enumerate(list2)}
+        table = {item: i for i, item in enumerate(list2)}
         res = []
         mini = float('inf')
 
