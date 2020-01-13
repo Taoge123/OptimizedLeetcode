@@ -20,6 +20,17 @@ Note: 1 <= n <= 109
 """
 
 
+class SolutionTLE:
+    def findIntegers(self, num: int) -> int:
+        table = []
+        res = 0
+        for i in range(num + 1):
+            temp = bin(i)[2:]
+            if temp.count("11") < 1:
+                res += 1
+        return res
+
+
 
 
 class Solution:
