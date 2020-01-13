@@ -97,9 +97,9 @@ class Solution3:
 
         res = 0
         for step in range(N):
-            cur = nxt
+            dp = nxt
             nxt = [[0] * n for _ in range(m)]
-            for i, row in enumerate(cur):
+            for i, row in enumerate(dp):
                 for j, val in enumerate(row):
                     for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
                         if 0 <= x < m and 0 <= y < n:

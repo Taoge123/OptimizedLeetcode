@@ -38,14 +38,14 @@ class Solution:
     def leastBricks(self, wall) -> int:
 
         table = collections.defaultdict(int)
-        max_edges = 0
+        maxEdges = 0
         for layer in wall:
             summ = 0
             for brick in layer[:-1]:
                 summ += brick
                 table[summ] += 1
-                max_edges = max(max_edges, table[summ])
-        return len(wall) - max_edges
+                maxEdges = max(maxEdges, table[summ])
+        return len(wall) - maxEdges
 
 
 

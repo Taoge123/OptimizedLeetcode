@@ -18,7 +18,6 @@ import collections
 
 class Solution:
     def findLHS(self, nums) -> int:
-
         count = collections.Counter(nums)
         res = 0
         for num in count.keys():
@@ -29,4 +28,8 @@ class Solution:
 
 
 
+
+nums = [1,3,2,2,5,2,3,7]
+a = Solution()
+print(a.findLHS(nums))
 

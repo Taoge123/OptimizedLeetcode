@@ -40,15 +40,15 @@ class Solution:
         a, b = [0] * n, [0] * n
         a[0] = b[0] = 1
         for i in range(1, n):
-            a[i] = a[ i -1] + b[ i -1]
-            b[i] = a[ i -1]
+            a[i] = a[i -1] + b[i -1]
+            b[i] = a[i -1]
 
-        res = a[ n -1] + b[ n -1]
+        res = a[n -1] + b[n -1]
 
         for i in range( n -2, -1, -1):
-            if sb[i] == '1' and sb[ i +1] == '1':
+            if sb[i] == '1' and sb[i +1] == '1':
                 break
-            if sb[i] == '0' and sb[ i +1] == '0':
+            if sb[i] == '0' and sb[i +1] == '0':
                 res -= b[i]
 
         return res
