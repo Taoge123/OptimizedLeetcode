@@ -29,7 +29,7 @@ class Solution:
 
 
 
-nums = [1,3,2,2,5,2,3,7]
+nums = [1,3,2,2,1,2,3,4,5,2,2,3,3]
 a = Solution()
 print(a.findLHS(nums))
 
