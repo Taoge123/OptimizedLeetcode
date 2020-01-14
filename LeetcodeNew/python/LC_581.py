@@ -42,6 +42,7 @@ class Solution2:
 
             if nums[i] < maxi:
                 end = i
+
             if nums[n - 1 - i] > mini:
                 start = n - 1 - i
 
@@ -49,5 +50,8 @@ class Solution2:
 
 
 
+nums = [2, 6, 4, 8, 10, 9, 15]
+a = Solution2()
+print(a.findUnsortedSubarray(nums))
 
 
