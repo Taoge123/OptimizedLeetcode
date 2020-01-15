@@ -52,7 +52,7 @@ class Solution:
 
 
 
-N = 15
+N = 2
 a = Solution()
 print(a.countArrangement(N))
 

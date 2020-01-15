@@ -52,6 +52,8 @@ class Solution2:
         return res
 
 
-
-
+nums = [1,1,1,1,1,1]
+k = 0
+a = Solution()
+print(a.findPairs(nums, k))
 
