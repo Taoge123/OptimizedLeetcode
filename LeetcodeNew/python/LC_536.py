@@ -60,8 +60,55 @@ class Solution:
         return root
 
 
+class Solution1:
+    def str2tree(self, s):
+        i = s.find('(')
+        if i < 0:
+            return TreeNode(int(s)) if s else None
+
+        bal = 0
+        for j, char in enumerate(s):
+            if char == '(':
+                bal += 1
+            if char == ')':
+                bal -= 1
+            if j > i and bal == 0:
+                break
+
+        root = TreeNode(int(s[:i]))
+        root.left = self.str2tree(s[i + 1: j])
+        root.right = self.str2tree(s[j + 2: -1])
+        return root
+
+
+
+class Solution2:
+    def str2tree(self, s: str) -> TreeNode:
+        if not s or len(s) == 0:
+            return None
+        root, index = self.helper(s, 0)
+        return root
+
+    def helper(self, s, i):
+        start = i
+        while i < len(s) and (s[i] == '-' or s[i].isdigit()):
+            i += 1
+        if start == i:
+            return None, i
+        node = TreeNode(int(s[start:i]))
+        if i < len(s) and s[i] == "(":  # left subtree
+            i += 1  # skip (
+            node.left, i = self.helper(s, i)
+            i += 1  # skip )
+        if i < len(s) and s[i] == "(":  # right subtree
+            i += 1  # skip (
+            node.right, i = self.helper(s, i)
+            i += 1  # skip )
+        return node, i
+
+
 s = "4(2(3)(1))(6(5))"
-a = Solution()
+a = Solution1()
 print(a.str2tree(s))
 
 
