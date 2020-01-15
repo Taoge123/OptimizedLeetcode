@@ -47,4 +47,7 @@ class Codecw:
 
 
 
+longURL = 'https://leetcode.com/problems/design-tinyurl'
+a = Codecw()
+print(a.encode(longURL))
 
