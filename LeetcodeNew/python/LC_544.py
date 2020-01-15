@@ -53,4 +53,8 @@ class Solution:
 
 
 
+n = 8
+a = Solution()
+print(a.findContestMatch(n))
+
 
