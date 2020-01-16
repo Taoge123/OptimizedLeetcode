@@ -63,6 +63,10 @@ class Solution:
             bits = set()
             for num in nums:
                 bits.add(num & mask)
+
+                # print(bin(num)[2:], bin(num&mask)[2:])
+            print([bin(i)[2:] for i in bits])
+
             for bit in bits:
                 if bit ^ possible_mx in bits:
                     res = possible_mx
@@ -71,8 +75,9 @@ class Solution:
 
 
 
-
-
+nums = [3, 10, 5, 25, 2, 8]
+a = Solution()
+print(a.findMaximumXOR(nums))
 
 
 
