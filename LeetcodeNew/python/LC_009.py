@@ -23,13 +23,13 @@ Coud you solve it without converting the integer to a string?
 class Solution:
     def isPalindrome(self, x):
 
-        ans = 0
+        res = 0
         absolute = abs(x)
 
         while absolute:
-            ans = ans * 10 + absolute % 10
+            res = res * 10 + absolute % 10
             absolute //= 10
 
-        return x == ans
+        return x == res
 
 
