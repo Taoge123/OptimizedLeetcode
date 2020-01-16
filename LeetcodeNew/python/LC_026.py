@@ -51,3 +51,45 @@ class Solution:
 
 
 
+class Solution1:
+    def reverseKGroup(self, head, k):
+        count, node = 0, head
+        while node and count < k:
+            node = node.next
+            count += 1
+        if count < k: return head
+        newHead, prev = self.reverse(head, count)
+        head.next = self.reverseKGroup(newHead, k)
+        return prev
+
+    def reverse(self, head, count):
+        prev, cur, nxt = None, head, head
+        while count > 0:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+            count -= 1
+        return (cur, prev)
+
+
+
+class Solution2:
+    def reverseKGroup(self, head, k):
+        count, node = 0, head
+        while node:
+            count += 1
+            node = node.next
+        if k <= 1 or count < k:
+            return head
+        node, cur = None, head
+        for _ in range(k):
+            nxt = cur.next
+            cur.next = node
+            node = cur
+            cur = nxt
+        head.next = self.reverseKGroup(cur, k)
+        return node
+
+
+
