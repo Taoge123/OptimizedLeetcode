@@ -59,9 +59,7 @@ class Solution:
                 if board[i][j] != '.':
                     cur = board[i][j]
                     print(i, cur, '---', cur, j, '---', i // 3, j // 3, cur)
-                    if (i, cur) in visited \
-                            or (cur, j) in visited \
-                            or (i//3, j// 3, cur) in visited:
+                    if (i, cur) in visited or (cur, j) in visited or (i//3, j// 3, cur) in visited:
                         return False
                     visited.add((i, cur))
                     visited.add((cur, j))
