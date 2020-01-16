@@ -63,7 +63,6 @@ class Solution:
             bits = set()
             for num in nums:
                 bits.add(num & mask)
-
                 # print(bin(num)[2:], bin(num&mask)[2:])
             print([bin(i)[2:] for i in bits])
 

@@ -64,3 +64,7 @@ class Solution:
         return result
 
 
+s = 'MMMMMMMMMMMMMMMCCCXXIII'
+
+a = Solution()
+print(a.romanToInt(s))
