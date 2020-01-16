@@ -62,3 +62,60 @@ class Solution:
         except:
             return 0
 
+
+class Solution1:
+    def myAtoi(self, s):
+
+        ###better to do strip before sanity check (although 8ms slower):
+        # ls = list(s.strip())
+        if len(s) == 0:
+            return 0
+        ls = list(s.strip())
+
+        sign = -1 if ls[0] == '-' else 1
+        if ls[0] in ['-', '+']:
+            del ls[0]
+        res, i = 0, 0
+        while i < len(ls) and ls[i].isdigit():
+            res = res * 10 + ord(ls[i]) - ord('0')
+            i += 1
+        return max(-2 ** 31, min(sign * res, 2 ** 31 - 1))
+
+
+
+class Solution2:
+    def myAtoi(self, s):
+
+        if (len(s) == 0):
+            return 0
+
+        s = s.strip()    #去除空格
+
+        if(s[0].isdigit()):         #首字符是数字
+            sign = 1
+        elif(s[0] == '+'):          #首字符是+-
+            sign = 1
+            s = s[1:]
+        elif(s[0] == '-'):
+            sign = -1
+            s = s[1:]
+        else:
+            return 0
+
+        l = len(s)
+        val = 0;    i = 0
+        while(i < l and s[i].isdigit()):
+            val = val * 10 + eval(s[i])
+            i += 1
+
+        val = sign * val
+
+        if(val > 2147483647):
+            return 2147483647
+        elif(val < -2147483648):
+            return -2147483648
+        else:
+            return val
+
+
+        

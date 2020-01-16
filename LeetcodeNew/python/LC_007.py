@@ -28,3 +28,4 @@ class Solution:
             x //= 10
         return res if res <= 0x7fffffff else 0
 
+
