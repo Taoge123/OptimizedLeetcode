@@ -22,9 +22,9 @@ class Solution:
         if x < 0:
             return -self.reverse(-x)
 
-        result = 0
+        res = 0
         while x:
-            result = result * 10 + x % 10
+            res = res * 10 + x % 10
             x //= 10
-        return result if result <= 0x7fffffff else 0
+        return res if res <= 0x7fffffff else 0
 
