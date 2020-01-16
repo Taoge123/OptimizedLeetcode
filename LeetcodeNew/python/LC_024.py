@@ -16,19 +16,20 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
-    def swapPairs(self, head: ListNode) -> ListNode:
-
-        if not head or not head.next:
-            return head
-
-        dummy = ListNode(0)
+    def swapPairs(self, head):
+        dummy = cur = ListNode(0)
         dummy.next = head
-        cur = dummy
 
-        while cur.next and cur.next.next:
-            first = cur.next
-            second = cur.next.next
-            cur.next = second
+        while head and head.next:
+            temp = head.next.next
+            cur.next = head.next
+            cur.next.next = head
+            head.next = temp
+            cur = head
+            head = temp
+
+        return dummy.next
 
 
