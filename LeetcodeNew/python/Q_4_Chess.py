@@ -248,3 +248,5 @@ class Game:
         else:
             self.__current_turn = self.__players[0]
         return True
+
+

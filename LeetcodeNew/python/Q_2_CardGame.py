@@ -146,15 +146,6 @@ class Game:
 
 
 
-
-
-
-
-
-
-
-
-
     def play(self):
         card = self.__deck.getCard()
 
