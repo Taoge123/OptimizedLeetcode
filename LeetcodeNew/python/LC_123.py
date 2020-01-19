@@ -81,3 +81,23 @@ class Solution4:
         return res
 
 
+
+class Solution5:
+    def maxProfit(self, prices) -> int:
+        if not prices:
+            return 0
+        return self.helper(prices, 2)
+
+    def helper(self, prices, k):
+        tran = k + 1
+        n = len(prices)
+        dp = [[0] * n for _ in range(tran)]
+
+        for k in range(1, tran):
+            mini = prices[0]
+            for i in range(1, n):
+                mini = min(mini, prices[i] - dp[k - 1][i - 1])
+                dp[k][i] = max(dp[k][i - 1], prices[i] - mini)
+        return dp[-1][-1]
+
+
