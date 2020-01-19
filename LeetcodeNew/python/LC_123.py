@@ -101,3 +101,9 @@ class Solution5:
         return dp[-1][-1]
 
 
+
+prices = [1,2,3,4,5]
+a = Solution4()
+print(a.maxProfit(prices))
+
+
