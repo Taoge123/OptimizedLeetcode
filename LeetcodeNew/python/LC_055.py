@@ -29,7 +29,8 @@ class Solution:
             i += 1
         return i == len(nums)
 
-class Solution:
+
+class Solution2:
     def canJump(self, nums) -> bool:
         maxi = 0
         n = len(nums)
