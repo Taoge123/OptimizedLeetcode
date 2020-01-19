@@ -32,13 +32,14 @@ Explanation: We define the gray code sequence to begin with 0.
 
 class Solution:
     def grayCode(self, n):
-        results = [0]
+        res = [0]
         for i in range(n):
-            for x in reversed(results):
-                print(x, pow(2, i), list(reversed(results)))
-                results.append(x + pow(2, i))
+            for num in reversed(res):
+                print(num, pow(2, i), list(reversed(res)))
+                res.append(num+ pow(2, i))
+                print(res, '--')
 
-        return results
+        return res
 
 
 
