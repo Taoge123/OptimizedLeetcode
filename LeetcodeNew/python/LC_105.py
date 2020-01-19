@@ -35,4 +35,23 @@ class Solution:
             return root
 
 
+class Solution2:
+    def buildTree(self, preorder, inorder, preStart=0, preEnd=None, inStart=0, inEnd=None):
+        if preEnd is None:
+            preEnd = len(preorder) - 1
+
+        if inEnd is None:
+            inEnd = len(inorder) - 1
+
+        if preStart > len(preorder) - 1 or inStart > inEnd:
+            return None
+
+        rootVal = preorder[preStart]
+        root = TreeNode(rootVal)
+        inIndex = inorder.index(rootVal)
+
+        root.left = self.buildTree(preorder, inorder, preStart + 1, inIndex, inStart, inIndex - 1)
+        root.right = self.buildTree(preorder, inorder, preStart + inIndex + 1 - inStart, preEnd, inIndex + 1, inEnd)
+
+        return root
 

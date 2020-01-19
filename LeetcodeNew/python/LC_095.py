@@ -51,6 +51,30 @@ class Solution:
 
 
 
+
+class Solution1:
+    def generateTrees(self, n):
+        if n == 0:
+            return []
+        return self.dfs(1, n)
+
+    def dfs(self, start, end):
+        res = []
+        if start > end:
+            res.append(None)
+
+        for rootVal in range(start, end + 1):
+            left = self.dfs(start, rootVal - 1)
+            right = self.dfs(rootVal + 1, end)
+            for i in left:
+                for j in right:
+                    root = TreeNode(rootVal)
+                    root.left = i
+                    root.right = j
+                    res.append(root)
+        return res
+
+
 a = Solution()
 print(a.generateTrees(6))
 
