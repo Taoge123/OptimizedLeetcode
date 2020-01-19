@@ -41,9 +41,7 @@ class Solution2:
                         mini = 0
                     else:
                         mini = min(mini, dp[j - 1] + 1)
-
             dp[i] = mini
-
         return dp[n - 1]
 
 
