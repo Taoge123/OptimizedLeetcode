@@ -101,12 +101,16 @@ class Solution3:
         for i in range(n, 0, -1):
             index = k // fact[i - 1]
             k = k % fact[i - 1]
-            print(sb, index, res)
+            print(index, k, res, res[index])
             sb.append(res[index])
             res.pop(index)
 
         return "".join(map(str, sb))
 
 
+n = 4
+k = 9
 
+a = Solution3()
+print(a.getPermutation(n, k))
 
