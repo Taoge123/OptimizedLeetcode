@@ -36,7 +36,7 @@ class Solution:
         for i in range(n):
             for num in reversed(res):
                 print(num, pow(2, i), list(reversed(res)))
-                res.append(num+ pow(2, i))
+                res.append(num + pow(2, i))
                 print(res, '--')
 
         return res
