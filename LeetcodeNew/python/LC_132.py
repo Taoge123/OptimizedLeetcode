@@ -23,5 +23,28 @@ class Solution:
         return f[-1]
 
 
+class Solution2:
+    def minCut(self, s: str) -> int:
+        if not s:
+            return 0
+
+        n = len(s)
+        dp = [0] * n
+        isPalindrome = [[0 for i in range(n)] for j in range(n)]
+
+        for i in range(n):
+            mini = i
+            for j in range(i + 1):
+                if s[i] == s[j] and (i - j < 2 or isPalindrome[j + 1][i - 1]):
+                    isPalindrome[j][i] = True
+                    if j == 0:
+                        mini = 0
+                    else:
+                        mini = min(mini, dp[j - 1] + 1)
+
+            dp[i] = mini
+
+        return dp[n - 1]
+
 
 
