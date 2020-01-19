@@ -57,9 +57,10 @@ class Solution:
                 else:
                     for i in range(len(word)):
                         for char in lowercase:
-                            newWord = word[:i] + char + word[ i +1:]
+                            newWord = word[:i] + char + word[i+1:]
                             if newWord in wordList:
                                 for valList in layer[word]:
+                                    # print(newWord, valList + [newWord])
                                     newLayer[newWord].append(valList + [newWord])
 
             wordList -= set(newLayer.keys())
@@ -67,6 +68,8 @@ class Solution:
         return res
 
 
-
-
-
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log","cog"]
+a = Solution()
+print(a.findLadders(beginWord, endWord, wordList))
