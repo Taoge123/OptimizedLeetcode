@@ -59,4 +59,31 @@ class Solution:
         return False
 
 
+class Solution1:
+    def hasPathSum(self, root, sum):
+        if not root:
+            return False
+
+        if not root.left and not root.right and root.val == sum:
+            return True
+
+        sum -= root.val
+
+        return self.hasPathSum(root.left, sum) or self.hasPathSum(root.right, sum)
+
+
+class Solution2:
+    def hasPathSum(self, root, sum):
+        return self.dfs(root, sum)
+
+    def dfs(self, root, sum):
+        if not root:
+            return False
+        if not root.left and not root.right and sum - root.val == 0:
+            return True
+        left = self.dfs(root.left, sum - root.val)
+        right = self.dfs(root.right, sum - root.val)
+        return left or right
+
+
 
