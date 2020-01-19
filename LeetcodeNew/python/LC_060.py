@@ -25,7 +25,25 @@ Input: n = 4, k = 9
 Output: "2314"
 
 """
+"""
+1 + {2,3,4}
+2 + {1,3,4}
+3 + {1,2,4}
+4 + {1,2,3}
 
+18 = 3421
+
+res  :
+fact :
+
+i = 4 index=17/6=2  k=17%6=5 
+i = 3 index=5/2=2   k=5%2=1
+i = 2 index=1/1=1   k=1%1=0
+
+4 3 2 1
+3 4 2 1
+
+"""
 
 from itertools import permutations
 import math
@@ -66,6 +84,29 @@ class Solution2:
             numbers.remove(numbers[index])
 
         return permutation
+
+
+class Solution3:
+    def getPermutation(self, n: int, k: int) -> str:
+        res = []
+        for i in range(1, n + 1):
+            res.append(i)
+
+        fact = [1] + [0] * (n - 1)
+        for i in range(1, n):
+            fact[i] = i * fact[i - 1]
+
+        k -= 1
+        sb = []
+        for i in range(n, 0, -1):
+            index = k // fact[i - 1]
+            k = k % fact[i - 1]
+            print(sb, index, res)
+            sb.append(res[index])
+            res.pop(index)
+
+        return "".join(map(str, sb))
+
 
 
 
