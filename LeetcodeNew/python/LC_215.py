@@ -18,11 +18,9 @@ import heapq
 
 class Solution:
     def findKthLargest(self, nums, k):
-
         return self.quickSelect(nums, 0, len(nums) - 1, k)
 
     def quickSelect(self, nums, left, right, k):
-
         pos = self.partition(nums, left, right)
 
         if pos == k - 1:
@@ -34,18 +32,15 @@ class Solution:
         return self.quickSelect(nums, left, pos - 1, k)
 
     def partition(self, nums, left, right):
-
         pivot = nums[right]
         lo = left
 
         for i in range(left, right):
-
             if nums[i] > pivot:
                 nums[lo], nums[i] = nums[i], nums[lo]
                 lo += 1
 
         nums[lo], nums[right] = nums[right], nums[lo]
-
         return lo
 
 class Solution2:
@@ -62,5 +57,11 @@ class Solution2:
     def findKthLargest5(self, nums, k):
         return heapq.nlargest(k, nums)[k-1]
 
+
+
+nums = [3,2,1,4,5,6,7]
+k = 4
+a = Solution()
+print(a.findKthLargest(nums, k))
 
 
