@@ -54,3 +54,12 @@ class Trie:
                 return False
         return True
 
+trie = Trie()
+
+trie.insert("apple")
+trie.search("apple")
+trie.search("app")
+trie.startsWith("app")
+trie.insert("app")
+trie.search("app")
+
