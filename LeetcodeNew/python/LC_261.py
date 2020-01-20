@@ -25,21 +25,20 @@ class Solution:
             graph[u].append(v)
             graph[v].append(u)
 
-        return not self.dfs(graph, visited, 0, -1) and n == len(visited)
+        return not self.hasCycle(graph, visited, 0, -1) and n == len(visited)
 
-
-    def dfs(self, graph, visited, node, parent):
+    def hasCycle(self, graph, visited, node, parent):
         visited.add(node)
         for i in graph[node]:
             if i != parent:
-                if i in visited or self.dfs(graph, visited, i, node):
+                if i in visited or self.hasCycle(graph, visited, i, node):
                     return True
         return False
 
 
 
 
-class Solution:
+class Solution2:
     def validTree(self, n: int, edges) -> bool:
         nums = [-1] * n
         for u, v in edges:
@@ -54,7 +53,8 @@ class Solution:
         return self.find(nums, nums[i])
 
     def union(self, nums, i, j):
-        x, y = self.find(nums, i), self.find(nums, j)
+        x = self.find(nums, i)
+        y = self.find(nums, j)
         if x == y:
             return False
         else:
