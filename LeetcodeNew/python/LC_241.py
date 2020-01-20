@@ -30,10 +30,10 @@ class Solution:
         res = []
         for i in range(len(input)):
             if input[i] in "+-*":
-                res1 = self.diffWaysToCompute(input[:i])
-                res2 = self.diffWaysToCompute(input[ i +1:])
-                for x in res1:
-                    for y in res2:
+                left = self.diffWaysToCompute(input[:i])
+                right = self.diffWaysToCompute(input[ i +1:])
+                for x in left:
+                    for y in right:
                         res.append(self.helper(x, y, input[i]))
 
         return res
