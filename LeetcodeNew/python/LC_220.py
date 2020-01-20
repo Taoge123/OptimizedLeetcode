@@ -81,6 +81,27 @@ class Solution2:
         return False
 
 
+class Solution2:
+    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
+
+        if t < 0:
+            return False
+        n = len(nums)
+        table = {}
+        bucket = t + 1
+        for i in range(n):
+            val = nums[i] // bucket
+            if val in table:
+                return True
+            if val - 1 in table and abs(nums[i] - table[val - 1]) < bucket:
+                return True
+            if val + 1 in table and abs(nums[i] - table[val + 1]) < bucket:
+                return True
+            table[val] = nums[i]
+            if i >= k:
+                del table[nums[i - k] // bucket]
+        return False
+
 
 """
 解法II：“滑动窗口” + TreeSet
