@@ -41,7 +41,9 @@ class Solution:
 
         for i in range(m-2, -1, -1):
             for j in range(n-2, -1, -1):
-                dp[i][j] = max(min(dp[i +1][j], dp[i][j+1]) - dungeon[i][j], 1)
+                dp[i][j] = max(min(dp[i+1][j], dp[i][j+1]) - dungeon[i][j], 1)
+        for i in dungeon:
+            print(i)
         return dp[0][0]
 
 
@@ -73,6 +75,11 @@ dungeon = [[-1,-2,-3],
            [-4,-5,-6],
            [-7,-8,-9]
            ]
+#
+# dungeon = [[1,2,3],
+#            [4,5,6],
+#            [7,8,9]
+#            ]
 
 a = Solution()
 print(a.calculateMinimumHP(dungeon))
