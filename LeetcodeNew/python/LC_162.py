@@ -44,3 +44,21 @@ class Solution:
             return self.findPeakElementUtil(nums, left, mid)
 
         return self.findPeakElementUtil(nums, mid + 1, right)
+
+
+class Solution2:
+    def findPeakElement(self, nums) -> int:
+
+        left = 0
+        right = len(nums) - 1
+        while left < right:
+            mid = (right - left) // 2 + left
+            if nums[mid] > nums[mid + 1]:
+                right = mid
+            else:
+                left = mid + 1
+
+        if nums[left] > nums[right]:
+            return left
+        return right
+
