@@ -91,7 +91,7 @@ class Solution3:
 
 
 
-s = "(1+(4+5+2)-3)+(6+8)"
+s = "(22+(10+(4+5+2)-3)+(6+8))"
 a = Solution2()
 print(a.calculate(s))
 
