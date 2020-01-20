@@ -26,3 +26,8 @@ class Solution:
 
 
 
+nums = [3,30,34,5,9]
+a = Solution()
+print(a.largestNumber(nums))
+
+
