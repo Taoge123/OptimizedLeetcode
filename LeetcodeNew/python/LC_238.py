@@ -15,16 +15,10 @@ Could you solve it with constant space complexity? (The output array does not co
 
 
 class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
+    def productExceptSelf(self, nums):
 
         n = len(nums)
         res = [1] * n
-
-        """
-        [1,2,3,4]
-        [1,1,1,1]
-        [1,1,1,1]
-        """
 
         for i in range(1, n):
             res[i] = res[i - 1] * nums[i - 1]
@@ -36,6 +30,8 @@ class Solution:
 
         return res
 
-
+nums = [1,2,3,4,5,6]
+a = Solution()
+print(a.productExceptSelf(nums))
 
 
