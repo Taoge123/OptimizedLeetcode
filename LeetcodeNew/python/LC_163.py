@@ -32,10 +32,13 @@ class Solution:
         return ranges
 
 
-"""
-[0, 1, 3, 50, 75], lower = 0 and upper = 99,
 
+nums = [0, 1, 3, 50, 75]
+lower = 0
+upper = 99
 
-"""
+a = Solution()
+print(a.findMissingRanges(nums, lower, upper))
+
 
 
