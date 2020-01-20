@@ -41,7 +41,9 @@ class Solution:
 
 
 
-
+tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+a = Solution()
+print(a.findItinerary(tickets))
 
 
 
