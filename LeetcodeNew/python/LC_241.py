@@ -31,7 +31,7 @@ class Solution:
         for i in range(len(input)):
             if input[i] in "+-*":
                 left = self.diffWaysToCompute(input[:i])
-                right = self.diffWaysToCompute(input[ i +1:])
+                right = self.diffWaysToCompute(input[i +1:])
                 for x in left:
                     for y in right:
                         res.append(self.helper(x, y, input[i]))
