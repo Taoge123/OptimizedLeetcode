@@ -56,7 +56,7 @@ class Solution3:
 
 
 nums = [2, 2, 3, 2]
-a = Solution3()
+a = Solution()
 print(a.singleNumber(nums))
 
 
