@@ -66,17 +66,18 @@ class Solution2:
         if k < 0 or t < 0:
             return False
         window = collections.OrderedDict()
-        for n in nums:
+        for num in nums:
             # Make sure window size
+            #last=False means pop the First one
             if len(window) > k:
                 window.popitem(False)
 
-            bucket = n if not t else n // t
+            bucket = num if not t else num // t
             # At most 2t items.
-            for m in (window.get(bucket - 1), window.get(bucket), window.get(bucket + 1)):
-                if m is not None and abs(n - m) <= t:
+            for val in (window.get(bucket - 1), window.get(bucket), window.get(bucket + 1)):
+                if val is not None and abs(num - val) <= t:
                     return True
-            window[bucket] = n
+            window[bucket] = num
         return False
 
 
