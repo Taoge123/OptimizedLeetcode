@@ -41,4 +41,7 @@ class Solution:
         return True
 
 
+preorder = [5,2,6,1,3]
+a = Solution()
+print(a.verifyPreorder(preorder))
 
