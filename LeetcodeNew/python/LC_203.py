@@ -18,7 +18,17 @@ class Solution:
         if not head:
             return head
         head.next = self.removeElements(head.next, val)
-        return head.next if head.val == val else head
+        if head.val == val:
+            return head.next
+        else:
+            return head
 
-
-
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(6)
+head.next.next.next = ListNode(6)
+head.next.next.next.next = ListNode(4)
+head.next.next.next.next.next = ListNode(5)
+val = 6
+a = Solution()
+print(a.removeElements(head, val))
