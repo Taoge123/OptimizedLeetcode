@@ -33,6 +33,9 @@ class Solution:
         return table.values()
 
 
+strings = ["abc","bcd","xyz", "xz"]
+a = Solution()
+print(a.groupStrings(strings))
 
 
 
