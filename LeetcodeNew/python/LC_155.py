@@ -23,7 +23,6 @@ minStack.getMin();   --> Returns -2.
 
 class MinStack:
     def __init__(self):
-
         self.stack = []
 
     def push(self, x: int) -> None:
