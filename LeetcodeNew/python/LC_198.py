@@ -38,6 +38,30 @@ class Solution:
                 res = dp[i]
         return res
 
+
+class Solution1:
+    def rob(self, nums):
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        cur = nums[0]
+        pre = max(nums[:2])
+        for i in range(2, len(nums)):
+            cur = max(cur + nums[i], pre)
+            cur, pre = pre, cur
+        return pre
+
+
+class Solution2:
+    def rob(self, nums):
+        rob = noRob = 0
+        for i in range(len(nums)):
+            rob, noRob = max(nums[i] + noRob, rob), rob
+        return rob
+
+
+
 nums = [2,7,9,3,1]
 a = Solution()
 print(a.rob(nums))
