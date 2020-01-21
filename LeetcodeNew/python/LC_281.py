@@ -43,9 +43,7 @@ class ZigzagIterator:
         return len(self.queue) > 0
 
 
-# Your ZigzagIterator object will be instantiated and called as such:
-# i, v = ZigzagIterator(v1, v2), []
-# while i.hasNext(): v.append(i.next())
+
 v1 = [1,2]
 v2 = [3,4,5,6]
 
@@ -54,3 +52,10 @@ print(a.next())
 print(a.next())
 print(a.next())
 print(a.next())
+
+
+"""
+0 = {deque: 2} deque([1, 2])
+1 = {deque: 4} deque([3, 4, 5, 6])
+
+"""

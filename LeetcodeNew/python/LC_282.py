@@ -81,3 +81,36 @@ class Solution:
 
 
 
+class Solution1:
+    def __init__(self):
+        self.res = []
+        self.nums = None
+        self.target = None
+
+    def recurse(self, index, value, ops, prev):
+        nums = self.nums
+        if index == len(nums):
+            if value == self.target:
+                self.res.append("".join(ops))
+            return
+        curr = 0
+        for i in range(index, len(nums)):
+            curr = curr*10 + int(nums[i])
+            if index == 0:
+                self.recurse(i + 1, curr, ops + [str(curr)], curr)
+            else:
+                v = value - prev
+                self.recurse(i + 1, v + (prev * curr), ops + ['*' + str(curr)], prev * curr)
+                self.recurse(i + 1, value + curr, ops + ['+' + str(curr)], curr)
+                self.recurse(i + 1, value - curr, ops + ['-' + str(curr)], -curr)
+            if nums[index] == '0':
+                break
+
+    def addOperators(self, nums, target):
+        self.nums = nums
+        self.target = target
+        self.recurse(0, 0, [], 0)
+        return self.res
+
+
+
