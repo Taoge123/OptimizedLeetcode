@@ -52,6 +52,8 @@ class Codec:
             s = s[length:]
         return res
 
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.decode(codec.encode(strs))
+
+strs = ["abcde","abcde","qwertasdfghj"]
+a = Codec()
+print(a.encode(strs))
+
