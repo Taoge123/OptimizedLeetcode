@@ -38,7 +38,7 @@ class Solution:
         elif n == 1:
             return ["0", "1", "8"]
 
-        middles = self.helper( n -2, length)
+        middles = self.helper(n -2, length)
         res = []
         for middle in middles:
             if n != length:
