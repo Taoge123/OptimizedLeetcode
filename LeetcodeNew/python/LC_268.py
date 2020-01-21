@@ -21,5 +21,12 @@ class Solution:
     def missingNumber(self, nums):
 
         n = len(nums)
+        return int((n * (n+1) / 2) - sum(nums))
 
-        return int((n * ( n +1) / 2) - sum(nums))
+
+nums = [0,1,3]
+a = Solution()
+print(a.missingNumber(nums))
+
+
+

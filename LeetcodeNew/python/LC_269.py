@@ -86,13 +86,15 @@ class Solution2:
             for c in w1 + w2:
                 visited[ord(c) - ord("a")] = -1
         for i in range(26):
-            if visited[i] == -1 and not self.dfs(graph, visited, res, i): return ""
+            if visited[i] == -1 and not self.dfs(graph, visited, res, i):
+                return ""
         return "".join(res)[::-1]
 
     def dfs(self, graph, visited, res, i):
         visited[i] = 0
         for v in graph[i]:
-            if visited[v] == 0 or (visited[v] == -1 and not self.dfs(graph, visited, res, v)): return False
+            if visited[v] == 0 or (visited[v] == -1 and not self.dfs(graph, visited, res, v)):
+                return False
         res.append(chr(97 + i))
         visited[i] = 1
         return True
