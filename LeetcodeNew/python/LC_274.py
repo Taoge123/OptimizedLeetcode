@@ -26,7 +26,7 @@ class Solution:
         return res
 
 
-class Solution:
+class Solution2:
     def hIndex(self, citations) -> int:
         n = len(citations)
         res = [0] * ( n +1)
@@ -43,6 +43,16 @@ class Solution:
             if total >= i:
                 return i
 
+
+
+class Solution3:
+    def hIndex(self, citations) -> int:
+
+        nums = sorted(citations, reverse=True)
+        for i in range(len(nums)):
+            if i >= nums[i]:
+                return i
+        return len(nums)
 
 
 
