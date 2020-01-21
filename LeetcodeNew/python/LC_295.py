@@ -27,7 +27,7 @@ If all integer numbers from the stream are between 0 and 100, how would you opti
 If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
 """
 
-from heapq import *
+import heapq
 
 class MedianFinder:
 
@@ -39,11 +39,11 @@ class MedianFinder:
 
     def addNum(self, num: int) -> None:
         if len(self.small) == len(self.large):
-            replace = -heappushpop(self.small, -num)
-            heappush(self.large, replace)
+            replace = -heapq.heappushpop(self.small, -num)
+            heapq.heappush(self.large, replace)
         else:
-            replace = -heappushpop(self.large, num)
-            heappush(self.small, replace)
+            replace = -heapq.heappushpop(self.large, num)
+            heapq.heappush(self.small, replace)
 
     def findMedian(self) -> float:
         if len(self.small) == len(self.large):
@@ -52,9 +52,29 @@ class MedianFinder:
             return self.large[0]
 
 
+class MedianFinder2:
+    def __init__(self):
+        self.med, self.odd, self.heaps = 0, 0, [[], []]
 
-# Your MedianFinder object will be instantiated and called as such:
-# obj = MedianFinder()
-# obj.addNum(num)
-# param_2 = obj.findMedian()
+    def addNum(self, x):
+        big, small = self.heaps
+        if self.odd:
+            heapq.heappush(big, max(x, self.med))
+            heapq.heappush(small, -min(x, self.med))
+            self.med = (big[0] - small[0]) / 2.0
+        else:
+            if x > self.med:
+                self.med = heapq.heappushpop(big, x)
+            else:
+                self.med = -heapq.heappushpop(small, -x)
+        self.odd ^= 1
 
+    def findMedian(self):
+        return self.med
+
+
+nums = [1,2,3,4,5]
+a = MedianFinder2()
+for i in nums:
+    print(a.addNum(i))
+    print(a.findMedian())
