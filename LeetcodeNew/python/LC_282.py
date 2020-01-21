@@ -87,7 +87,13 @@ class Solution1:
         self.nums = None
         self.target = None
 
-    def recurse(self, index, value, ops, prev):
+    def addOperators(self, nums, target):
+        self.nums = nums
+        self.target = target
+        self.helper(0, 0, [], 0)
+        return self.res
+
+    def helper(self, index, value, ops, prev):
         nums = self.nums
         if index == len(nums):
             if value == self.target:
@@ -97,20 +103,47 @@ class Solution1:
         for i in range(index, len(nums)):
             curr = curr*10 + int(nums[i])
             if index == 0:
-                self.recurse(i + 1, curr, ops + [str(curr)], curr)
+                self.helper(i + 1, curr, ops + [str(curr)], curr)
             else:
                 v = value - prev
-                self.recurse(i + 1, v + (prev * curr), ops + ['*' + str(curr)], prev * curr)
-                self.recurse(i + 1, value + curr, ops + ['+' + str(curr)], curr)
-                self.recurse(i + 1, value - curr, ops + ['-' + str(curr)], -curr)
+                self.helper(i + 1, v + (prev * curr), ops + ['*' + str(curr)], prev * curr)
+                self.helper(i + 1, value + curr, ops + ['+' + str(curr)], curr)
+                self.helper(i + 1, value - curr, ops + ['-' + str(curr)], -curr)
             if nums[index] == '0':
                 break
 
-    def addOperators(self, nums, target):
-        self.nums = nums
-        self.target = target
-        self.recurse(0, 0, [], 0)
-        return self.res
+
+
+class SolutionToBeFixed:
+    def addOperators(self, num: str, target: int):
+        res = []
+        if not num or len(num) == 0:
+            return res
+
+        self.helper(res, "", num, target, 0, 0, 0)
+        return res
+
+    def helper(self, res, path, num, target, pos, val, pre):
+        if pos == len(num):
+            if target == val:
+                res.append(path)
+                return
+
+        for i in range(pos, len(num)):
+            if i != pos and num[pos] == '0':
+                break
+            cur = int(num[pos:i+1])
+            if pos == 0:
+                self.helper(res, path + str(cur), num, target, i + 1, cur, cur)
+
+            else:
+                self.helper(res, path + "+" + str(cur), num, target, i + 1, val + cur, cur)
+                self.helper(res, path + "-" + str(cur), num, target, i + 1, val - cur, cur)
+                self.helper(res, path + "*" + str(cur), num, target, i + 1, val-pre+pre*cur, pre * cur)
 
 
 
+num = "123"
+target = 6
+a = Solution2()
+print(a.addOperators(num, target))
