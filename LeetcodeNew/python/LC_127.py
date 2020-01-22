@@ -90,7 +90,7 @@ class SolutionTempt:
 
 
 class Solution2:
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
         queue = collections.deque([beginWord])
         another_queue = collections.deque([endWord])
         words, n, path = set(wordList), len(beginWord), 1
