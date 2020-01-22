@@ -59,3 +59,56 @@ class Solution:
 
         return 0
 
+
+class SolutionTempt:
+
+    def ladderLength(self, beginWord, endWord, wordList):
+        words = set(wordList)
+        if endWord not in words:
+            return 0
+
+        def gen_nei_word(word):
+            for i in range(len(word)):
+                for char in string.ascii_lowercase:
+                    if char != word[i]:
+                        yield word[:i] + char + word[i + 1:]
+
+        begins, ends, step, seen = {beginWord}, {endWord}, 1, {beginWord}
+        while begins and ends:
+            if len(begins) > len(ends):  # pick the smaller group for next BFS iteration
+                begins, ends = ends, begins
+            next_begins = set()
+            for word in begins:
+                for nei in gen_nei_word(word):
+                    if nei in ends:
+                        return step + 1
+                    if nei in words and nei not in seen:
+                        seen.add(nei)
+                        next_begins.add(nei)
+            begins, step = next_begins, step + 1
+        return 0
+
+
+class Solution2:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        queue = collections.deque([beginWord])
+        another_queue = collections.deque([endWord])
+        words, n, path = set(wordList), len(beginWord), 1
+        if endWord not in words: return 0
+
+        while queue:
+            path += 1
+            words -= set(queue)
+            for _ in range(len(queue)):
+                word = queue.popleft()
+                for i in range(n):
+                    for char in string.ascii_lowercase:
+                        next_word = word[:i] + char + word[i + 1:]
+                        if next_word in words:
+                            if next_word in another_queue: return path
+                            queue.append(next_word)
+            if len(queue) > len(another_queue):
+                queue, another_queue = another_queue, queue
+
+        return 0
+
