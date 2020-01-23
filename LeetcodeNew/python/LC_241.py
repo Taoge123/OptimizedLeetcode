@@ -49,3 +49,9 @@ class Solution:
 
 
 
+input = "2-1-1"
+a = Solution()
+print(a.diffWaysToCompute(input))
+
+
+
