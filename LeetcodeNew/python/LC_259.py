@@ -32,7 +32,7 @@ class Solution:
         return res
 
 
-nums = [1,1,1,1]
+nums = [1,1,1,1,1]
 target = 4
 a = Solution()
 print(a.threeSumSmaller(nums, target))

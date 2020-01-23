@@ -93,22 +93,22 @@ class Solution1:
         self.helper(0, 0, [], 0)
         return self.res
 
-    def helper(self, index, value, ops, prev):
+    def helper(self, index, value, path, prev):
         nums = self.nums
         if index == len(nums):
             if value == self.target:
-                self.res.append("".join(ops))
+                self.res.append("".join(path))
             return
         curr = 0
         for i in range(index, len(nums)):
             curr = curr*10 + int(nums[i])
             if index == 0:
-                self.helper(i + 1, curr, ops + [str(curr)], curr)
+                self.helper(i + 1, curr, path + [str(curr)], curr)
             else:
                 v = value - prev
-                self.helper(i + 1, v + (prev * curr), ops + ['*' + str(curr)], prev * curr)
-                self.helper(i + 1, value + curr, ops + ['+' + str(curr)], curr)
-                self.helper(i + 1, value - curr, ops + ['-' + str(curr)], -curr)
+                self.helper(i + 1, v + (prev * curr), path + ['*' + str(curr)], prev * curr)
+                self.helper(i + 1, value + curr, path + ['+' + str(curr)], curr)
+                self.helper(i + 1, value - curr, path + ['-' + str(curr)], -curr)
             if nums[index] == '0':
                 break
 
