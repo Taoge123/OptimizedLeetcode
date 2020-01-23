@@ -20,6 +20,39 @@ Output: [""]
 
 import collections
 
+
+class SolutionCspiration:
+    def removeInvalidParentheses(self, s: str):
+        res = []
+        self.helper(res, s, 0, 0, ['(', ')'])
+        return res
+
+    def helper(self, res, s, last_i, last_j, pair):
+        count = 0
+        for i in range(last_i, len(s)):
+            if s[i] == pair[0]:
+                count += 1
+            if s[i] == pair[1]:
+                count -= 1
+            if count >= 0:
+                continue
+            for j in range(last_j, i + 1):
+                if s[j] == pair[1] and (j == last_j or s[j - 1] != pair[1]):
+                    self.helper(res, s[0:j] + s[j + 1:], i, j, pair)
+
+            return
+
+        reverse = s[::-1]
+
+        if pair[0] == '(':
+            self.helper(res, reverse, 0, 0, [')', '('])
+        else:
+            res.append(reverse)
+
+
+
+
+
 class Solution0:
     def removeInvalidParentheses(self, s):
         removed = 0
