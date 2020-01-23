@@ -26,7 +26,7 @@ class Solution:
         res = {}
         return self.dfs(pattern, str, res)
 
-    def dfs(self, pattern, str, dict):
+    def dfs(self, pattern, str, table):
         p, s = len(pattern), len(str)
         if p == 0 and s == 0:
             return True
@@ -35,13 +35,13 @@ class Solution:
 
         for i in range(1, s - p + 2):
             print(str)
-            if pattern[0] not in dict and str[:i] not in dict.values():
-                dict[pattern[0]] = str[:i]
-                if self.dfs(pattern[1:], str[i:], dict):
+            if pattern[0] not in table and str[:i] not in table.values():
+                table[pattern[0]] = str[:i]
+                if self.dfs(pattern[1:], str[i:], table):
                     return True
-                del dict[pattern[0]]
-            elif pattern[0] in dict and str[:i] == dict.get(pattern[0]):
-                if self.dfs(pattern[1:], str[i:], dict):
+                del table[pattern[0]]
+            elif pattern[0] in table and str[:i] == table.get(pattern[0]):
+                if self.dfs(pattern[1:], str[i:], table):
                     return True
 
         return False
