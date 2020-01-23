@@ -48,6 +48,25 @@ class Solution:
         return count
 
 
+class Solution2:
+    def countDigitOne(self, n: int) -> int:
+
+        res = 0
+        m = 1
+        while m <= n:
+            print(m, n)
+            a = n // m
+            b = n % m
+            res += (a + 8) // 10 * m
+            if a % 10 == 1:
+                res += b + 1
+
+            m *= 10
+        return res
+
+
+
+
 n = 13
 a = Solution()
 print(a.countDigitOne(n))
