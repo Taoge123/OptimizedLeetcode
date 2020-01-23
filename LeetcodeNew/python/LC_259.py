@@ -20,7 +20,7 @@ class Solution:
         nums = sorted(nums)
 
         for i in range(len(nums)):
-            j, k = i+ 1, len(nums) - 1
+            j, k = i + 1, len(nums) - 1
 
             while j < k:
                 s = nums[i] + nums[j] + nums[k]
@@ -32,4 +32,7 @@ class Solution:
         return res
 
 
-
+nums = [1,1,1,1]
+target = 4
+a = Solution()
+print(a.threeSumSmaller(nums, target))
