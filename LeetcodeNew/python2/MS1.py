@@ -27,25 +27,29 @@
 # print(solution(A))
 #
 
+#
+# import collections
+#
+# def solution(A, B, N):
+#     graph = collections.defaultdict(set)
+#     for city1, city2 in zip(A, B):
+#         graph[city1].add(city2)
+#         graph[city2].add(city1)
+#
+#     max_rank = 0
+#     for city1, city2 in zip(A, B):
+#         tmp_rank = len(graph[city1]) + len(graph[city2])
+#         if city2 in graph[city1]:
+#             tmp_rank -= 1
+#         max_rank = max(max_rank, tmp_rank)
+#
+#     return max_rank
+#
+# print(solution([1,2,3,3], [2,3,1,4], 4))
+# print(solution([1,2,4,5], [2,3,5,6], 6))
+#
+#
 
-import collections
 
-def solution(A, B, N):
-    graph = collections.defaultdict(set)
-    for city1, city2 in zip(A, B):
-        graph[city1].add(city2)
-        graph[city2].add(city1)
-
-    max_rank = 0
-    for city1, city2 in zip(A, B):
-        tmp_rank = len(graph[city1]) + len(graph[city2])
-        if city2 in graph[city1]:
-            tmp_rank -= 1
-        max_rank = max(max_rank, tmp_rank)
-
-    return max_rank
-
-print(solution([1,2,3,3], [2,3,1,4], 4))
-print(solution([1,2,4,5], [2,3,5,6], 6))
 
 

@@ -69,7 +69,7 @@ class Union:
 
 class Solution:
     def numIslands2(self, m, n, positions):
-        ans = []
+        res = []
         islands = Union()
         for p in map(tuple, positions):
             islands.add(p)
@@ -77,8 +77,8 @@ class Solution:
                 q = (p[0] + dp[0], p[1] + dp[1])
                 if q in islands.parent:
                     islands.union(p, q)
-            ans += [islands.count]
-        return ans
+            res += [islands.count]
+        return res
 
 
 
