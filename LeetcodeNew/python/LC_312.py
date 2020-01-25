@@ -30,7 +30,9 @@ class Solution:
             for left in range(n-step):
                 right = left + step
                 for i in range(left+1, right):
-                    dp[left][right] = max(dp[left][right], dp[left][i]+dp[i][right] + nums[left]*nums[i]*nums[right])
+                    dp[left][right] = max(dp[left][right],
+                                          dp[left][i]+dp[i][right] +
+                                          nums[left]*nums[i]*nums[right])
         return dp[0][n-1]
 
 """
@@ -57,7 +59,9 @@ class Solution2:
             return cache[i][j]
         coins = 0
         for k in range(i + 1, j):
-            coins = max(coins, nums[i] * nums[k] * nums[j] + self.dfs(nums, i, k, cache) + self.dfs(nums, k, j, cache))
+            coins = max(coins, nums[i] * nums[k] * nums[j] +
+                        self.dfs(nums, i, k, cache) +
+                        self.dfs(nums, k, j, cache))
         cache[i][j] = coins
         return coins
 

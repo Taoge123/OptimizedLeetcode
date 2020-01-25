@@ -29,13 +29,14 @@ class Solution:
         heap = [1]
         while n:
             node = heapq.heappop(heap)
-            for i in primes:
-                m = node * i
+            for prime in primes:
+                m = node * prime
                 if not m in visited:
                     heapq.heappush(heap, m)
                     visited.add(m)
             n -= 1
         return node
+
 
 n = 12
 primes = [2,7,13,19]

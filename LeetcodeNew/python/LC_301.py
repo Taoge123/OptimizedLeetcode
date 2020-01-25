@@ -156,7 +156,7 @@ class SolutionBFS:
 
 
 s = "(a)())()"
-a = Solution()
+a = SolutionBFS()
 print(a.removeInvalidParentheses(s))
 
 

@@ -89,8 +89,69 @@ res = sorted(res, key=lambda x : x[0])
 #     res.append(val)
 
 
-for i in res:
-    print(" ".join(map(str, i)), end='\n')
+# for i in res:
+#     print(" ".join(map(str, i)), end='\n')
+
+
+def solution(arr):
+    # Type your solution here
+    if not arr:
+        return ""
+
+    """
+    [3,6,2,9,-1,10]
+       6   9 -1     
+    """
+    #     0 1 3 4 7  8  9  10
+    #       2 5 6 11 12 13 14
+
+    layer = 1
+    left = []
+    right = []
+
+    i, j = 1, 2
+    left.append(arr[i])
+    queue1 = [i]
+    right.append(arr[j])
+    queue2 = [j]
+    while queue1:
+        node = queue1.pop(0)
+        if node > len(arr):
+            break
+        if node * 2 + 1 < len(arr):
+            queue1.append(node * 2 + 1)
+            left.append(arr[node * 2 + 1])
+
+        if node * 2 + 2 < len(arr):
+            queue1.append(node * 2 + 2)
+            left.append(arr[node * 2 + 2])
+
+    while queue2:
+        node = queue2.pop(0)
+        if node > len(arr):
+            break
+        if node * 2 + 1 < len(arr):
+            queue2.append(node * 2 + 1)
+            right.append(arr[node * 2 + 1])
+
+        if node * 2 + 2 < len(arr):
+            queue2.append(node * 2 + 2)
+            right.append(arr[node * 2 + 2])
+
+    if sum(left) > sum(right):
+        return "Left"
+    elif sum(left) < sum(right):
+        return "Right"
+    else:
+        return ""
+
+
+
+arr = [1]
+print(solution(arr))
+
+
+
 
 
 
