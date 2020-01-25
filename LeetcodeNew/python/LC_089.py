@@ -35,15 +35,15 @@ class Solution:
         res = [0]
         for i in range(n):
             for num in reversed(res):
-                print(num, pow(2, i), list(reversed(res)))
+                # print(num, pow(2, i), list(reversed(res)), bin(num)[2:], bin(pow(2, i))[2:])
                 res.append(num + pow(2, i))
-                print(res, '--')
+                print(bin(num)[2:], bin(pow(2, i))[2:], bin(num + pow(2,i))[2:])
 
         return res
 
 
 
-n = 3
+n = 4
 a = Solution()
 print(a.grayCode(n))
 
