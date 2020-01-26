@@ -63,6 +63,60 @@ class Solution:
         return res if res < float("inf") else -1
 
 
+
+class Solution2:
+    def shortestDistance(self, grid) -> int:
+        if not grid or len(grid) == 0:
+            return -1
+
+        m, n = len(grid), len(grid[0])
+
+        dist = [[0 for i in range(n)] for j in range(m)]
+        nums = [[0 for i in range(n)] for j in range(m)]
+
+        buildingNum = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    buildingNum += 1
+                    self.bfs(grid, i, j, dist, nums)
+
+        res = float('inf')
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0 and dist[i][j] != 0 and nums[i][j] == buildingNum:
+                    res = min(res, dist[i][j])
+        print(dist)
+        if res == float('inf'):
+            return -1
+        else:
+            return res
+
+    def bfs(self, grid, row, col, dist, nums):
+        m, n = len(grid), len(grid[0])
+        queue = []
+        queue.append([row, col])
+        dirs = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        visited = [[0 for i in range(n)] for j in range(m)]
+        distance = 0
+
+        while queue:
+            distance += 1
+            size = len(queue)
+            for i in range(size):
+                cur = queue.pop(0)
+                for k in range(len(dirs)):
+                    x = cur[0] + dirs[k][0]
+                    y = cur[1] + dirs[k][1]
+                    if (x >= 0 and x < m and y >= 0 and y < n) and not visited[x][y] and grid[x][y] == 0:
+                        visited[x][y] = True
+                        dist[x][y] += distance
+                        nums[x][y] += 1
+                        queue.append([x, y])
+
+
+
+
 grid = [[1,0,2,0,1],
         [0,0,0,0,0],
         [0,0,1,0,0]]
