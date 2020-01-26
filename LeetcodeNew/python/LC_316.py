@@ -33,9 +33,25 @@ class Solution:
         return "".join(stack)
 
 
+class Solution2:
+    def removeDuplicateLetters(self, s):
+        table = {}
+        for i, char in enumerate(s):
+            table[char] = i
+
+        res = []
+        for i, char in enumerate(s):
+            if char not in res:
+                while res and char < res[-1] and i < table[res[-1]]:
+                    res.pop()
+                res.append(char)
+
+        return ''.join(res)
+
+
 
 s = "cbacdcbc"
-a = Solution()
+a = Solution2()
 print(a.removeDuplicateLetters(s))
 
 
