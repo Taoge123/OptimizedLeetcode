@@ -121,7 +121,7 @@ grid = [[1,0,2,0,1],
         [0,0,0,0,0],
         [0,0,1,0,0]]
 
-a = Solution()
+a = Solution2()
 print(a.shortestDistance(grid))
 
 
