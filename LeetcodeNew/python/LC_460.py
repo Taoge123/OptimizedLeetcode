@@ -366,7 +366,7 @@ class DoublyLinkedList:
         self.tail.prev = self.head
         self.size = 0
 
-    def add(self, node):
+    def addToHead(self, node):
         node.next = self.head.next
         self.head.next.prev = node
         self.head.next = node
@@ -389,47 +389,47 @@ class DoublyLinkedList:
 
 class LFUCache3:
     def __init__(self, capacity):
-        self.keys = {}
-        self.freq = collections.defaultdict(DoublyLinkedList)
+        self.freqTable = collections.defaultdict(DoublyLinkedList)
+        self.keyTable = {}
         self.capacity = capacity
         self.size = 0
         self.minFreq = 0
 
     def get(self, key):
-        if key not in self.keys:
+        if key not in self.keyTable:
             return -1
         else:
-            node = self.keys[key]
+            node = self.keyTable[key]
             prevCount = node.cnt
             node.cnt += 1
-            self.freq[prevCount].removeNode(node)
-            self.freq[node.cnt].add(node)
-            if prevCount == self.minFreq and self.freq[prevCount].size == 0:
+            self.freqTable[prevCount].removeNode(node)
+            self.freqTable[node.cnt].addToHead(node)
+            if prevCount == self.minFreq and self.freqTable[prevCount].size == 0:
                 self.minFreq += 1
             return node.val
 
     def put(self, key, value):
         if self.capacity <= 0:
             return
-        if key not in self.keys:
+        if key not in self.keyTable:
             node = Node3(key, value)
-            self.keys[key] = node
+            self.keyTable[key] = node
             if self.size != self.capacity:
-                self.freq[1].add(node)
+                self.freqTable[1].addToHead(node)
                 self.size += 1
             else:
-                prevTail = self.freq[self.minFreq].removeTail()
-                self.keys.pop(prevTail.key)
-                self.freq[1].add(node)
+                prevTail = self.freqTable[self.minFreq].removeTail()
+                self.keyTable.pop(prevTail.key)
+                self.freqTable[1].addToHead(node)
             self.minFreq = 1
         else:
-            node = self.keys[key]
+            node = self.keyTable[key]
             node.val = value
             prevCount = node.cnt
             node.cnt += 1
-            self.freq[prevCount].removeNode(node)
-            self.freq[node.cnt].add(node)
-            if prevCount == self.minFreq and self.freq[prevCount].size == 0:
+            self.freqTable[prevCount].removeNode(node)
+            self.freqTable[node.cnt].addToHead(node)
+            if prevCount == self.minFreq and self.freqTable[prevCount].size == 0:
                 self.minFreq += 1
 
 

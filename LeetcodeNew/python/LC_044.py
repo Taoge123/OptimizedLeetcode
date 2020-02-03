@@ -101,8 +101,8 @@ class Solution2:
 
 
 
-s = "acdcb"
-p = "a*c?b"
+s = "bbarcc"
+p = "*c"
 a = Solution()
 print(a.isMatch(s, p))
 

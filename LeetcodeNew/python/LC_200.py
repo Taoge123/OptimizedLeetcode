@@ -35,8 +35,8 @@ class Solution:
         for r in range(m):
             for c in range(n):
                 if grid[r][c] == '1' and not visited[r][c]:
-                    res += 1
                     self.dfs(r, c, grid, m, n, visited)
+                    res += 1
 
         return res
 

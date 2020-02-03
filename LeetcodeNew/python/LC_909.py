@@ -63,13 +63,29 @@ class Solution:
 
 
     def convert(self, node, n):
-        r, c = divmod(node - 1, n)
-        if r % 2 == 0:
-            return n - 1 - r, c
+        row, col = divmod(node - 1, n)
+        if row % 2 == 0:
+            return n - 1 - row, col
         else:
-            return n - 1 - r, n - 1 - c
+            return n - 1 - row, n - 1 - col
 
 
-
-
+class Solution2:
+    def snakesAndLadders(self, board):
+        n = len(board)
+        queue = collections.deque([(1, 0)])
+        visited = set([1])
+        while queue:
+            node, step = queue.popleft()
+            for i in range(node + 1, node + 7):
+                row, col = (i - 1) // n, (i - 1) % n
+                newNode = board[n - row - 1][col if row % 2 == 0 else n - col - 1]
+                if newNode > 0:
+                    i = newNode
+                if i == n * n:
+                    return step + 1
+                if i not in visited:
+                    visited.add(i)
+                    queue.append((i, step + 1))
+        return -1
 

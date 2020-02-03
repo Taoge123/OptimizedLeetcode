@@ -24,8 +24,8 @@ Do not use the eval built-in library function.
 
 class Solution:
     def calculate(self, s):
-        num = 0
         stack = []
+        num = 0
         sign = "+"
 
         for i, char in enumerate(s):

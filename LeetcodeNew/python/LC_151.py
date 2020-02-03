@@ -34,6 +34,7 @@ For C programmers, try to solve it in-place in O(1) extra space.
 
 class Solution:
     def reverseWords(self, s):
+        print(list(reversed(s.split())))
         return ' '.join(reversed(s.split()))
 
 
@@ -53,3 +54,8 @@ class SolutionCaikehe:
         while i < j:
             s[i], s[j] = s[j], s[i]
             i += 1; j -= 1
+
+s = "  hello world!  "
+a = SolutionCaikehe()
+print(a.reverseWords(s))
+

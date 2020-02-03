@@ -54,9 +54,6 @@ Could you do better than O(n2) per move() operation?
 class TicTacToe:
 
     def __init__(self, n: int):
-        """
-        Initialize your data structure here.
-        """
         self.row = [0] * n
         self.col = [0] * n
         self.diag = 0
@@ -87,13 +84,11 @@ class TicTacToe:
             return 1
         return 0
 
-    # Your TicTacToe object will be instantiated and called as such:
-# obj = TicTacToe(n)
-# param_1 = obj.move(row,col,player)
+a = TicTacToe(3)
+print(a.move(0, 0, 1))
+print(a.move(1, 1, 1))
+print(a.move(2, 2, 1))
 
 
-    # Your TicTacToe object will be instantiated and called as such:
-# obj = TicTacToe(n)
-# param_1 = obj.move(row,col,player)
 
 

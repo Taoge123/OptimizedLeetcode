@@ -31,8 +31,70 @@ Do not use the eval built-in library function.
 """
 
 
+class SolutionBest:
+    def calculate(self, s):
+        return self.helper(s, 0)
 
-class Solution2:
+    def helper(self, s, i):
+        res = 0
+        num, sign = "", 1
+        while (i < len(s)):
+            # if s[i] in "0123456789"
+            char = s[i]
+            if char.isdigit():
+                num += char
+            elif char in "+-()":
+                if num != "":
+                    res += sign * int(num)
+                num = ""
+                if char == "+":
+                    sign = 1
+                elif char == "-":
+                    sign = -1
+                elif char == "(":
+                    nxt, i = self.helper(s, i + 1)
+                    res += sign * nxt
+                elif char == ")":
+                    return (res, i)
+            i += 1
+        if num != "":
+            res += sign * int(num)
+        return res
+
+
+
+class SolutionBestToBeTested:
+    def calculate(self, s):
+        return self.helper(s, 0)
+
+    def helper(self, s, i):
+        res = 0
+        num, sign = "", 1
+        while (i < len(s)):
+            char = s[i]
+            if char.isdigit():
+                num += char
+            else:
+                if num != "":
+                    res += sign * int(num)
+                num = ""
+                if char == "+":
+                    sign = 1
+                elif char == "-":
+                    sign = -1
+                elif char == "(":
+                    nxt, i = self.helper(s, i + 1)
+                    res += sign * nxt
+                elif char == ")":
+                    return (res, i)
+            i += 1
+        if num != "":
+            res += sign * int(num)
+        return res
+
+
+
+class Solution:
     def calculate(self, s):
 
         res, num, sign = 0, 0, 1
@@ -58,41 +120,48 @@ class Solution2:
         return res
 
 
-#To be modidied
-class Solution3:
+
+
+class Solution2:
+    def __init__(self):
+        self.i = 0
+
     def calculate(self, s):
+        return self.evaluation(s)
 
-        res = 0
-        num = 0
-        sign = 1
-        n = len(s)
+    def evaluation(self, s):
+        sign, res = 1, 0
 
-        for i, char in enumerate(s):
-            if char.isdigit():
-                num = 10 * num + ord(char) - ord('0')
-            elif char == '(':
-                j = i
-                count = 0
-                for i in range(n):
-                    if char == '(':
-                        count += 1
-                    if char == ")":
-                        count -= 1
-                    if count == 0:
-                        break
-                num = self.calculate(s[j + 1: i - j - 1])
-            if char == "+" or char == '-' or i == n - 1:
-                res += sign * num
-                num = 0
-                sign = 1 if (char == "+") else -1
+        while self.i < len(s):
+            if s[self.i] == ' ':
+                self.i += 1
+                continue
+            elif s[self.i] == '+':
+                sign = 1
+            elif s[self.i] == '-':
+                sign = -1
+            elif s[self.i] == '(':
+                self.i += 1
+                res += sign * self.evaluation(s)
+                sign = 1
+            elif s[self.i] == ')':
+                return res
+            else:  # s[i] is digit.
+                curNum = int(s[self.i])
+                while self.i + 1 < len(s) and s[self.i + 1].isdigit():
+                    curNum = curNum * 10 + int(s[self.i + 1])
+                    self.i += 1
+                res += curNum * sign
+                sign = 1
+            self.i += 1
 
         return res
 
 
 
-
-s = "(22+(10+(4+5+2)-3)+(6+8))"
-a = Solution2()
+# s = "(22+(10+(4+5+2)-3)+(6+8))"
+s = "-200-3-3-3"
+a = SolutionBestToBeTested()
 print(a.calculate(s))
 
 
