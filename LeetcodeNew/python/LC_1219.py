@@ -16,7 +16,7 @@ class SolutionTony:
 
     def helper(self, grid, i, j, count, visited):
         m, n = len(grid), len(grid[0])
-        if i< 0 or j < 0 or i >= m or j >= n or visited[i][j] or not grid[i][j]:
+        if i< 0 or j < 0 or i >= m or j >= n or visited[i][j] or w]:
             return
         visited[i][j] = True
         count += grid[i][j]
