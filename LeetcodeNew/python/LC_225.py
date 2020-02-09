@@ -26,39 +26,32 @@ You may assume that all operations are valid (for example, no pop or top operati
 import collections
 
 class MyStack:
-
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
         self.stack = collections.deque([])
 
     def push(self, x: int) -> None:
-        """
-        Push element x onto stack.
-        """
         self.stack.append(x)
 
     def pop(self) -> int:
-        """
-        Removes the element on top of the stack and returns that element.
-        """
         for i in range(len(self.stack) - 1):
             self.stack.append(self.stack.popleft())
         return self.stack.popleft()
 
     def top(self) -> int:
-        """
-        Get the top element.
-        """
         return self.stack[-1]
 
     def empty(self) -> bool:
-        """
-        Returns whether the stack is empty.
-        """
         return not self.stack
 
+
+"""
+1-2-3-4-5
+pop()
+2-3-4-5-1
+3-4-5-1-2
+4-5-1-2-3
+5-1-2-3-4
+"""
 
 
 # Your MyStack object will be instantiated and called as such:

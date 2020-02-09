@@ -61,7 +61,7 @@ class Solution:
 
 # Follow up: Please reverse the list into K Group
 
-class Solution:
+class Solution3:
     def reverseKGroup(self, head, k):
         count, node = 0, head
         while node and count < k:

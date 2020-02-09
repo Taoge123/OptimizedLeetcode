@@ -88,7 +88,7 @@ class Solution:
 
 
 class Solution:
-    def inorderTraversal(self, root: TreeNode) -> List[int]:
+    def inorderTraversal(self, root: TreeNode):
         res = []
         self.inorder(root, res)
         return res

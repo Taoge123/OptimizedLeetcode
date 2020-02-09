@@ -33,7 +33,6 @@ class Solution:
             for i in range(len(nums)):
                 if nums[i] <= mid:
                     count += 1
-
             # If there are more nums less than the mid, then go left
             if count > mid:
                 right = mid - 1

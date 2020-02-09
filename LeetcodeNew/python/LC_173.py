@@ -45,9 +45,6 @@ class BSTIterator:
 
 
     def next(self) -> int:
-        """
-        @return the next smallest number
-        """
         node = self.stack.pop()
         next = node.right
         while next:
@@ -58,9 +55,6 @@ class BSTIterator:
 
 
     def hasNext(self) -> bool:
-        """
-        @return whether we have a next smallest number
-        """
         return self.stack
 
 

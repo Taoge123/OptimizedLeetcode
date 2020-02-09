@@ -34,7 +34,6 @@ class Codec:
         self.helper(root.right, preorder)
 
     def deserialize(self, data):
-
         if not data:
             return None
         data = collections.deque(int(val) for val in data.split())

@@ -30,7 +30,6 @@ Arguments are always wrapped with a list, even if there aren't any.
 import random, bisect
 
 class Solution:
-
     def __init__(self, w):
         self.w = w
         self.n = len(w)

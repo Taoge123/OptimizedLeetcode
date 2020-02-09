@@ -14,7 +14,6 @@ m.next(5) = (10 + 3 + 5) / 3
 import collections
 
 class MovingAverage:
-
     def __init__(self, size):
 
         self.queue = collections.deque(maxlen=size)

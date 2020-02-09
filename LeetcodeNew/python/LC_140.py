@@ -61,7 +61,6 @@ class Solution:
                     print(item, '---')
                     res.append(item)
         memo[s] = res
-
         return res
 
 

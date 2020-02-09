@@ -18,7 +18,6 @@ Output: 10
 
 class Solution:
     def singleNonDuplicate(self, nums) -> int:
-
         start = 0
         end = len(nums) // 2
         while start < end:
@@ -27,8 +26,8 @@ class Solution:
                 end = mid
             else:
                 start = mid + 1
-
         return nums[2 * start]
+
 
 
 class Solution2:

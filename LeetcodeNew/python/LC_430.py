@@ -62,7 +62,6 @@ class Solution:
                 root.child = None
             prev = root
 
-
         dummy.next.prev = None
         return dummy.next
 

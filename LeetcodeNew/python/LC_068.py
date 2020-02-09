@@ -73,6 +73,7 @@ class Solution:
 
             builder = []
             builder.append(words[index])
+            #diff means how many spaces we have
             diff = last - index - 1
             if last == len(words) or diff == 0:
                 for i in range(index + 1, last):

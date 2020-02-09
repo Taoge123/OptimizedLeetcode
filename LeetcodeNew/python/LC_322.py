@@ -18,7 +18,6 @@ You may assume that you have an infinite number of each kind of coin.
 
 class Solution:
     def coinChange(self, coins, amount):
-
         dp = [float('inf')] * (amount + 1)
         dp[0] = 0
 
