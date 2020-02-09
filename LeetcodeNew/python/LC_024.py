@@ -18,18 +18,45 @@ class ListNode:
 
 
 class Solution:
-    def swapPairs(self, head):
-        dummy = cur = ListNode(0)
+    def swapPairs(self, head: ListNode) -> ListNode:
+        # Dummy node acts as the prevNode for the head node
+        # of the list and hence stores pointer to the head node.
+        dummy = ListNode(-1)
         dummy.next = head
+        prev = dummy
 
         while head and head.next:
-            temp = head.next.next
-            cur.next = head.next
-            cur.next.next = head
-            head.next = temp
-            cur = head
-            head = temp
+            # Nodes to be swapped
+            first = head;
+            second = head.next;
 
+            # Swapping
+            prev.next = second
+            first.next = second.next
+            second.next = first
+
+            # Reinitializing the head and prev for next swap
+            prev = first
+            head = first.next
+
+        # Return the new head node.
         return dummy.next
 
+
+class Solution2:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        # If the list has no node or has only one node left.
+        if not head or not head.next:
+            return head
+
+        # Nodes to be swapped
+        first = head
+        second = head.next
+
+        # Swapping
+        first.next = self.swapPairs(second.next)
+        second.next = first
+
+        # Now the head is the second node
+        return second
 

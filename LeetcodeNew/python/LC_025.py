@@ -44,8 +44,7 @@ class Solution:
 
 
 # LC 206 Reverse Linked List
-
-class Solution:
+class SolutionBase:
     def reverseList(self, head):
         if not head or not head.next:
             return head
@@ -57,7 +56,6 @@ class Solution:
             prev = cur
             cur = nxt
         return prev
-
 
 # Follow up: Please reverse the list into K Group
 
@@ -83,5 +81,21 @@ class Solution3:
         return (cur, prev)
 
 
+class Solution4:
+    def reverseKGroup(self, head, k):
+        length, node = 0, head
+        while node:
+            length += 1
+            node = node.next
+        if k <= 1 or length < k:
+            return head
+        node, cur = None, head
+        for _ in range(k):
+            nxt = cur.next
+            cur.next = node
+            node = cur
+            cur = nxt
+        head.next = self.reverseKGroup(cur, k)
+        return node
 
 

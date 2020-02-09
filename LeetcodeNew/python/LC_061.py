@@ -53,4 +53,33 @@ class Solution:
         return slow
 
 
+class Solution2:
+    def rotateRight(self, head: 'ListNode', k: 'int') -> 'ListNode':
+        # base cases
+        if not head:
+            return None
+        if not head.next:
+            return head
+
+        # close the linked list into the ring
+        oldTail = head
+        n = 1
+        while oldTail.next:
+            oldTail = oldTail.next
+            n += 1
+        oldTail.next = head
+
+        # find new tail : (n - k % n - 1)th node
+        # and new head : (n - k % n)th node
+        newTail = head
+        for i in range(n - k % n - 1):
+            newTail = newTail.next
+        newHead = newTail.next
+
+        # break the ring
+        newTail.next = None
+
+        return newHead
+
+
 

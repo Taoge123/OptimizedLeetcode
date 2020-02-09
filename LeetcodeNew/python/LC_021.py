@@ -31,7 +31,7 @@ class Solution:
         return dummy.next
 
 
-class Solution:
+class Solution2:
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
         if not l1 or not l2:
             return l1 or l2

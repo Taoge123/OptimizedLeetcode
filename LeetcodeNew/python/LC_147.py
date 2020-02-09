@@ -23,24 +23,29 @@ class ListNode:
 
 
 class Solution:
-    def insertionSortList(self, head: ListNode) -> ListNode:
-        dummyHead = ListNode(0)
-        dummyHead.next = nodeToInsert = head
+    def insertionSortList(self, head):
+
+        dummy = ListNode(0)
+        dummy.next = newNode = head
+
         while head and head.next:
             if head.val > head.next.val:
-                # Locate nodeToInsert.
-                nodeToInsert = head.next
-                # Locate nodeToInsertPre.
-                nodeToInsertPre = dummyHead
-                while nodeToInsertPre.next.val < nodeToInsert.val:
-                    nodeToInsertPre = nodeToInsertPre.next
-                head.next = nodeToInsert.next
-                # Insert nodeToInsert between nodeToInsertPre and nodeToInsertPre.next.
-                nodeToInsert.next = nodeToInsertPre.next
-                nodeToInsertPre.next = nodeToInsert
+                # Locate newNode.
+                newNode = head.next
+                # Locate pre.
+                pre = dummy
+                while pre.next.val < newNode.val:
+                    pre = pre.next
+
+                head.next = newNode.next
+                # Insert nodeToInsert between pre and pre.next.
+                newNode.next = pre.next
+                pre.next = newNode
             else:
                 head = head.next
-        return dummyHead.next
+
+        return dummy.next
+
 
 class Solution1:
     def insertionSortList(self, head):
