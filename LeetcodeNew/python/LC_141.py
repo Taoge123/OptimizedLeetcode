@@ -40,10 +40,8 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution(object):
+class Solution:
     def hasCycle(self, head):
-
-
         if not head:
             return False
 

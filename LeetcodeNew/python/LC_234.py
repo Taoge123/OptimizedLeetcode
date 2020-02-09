@@ -15,12 +15,12 @@ Could you do it in O(n) time and O(1) space?
 """
 
 
-class ListNode(object):
+class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
 
-class Solution(object):
+class Solution:
     def isPalindrome(self, head):
 
         if not head or not head.next:

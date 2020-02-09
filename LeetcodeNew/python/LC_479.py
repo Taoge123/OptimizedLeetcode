@@ -24,7 +24,6 @@ The range of n is [1,8].
 
 class Solution:
     def largestPalindrome(self, n: int) -> int:
-
         if n == 1:
             return 9
         if n == 2:

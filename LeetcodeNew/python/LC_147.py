@@ -43,7 +43,6 @@ class Solution:
                 pre.next = newNode
             else:
                 head = head.next
-
         return dummy.next
 
 

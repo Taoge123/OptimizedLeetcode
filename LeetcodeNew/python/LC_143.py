@@ -21,11 +21,10 @@ class ListNode:
 
 class Solution:
     def reorderList(self, head: ListNode) -> None:
-
         if not head:
             return
 
-            # Find the mid point
+        # Find the mid point
         slow = fast = head
         while fast and fast.next:
             slow = slow.next

@@ -1,4 +1,7 @@
 
+
+
+
 class Solution:
     def countSubstrings(self, s):
         res = 0
@@ -8,7 +11,8 @@ class Solution:
                     res += 1
         return res
 
-    def countSubstrings2(self, s):
+class Solution2:
+    def countSubstrings(self, s):
         if not s: return 0
         count = 0
         for i in range(len(s)):

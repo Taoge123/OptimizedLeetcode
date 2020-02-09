@@ -14,7 +14,6 @@ A linked list can be reversed either iteratively or recursively. Could you imple
 
 class Solution:
     def reverseList(self, head):
-
         prev = None
         curr = head
 

@@ -24,12 +24,8 @@ class Solution:
                 res = [i + ch for i in res]
         return res
 
-class Solution(object):
+class Solution2:
     def letterCasePermutation(self, S):
-        """
-        :type S: str
-        :rtype: List[str]
-        """
         S = list(S)
         solutions = ['']
         while S:
@@ -41,12 +37,8 @@ class Solution(object):
         return solutions
 
 
-class Solution(object):
+class Solution3:
     def letterCasePermutation(self, S):
-        """
-        :type S: str
-        :rtype: List[str]
-        """
         if not S:
             return [""]
         index = -1
@@ -67,10 +59,6 @@ class Solution(object):
 
 class Solution4:
     def letterCasePermutation(self, S):
-        """
-        :type S: str
-        :rtype: List[str]
-        """
         res = []
         def helper(s, p):
             if s == "":

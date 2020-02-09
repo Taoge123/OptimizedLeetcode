@@ -38,7 +38,6 @@ Output:
 
 class Solution:
     def wordBreak(self, s: str, wordDict):
-
         return self.helper(s, wordDict, {})
 
     def helper(self, s, wordDict, memo):

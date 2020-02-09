@@ -40,10 +40,8 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution(object):
+class Solution:
     def detectCycle(self, head):
-
-
         slow = fast = dummy = head
 
         while fast and fast.next:

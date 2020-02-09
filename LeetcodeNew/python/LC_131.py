@@ -31,7 +31,6 @@ class Solution:
             if self.isPar(s[:i]):
                 self.dfs(s[i:], path + [s[:i]], res)
 
-
     def isPar(self, s):
         return s == s[::-1]
 

@@ -21,7 +21,6 @@ The first node is considered odd, the second node even and so on ...
 
 class Solution:
     def oddEvenList(self, head):
-
         if head is None:
             return None
 
@@ -36,7 +35,6 @@ class Solution:
             even = even.next
 
         odd.next = evenHead
-
         return oddHead
 
 

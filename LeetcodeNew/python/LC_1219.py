@@ -1,6 +1,4 @@
 
-
-
 class SolutionTony:
     def __init__(self):
         self.res = 0
@@ -16,7 +14,7 @@ class SolutionTony:
 
     def helper(self, grid, i, j, count, visited):
         m, n = len(grid), len(grid[0])
-        if i< 0 or j < 0 or i >= m or j >= n or visited[i][j] or w]:
+        if i< 0 or j < 0 or i >= m or j >= n or visited[i][j] or not grid[i][j]:
             return
         visited[i][j] = True
         count += grid[i][j]
@@ -27,9 +25,6 @@ class SolutionTony:
         self.helper(grid, i, j + 1, count, visited)
         visited[i][j] = False
         count -= grid[i][j]
-
-
-
 
 
 class Solution:

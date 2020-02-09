@@ -30,7 +30,7 @@ We should return the following flattened doubly linked list:
 """
 
 
-class Node(object):
+class Node:
     def __init__(self, val, prev, next, child):
         self.val = val
         self.prev = prev
