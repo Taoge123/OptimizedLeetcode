@@ -15,24 +15,26 @@ class ListNode:
         self.val = x
         self.next = None
 
-class Solution:
-    def partition(self, head, x):
 
-        small = leftList = ListNode(0)
-        big = rightList = ListNode(0)
+class Solution:
+    def partition(self, head: ListNode, x: int) -> ListNode:
+        smallHead = left = ListNode(0)
+        bigHead = right = ListNode(0)
 
         while head:
-
             if head.val < x:
-                leftList.next = ListNode(head.val)
-                leftList = leftList.next
+                left.next = ListNode(head.val)
+                left = left.next
+
             else:
-                rightList.next = ListNode(head.val)
-                rightList = rightList.next
+                right.next = ListNode(head.val)
+                right = right.next
 
             head = head.next
-        leftList.next = big.next
-        return small.next
+
+        left.next = bigHead.next
+        return smallHead.next
+
 
 
 

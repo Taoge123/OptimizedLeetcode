@@ -15,24 +15,52 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
     def reverseBetween(self, head, m, n):
-        dummy = pre = ListNode(0)
+        # Edge
+        if m == n:
+            return head
+        if not head or not m or not n:
+            return None
+        # Set starting point
+        dummy = ListNode(0)
         dummy.next = head
-        for _ in range(m-1):
-            pre = pre.next
-        cur= pre.next
-        # reverse the defined part
-        node = None
-        for _ in range(n-m+1):
-            nxt = cur.next
-            cur.next = node
-            node = cur
-            cur= nxt
-        # connect three parts
-        pre.next.next = cur
-        pre.next = node
+        start = dummy
+        for i in range(m - 1):
+            start = start.next
+        # Set ending point
+        end = cur = start.next
+        prev = None
+        # reverse
+        for i in range(n - m + 1):
+            next = cur.next
+            cur.next = prev
+            prev = cur
+            cur = next
+        # Connect
+        start.next = prev
+        end.next = cur
         return dummy.next
+
+"""
+m = 2
+n = 4
+       1 -> 2 -> 3 -> 4 -> 5
+dummy   
+     start
+           end 
+           cur 
+prev = None
+       1   2 <- 3 <- 4 -> 5
+dummy
+    start
+           end   
+                    prev      
+                          cur
+                           
+"""
+
 
 
 class Solution2:
