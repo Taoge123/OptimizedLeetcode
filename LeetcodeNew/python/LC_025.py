@@ -87,15 +87,26 @@ class Solution4:
         while node:
             length += 1
             node = node.next
+        #corner case checking, if length < k, then no reverse need
         if k <= 1 or length < k:
             return head
-        node, cur = None, head
+        pre, cur = None, head
         for _ in range(k):
             nxt = cur.next
-            cur.next = node
-            node = cur
+            cur.next = pre
+            pre = cur
             cur = nxt
         head.next = self.reverseKGroup(cur, k)
-        return node
+        return pre
+
+"""
+     1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
+pre cur nxt
+    pre cur   nxt
+        pre   cur  nxt
+               3 -> 4 -> 5 -> 6 -> 7 -> 8
+        pre is the final new head
+              cur became the new start
+"""
 
 
