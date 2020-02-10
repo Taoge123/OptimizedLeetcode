@@ -59,7 +59,7 @@ class Solution:
 
 
 
-class Solution:
+class Solution1:
     def isValidBST(self, root: TreeNode) -> bool:
         if not root:
             return True
@@ -80,7 +80,7 @@ class Solution:
             if node.left:
                 stack.append(node.left)
 
-class Solution:
+class Solution2:
     def isValidBST(self, root: TreeNode) -> bool:
         self.flag = True
         res = []
@@ -97,7 +97,7 @@ class Solution:
             self.helper(root.right, res)
 
 
-class Solution:
+class Solution3:
     def isValidBST(self, root: TreeNode) -> bool:
         return self.helper(root, float('-inf'), float('inf'))
 

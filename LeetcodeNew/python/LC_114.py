@@ -31,14 +31,10 @@ class TreeNode:
         self.right = None
 
 class Solution:
-
     def __init__(self):
         self.prev = None
 
     def flatten(self, root: TreeNode) -> None:
-        """
-        Do not return anything, modify root in-place instead.
-        """
         if not root:
             return None
 

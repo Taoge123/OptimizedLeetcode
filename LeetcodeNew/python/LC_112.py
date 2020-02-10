@@ -24,17 +24,18 @@ class TreeNode:
         self.left = None
         self.right = None
 
-# class Solution:
-#     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
-#         if not root:
-#             return False
-
-#         if not root.left and not root.right:
-#             return root.val == sum
-
-#         return self.hasPathSum(root.left, sum - root.val) or self.hasPathSum(root.right, sum - root.val)
-
 class Solution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+
+        if not root.left and not root.right:
+            return root.val == sum
+
+        return self.hasPathSum(root.left, sum - root.val) \
+               or self.hasPathSum(root.right, sum - root.val)
+
+class Solution2:
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if not root:
             return False
@@ -59,7 +60,7 @@ class Solution:
         return False
 
 
-class Solution1:
+class Solution3:
     def hasPathSum(self, root, sum):
         if not root:
             return False
@@ -72,7 +73,7 @@ class Solution1:
         return self.hasPathSum(root.left, sum) or self.hasPathSum(root.right, sum)
 
 
-class Solution2:
+class Solution4:
     def hasPathSum(self, root, sum):
         return self.dfs(root, sum)
 

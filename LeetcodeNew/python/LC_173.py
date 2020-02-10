@@ -36,13 +36,11 @@ class TreeNode:
         self.right = None
 
 class BSTIterator:
-
     def __init__(self, root: TreeNode):
         self.stack = []
         while root:
             self.stack.append(root)
             root = root.left
-
 
     def next(self) -> int:
         node = self.stack.pop()
@@ -51,8 +49,6 @@ class BSTIterator:
             self.stack.append(next)
             next = next.left
         return node.val
-
-
 
     def hasNext(self) -> bool:
         return self.stack

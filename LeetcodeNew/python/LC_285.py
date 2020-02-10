@@ -44,7 +44,7 @@ class Solution:
                 root = root.left
         return res
 
-class Solution:
+class Solution1:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         self.res = None
         self.dfs(root, p)
@@ -58,11 +58,6 @@ class Solution:
             self.dfs(root.left, p)
         else:
             self.dfs(root.right, p)
-
-
-
-
-
 
 
 

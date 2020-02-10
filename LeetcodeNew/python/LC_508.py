@@ -19,14 +19,13 @@ return [2], since 2 happens twice, however -5 only occur once.
 Note: You may assume the sum of values in any subtree is in the range of 32-bit signed integer.
 """
 
+import collections
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
-
-import collections
-
 
 class Solution:
     def findFrequentTreeSum(self, root):

@@ -46,7 +46,6 @@ class TreeNode:
 
 class Solution:
     def upsideDownBinaryTree(self, root: TreeNode) -> TreeNode:
-
         if not root or (not root.left and not root.right):
             return root
 

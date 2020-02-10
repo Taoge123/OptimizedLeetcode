@@ -34,7 +34,6 @@ class TreeNode:
         self.right = None
 
 class Codec:
-
     def encode(self, root):
         if not root:
             return None

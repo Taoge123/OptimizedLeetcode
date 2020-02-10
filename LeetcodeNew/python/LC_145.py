@@ -38,7 +38,7 @@ class Solution:
         self.postorder(root.right, res)
         res.append(root.val)
 
-class Solution:
+class Solution1:
     def postorderTraversal(self, root: TreeNode):
         if not root:
             return None

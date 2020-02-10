@@ -23,16 +23,15 @@ class TreeNode:
         self.left = None
         self.right = None
 
-from collections import deque
+import collections
 
 class Solution:
     def levelOrderBottom(self, root):
-
         if not root:
             return []
 
-        res = deque()
-        queue = deque([root])
+        res = collections.deque()
+        queue = collections.deque([root])
 
         while queue:
             size, cur_level = len(queue), []
@@ -50,9 +49,9 @@ class Solution:
 
         return res
 
-class Solution:
+class Solution2:
     def levelOrderBottom(self, root):
-        res = deque()
+        res = collections.deque()
         if not root:
             return res
         self.dfs(root, res, 0)

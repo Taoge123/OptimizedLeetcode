@@ -41,7 +41,7 @@ class Solution:
 #
 # queue is traversal for every single layer
 # cur is previous layer
-class Solution:
+class Solution2:
     def connect(self, root: 'Node') -> 'Node':
         queue, level, curr = root, None, None
 
@@ -65,13 +65,7 @@ class Solution:
                 else:
                     curr.next = queue.right
                     curr = curr.next
-            if queue:
-                print(queue.val)
-                print('-')
             queue = queue.next
-            if queue:
-                print(queue.val)
-            print('------')
             if not queue and level:
                 queue, level, curr = level, None, None
         return root

@@ -22,34 +22,32 @@ class TreeNode:
         self.right = None
 
 
-# class Solution:
-#     def inorderTraversal(self, root):
-#         if not root:
-#             return None
-
-#         stack, res = [root], []
-
-#         while stack:
-#             cur = stack.pop()
-#             if isinstance(cur, int):
-#                 res.append(cur)
-#                 continue
-
-#             if cur.right:
-#                 stack.append(cur.right)
-
-#             stack.append(cur.val)
-
-#             if cur.left:
-#                 stack.append(cur.left)
-
-#         return res
-
-
-
-
-
 class Solution:
+    def inorderTraversal(self, root):
+        if not root:
+            return None
+
+        stack, res = [root], []
+
+        while stack:
+            cur = stack.pop()
+            if isinstance(cur, int):
+                res.append(cur)
+                continue
+
+            if cur.right:
+                stack.append(cur.right)
+
+            stack.append(cur.val)
+
+            if cur.left:
+                stack.append(cur.left)
+
+        return res
+
+
+
+class Solution2:
     def inorderTraversal(self, root):
 
         stack, res = [], []
@@ -68,9 +66,8 @@ class Solution:
 
 
 
-class Solution:
-    def inorderTraversal(self, root: TreeNode) -> List[int]:
-
+class Solution3:
+    def inorderTraversal(self, root: TreeNode):
         stack, res = [], []
         cur = root
 
@@ -87,7 +84,7 @@ class Solution:
 
 
 
-class Solution:
+class Solution4:
     def inorderTraversal(self, root: TreeNode):
         res = []
         self.inorder(root, res)

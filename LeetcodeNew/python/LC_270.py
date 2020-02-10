@@ -43,7 +43,7 @@ class Solution:
         self.dfs(root.left, target)
         self.dfs(root.right, target)
 
-class Solution:
+class Solution2:
     def closestValue(self, root, target: float) -> int:
         self.res = float('inf')
         self.dfs(root, target)

@@ -59,7 +59,7 @@ class Solution:
         return max(left, right) + 1
 
 
-class Solution:
+class Solution2:
     def isBalanced(self, root: TreeNode) -> bool:
         if not root:
             return True

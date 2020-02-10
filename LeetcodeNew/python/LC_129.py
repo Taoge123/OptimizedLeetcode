@@ -52,7 +52,8 @@ class Solution:
         if not root.left and not root.right:
             return root.val + res * 10
 
-        return self.helper(root.left, res * 10 + root.val) + self.helper(root.right, res * 10 + root.val)
+        return self.helper(root.left, res * 10 + root.val) \
+               + self.helper(root.right, res * 10 + root.val)
 
 
 

@@ -3,7 +3,6 @@ import collections
 
 class Solution:
     def levelOrder(self, root: 'Node'):
-
         res = []
         queue = collections.deque([root])
         while queue:

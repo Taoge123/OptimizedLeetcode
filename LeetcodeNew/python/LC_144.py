@@ -21,9 +21,9 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
     def preorderTraversal(self, root: TreeNode):
-
         res = []
         self.preorder(root, res)
         return res
@@ -36,7 +36,7 @@ class Solution:
         self.preorder(root.left, res)
         self.preorder(root.right, res)
 
-class Solution:
+class Solution1:
     def preorderTraversal(self, root: TreeNode):
         if not root:
             return None
@@ -60,7 +60,7 @@ class Solution:
         return res
 
 
-class Solution:
+class Solution2:
     def preorderTraversal(self, root):
 
         if not root:

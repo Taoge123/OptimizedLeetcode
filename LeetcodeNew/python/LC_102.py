@@ -16,6 +16,7 @@ return its level order traversal as:
 ]
 
 """
+import collections
 
 class TreeNode:
     def __init__(self, x):
@@ -23,15 +24,13 @@ class TreeNode:
         self.left = None
         self.right = None
 
-from collections import deque
-
 
 class Solution:
     def levelOrder(self, root: TreeNode):
 
         if not root:
             return []
-        queue = deque([root])
+        queue = collections.deque([root])
         res = []
         while queue:
 

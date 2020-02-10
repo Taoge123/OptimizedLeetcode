@@ -18,7 +18,6 @@ class TreeNode(object):
         self.right = None
 
 class Codec:
-
     def serialize(self, root):
 
         preorder = []

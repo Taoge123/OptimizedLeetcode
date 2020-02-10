@@ -59,7 +59,6 @@ class Node:
 
 class Solution:
     def __init__(self):
-
         self.head = None
         self.prev = None
 

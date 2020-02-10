@@ -38,7 +38,9 @@ class Solution:
 
     def dfs(self, p, q):
         if p and q:
-            return p.val == q.val and self.dfs(p.left, q.right) and self.dfs(p.right, q.left)
+            return p.val == q.val \
+                   and self.dfs(p.left, q.right) \
+                   and self.dfs(p.right, q.left)
 
         return p == q
 

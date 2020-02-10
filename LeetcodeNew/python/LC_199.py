@@ -37,7 +37,7 @@ class Solution:
                     queue.append(node.right)
         return res
 
-class Solution:
+class Solution1:
     def rightSideView(self, root):
         self.res = []
         self.dfs(root, 0)

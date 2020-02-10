@@ -41,14 +41,13 @@ class Node(object):
 
 import collections
 
-class Node(object):
+class Node:
     def __init__(self, val=None, children=None):
         self.val = val
         self.children = children
 
 
 class Codec:
-
     def serialize(self, root: 'Node') -> str:
         res = []
         self.preorder(root, res)
