@@ -40,7 +40,6 @@ class Solution:
         return self.res
 
     def helper(self, root):
-
         if not root:
             return
 

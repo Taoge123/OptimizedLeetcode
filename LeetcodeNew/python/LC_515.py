@@ -25,7 +25,6 @@ class TreeNode:
 
 class Solution:
     def largestValues(self, root):
-
         if not root:
             return []
         queue = collections.deque([root])

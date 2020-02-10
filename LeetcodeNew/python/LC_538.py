@@ -24,7 +24,6 @@ class TreeNode:
         self.right = None
 
 class Solution:
-
     def convertBST(self, root):
         self.sum = 0
         self.helper(root)

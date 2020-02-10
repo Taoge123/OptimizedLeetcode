@@ -22,7 +22,6 @@ class TreeNode:
         self.right = None
 
 class Solution:
-
     def diameterOfBinaryTree(self, root: TreeNode) -> int:
         if not root:
             return 0

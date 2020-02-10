@@ -83,15 +83,13 @@ class Solution3:
 
 class Solution4:
     def constructFromPrePost(self, pre, post):
-        """
-        :type pre: List[int]
-        :type post: List[int]
-        :rtype: TreeNode
-        """
-        if not pre: return
+
+        if not pre:
+            return
         root = TreeNode(pre[0])
         pre, post = pre[1:], post[:-1]
-        if not pre: return root
+        if not pre:
+            return root
         i = post.index(pre[0])
         root.left = self.constructFromPrePost(pre[:i+1], post[:i+1])
         root.right = self.constructFromPrePost(pre[i+1:], post[i+1:])

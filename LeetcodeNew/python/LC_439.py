@@ -43,7 +43,6 @@ Explanation: The conditional expressions group right-to-left. Using parenthesis,
 
 class Solution:
     def parseTernary(self, expression):
-
         stack = []
         expression = reversed(expression)
 

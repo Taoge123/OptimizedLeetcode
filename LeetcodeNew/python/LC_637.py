@@ -9,7 +9,6 @@ class TreeNode:
 
 class Solution:
     def averageOfLevels(self, root: TreeNode):
-
         queue = collections.deque([root])
         res = []
         while queue:

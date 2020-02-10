@@ -85,10 +85,6 @@ a single node can have at most two parents. So my solution works in two steps.
 
 class Solution:
     def findRedundantConnection(self, edges):
-        """
-        :type edges: List[List[int]]
-        :rtype: List[int]
-        """
         tree = [-1] * (len(edges) + 1)
         for edge in edges:
             a = self.findRoot(edge[0], tree)
@@ -134,10 +130,7 @@ class UnionFind:
 
 class Solution2:
     def findRedundantDirectedConnection(self, edges):
-        """
-        :type edges: List[List[int]]
-        :rtype: List[int]
-        """
+
         cand1, cand2 = [], []
         parent = {}
         for edge in edges:

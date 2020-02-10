@@ -60,7 +60,7 @@ there should not be any node after we met an empty one.
 """
 
 
-class Solution2:
+class Solution3:
     def isCompleteTree(self, root: TreeNode) -> bool:
         bfs = [root]
         i = 0

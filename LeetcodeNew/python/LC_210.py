@@ -31,7 +31,6 @@ import collections
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites):
-
         graph = collections.defaultdict(list)
         visited = [False for i in range(numCourses)]
         res = []
@@ -57,9 +56,8 @@ class Solution:
         res.append(i)
         return True
 
-class Solution:
+class Solution2:
     def findOrder(self, numCourses: int, prerequisites):
-
         graph = collections.defaultdict(list)
         indegree = collections.defaultdict(int)
 

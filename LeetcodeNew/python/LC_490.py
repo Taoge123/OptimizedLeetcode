@@ -57,7 +57,6 @@ import collections
 
 class Solution:
     def hasPath(self, maze, start, destination) -> bool:
-
         m, n = len(maze), len(maze[0])
         self.directions = [(-1, 0),(1, 0),(0, -1),(0, 1)]
         return self.dfs(maze, start[0], start[1], destination, set(), m, n)

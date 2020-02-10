@@ -38,7 +38,6 @@ twitter.getNewsFeed(1);
 import collections
 
 class Twitter:
-
     def __init__(self):
 
         self.tweets = collections.defaultdict(list)

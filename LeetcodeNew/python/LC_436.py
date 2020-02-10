@@ -45,11 +45,11 @@ import bisect
 class Solution:
     def findRightInterval(self, intervals):
 
-        sortedIntervals = sorted([(x.start, i) for i, x in enumerate(intervals)], key=lambda x: x[0])
+        temp = sorted([(x.start, i) for i, x in enumerate(intervals)], key=lambda x: x[0])
 
-        print(sortedIntervals)
+        print(temp)
 
-        starts, index = [x[0] for x in sortedIntervals], [x[1] for x in sortedIntervals]
+        starts, index = [x[0] for x in temp], [x[1] for x in temp]
 
         res = []
 

@@ -30,7 +30,6 @@ If 99% of all integer numbers from the stream are between 0 and 100, how would y
 import heapq
 
 class MedianFinder:
-
     def __init__(self):
         # maxHeap for small values and minHeap for big values
         self.small = []
