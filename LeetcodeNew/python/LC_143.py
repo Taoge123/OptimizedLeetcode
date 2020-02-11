@@ -24,21 +24,42 @@ class Solution:
         if not head:
             return
 
-        # Find the mid point
         slow = fast = head
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
 
         # revese the second hald in-place
-        pre, node = None, slow
-        while node:
-            pre, node.next, node = node, pre, node.next
+        pre, cur = None, slow
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
 
         # Merge in-place
         first, second = head, pre
         while second.next:
             first.next, first = second, first.next
             second.next, second = first, second.next
+
         return
+
+"""
+   1 -> 2 -> 3 -> 4 -> 5
+            slow      
+                     fast
+       pre  cur  nxt 
+   1 -> 2 <- 3 <- 4 <- 5
+                      pre 
+ first               second
+       first     second
+   1 -> 5 -> 2 -> 4 -> 3
+                         
+"""
+
+
+
+
+
 
