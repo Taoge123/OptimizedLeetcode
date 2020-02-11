@@ -32,7 +32,7 @@ class Solution:
             if head.val > head.next.val:
                 # Locate newNode.
                 newNode = head.next
-                # Locate pre.
+                # pre will traverse all the way to before head,
                 pre = dummy
                 while pre.next.val < newNode.val:
                     pre = pre.next
@@ -44,6 +44,18 @@ class Solution:
             else:
                 head = head.next
         return dummy.next
+
+"""
+        1  ->  5  ->  4  ->  2  ->  3
+dummy        head   
+                    newNode
+       pre
+        1  ->  4  ->  5  ->  2  ->  3
+                     head
+       pre
+"""
+
+
 
 
 class Solution1:
