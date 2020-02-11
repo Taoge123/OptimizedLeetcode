@@ -17,39 +17,39 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
     def sortList(self, head):
-        if not head or not head.next:
+        if head is None or head.next is None:
             return head
-        # divide list into two parts
-        fast, slow = head.next, head
-        while fast and fast.next:
+        mid = self.findMid(head)
+        right = mid.next
+        mid.next = None
+        return self.merge(self.sortList(head), self.sortList(right))
+
+    def findMid(self, head):
+        slow, fast = head, head
+        while fast and fast.next and fast.next.next:
             fast = fast.next.next
             slow = slow.next
-        second = slow.next
-        # cut down the first part
-        slow.next = None
-        l = self.sortList(head)
-        r = self.sortList(second)
-        return self.merge(l, r)
+        return slow
 
     def merge(self, left, right):
-        if not left or not right:
-            return left or right
-        if left.val > right.val:
-            left, right = right, left
-        # get the return node "head"
-        head = pre = left
-        left = left.next
+        dummy = ListNode(None)
+        node = dummy
         while left and right:
             if left.val < right.val:
-                pre.next = left
+                node.next = left
                 left = left.next
             else:
-                pre.next = right
+                node.next = right
                 right = right.next
-            pre = pre.next
-        # l and r at least one is None
+            node = node.next
+
+        node.next = left or right
+        return dummy.next
+
+
 
 
 
