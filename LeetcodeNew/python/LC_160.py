@@ -48,31 +48,43 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
-    def getIntersectionNode(self, headA, headB):
-        currA, currB = headA, headB
-        lenA = lenB = 0
-        while currA is not None:
-            lenA += 1
-            currA = currA.next
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        curA, curB = headA, headB
+        i = j = 0
+        while curA:
+            i += 1
+            curA = curA.next
 
-        while currB is not None:
-            lenB += 1
-            currB = currB.next
+        while curB:
+            j += 1
+            curB = curB.next
 
-        currA, currB = headA, headB
+        curA, curB = headA, headB
 
-        if lenA > lenB:
-            for i in range(lenA - lenB):
-                currA = currA.next
+        if i > j:
+            for i in range(i - j):
+                curA = curA.next
         else:
-            for i in range(lenB - lenA):
-                currB = currB.next
+            for i in range(j - i):
+                curB = curB.next
 
-        while currB != currA:
-            currA = currA.next
-            currB = currB.next
+        while curB != curA:
+            curA = curA.next
+            curB = curB.next
 
-        return currA
+        return curA
+
+class Solution2:
+    def getIntersectionNode(self, headA, headB):
+        if headA and headB:
+            a, b = headA, headB
+            while a != b:
+                a = a.next if a else headB
+                b = b.next if b else headA
+            return b
+
+
 
 

@@ -20,7 +20,7 @@ class ListNode:
 
 class Solution:
     def sortList(self, head):
-        if head is None or head.next is None:
+        if not head or not head.next:
             return head
         mid = self.findMid(head)
         right = mid.next
