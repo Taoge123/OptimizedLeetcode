@@ -66,28 +66,27 @@ class Solution:
         return dummy.next
 
 
-
 class Solution2:
     def flatten(self, head: 'Node') -> 'Node':
-
         node = head
-        while node is not None:
+        while node:
             if node.child:
                 right = node.next
-
                 node.next = self.flatten(node.child)
+
                 node.next.prev = node
                 node.child = None
+
                 while node.next:
                     node = node.next
 
                 if right:
                     node.next = right
-                    node.next.prev = node
+                    right.prev = node
 
             node = node.next
-
         return head
+
 
 
 
