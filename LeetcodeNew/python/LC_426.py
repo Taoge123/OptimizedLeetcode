@@ -62,25 +62,25 @@ class Solution:
         self.head = None
         self.prev = None
 
-    def treeToDoublyList(self, root):
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
         if not root:
             return None
-        self.treeToDoublyListHelper(root)
+        self.helper(root)
         self.prev.right = self.head
         self.head.left = self.prev
         return self.head
 
-    def treeToDoublyListHelper(self, node):
-        if not node: return
-        self.treeToDoublyListHelper(node.left)
+    def helper(self, node):
+        if not node:
+            return
+        self.helper(node.left)
         if self.prev:
             node.left = self.prev
             self.prev.right = node
-        else:  # We are at the head.
+        else:
             self.head = node
         self.prev = node
-        self.treeToDoublyListHelper(node.right)
-
+        self.helper(node.right)
 
 
 class Solution2:
