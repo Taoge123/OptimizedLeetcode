@@ -78,6 +78,7 @@ class Solution:
             node.left = self.prev
             self.prev.right = node
         else:
+            #Otherwise we are in the head position
             self.head = node
         self.prev = node
         self.helper(node.right)
