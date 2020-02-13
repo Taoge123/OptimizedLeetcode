@@ -39,14 +39,16 @@ class Solution:
 
 
 """
-Given 1->2->3->4->5->NULL
-               e
-            o
-      1->3
-      2->4
+    1  ->  2  ->  3  ->  4  ->  5  ->  6  ->  7  ->  8
+   odd           odd           odd           odd
+  oddHead       
+          even          even          even          even
+        evenHead
 
-return 1->3->5->2->4->NULL
-
+odd.next -> evenHead 
+   1 -> 3 -> 5 -> 7 -> 2 -> 4 -> 6 -> 8
+   
+then we just return oddHead 
 """
 
 
