@@ -63,7 +63,8 @@ class Solution:
         self.prev = None
 
     def treeToDoublyList(self, root):
-        if not root: return None
+        if not root:
+            return None
         self.treeToDoublyListHelper(root)
         self.prev.right = self.head
         self.head.left = self.prev
@@ -84,7 +85,6 @@ class Solution:
 
 class Solution2:
     def treeToDoublyList(self, root):
-
         if not root:
             return None
         dummy = Node(0, None, root)
