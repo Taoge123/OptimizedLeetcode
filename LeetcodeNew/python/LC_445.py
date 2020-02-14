@@ -103,10 +103,10 @@ class Solution3:
                 summ += s2.pop()
 
             cur.val = summ % 10
-            head = ListNode(summ // 10)
+            summ //= 10
+            head = ListNode(summ)
             head.next = cur
             cur = head
-            summ //= 10
 
         return cur.next if cur.val == 0 else cur
 
