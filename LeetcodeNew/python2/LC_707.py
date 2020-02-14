@@ -7,7 +7,8 @@ class ListNode:
 class MyLinkedList:
     def __init__(self):
         self.size = 0
-        self.head, self.tail = ListNode(0), ListNode(0)
+        self.head = ListNode(0)
+        self.tail = ListNode(0)
         self.head.next = self.tail
         self.tail.prev = self.head
 
@@ -26,7 +27,8 @@ class MyLinkedList:
         return curr.val
 
     def addAtHead(self, val: int) -> None:
-        pred, succ = self.head, self.head.next
+        pred = self.head
+        succ = self.head.next
 
         self.size += 1
         node = ListNode(val)
@@ -36,8 +38,8 @@ class MyLinkedList:
         succ.prev = node
 
     def addAtTail(self, val: int) -> None:
-        succ, pred = self.tail, self.tail.prev
-
+        succ = self.tail
+        pred = self.tail.prev
         self.size += 1
         node = ListNode(val)
         node.prev = pred
