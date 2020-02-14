@@ -66,6 +66,17 @@ class Solution:
         return dummy.next
 
 
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, prev, next, child):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        self.child = child
+"""
+
+
 class Solution2:
     def flatten(self, head: 'Node') -> 'Node':
         node = head
@@ -73,19 +84,20 @@ class Solution2:
             if node.child:
                 right = node.next
                 node.next = self.flatten(node.child)
-
+                # whoever is the next, set the prev as the current node, recursion will find the node.next
                 node.next.prev = node
                 node.child = None
-
+                # current node will keep going to all the way end then we connect the last layer
                 while node.next:
                     node = node.next
-
+                # connect to last yayer
                 if right:
                     node.next = right
                     right.prev = node
-
             node = node.next
         return head
+
+
 
 
 

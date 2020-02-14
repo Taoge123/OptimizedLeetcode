@@ -25,20 +25,28 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
-    def addTwoNumbers(self, l1, l2):
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+
         x1, x2 = 0, 0
         while l1:
-            x1, l1 = x1 * 10 + l1.val, l1.next
+            x1 = x1 * 10 + l1.val
+            l1 = l1.next
+
         while l2:
-            x2, l2 = x2 * 10 + l2.val, l2.next
+            x2 = x2 * 10 + l2.val
+            l2 = l2.next
+
         x = x1 + x2
         head = ListNode(0)
         while x:
             x, v = divmod(x, 10)
-            head.next, head.next.next = ListNode(v), head.next
-        return head.next or head
+            temp = head.next
+            head.next = ListNode(v)
+            head.next.next = temp
 
+        return head.next or head
 
 
 class Solution2:
@@ -72,6 +80,36 @@ class Solution2:
         if head.val == 0:
             head = head.next
         return head
+
+
+class Solution3:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        s1, s2 = [], []
+        while l1:
+            s1.append(l1.val)
+            l1 = l1.next
+
+        while l2:
+            s2.append(l2.val)
+            l2 = l2.next
+
+        summ = 0
+        cur = ListNode(0)
+
+        while s1 or s2:
+            if s1:
+                summ += s1.pop()
+            if s2:
+                summ += s2.pop()
+
+            cur.val = summ % 10
+            head = ListNode(summ // 10)
+            head.next = cur
+            cur = head
+            summ //= 10
+
+        return cur.next if cur.val == 0 else cur
+
 
 
 
