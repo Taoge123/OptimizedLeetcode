@@ -17,6 +17,31 @@ Output:
 
 """
 
+
+class Solution1:
+    def permute(self, nums):
+        n = len(nums)
+        res = []
+        self.backtrack(nums, n, 0, res)
+        return res
+
+    def backtrack(self, nums, n, index, res):
+        if index == n:
+            res.append(nums[:])
+        for i in range(index, n):
+            # place i-th integer first
+            # in the current permutation
+            nums[index], nums[i] = nums[i], nums[index]
+            # use next integers to complete the permutations
+            self.backtrack(nums, n, index + 1, res)
+            # backtrack
+            nums[index], nums[i] = nums[i], nums[index]
+
+
+
+
+
+
 class Solution:
     def permute(self, nums):
 
