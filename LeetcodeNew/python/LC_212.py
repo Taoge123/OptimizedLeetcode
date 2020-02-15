@@ -58,7 +58,7 @@ class Solution:
                 self.dfs(board, words, node,  i, j, m, n, "", res)
         return res
 
-    def dfs(self, board, words, node, i, j, m, n, path, res):
+    def dfs(self, board, node, i, j, m, n, path, res):
 
         if node.isWord:
             res.append(path)
@@ -71,10 +71,10 @@ class Solution:
             return
         temp = board[i][j]
         board[i][j] = "#"
-        self.dfs(board, words, node, i - 1, j, m, n, path + temp, res)
-        self.dfs(board, words, node, i + 1, j, m, n, path + temp, res)
-        self.dfs(board, words, node, i, j - 1, m, n, path + temp, res)
-        self.dfs(board, words, node, i, j + 1, m, n, path + temp, res)
+        self.dfs(board, node, i - 1, j, m, n, path + temp, res)
+        self.dfs(board, node, i + 1, j, m, n, path + temp, res)
+        self.dfs(board, node, i, j - 1, m, n, path + temp, res)
+        self.dfs(board, node, i, j + 1, m, n, path + temp, res)
         board[i][j] = temp
 
 
