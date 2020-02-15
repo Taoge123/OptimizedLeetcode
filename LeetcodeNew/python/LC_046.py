@@ -39,9 +39,6 @@ class Solution1:
 
 
 
-
-
-
 class Solution:
     def permute(self, nums):
 
