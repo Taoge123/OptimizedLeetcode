@@ -41,12 +41,13 @@ import string
 
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList):
-
+        #we dont need visited since we will remove the newLayer.values() for the words we have processed
         wordList = set(wordList)
         res = []
+        lowercase = string.ascii_lowercase
+        #layer is similar to queue in 127
         layer = collections.defaultdict(list)
         layer[beginWord] = [[beginWord]]
-        lowercase = string.ascii_lowercase
 
         while layer:
             newLayer = collections.defaultdict(list)
