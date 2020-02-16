@@ -35,7 +35,7 @@ class Solution2:
             return self.memo[s]
 
         for i in range(len(s)-1):
-            if s[i]=='+' and s[i+1]=='+' and not self.helper(s[:i]+'--'+s[i+2:]):
+            if s[i:i+2]=='++' and not self.helper(s[:i]+'--'+s[i+2:]):
                 self.memo[s]=True
                 return True
         self.memo[s]=False
