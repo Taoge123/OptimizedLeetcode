@@ -83,7 +83,19 @@ class Solution:
         path.pop()
 
 
+"""
+ie, when index == 2:
+LEA will be the prefix, then we will search LEA in table and continue to backtrack
 
+[[ "w a L l",
+   "a r E a",
+   "l e A d",
+   "l a d y"],
+
+
+["ball","area","lead","lady"]]
+
+"""
 
 words = ["area","lead","wall","lady","ball"]
 a = Solution()
