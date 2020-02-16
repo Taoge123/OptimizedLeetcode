@@ -84,8 +84,8 @@ class Solution:
 
 
 
-words = ["area","lead","wall","lady","ball"]
 
+words = ["area","lead","wall","lady","ball"]
 a = Solution()
 print(a.wordSquares(words))
 
