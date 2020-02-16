@@ -15,12 +15,13 @@ Explanation: The palindrome partitioning ["aa","b"] could be produced using 1 cu
 class Solution:
     def minCut(self, s: str) -> int:
 
-        f = [-1] + [len(s) -1 for _ in range(len(s))]
+        dp = [-1] + [len(s) -1 for _ in range(len(s))]
         for i in range(len(s)):
             for j in range(i+1 ,len(s) +1):
+                temp = s[i:j]
                 if s[i:j] == s[i:j][::-1]:
-                    f[j] = min(f[j], f[i] + 1)
-        return f[-1]
+                    dp[j] = min(dp[j], dp[i] + 1)
+        return dp[-1]
 
 
 class Solution2:
@@ -43,6 +44,11 @@ class Solution2:
                         mini = min(mini, dp[j - 1] + 1)
             dp[i] = mini
         return dp[n - 1]
+
+
+s = "aab"
+a = Solution2()
+print(a.minCut(s))
 
 
 

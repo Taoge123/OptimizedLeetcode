@@ -36,7 +36,8 @@ O(k * n ^2)解法 其中k为单词个数，n为单词的长度：
 
 class Solution:
     def palindromePairs(self, words):
-        table, res = dict(map(reversed, enumerate(words))), set()
+        table = {word: i for i, word in enumerate(words)}
+        res = set()
         for i, word in enumerate(words):
             for k in range(len(word) + 1):
                 a, b = word[:k], word[k:]
