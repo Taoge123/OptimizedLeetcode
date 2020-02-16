@@ -60,29 +60,27 @@ The output consists of two word squares. The order of output does not matter (ju
 
 import collections
 
+
 class Solution:
     def wordSquares(self, words):
-        m, n = len(words), len(words[0])
-        matrix, res = [], []
+        res = []
         table = collections.defaultdict(set)
         for word in words:
-            for i in range(n):
+            for i in range(len(word)):
                 table[word[:i]].add(word)
         for word in words:
-            self.dfs(table, word, m, n, 1, matrix, res)
+            self.dfs(table, word, 1, [], res)
         return res
 
-    def dfs(self, table, word, m, n, line, matrix, res):
-        matrix.append(word)
-        if line == n:
-            res.append(matrix[:])
-
+    def dfs(self, table, word, index, path, res):
+        path.append(word)
+        if index == len(word):
+            res.append(path[:])
         else:
-            prefix = "".join(matrix[x][line] for x in range(line))
+            prefix = "".join(path[i][index] for i in range(index))
             for word in table[prefix]:
-                self.dfs(table, word, m, n, line + 1, matrix, res)
-        matrix.pop()
-
+                self.dfs(table, word, index + 1, path, res)
+        path.pop()
 
 
 
