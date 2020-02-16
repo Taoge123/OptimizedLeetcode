@@ -33,12 +33,11 @@ class Solution:
 
 class Solution2:
     def restoreIpAddresses(self, s: str):
-
         res = []
-        self.helper(res, s, 0, "", 0)
+        self.helper(s, 0, 0, "", res)
         return res
 
-    def helper(self, res, s, index, path, count):
+    def helper(self, s, index, count, path, res):
         if count > 4:
             return
 
@@ -50,15 +49,12 @@ class Solution2:
             if index + i > len(s):
                 break
             temp = s[index:index + i]
-
             if temp.startswith("0") and len(temp) > 1 or (i == 3 and int(temp) >= 256):
                 continue
             if count == 3:
-                self.helper(res, s, index + i, path + temp + "", count + 1)
+                self.helper(s, index + i, count + 1, path + temp + "", res)
             else:
-                self.helper(res, s, index + i, path + temp + ".", count + 1)
-
-
+                self.helper(s, index + i, count + 1, path + temp + ".", res)
 
 
 s = "25525511135"
