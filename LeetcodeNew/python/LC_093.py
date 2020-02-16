@@ -31,6 +31,7 @@ class Solution:
 
 
 
+
 class Solution2:
     def restoreIpAddresses(self, s: str):
         res = []
