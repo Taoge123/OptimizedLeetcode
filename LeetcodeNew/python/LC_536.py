@@ -31,7 +31,6 @@ class TreeNode:
         self.right = None
 
 
-
 class Solution1:
     def str2tree(self, s):
         i = s.find('(')
