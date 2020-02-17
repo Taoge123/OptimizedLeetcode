@@ -66,16 +66,18 @@ class Solution1:
         if i < 0:
             return TreeNode(int(s)) if s else None
 
-        bal = 0
+        count = 0
         for j, char in enumerate(s):
             if char == '(':
-                bal += 1
+                count += 1
             if char == ')':
-                bal -= 1
-            if j > i and bal == 0:
+                count -= 1
+            if j > i and count == 0:
                 break
 
         root = TreeNode(int(s[:i]))
+        # left = s[i + 1: j]
+        # right = s[j + 2: -1]
         root.left = self.str2tree(s[i + 1: j])
         root.right = self.str2tree(s[j + 2: -1])
         return root
