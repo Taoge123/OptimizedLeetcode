@@ -30,6 +30,32 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+
+class Solution1:
+    def str2tree(self, s):
+        i = s.find('(')
+        if i < 0:
+            return TreeNode(int(s)) if s else None
+
+        count = 0
+        for j, char in enumerate(s):
+            if char == '(':
+                count += 1
+            if char == ')':
+                count -= 1
+            if j > i and count == 0:
+                break
+
+        root = TreeNode(int(s[:i]))
+        # left = s[i + 1: j]
+        # right = s[j + 2: -1]
+        root.left = self.str2tree(s[i + 1: j])
+        root.right = self.str2tree(s[j + 2: -1])
+        return root
+
+
+
 class Solution:
     def str2tree(self, s: str) -> TreeNode:
         stack = []
@@ -60,27 +86,7 @@ class Solution:
         return root
 
 
-class Solution1:
-    def str2tree(self, s):
-        i = s.find('(')
-        if i < 0:
-            return TreeNode(int(s)) if s else None
 
-        count = 0
-        for j, char in enumerate(s):
-            if char == '(':
-                count += 1
-            if char == ')':
-                count -= 1
-            if j > i and count == 0:
-                break
-
-        root = TreeNode(int(s[:i]))
-        # left = s[i + 1: j]
-        # right = s[j + 2: -1]
-        root.left = self.str2tree(s[i + 1: j])
-        root.right = self.str2tree(s[j + 2: -1])
-        return root
 
 
 
