@@ -53,6 +53,7 @@ class Solution:
             if not self.dfs(j, graph, visited, res):
                 return False
         visited[i] = '1'
+        #almost just one line changed
         res.append(i)
         return True
 
