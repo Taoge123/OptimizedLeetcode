@@ -51,6 +51,7 @@ class Solution1:
         # left = s[i + 1: j]
         # right = s[j + 2: -1]
         root.left = self.str2tree(s[i + 1: j])
+        #+2 because we wanna skip the close both parenthases from i and super beginning
         root.right = self.str2tree(s[j + 2: -1])
         return root
 
