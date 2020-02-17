@@ -43,7 +43,7 @@ class TreeNode:
 class Solution:
     def sameTree(self, tree1, tree2):
 
-        if not (tree1 and tree2):
+        if not tree1 or not tree2:
             return tree1 is tree2
 
         return (tree1.val == tree2.val
