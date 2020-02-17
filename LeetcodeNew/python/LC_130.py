@@ -25,19 +25,18 @@ Two cells are connected if they are adjacent cells connected horizontally or ver
 
 
 class Solution:
-    def solve(self, board):
+    def solve(self, board) -> None:
         if len(board) == 0:
             return
         m, n = len(board), len(board[0])
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-
         for i in range(m):
-            self.dfs(i, 0, board, m, n)
-            self.dfs(i, n- 1, board, m, n)
+            self.dfs(board, i, 0, m, n)
+            self.dfs(board, i, n - 1, m, n)
 
-        for j in range(1, n - 1):
-            self.dfs(0, j, board, m, n)
-            self.dfs(m - 1, j, board, m, n)
+        for j in range(n):
+            self.dfs(board, 0, j, m, n)
+            self.dfs(board, m - 1, j, m, n)
 
         for i in range(m):
             for j in range(n):
@@ -46,13 +45,16 @@ class Solution:
                 elif board[i][j] == 'O':
                     board[i][j] = 'X'
 
-    def dfs(self, i, j, board, m, n):
+    def dfs(self, board, i, j, m, n):
         if i < 0 or i >= m or j < 0 or j >= n or board[i][j] != 'O':
             return
         board[i][j] = 'D'
         for direction in self.directions:
-            x, y = i + direction[0], j + direction[1]
-            self.dfs(x, y, board, m, n)
+            x = i + direction[0]
+            y = j + direction[1]
+            self.dfs(board, x, y, m, n)
+
+
 
 
 
