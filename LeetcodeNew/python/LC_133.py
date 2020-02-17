@@ -25,13 +25,15 @@ class Node:
         self.val = val
         self.neighbors = neighbors
 
+
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
         self.graph = collections.defaultdict(list)
         return self.dfs(node)
 
     def dfs(self, node):
-
         if self.graph[node]:
             return self.graph[node]
         newNode = Node(node.val, [])
@@ -39,6 +41,7 @@ class Solution:
         for nei in node.neighbors:
             newNode.neighbors.append(self.dfs(nei))
         return newNode
+
 
 
 
