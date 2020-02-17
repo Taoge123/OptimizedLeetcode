@@ -40,7 +40,7 @@ class Solution:
 
         for i in range(m):
             for j in range(n):
-                if board[i][j] == 'D':
+                if board[i][j] == '#':
                     board[i][j] = 'O'
                 elif board[i][j] == 'O':
                     board[i][j] = 'X'
@@ -48,7 +48,7 @@ class Solution:
     def dfs(self, board, i, j, m, n):
         if i < 0 or i >= m or j < 0 or j >= n or board[i][j] != 'O':
             return
-        board[i][j] = 'D'
+        board[i][j] = '#'
         for direction in self.directions:
             x = i + direction[0]
             y = j + direction[1]
