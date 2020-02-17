@@ -48,26 +48,25 @@ class Solution:
         return left + right + int(root.val == target)
 
 
+
 class Solution2:
-    def pathSum(self, root: TreeNode, sum: int) -> int:
-        self.result = 0
+    def pathSum(self, root: TreeNode, summ: int) -> int:
+        self.res = 0
         cache = collections.defaultdict(int)
         cache[0] = 1
-        self.helper(root, cache, 0, sum)
-        return self.result
+        self.helper(root, cache, 0, summ)
+        return self.res
 
-    def helper(self, root, cache, curSum, sum):
-
+    def helper(self, root, cache, curSum, summ):
         if not root:
             return
-
         curSum += root.val
-        oldSum = curSum - sum
-        self.result += cache[oldSum]
+        self.res += cache[curSum - summ]
         cache[curSum] += 1
-        self.helper(root.left, cache, curSum, sum)
-        self.helper(root.right, cache, curSum, sum)
+        self.helper(root.left, cache, curSum, summ)
+        self.helper(root.right, cache, curSum, summ)
         cache[curSum] -= 1
+
 
 
 
