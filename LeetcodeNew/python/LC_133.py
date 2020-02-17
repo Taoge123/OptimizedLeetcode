@@ -30,6 +30,24 @@ class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
             return None
+        graph = collections.defaultdict(list)
+        return self.dfs(node, graph)
+
+    def dfs(self, node, graph):
+        if graph[node]:
+            return graph[node]
+        newNode = Node(node.val, [])
+        graph[node] = newNode
+        for nei in node.neighbors:
+            newNode.neighbors.append(self.dfs(nei, graph))
+        return newNode
+
+
+
+class Solution1:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
         self.graph = collections.defaultdict(list)
         return self.dfs(node)
 
