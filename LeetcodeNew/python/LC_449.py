@@ -19,7 +19,6 @@ class TreeNode(object):
 
 class Codec:
     def serialize(self, root):
-
         preorder = []
         self.helper(root, preorder)
         print(preorder)
@@ -49,10 +48,15 @@ class Codec:
             root.right = self.build(preorder, root.val, max)
             return root
 
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.deserialize(codec.serialize(root))
 
+root = TreeNode(2)
+root.left = TreeNode(1)
+root.right = TreeNode(3)
+
+a = Codec()
+data = a.serialize(root)
+print(data)
+print(a.deserialize(data))
 
 
 
