@@ -672,8 +672,105 @@ class Solution031:
         return nums
 
 
+"""
+708. Insert into a Sorted Circular Linked List
+"""
+
+class Node:
+    def __init__(self, val=None, next=None):
+        self.val = val
+        self.next = next
+
+class Solution:
+    def insert(self, head: 'Node', insertVal: int) -> 'Node':
+
+        if head == None:
+            newNode = Node(insertVal, None)
+            newNode.next = newNode
+            return newNode
+
+        prev, curr = head, head.next
+        toInsert = False
+
+        while True:
+            if prev.val <= insertVal <= curr.val:
+                # Case #1.
+                toInsert = True
+            elif prev.val > curr.val:
+                # Case #2. where we locate the tail element
+                # 'prev' points to the tail, i.e. the largest element!
+                if insertVal >= prev.val or insertVal <= curr.val:
+                    toInsert = True
+
+            if toInsert:
+                prev.next = Node(insertVal, curr)
+                # mission accomplished
+                return head
+
+            prev, curr = curr, curr.next
+            # loop condition
+            if prev == head:
+                break
+        # Case #3.
+        # did not insert the node in the loop
+        prev.next = Node(insertVal, curr)
+        return head
 
 
+
+"""
+133. Clone Graph
+"""
+
+
+class Node133:
+    def __init__(self, val=0, neighbors=[]):
+        self.val = val
+        self.neighbors = neighbors
+
+class Solution133:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
+        graph = collections.defaultdict(list)
+        return self.dfs(node, graph)
+
+    def dfs(self, node, graph):
+        if node in graph:
+            return graph[node]
+        newNode = Node133(node.val, [])
+        graph[node] = newNode
+        for nei in node.neighbors:
+            newNode.neighbors.append(self.dfs(nei, graph))
+        return newNode
+
+
+"""
+310. Minimum Height Trees
+"""
+
+class Solution310:
+    def findMinHeightTrees(self, n: int, edges):
+        if n == 1:
+            return [0]
+
+        graph = collections.defaultdict(set)
+        for u, v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+
+        leaves = [i for i in range(n) if len(graph[i]) == 1]
+        while n > 2:
+            n -= len(leaves)
+            newLeaves = []
+            for leaf in leaves:
+                #remove from both direction
+                j = graph[leaf].pop()
+                graph[j].remove(leaf)
+                if len(graph[j]) == 1:
+                    newLeaves.append(j)
+            leaves = newLeaves
+        return leaves
 
 
 

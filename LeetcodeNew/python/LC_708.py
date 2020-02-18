@@ -4,7 +4,6 @@ class Node:
         self.val = val
         self.next = next
 
-
 class Solution:
     def insert(self, head: 'Node', insertVal: int) -> 'Node':
 
