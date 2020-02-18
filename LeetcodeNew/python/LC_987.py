@@ -27,7 +27,7 @@ class Solution:
         return [graph[i] for i in sorted(graph)]
 
 
-class Solution:
+class Solution2:
     def verticalTraversal(self, root: TreeNode):
         graph = collections.defaultdict(list)
         queue = [(root, 0)]

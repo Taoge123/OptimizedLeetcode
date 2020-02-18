@@ -18,7 +18,6 @@ import collections
 
 class Solution:
     def majorityElement(self, nums):
-
         n = len(nums)
         count = collections.Counter(nums)
         res = []
@@ -32,19 +31,19 @@ class Solution:
 class Solution2:
     def majorityElement(self, nums):
         res = []
-        a, b, count1, count2 = 0, 0, 0, 0
+        num1, num2, count1, count2 = 0, 0, 0, 0
         n = len(nums)
 
         for num in nums:
-            if num == a:
+            if num == num1:
                 count1 += 1
-            elif num == b:
+            elif num == num2:
                 count2 += 1
             elif count1 == 0:
-                a = num
+                num1 = num
                 count1 = 1
             elif count2 == 0:
-                b = num
+                num2 = num
                 count2 = 1
             else:
                 count1 -= 1
@@ -52,16 +51,15 @@ class Solution2:
 
         count1 = count2 = 0
         for num in nums:
-            if num == a:
+            if num == num1:
                 count1 += 1
-            elif num == b:
+            elif num == num2:
                 count2 += 1
 
         if count1 > n / 3:
-            res.append(a)
+            res.append(num1)
         if count2 > n / 3:
-            res.append(b)
-
+            res.append(num2)
         return res
 
 

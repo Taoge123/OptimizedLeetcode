@@ -1326,7 +1326,9 @@ class Solution063:
 
 
 
-
+"""
+314. Binary Tree Vertical Order Traversal
+"""
 class Solution314:
     def verticalOrder(self, root: TreeNode):
         res = collections.defaultdict(list)
@@ -1367,6 +1369,26 @@ class Solution987:
                 graph[i].extend(sorted(table[i]))
             queue = nextLevel
         return [graph[i] for i in sorted(graph)]
+
+
+"""
+229. Majority Element II
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
