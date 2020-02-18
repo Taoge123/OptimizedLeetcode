@@ -10,14 +10,7 @@ Output: ["2", "4->49", "51->74", "76->99"]
 
 class Solution:
     def findMissingRanges(self, nums, lower, upper):
-
-        def getRange(lower, upper):
-            if lower == upper:
-                return "{}".format(lower)
-            else:
-                return "{}->{}".format(lower, upper)
-
-        ranges = []
+        res = []
         n = len(nums)
         pre = cur = lower - 1
 
@@ -27,10 +20,15 @@ class Solution:
             else:
                 cur = nums[i]
             if cur - pre >= 2:
-                ranges.append(getRange(pre + 1, cur - 1))
+                res.append(self.getRange(pre + 1, cur - 1))
             pre = cur
-        return ranges
+        return res
 
+    def getRange(self, lower, upper):
+        if lower == upper:
+            return "{}".format(lower)
+        else:
+            return "{}->{}".format(lower, upper)
 
 
 nums = [0, 1, 3, 50, 75]

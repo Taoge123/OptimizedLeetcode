@@ -215,16 +215,61 @@ class Solution468:
             return False
 
 
-s = "0201:0db8:85a3:0000:0000:8a2e:0370:7334"
-a = Solution468()
-for item in s.split(':'):
-    print(a.isIPv6(item))
+# s = "0201:0db8:85a3:0000:0000:8a2e:0370:7334"
+# a = Solution468()
+# for item in s.split(':'):
+#     print(a.isIPv6(item))
 
 
+"""
+91. Decode Ways
+"""
 
+class Solution091:
+    def numDecodings(self, s: str) -> int:
+        if s == "":
+            return 0
+        n = len(s)
+        dp = [0 for x in range(n +1)]
+        dp[0] = 1
 
+        for i in range(1, n + 1):
+            if s[i -1] != '0':
+                dp[i] += dp[i-1]
+            if i != 1 and s[i-2:i] >= "10" and s[i-2:i] <= "26":
+                dp[i] += dp[i-2]
 
+        return dp[-1]
 
+s = "12"
+a = Solution091()
+print(a.numDecodings(s))
+
+"""
+163. Missing Ranges
+"""
+
+class Solution:
+    def findMissingRanges(self, nums, lower, upper):
+        res = []
+        n = len(nums)
+        pre = cur = lower - 1
+
+        for i in range(n + 1):
+            if i == n:
+                cur = upper + 1
+            else:
+                cur = nums[i]
+            if cur - pre >= 2:
+                res.append(self.getRange(pre + 1, cur - 1))
+            pre = cur
+        return res
+
+    def getRange(self, lower, upper):
+        if lower == upper:
+            return "{}".format(lower)
+        else:
+            return "{}->{}".format(lower, upper)
 
 
 
