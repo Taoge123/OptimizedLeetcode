@@ -151,6 +151,79 @@ class Solution220:
 
 
 
+import collections
+class Solution166:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator == 0:
+            return "0"
+
+        res = ""
+        res += "-" if (numerator > 0) ^ (denominator > 0) else ""
+        num, den = abs(numerator), abs(denominator)
+
+        res += str(num // den)
+        num %= den
+        if num == 0:
+            return res
+        res += "."
+        table = collections.defaultdict(int)
+        table[num] = len(res)
+
+        while num != 0:
+            num *= 10
+            res += str(num // den)
+            num %= den
+
+            if num in table:
+                index = table[num]
+                res = res[:index] + "(" + res[index:] + ")"
+                break
+            else:
+                table[num] = len(res)
+        return res
+
+
+
+
+"""
+468. Validate IP Address
+"""
+
+
+class Solution468:
+    def validIPAddress(self, IP: str) -> str:
+        if IP.count(".") == 3 and all(self.isIPv4(i) for i in IP.split(".")):
+            return "IPv4"
+        if IP.count(":") == 7 and all(self.isIPv6(i) for i in IP.split(":")):
+            return "IPv6"
+
+        return "Neither"
+
+    def isIPv4(self, s):
+        try:
+            return str(int(s)) == s and 0 <= int(s) <= 255
+        except:
+            return False
+
+    def isIPv6(self, s):
+        if len(s) > 4:
+            return False
+        try:
+            # print(int(s, 16), '---')
+            return int(s, 16) >= 0 and s[0] != '-'
+        except:
+            return False
+
+
+s = "0201:0db8:85a3:0000:0000:8a2e:0370:7334"
+a = Solution468()
+for item in s.split(':'):
+    print(a.isIPv6(item))
+
+
+
+
+
 
 
 
