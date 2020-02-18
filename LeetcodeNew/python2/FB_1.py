@@ -520,6 +520,161 @@ class Solution003:
 
 
 
+"""
+146. LRU Cache
+"""
+
+class Node:
+    def __init__(self, k, v):
+        self.key = k
+        self.val = v
+        self.prev = None
+        self.next = None
+
+class LRUCache146:
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.dic = dict()
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, key):
+        if key in self.dic:
+            node = self.dic[key]
+            self._remove(node)
+            self._add(node)
+            return node.val
+        return -1
+
+    def put(self, key, value):
+        if key in self.dic:
+            self._remove(self.dic[key])
+        node = Node(key, value)
+        self._add(node)
+        self.dic[key] = node
+        if len(self.dic) > self.capacity:
+            node = self.head.next
+            self._remove(node)
+            del self.dic[node.key]
+
+
+    def _add(self, node):
+        p = self.tail.prev
+        p.next = node
+        self.tail.prev = node
+        node.prev = p
+        node.next = self.tail
+
+    def _remove(self, node):
+        p = node.prev
+        n = node.next
+        p.next = n
+        n.prev = p
+
+
+"""
+152. Maximum Product Subarray
+"""
+class Solution152:
+    def maxProduct(self, nums):
+        mini = maxi = res = nums[0]
+
+        for num in nums[1:]:
+            temp = maxi
+            maxi = max(max(maxi * num, mini * num), num)
+            mini = min(min(mini * num, temp * num), num)
+            res = max(res, maxi)
+        return res
+
+
+
+"""
+71. Simplify Path
+"""
+
+class Solution071:
+    def simplifyPath(self, path: str) -> str:
+        path = path.split("/")
+        stack = []
+        for item in path:
+            if item not in ["", "..", "."]:
+                stack.append(item)
+            elif item == ".." and stack:
+                stack.pop()
+        return "/" + "/".join(stack)
+
+
+
+"""
+556. Next Greater Element III
+similar to next permutation
+这道题让我们求下一个排列顺序，由题目中给的例子可以看出来，如果给定数组是降序，则说明是全排列的最后一种情况，
+则下一个排列就是最初始情况，可以参见之前的博客 Permutations。我们再来看下面一个例子，有如下的一个数组
+1　　2　　7　　4　　3　　1
+下一个排列为：
+1　　3　　1　　2　　4　　7
+那么是如何得到的呢，我们通过观察原数组可以发现，
+1. 如果从末尾往前看，数字逐渐变大，到了2时才减小的，
+2. 然后我们再从后往前找第一个比2大的数字，是3，
+3. 那么我们交换2和3，
+4. 再把此时3后面的所有数字转置一下
+
+1　　2　　7　　4　　3　　1
+1　　2　　7　　4　　3　　1
+1　　3　　7　　4　　2　　1
+1　　3　　1　　2　　4　　7
+"""
+
+class Solution556:
+    def nextGreaterElement(self, n: int) -> int:
+        nums = list(str(n))
+        length = len(nums)
+
+        i, j = length - 2, length - 1
+        while i >= 0 and nums[i + 1] <= nums[i]:
+            i -= 1
+
+        if i < 0:
+            return -1
+
+        while nums[j] <= nums[i]:
+            j -= 1
+
+        nums[i], nums[j] = nums[j], nums[i]
+
+        res = int("".join(nums[:i + 1] + nums[i + 1:][::-1]))
+
+        if res >= 2 ** 31 or res == n:
+            return -1
+
+        return res
+
+class Solution031:
+    def nextPermutation(self, nums):
+        small, large = -1, -1
+        n = len(nums)
+        for i in range(n - 1, 0, -1):
+            if nums[i - 1] < nums[i]:
+                small = i - 1
+                break
+
+        if small == -1:
+            nums[:] = nums[::-1]
+            return
+
+        for i in range(n - 1, small, -1):
+            if nums[i] > nums[small]:
+                nums[i], nums[small] = nums[small], nums[i]
+                break
+        nums[:] = nums[:small+1] + nums[small+1:][::-1]
+        return nums
+
+
+
+
+
 
 
 
