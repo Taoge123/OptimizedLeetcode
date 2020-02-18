@@ -23,6 +23,33 @@ The length of the array won't exceed 10,000.
 You may assume the sum of all the numbers is in the range of a signed 32-bit integer.
 """
 
+#Basic idea is
+"""
+[a1, a2, a3, ......, ak] % k
+[a1, a2, a3, ......, ak, ak+1, ...., an] % k
+then we will know that
+[ak+1, ..., an] also mod k
+"""
+
+class SolutionBetter:
+    def checkSubarraySum(self, nums, k: int) -> bool:
+        summ = 0
+        table = {}
+        table[0] = -1
+        for i in range(len(nums)):
+            summ += nums[i]
+            if k != 0:
+                summ = summ % k
+
+            if summ in table:
+                if i - table[summ] > 1:
+                    return True
+            else:
+                table[summ] = i
+
+        return False
+
+
 
 class SolutionNaive:
     def checkSubarraySum(self, nums, k: int) -> bool:

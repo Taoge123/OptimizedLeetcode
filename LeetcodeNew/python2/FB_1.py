@@ -272,6 +272,27 @@ class Solution:
             return "{}->{}".format(lower, upper)
 
 
+"""
+523. Continuous Subarray Sum
+"""
+
+class Solution523:
+    def checkSubarraySum(self, nums, k: int) -> bool:
+        summ = 0
+        table = {}
+        table[0] = -1
+        for i in range(len(nums)):
+            summ += nums[i]
+            if k != 0:
+                summ = summ % k
+
+            if summ in table:
+                if i - table[summ] > 1:
+                    return True
+            else:
+                table[summ] = i
+
+        return False
 
 
 
