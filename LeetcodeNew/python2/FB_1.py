@@ -1246,8 +1246,9 @@ class Solution093:
 
 
 
-
-
+"""
+211. Add and Search Word - Data structure design
+"""
 class TrieNode:
     def __init__(self):
         self.children = collections.defaultdict(TrieNode)
@@ -1283,6 +1284,89 @@ class WordDictionary211:
             if not node:
                 return
             self.dfs(node, word[1:])
+
+
+"""
+332. Reconstruct Itinerary
+"""
+import heapq
+class Solution332:
+    def findItinerary(self, tickets):
+
+        graph = collections.defaultdict(list)
+
+        for u, v in tickets:
+            heapq.heappush(graph[u], v)
+        start = 'JFK'
+        res = []
+        self.dfs(graph, start, res)
+        return res[::-1]
+
+    def dfs(self, graph, start, res):
+        while graph[start]:
+            node = heapq.heappop(graph[start])
+            self.dfs(graph, node, res)
+        res.append(start)
+
+
+"""
+63. Unique Paths II
+"""
+
+class Solution063:
+    def uniquePathsWithObstacles(self, obstacleGrid):
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        dp = [[0 for i in range(n+1)] for j in range(m+1)]
+        dp[0][1] = 1
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if obstacleGrid[i-1][j-1] == 0:
+                    dp[i][j] = dp[i][j-1] + dp[i-1][j]
+        return dp[m][n]
+
+
+
+
+class Solution314:
+    def verticalOrder(self, root: TreeNode):
+        res = collections.defaultdict(list)
+        queue = collections.deque([(root, 0)])
+
+        while queue:
+            node, pos = queue.popleft()
+            if not node:
+                continue
+            res[pos].append(node.val)
+            queue.append((node.left, pos - 1))
+            queue.append((node.right, pos + 1))
+
+        return [res[i] for i in sorted(res)]
+
+
+
+"""
+987. Vertical Order Traversal of a Binary Tree
+"""
+
+class Solution987:
+    def verticalTraversal(self, root: TreeNode):
+
+        graph = collections.defaultdict(list)
+        queue = [(root, 0)]
+        while queue:
+            nextLevel = []
+            table = collections.defaultdict(list)
+            for node, step in queue:
+                table[step].append(node.val)
+                if node.left:
+                    nextLevel.append((node.left, step - 1))
+                if node.right:
+                    nextLevel.append((node.right, step + 1))
+
+            for i in table:
+                graph[i].extend(sorted(table[i]))
+            queue = nextLevel
+        return [graph[i] for i in sorted(graph)]
 
 
 

@@ -81,7 +81,6 @@ class TreeNode:
 
 class Solution:
     def verticalOrder(self, root: TreeNode):
-
         res = collections.defaultdict(list)
         queue = collections.deque([(root, 0)])
 
@@ -92,11 +91,25 @@ class Solution:
             res[pos].append(node.val)
             queue.append((node.left, pos - 1))
             queue.append((node.right, pos + 1))
-
+        s = sorted(res)
         return [res[i] for i in sorted(res)]
 
+"""
+res = defaultdict(<class 'list'>, {0: [1, 5, 6], -1: [2], 1: [3], -2: [4], 2: [7]})
+[[4], [2], [1, 5, 6], [3], [7]]
+"""
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+root.right.left = TreeNode(6)
+root.right.right = TreeNode(7)
 
 
+a = Solution()
+print(a.verticalOrder(root))
 
 
 
