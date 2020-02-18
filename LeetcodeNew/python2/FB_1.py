@@ -895,18 +895,394 @@ class Solution161:
         for i in range(min(len(s), len(t))):
             if s[i] != t[i]:
                 return s[i + 1:] == t[i + 1:] or s[i:] == t[i + 1:] or s[i + 1:] == t[i:]
-
         return True
 
+"""
+138. Copy List with Random Pointer
+"""
+
+class Node138:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+
+
+class Solution138:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        cache = dict()
+        m = n = head
+
+        while m:
+            cache[m] = Node138(m.val, m.next, m.random)
+            m = m.next
+
+        while n:
+            cache[n].next = cache.get(n.next)
+            cache[n].random = cache.get(n.random)
+            n = n.next
+        return cache.get(head)
+
+
+"""
+18. 4Sum
+"""
+
+class Solution018:
+    def fourSum(self, nums, target):
+        dic = collections.defaultdict(set)
+        n = len(nums)
+        nums.sort()
+        if n < 4:
+            return []
+
+        res = set()
+
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                sum = nums[i] + nums[j]
+
+                for sub in dic[target - sum]:
+                    res.add(tuple(list(sub) + [nums[j], nums[i]]))
+
+            for j in range(i):
+                dic[nums[i] + nums[j]].add((nums[j], nums[i]))
+        return list(res)
+
+
+
+"""
+43. Multiply Strings
+"""
+class Solution043:
+    def multiply(self, num1: str, num2: str) -> str:
+
+        res = [0] * (len(num1) + len(num2))
+
+        for i, n1 in enumerate(reversed(num1)):
+            for j, n2 in enumerate(reversed(num2)):
+                res[i + j] += int(n1) * int(n2)
+                res[i + j +1] += res[ i +j] // 10
+                res[i + j] %= 10
+
+        # res = str(int("".join([str(i) for i in res][::-1])))
+        return str(int("".join([str(i) for i in res][::-1])))
+
+
+"""
+54. Spiral Matrix
+"""
+
+class Solution054:
+    def spiralOrder(self, matrix):
+        res = []
+        while matrix:
+            res.extend(matrix.pop(0))
+            if matrix and matrix[0]:
+                for row in matrix:
+                    res.append(row.pop())
+            if matrix and matrix[0]:
+                res.extend(matrix.pop()[::-1])
+            if matrix and matrix[0]:
+                for row in matrix[::-1]:
+                    res.append(row.pop(0))
+        return res
+
+
+"""
+353. Design Snake Game
+"""
+class SnakeGame353:
+    def __init__(self, width: int, height: int, food):
+        # E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0].
+        self.snake = collections.deque([[0 ,0]])    # snake head is at the front
+        self.width = width
+        self.height = height
+        self.food = collections.deque(food)
+        self.direct = {'U': [-1, 0], 'L': [0, -1], 'R': [0, 1], 'D': [1, 0]}
+
+    def move(self, direction: str) -> int:
+        newHead = [self.snake[0][0 ] +self.direct[direction][0], self.snake[0][1 ] +self.direct[direction][1]]
+        # notice that the newHead can be equal to self.snake[-1]
+        if (newHead[0] < 0 or newHead[0] >= self.height) or (newHead[1] < 0 or newHead[1] >= self.width) \
+                or (newHead in self.snake and newHead != self.snake[-1]): return -1
+
+        if self.food and self.food[0] == newHead:  # eat food
+            self.snake.appendleft(newHead)   # just make the food be part of snake
+            self.food.popleft()   # delete the food that's already eaten
+        else:    # not eating food: append head and delete tail
+            self.snake.appendleft(newHead)
+            self.snake.pop()
+
+        return len(self.snake) -1
+
+
+
+"""
+2. Add Two Numbers
+"""
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution002:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy = cur = ListNode(0)
+        carry = 0
+
+        while l1 or l2 or carry:
+            if l1:
+                carry += l1.val
+                l1 = l1.next
+            if l2:
+                carry += l2.val
+                l2 = l2.next
+            cur.next = ListNode(carry % 10)
+            cur = cur.next
+            carry //= 10
+
+        return dummy.next
+
+
+"""
+81. Search in Rotated Sorted Array II
+"""
+
+class Solution081:
+    def search(self, nums, target):
+        if not nums:
+            return False
+
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = (right - left)//2 + left
+            if nums[mid] == target:
+                return True
+
+            if nums[mid] < nums[right]:
+                if nums[mid] < target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+
+            elif nums[mid] > nums[right]:
+                if nums[left] <= target < nums[mid]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            else:
+                right -= 1
+
+        return nums[left] == target
+
+
+"""
+1197. Minimum Knight Moves
+"""
+
+
+class Solution1197:
+    def minKnightMoves(self, x: int, y: int) -> int:
+        if x == 0 and y == 0:
+            return 0
+        return self.bfs(abs(x), abs(y))
+
+
+    def bfs(self, x, y):
+        directions = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]
+        queue = collections.deque([(0, 0, 0)])
+        visited = set()
+        visited.add((0, 0))
+        while queue:
+            i, j, dis = queue.popleft()
+            for move in directions:
+                a, b = i + move[0], j + move[1]
+                if (a,b) not in visited and a >= -5 and b >= -5:
+                    if a == x and b == y:
+                        return dis + 1
+                    queue.append((a, b, dis+1))
+                    visited.add((a, b))
+
+
+"""
+55. Jump Game
+"""
+
+class Solution055:
+    def canJump(self, nums) -> bool:
+        maxi = 0
+        n = len(nums)
+
+        for i, num in enumerate(nums):
+            if maxi < i:
+                return False
+            if maxi >= n - 1:
+                return True
+            maxi = max(i + num, maxi)
+
+
+"""
+322. Coin Change
+"""
+
+class Solution322:
+    def coinChange(self, coins, amount):
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                if dp[i - coin] != float('inf'):
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        return -1 if dp[amount] == float('inf') else dp[amount]
+
+
+
+class Solution322_:
+    def coinChange(self, coins, amount: int) -> int:
+
+        cache = {}
+        cache[0] = 0
+        return self.helper(coins, amount, cache)
+
+    def helper(self, coins, amount, cache):
+        if amount in cache:
+            return cache[amount]
+        mini = amount + 1
+        for coin in coins:
+            if amount >= coin:
+                count = 1
+                left = self.helper(coins, amount - coin, cache)
+                if left != -1:
+                    count += left
+                    mini = min(mini, count)
+        cache[amount] = mini if mini != amount + 1 else -1
+        return cache[amount]
+
+
+"""
+33. Search in Rotated Sorted Array
+"""
+
+class Solution033:
+    def search(self, nums, target):
+        l, r = 0, len(nums) - 1
+        while l <= r:
+            mid = l + (r - l) // 2
+            if nums[mid] == target:
+                return mid
+            if nums[l] <= nums[mid]:  # here should include "==" case
+                if nums[l] <= target < nums[mid]:
+                    r = mid - 1
+                else:
+                    l = mid + 1
+            else:
+                if nums[mid] < target <= nums[r]:
+                    l = mid + 1
+                else:
+                    r = mid - 1
+        return -1
+
+
+"""
+79. Word Search
+"""
+
+
+class Solution079:
+    def exist(self, board, word):
+        m, n = len(board), len(board[0])
+        for i in range(m):
+            for j in range(n):
+                if self.search(board, word, i, j, m, n):
+                    return True
+        return False
+
+    def search(self, board, word, i, j, m, n):
+        if len(word) == 0:
+            return True
+        if i < 0 or j < 0 or i >= m or j >= n or board[i][j] != word[0]:
+            return False
+        temp = board[i][j]
+        board[i][j] = '#'
+        result = self.search(board, word[1:], i + 1, j, m, n) \
+                 or self.search(board, word[1:], i - 1, j, m, n) \
+                 or self.search(board, word[1:], i, j + 1, m, n) \
+                 or self.search(board, word[1:], i, j - 1, m, n)
+        board[i][j] = temp
+        return result
+
+
+"""
+93. Restore IP Addresses
+"""
+
+class Solution093:
+    def restoreIpAddresses(self, s: str):
+        res = []
+        self.helper(s, 0, 0, "", res)
+        return res
+
+    def helper(self, s, index, count, path, res):
+        if count > 4:
+            return
+
+        if count == 4 and index == len(s):
+            res.append(path)
+            return
+
+        for i in range(1, 4):
+            if index + i > len(s):
+                break
+            temp = s[index:index + i]
+            if temp.startswith("0") and len(temp) > 1 or (i == 3 and int(temp) >= 256):
+                continue
+            if count == 3:
+                self.helper(s, index + i, count + 1, path + temp + "", res)
+            else:
+                self.helper(s, index + i, count + 1, path + temp + ".", res)
 
 
 
 
 
 
+class TrieNode:
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.isWord = False
 
 
+class WordDictionary211:
+    def __init__(self):
+        self.root = TrieNode()
 
+    def addWord(self, word):
+        node = self.root
+        for w in word:
+            node = node.children[w]
+        node.isWord = True
+
+    def search(self, word):
+        node = self.root
+        self.res = False
+        self.dfs(node, word)
+        return self.res
+
+    def dfs(self, node, word):
+        if not word:
+            if node.isWord:
+                self.res = True
+            return
+        if word[0] == ".":
+            for n in node.children.values():
+                self.dfs(n, word[1:])
+        else:
+            node = node.children.get(word[0])
+            if not node:
+                return
+            self.dfs(node, word[1:])
 
 
 

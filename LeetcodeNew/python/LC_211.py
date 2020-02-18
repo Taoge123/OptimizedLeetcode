@@ -28,7 +28,7 @@ class TrieNode:
         self.isWord = False
 
 
-class WordDictionary(object):
+class WordDictionary:
     def __init__(self):
         self.root = TrieNode()
 
@@ -57,3 +57,6 @@ class WordDictionary(object):
             if not node:
                 return
             self.dfs(node, word[1:])
+
+
+

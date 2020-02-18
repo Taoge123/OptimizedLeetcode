@@ -23,16 +23,6 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum
 class Solution:
     def canJump(self, nums) -> bool:
         maxi = 0
-        i = 0
-        while i < len(nums) and i <= maxi:
-            maxi = max(i + nums[i], maxi)
-            i += 1
-        return i == len(nums)
-
-
-class Solution2:
-    def canJump(self, nums) -> bool:
-        maxi = 0
         n = len(nums)
 
         for i, num in enumerate(nums):
@@ -41,6 +31,16 @@ class Solution2:
             if maxi >= n - 1:
                 return True
             maxi = max(i + num, maxi)
+
+class Solution2:
+    def canJump(self, nums) -> bool:
+        maxi = 0
+        i = 0
+        while i < len(nums) and i <= maxi:
+            maxi = max(i + nums[i], maxi)
+            i += 1
+        return i == len(nums)
+
 
 
 

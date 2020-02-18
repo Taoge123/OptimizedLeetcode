@@ -21,7 +21,7 @@ A solution set is:
 
 import collections
 
-class Solution(object):
+class Solution:
     def fourSum(self, nums, target):
 
         dic = collections.defaultdict(set)
