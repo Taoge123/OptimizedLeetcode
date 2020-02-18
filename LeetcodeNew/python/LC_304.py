@@ -36,7 +36,6 @@ class NumMatrix:
                 self.dp[i + 1][j + 1] = self.dp[i][j + 1] + self.dp[i + 1][j]  - self.dp[i][j] + matrix[i][j]
 
     def sumRegion(self, row1, col1, row2, col2):
-
         return self.dp[row2 + 1][col2 + 1] - self.dp[row2 + 1][col1] - self.dp[row1][col2 + 1] + self.dp[row1][col1]
 
 

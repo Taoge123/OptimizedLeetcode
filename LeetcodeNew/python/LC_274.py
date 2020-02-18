@@ -22,7 +22,6 @@ class Solution:
         res = 0
         while res < len(citations) and citations[n - 1 - res] > res:
             res += 1
-
         return res
 
 
@@ -47,7 +46,6 @@ class Solution2:
 
 class Solution3:
     def hIndex(self, citations) -> int:
-
         nums = sorted(citations, reverse=True)
         for i in range(len(nums)):
             if i >= nums[i]:

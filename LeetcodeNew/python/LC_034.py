@@ -51,3 +51,29 @@ class Solution:
         return left
 
 
+class Solution2:
+    def searchRange(self, nums, target: int):
+        if not nums:
+            return [-1, -1]
+
+        left = self.search(nums, target - 0.5)
+        right = self.search(nums, target + 0.5)
+        if right - left == 0:
+            return [-1, -1]
+        return [left, right - 1]
+
+    def search(self, nums, target):
+        start = 0
+        end = len(nums) - 1
+        while start <= end:
+            mid = (end - start) // 2 + start
+            if nums[mid] > target:
+                end = mid - 1
+            else:
+                start = mid + 1
+        return start
+
+
+
+
+

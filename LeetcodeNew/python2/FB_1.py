@@ -1375,15 +1375,462 @@ class Solution987:
 229. Majority Element II
 """
 
+class Solution229:
+    def majorityElement(self, nums):
+        res = []
+        num1, num2, count1, count2 = 0, 0, 0, 0
+        n = len(nums)
+
+        for num in nums:
+            if num == num1:
+                count1 += 1
+            elif num == num2:
+                count2 += 1
+            elif count1 == 0:
+                num1 = num
+                count1 = 1
+            elif count2 == 0:
+                num2 = num
+                count2 = 1
+            else:
+                count1 -= 1
+                count2 -= 1
+
+        count1 = count2 = 0
+        for num in nums:
+            if num == num1:
+                count1 += 1
+            elif num == num2:
+                count2 += 1
+
+        if count1 > n / 3:
+            res.append(num1)
+        if count2 > n / 3:
+            res.append(num2)
+        return res
+
+class Solution229_:
+    def majorityElement(self, nums):
+        n = len(nums)
+        count = collections.Counter(nums)
+        res = []
+
+        for k, v in count.items():
+            if v > n // 3:
+                res.append(k)
+        return res
+
+
+"""
+143. Reorder List
+"""
+
+
+class Solution143:
+    def reorderList(self, head: ListNode) -> None:
+        if not head:
+            return
+
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # revese the second hald in-place
+        pre, cur = None, slow
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+
+        # Merge in-place
+        first, second = head, pre
+        while second.next:
+            first.next, first = second, first.next
+            second.next, second = first, second.next
+
+        return
+
+
+"""
+6. ZigZag Conversion
+"""
+
+class Solution006:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1 or numRows >= len(s):
+            return s
+
+        res = [""] * numRows
+        index, step = 0, 0
+
+        for char in s:
+            res[index] += char
+            if index == 0:
+                step = 1
+            elif index == numRows - 1:
+                step = -1
+            index += step
+
+        return "".join(res)
+
+
+
+
+"""
+19. Remove Nth Node From End of List
+"""
+
+
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+
+        dummy = ListNode(-1)
+        dummy.next = head
+
+        slow = fast = dummy
+        for i in range(n):
+            fast = fast.next
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next
+
+        slow.next = slow.next.next
+        return dummy.next
+
+
+"""
+673. Number of Longest Increasing Subsequence
+"""
+class Solution673:
+    def findNumberOfLIS(self, nums):
+        if len(nums) == 0:
+            return 0
+        dp = [1] * len(nums)
+        count = [1] * len(nums)
+        dp[0], count[0] = 1, 1
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    if dp[j] + 1 == dp[i]:
+                        count[i] += count[j]
+                    elif dp[j] + 1 > dp[i]:
+                        dp[i] = dp[j] + 1
+                        count[i] = count[j]
+        maxi = max(dp)
+        # print(count)
+        return sum([count[i] for i in range(len(count)) if dp[i] == maxi])
+
+
+"""
+34. Find First and Last Position of Element in Sorted Array
+"""
+
+
+class Solution034:
+    def searchRange(self, nums, target):
+        low = self.search(nums, target)
+        high = self.search(nums, target + 1) - 1
+
+        if target in nums[low:low + 1]:
+            return [low, high]
+        else:
+            return [-1, -1]
+
+    def search(self, nums, target):
+        left = 0
+        right = len(nums)
+
+        while left < right:
+            mid = (right + left) // 2
+
+            if nums[mid] >= target:
+                right = mid
+            else:
+                left = mid + 1
+
+        return left
+
+
+class Solution034_:
+    def searchRange(self, nums, target: int):
+        if not nums:
+            return [-1, -1]
+
+        left = self.search(nums, target - 0.5)
+        right = self.search(nums, target + 0.5)
+        if right - left == 0:
+            return [-1, -1]
+        return [left, right - 1]
+
+    def search(self, nums, target):
+        start = 0
+        end = len(nums) - 1
+        while start <= end:
+            mid = (end - start) // 2 + start
+            if nums[mid] > target:
+                end = mid - 1
+            else:
+                start = mid + 1
+        return start
+
+
+
+"""
+274. H-Index
+"""
+
+class Solution274:
+    def hIndex(self, citations) -> int:
+        nums = sorted(citations, reverse=True)
+        for i in range(len(nums)):
+            if i >= nums[i]:
+                return i
+        return len(nums)
+
+
+"""
+275. H-Index II
+"""
+
+class Solution:
+    def hIndex(self, citations):
+
+        n = len(citations)
+        left, right = 0, n- 1
+
+        while left <= right:
+            mid = (right - left) // 2 + left
+            if citations[mid] >= n - mid:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return n - left
 
 
 
 
 
+"""
+221. Maximal Square
+"""
+
+
+class Solution221:
+    def maximalSquare(self, matrix):
+        if not matrix:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        dp = [[0 if matrix[i][j] == '0' else 1 for j in range(0, n)] for i in range(0, m)]
+        temp = 0
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == '1':
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
+                else:
+                    dp[i][j] = 0
+                temp = max(dp[i][j], temp)
+        res = max(max(row) for row in dp)
+        print(dp)
+        print(temp)
+        return temp ** 2
+
+
+
+"""
+373. Find K Pairs with Smallest Sums
+"""
+
+class Solution373:
+    def kSmallestPairs(self, nums1, nums2, k, heap=[]):
+        for n1 in nums1:
+            for n2 in nums2:
+                if len(heap) < k:
+                    heapq.heappush(heap, (-n1 - n2, [n1, n2]))
+                else:
+                    print(-heap[0][0], n1 + n2)
+                    if -heap[0][0] > n1 + n2:
+                        heapq.heappop(heap)
+                        heapq.heappush(heap, (-n1 - n2, [n1, n2]))
+                    else:
+                        break
+        return [heapq.heappop(heap)[1] for _ in range(k) if heap]
 
 
 
 
+
+#204
+class Solution224:
+    def calculate(self, s):
+        return self.helper(s, 0)
+
+    def helper(self, s, i):
+        sign, num = 1, 0
+        res = 0
+        while i < len(s):
+            char = s[i]
+            if char.isdigit():
+                num = num * 10 + int(char)
+            else:
+                if num:
+                    res += sign * num
+                num = 0
+                if char == '+':
+                    sign = 1
+                elif char == '-':
+                    sign = -1
+                elif char == '(':
+                    nxt, i = self.helper(s, i + 1)
+                    res += sign * nxt
+                elif char == ')':
+                    return res, i
+            i += 1
+        if num != 0:
+            res += sign * num
+
+        return res
+
+
+# s = "-200-3-3-3"
+# a = Solution()
+# print(a.calculate(s))
+
+"""
+227. Basic Calculator II
+"""
+class Solution227:
+    def calculate(self, s):
+        stack = []
+        num, sign = 0, 1
+
+        for i, char in enumerate(s):
+            if char.isdigit():
+                num = num * 10 + int(char)
+            if char in '+-*/' or i == len(s) - 1:
+                if sign == '+':
+                    stack.append(num)
+                elif sign == '-':
+                    stack.append(-num)
+                elif sign == '*':
+                    stack.append(stack.pop() * num)
+                elif sign == '/':
+                    stack.append(int(stack.pop() / num))
+                num = 0
+                sign = char
+        return sum(stack)
+
+
+#
+# s = "3+5 / 2"
+# a = Solution227()
+# print(a.calculate(s))
+
+
+
+class Solution772:
+    def calculate(self, s):
+        s = s + '$'
+        return self.helper(s, [], 0)
+
+    def helper(self, s, stack, i):
+        num, sign = 0, '+'
+        while i < len(s):
+            char = s[i]
+            if char == " ":
+                i += 1
+                continue
+            if char.isdigit():
+                num = 10 + int(char)
+            elif char == '(':
+                num, i = self.helper(s, stack, i + 1)
+            else:
+                if sign == '+':
+                    stack.append(num)
+                elif sign == '-':
+                    stack.append(-num)
+                elif sign == '*':
+                    stack.append(stack.pop() * num)
+                elif sign == '/':
+                    stack.append(int(stack.pop() / num))
+                i += 1
+                if char == ')':
+                    return sum(stack), i
+                sign = char
+                num = 0
+
+                num = 0
+                sign = char
+
+        return sum(stack)
+
+
+
+"""
+74. Search a 2D Matrix
+"""
+class Solution074:
+    def searchMatrix(self, matrix, target: int) -> bool:
+        if not matrix:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        i = m - 1
+        j = 0
+        while i >= 0 and j <= n - 1:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                j += 1
+            else:
+                i -= 1
+
+        return False
+
+
+"""
+1146. Snapshot Array
+"""
+import bisect
+
+class SnapshotArray1146:
+    def __init__(self, length):
+        self.nums = {}
+        self.snaps = []
+
+    def set(self, index, val):
+        self.nums[index] = val
+
+    def snap(self):
+        self.snaps.append(self.nums.copy())
+        return len(self.snaps) - 1
+
+    def get(self, index, snap_id):
+        if index in self.snaps[snap_id]:
+            return self.snaps[snap_id][index]
+        else:
+            return 0
+
+
+"""
+304. Range Sum Query 2D - Immutable
+"""
+
+class NumMatrix304:
+    def __init__(self, matrix):
+        if not matrix or not matrix[0]:
+            m, n = 0, 0
+        else:
+            m, n = len(matrix), len(matrix[0])
+        self.dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(m):
+            for j in range(n):
+                self.dp[i + 1][j + 1] = self.dp[i][j + 1] + self.dp[i + 1][j]  - self.dp[i][j] + matrix[i][j]
+
+    def sumRegion(self, row1, col1, row2, col2):
+        return self.dp[row2 + 1][col2 + 1] - self.dp[row2 + 1][col1] - self.dp[row1][col2 + 1] + self.dp[row1][col1]
 
 
 
