@@ -34,7 +34,6 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 
 class Solution:
     def nextPermutation(self, nums):
-
         small, n = -1, len(nums)
 
         for i in range(n-1, 0, -1):
