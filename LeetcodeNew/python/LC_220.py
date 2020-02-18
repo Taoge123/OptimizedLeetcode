@@ -81,8 +81,8 @@ class Solution2:
         return False
 
 
-class Solution2:
-    def containsNearbyAlmostDuplicate(self, nums: List[int], k: int, t: int) -> bool:
+class Solution3:
+    def containsNearbyAlmostDuplicate(self, nums, k: int, t: int) -> bool:
 
         if t < 0:
             return False

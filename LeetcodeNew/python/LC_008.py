@@ -71,7 +71,8 @@ class Solution1:
         if len(s) == 0:
             return 0
         ls = list(s.strip())
-
+        if not ls:
+            return 0
         sign = -1 if ls[0] == '-' else 1
         if ls[0] in ['-', '+']:
             del ls[0]
@@ -80,7 +81,6 @@ class Solution1:
             res = res * 10 + ord(ls[i]) - ord('0')
             i += 1
         return max(-2 ** 31, min(sign * res, 2 ** 31 - 1))
-
 
 
 class Solution2:

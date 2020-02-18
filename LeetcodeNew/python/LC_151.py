@@ -55,6 +55,8 @@ class SolutionCaikehe:
             s[i], s[j] = s[j], s[i]
             i += 1; j -= 1
 
+
+
 s = "  hello world!  "
 a = SolutionCaikehe()
 print(a.reverseWords(s))
