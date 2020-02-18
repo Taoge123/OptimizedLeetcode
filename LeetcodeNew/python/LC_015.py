@@ -16,6 +16,7 @@ A solution set is:
 ]
 
 """
+
 class Solution:
     def threeSum(self, nums):
         nums.sort()
@@ -27,8 +28,8 @@ class Solution:
 
                 while left < right:
 
-                    s = nums[i] + nums[left] + nums[right]
-                    if s == 0:
+                    summ = nums[i] + nums[left] + nums[right]
+                    if summ == 0:
                         res.append([nums[i], nums[left], nums[right]])
                         left += 1
                         right -= 1
@@ -37,7 +38,7 @@ class Solution:
                         while left < right and nums[right] == nums[right + 1]:
                             right -= 1
 
-                    elif s < 0:
+                    elif summ < 0:
                         left += 1
                     else:
                         right -= 1

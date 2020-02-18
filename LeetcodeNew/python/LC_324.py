@@ -19,9 +19,6 @@ Can you do it in O(n) time and/or in-place with O(1) extra space?
 
 class Solution:
     def wiggleSort(self, nums):
-        """
-        Do not return anything, modify nums in-place instead.
-        """
         arr = sorted(nums)
         for i in range(1, len(nums), 2):
             nums[i] = arr.pop()

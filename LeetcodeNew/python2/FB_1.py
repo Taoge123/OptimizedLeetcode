@@ -296,4 +296,234 @@ class Solution523:
 
 
 
+"""
+130. Surrounded Regions
+"""
+
+
+class Solution130:
+    def solve(self, board) -> None:
+        if len(board) == 0:
+            return
+        m, n = len(board), len(board[0])
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        for i in range(m):
+            self.dfs(board, i, 0, m, n)
+            self.dfs(board, i, n - 1, m, n)
+
+        for j in range(n):
+            self.dfs(board, 0, j, m, n)
+            self.dfs(board, m - 1, j, m, n)
+
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == '#':
+                    board[i][j] = 'O'
+                elif board[i][j] == 'O':
+                    board[i][j] = 'X'
+
+    def dfs(self, board, i, j, m, n):
+        if i < 0 or i >= m or j < 0 or j >= n or board[i][j] != 'O':
+            return
+        board[i][j] = '#'
+        for direction in self.directions:
+            x = i + direction[0]
+            y = j + direction[1]
+            self.dfs(board, x, y, m, n)
+
+
+"""
+15. 3Sum
+"""
+class Solution015:
+    def threeSum(self, nums):
+        nums.sort()
+        res = []
+        for i in range(len(nums) - 2):
+            if i == 0 or i > 0 and nums[i - 1] != nums[i]:
+                left = i + 1
+                right = len(nums) - 1
+
+                while left < right:
+                    s = nums[i] + nums[left] + nums[right]
+                    if s == 0:
+                        res.append([nums[i], nums[left], nums[right]])
+                        left += 1
+                        right -= 1
+                        while left < right and nums[left] == nums[left - 1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right + 1]:
+                            right -= 1
+
+                    elif s < 0:
+                        left += 1
+                    else:
+                        right -= 1
+        return res
+
+
+"""
+98. Validate Binary Search Tree
+"""
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+class Solution098:
+    def isValidBST(self, root: TreeNode) -> bool:
+        return self.helper(root, float('-inf'), float('inf'))
+
+    def helper(self, root, low, high):
+        if not root:
+            return True
+
+        if not root.left and not root.right:
+            return low < root.val < high
+
+        return low < root.val < high and self.helper(root.left, low, root.val) and self.helper(root.right, root.val, high)
+
+
+
+
+"""
+402. Remove K Digits
+"""
+
+class Solution402:
+    def removeKdigits(self, num, k):
+        stack = []
+        if k >= len(num):
+            return "0"
+        for item in num:
+            while stack and k and stack[-1] > item:
+                stack.pop()
+                k -= 1
+            stack.append(item)
+        while k:
+            stack.pop()
+            k -= 1
+        return str(int("".join(stack)))
+
+
+"""
+179. Largest Number
+"""
+from functools import cmp_to_key
+
+class Solution179:
+    def largestNumber(self, nums):
+        nums = [str(num) for num in nums]
+        nums = sorted(nums, key=cmp_to_key(lambda x, y: int(y + x) - int(x + y)))
+
+        res = ''.join(nums).lstrip('0')
+        return res or '0'
+
+
+"""
+127. Word Ladder
+"""
+import string
+class Solution127:
+    def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
+        wordList = set(wordList)
+        visited = set()
+        queue = collections.deque([(beginWord, 1)])
+        lowercase = string.ascii_lowercase
+        while queue:
+            word, dist = queue.popleft()
+            if word == endWord:
+                return dist
+            for i in range(len(word)):
+                for j in lowercase:
+                    if j != word[i]:
+                        newWord = word[:i] + j + word[ i +1:]
+                        if newWord not in visited and newWord in wordList:
+                            queue.append((newWord, dist + 1))
+                            visited.add(newWord)
+
+        return 0
+
+
+"""
+5. Longest Palindromic Substring
+"""
+class Solution005:
+    def longestPalindrome(self, s: str) -> str:
+        if not s or len(s) < 1:
+            return ""
+        res = ""
+        for i in range(len(s)):
+            tmp = self.helper(s, i, i)
+            res = tmp if len(tmp) > len(res) else res
+            tmp = self.helper(s, i, i + 1)
+            res = tmp if len(tmp) > len(res) else res
+        return res
+
+    def helper(self, s, l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l + 1:r]
+
+
+"""
+50. Pow(x, n)
+"""
+class Solution050:
+    def myPow(self, x: float, n: int) -> float:
+        if n > 0:
+            return self.power(x, n)
+        else:
+            return 1 / self.power(x, -n)
+
+    def power(self, x, n):
+        if n == 0:
+            return 1
+        mid = self.power(x, n // 2)
+        if n % 2 == 0:
+            return mid * mid
+        else:
+            return mid * mid * x
+
+
+
+"""
+324. Wiggle Sort II
+"""
+class Solution324:
+    def wiggleSort(self, nums):
+        arr = sorted(nums)
+        for i in range(1, len(nums), 2):
+            nums[i] = arr.pop()
+        for i in range(0, len(nums), 2):
+            nums[i] = arr.pop()
+
+
+
+"""
+3. Longest Substring Without Repeating Characters
+"""
+class Solution003:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        start, res = 0, 0
+        table = {}
+        n = len(s)
+        for i in range(n):
+            if s[i] in table and start <= table[s[i]]:
+                start = table[s[i]] + 1
+            else:
+                res = max(res, i - start + 1)
+            table[s[i]] = i
+        return res
+
+
+
+
+
+
+
+
+
 
