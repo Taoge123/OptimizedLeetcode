@@ -42,7 +42,6 @@ Each board[i][j] is a character in the set {" ", "X", "O"}.
 
 
 class Solution:
-
     def isWin(self, board, char):
         for i in range(3):  # Row check
             if board[i] == char* 3:

@@ -807,6 +807,106 @@ class Solution031_:
 
         nums[:] = nums[:small + 1] + nums[small + 1:][::-1]
 
+"""
+307. Range Sum Query - Mutable
+"""
+class BinaryIndexTree:
+    def __init__(self, nums):
+        n = len(nums)
+        self.nums = [0 for _ in range(n + 1)]
+        self.tree = [0 for _ in range(n + 1)]
+        for i, num in enumerate(nums):
+            self.set(i + 1, num)
+
+    def _lowbit(self, a):
+        return a & -a
+
+    def set(self, i, val):
+        diff = val - self.nums[i]
+        self.nums[i] = val
+        while i < len(self.tree):
+            self.tree[i] += diff
+            i += self._lowbit(i)
+
+    def get(self, i):
+        res = 0
+        while i > 0:
+            res += self.tree[i]
+            i -= self._lowbit(i)
+        return res
+
+
+class NumArray:
+    def __init__(self, nums):
+        self.bit = BinaryIndexTree(nums)
+
+    def update(self, i, val):
+        self.bit.set(i + 1, val)
+
+    def sumRange(self, i, j):
+        return self.bit.get(j + 1) - self.bit.get(i)
+
+
+"""
+794. Valid Tic-Tac-Toe State
+"""
+
+"""
+# if the first player wins, the 'X' count number(c1) should be one more than 'O'(c2).
+# if the second player wins, the 'X' count number should be equal to 'O'.
+# they cannot both win, no need to check. bcoz otherwise c1==c2-1==c2, which is never true.
+"""
+
+class Solution794:
+    def isWin(self, board, char):
+        for i in range(3):  # Row check
+            if board[i] == char * 3:
+                return True
+        for i in range(3):  # Column check
+            if board[0][i] == char and board[1][i] == char and board[2][i] == char:
+                return True
+        if board[0][0] == char and board[1][1] == char and board[2][2] == char or \
+                board[0][2] == char and board[1][1] == char and board[2][0] == char:  # Diagonal check
+            return True
+        return False
+
+    def validTicTacToe(self, board):
+        countX = countO = 0
+        for i in range(3):
+            for j in range(3):
+                countX += 1 if board[i][j] == 'X' else 0
+                countO += 1 if board[i][j] == 'O' else 0
+        if countO > countX or countX > countO + 1:
+            return False
+        if countO == countX and self.isWin(board, 'X') or countX == countO + 1 and self.isWin(board, 'O'):
+            return False
+        return True
+
+
+"""
+161. One Edit Distance
+"""
+class Solution161:
+    def isOneEditDistance(self, s: str, t: str) -> bool:
+        if (abs(len(s) - len(t))) > 1:
+            return False
+        if s == t:
+            return False
+        for i in range(min(len(s), len(t))):
+            if s[i] != t[i]:
+                return s[i + 1:] == t[i + 1:] or s[i:] == t[i + 1:] or s[i + 1:] == t[i:]
+
+        return True
+
+
+
+
+
+
+
+
+
+
 
 
 

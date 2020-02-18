@@ -41,30 +41,6 @@ self.c[8] = nums[0] + nums[1] + nums[2] + nums[3] + nums[4] + nums[5] + nums[6] 
 
 
 
-
-class NumArrayShorter:
-    def __init__(self, nums):
-        self.arr = [0] * len(nums)
-        self.BIT = [0] * (len(nums) + 1)
-        for i, num in enumerate(nums):
-            self.update(i, num)
-        self.sumRange = lambda i, j: self.Sum(j + 1) - self.Sum(i)
-
-    def update(self, i, val):
-        diff, self.arr[i] = val - self.arr[i], val
-        i += 1
-        while i < len(self.BIT):
-            self.BIT[i] += diff
-            i += (i & -i) # to next
-
-    def Sum(self, k):
-        res = 0
-        while k:
-            res += self.BIT[k]
-            k -= (k & -k) # to parent
-        return res
-
-
 class BinaryIndexTree:
     def __init__(self, nums):
         n = len(nums)
@@ -101,6 +77,30 @@ class NumArray:
     def sumRange(self, i, j):
         return self.bit.get(j + 1) - self.bit.get(i)
 
+
+
+
+class NumArrayShorter:
+    def __init__(self, nums):
+        self.arr = [0] * len(nums)
+        self.BIT = [0] * (len(nums) + 1)
+        for i, num in enumerate(nums):
+            self.update(i, num)
+        self.sumRange = lambda i, j: self.Sum(j + 1) - self.Sum(i)
+
+    def update(self, i, val):
+        diff, self.arr[i] = val - self.arr[i], val
+        i += 1
+        while i < len(self.BIT):
+            self.BIT[i] += diff
+            i += (i & -i) # to next
+
+    def Sum(self, k):
+        res = 0
+        while k:
+            res += self.BIT[k]
+            k -= (k & -k) # to parent
+        return res
 
 
 
