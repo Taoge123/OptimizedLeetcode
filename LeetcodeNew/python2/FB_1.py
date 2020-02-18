@@ -1835,7 +1835,74 @@ class NumMatrix304:
 
 
 
+"""
+134. Gas Station
+"""
 
+class Solution134:
+    def canCompleteCircuit(self, gas, cost):
+        if sum(gas) < sum(cost):
+            return -1
+
+        res = 0
+        count = 0
+        for i in range(len(gas)):
+            count += gas[i] - cost[i]
+            if count < 0:
+                count = 0
+                res = (i + 1) % len(gas)
+        return res
+
+
+
+"""
+209. Minimum Size Subarray Sum
+"""
+
+class Solution209:
+    def minSubArrayLen(self, s, nums):
+        total, left = 0, 0
+        res = float('inf')
+
+        for right, num in enumerate(nums):
+            total += num
+            while total >= s:
+                res = min(res, right - left + 1)
+                total -= nums[left]
+                left += 1
+        return res if res <= len(nums) else 0
+
+
+
+"""
+393. UTF-8 Validation
+"""
+
+
+class Solution393:
+    def validUtf8(self, data):
+        count = 0
+
+        for byte in data:
+            if byte >= 128 and byte <= 191:
+                if not count:
+                    return False
+                count -= 1
+            else:
+                if count:
+                    return False
+                if byte < 128:
+                    continue
+                elif byte < 224:
+                    count = 1
+                elif byte < 240:
+                    count = 2
+                elif byte < 248:
+                    count = 3
+                else:
+                    return False
+
+        return count == 0
 
 
 
