@@ -50,7 +50,6 @@ class Solution2:
 
 class Solution3:
     def longestSubstring(self, s: str, k: int) -> int:
-
         stack = []
         stack.append(s)
         res = 0

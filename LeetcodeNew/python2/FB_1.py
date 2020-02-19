@@ -2363,6 +2363,19 @@ class Solution567:
 """
 395. Longest Substring with At Least K Repeating Characters
 """
+class Solution395:
+    def longestSubstring(self, s: str, k: int) -> int:
+        if len(s) < k:
+            return 0
+        maxi = 0
+        for char in set(s):
+            if s.count(char) < k:
+                # return max(self.longestSubstring(z, k) for z in s.split(char))
+                for z in s.split(char):
+                    maxi = max(maxi, self.longestSubstring(z, k))
+                return maxi
+
+        return len(s)
 
 
 
