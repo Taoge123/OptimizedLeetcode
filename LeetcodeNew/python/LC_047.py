@@ -14,7 +14,6 @@ Output:
 
 class Solution:
     def permuteUnique(self, nums):
-
         res = []
         nums = sorted(nums)
         self.backtrack(nums, [], res)

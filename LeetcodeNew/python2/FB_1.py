@@ -3029,6 +3029,121 @@ class Solution491:
                 self.backtrack(nums, i + 1, path + [nums[i]], res)
 
 
+"""
+47. Permutations II
+"""
+
+
+class Solution047:
+    def permuteUnique(self, nums):
+        res = []
+        nums = sorted(nums)
+        self.backtrack(nums, [], res)
+        return res
+
+    def backtrack(self, nums, path, res):
+        if not nums:
+            res.append(path)
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            self.backtrack(nums[:i] + nums[i + 1:], path + [nums[i]], res)
+
+
+class Solution047_:
+    def permuteUnique(self, nums):
+        res = []
+        nums.sort()
+        self.helper(nums, 0, res)
+        return res
+
+    def helper(self, nums, index, res):
+        if index == len(nums):
+            res.append(nums[:])
+        visited = {}
+        for i in range(index, len(nums)):
+            if visited.get(nums[i]):
+                continue
+            visited[nums[i]] = True
+            nums[i], nums[index] = nums[index], nums[i]
+            self.helper(nums, index + 1, res)
+            nums[i], nums[index] = nums[index], nums[i]
+
+
+
+"""
+153. Find Minimum in Rotated Sorted Array
+"""
+class Solution153:
+    def findMin(self, nums):
+        left = 0
+        right = len(nums) - 1
+
+        while left < right:
+            mid = (right - left) // 2 + left
+
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid
+        return nums[left]
+
+
+
+"""
+113. Path Sum II
+"""
+
+class Solution113:
+    def pathSum(self, root: TreeNode, sum):
+        res = []
+        self.helper(root, sum, [], res)
+        return res
+
+    def helper(self, root, sum, path, res):
+        if not root:
+            return []
+
+        if not root.left and not root.right and root.val == sum:
+            res.append(path + [root.val])
+
+        self.helper(root.left, sum - root.val, path + [root.val], res)
+        self.helper(root.right, sum - root.val, path + [root.val], res)
+
+
+"""
+377. Combination Sum IV
+"""
+class Solution377:
+    def combinationSum4(self, nums, target: int) -> int:
+        n = len(nums)
+        nums = sorted(nums)
+        dp = [1] + [0] * target
+        for i in range(1, target+1):
+            for num in nums:
+                if i - num < 0:
+                    break
+                dp[i] += dp[i-num]
+        return dp[target]
+
+
+
+"""
+279. Perfect Squares
+"""
+
+class Solution279:
+    def numSquares(self, n):
+        dp = [n] *( n +1)
+        dp[0] = 0
+        dp[1] = 1
+        for i in range(2, n+1):
+            j = 1
+            while j * j <= i:
+                print(i, j * j)
+                dp[i] = min(dp[i], dp[i - j * j] + 1)
+                j += 1
+        return dp[-1]
 
 
 
