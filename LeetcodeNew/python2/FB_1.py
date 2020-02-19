@@ -1160,6 +1160,21 @@ class Solution322_:
         cache[amount] = mini if mini != amount + 1 else -1
         return cache[amount]
 
+"""
+518. Coin Change 2
+"""
+
+class Solution518:
+    def change(self, amount: int, coins) -> int:
+        dp = [0] * (amount + 1)
+        dp[0] = 1
+        for coin in coins:
+            for j in range(1, amount + 1):
+                if j >= coin:
+                    dp[j] += dp[j - coin]
+
+        return dp[amount]
+
 
 """
 33. Search in Rotated Sorted Array
@@ -3619,15 +3634,102 @@ class Solution298:
         self.helper(root.right, count, root.val + 1)
 
 
+"""
+549. Binary Tree Longest Consecutive Sequence II
+"""
+
+class Solution549:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.res = 0
+        self.helper(root)
+        return self.res
+
+    def helper(self, root):
+        if not root:
+            return [0, 0]
+        left = self.helper(root.left)
+        right = self.helper(root.right)
+        inc, dec = 1, 1
+
+        if root.left:
+            if root.left.val - 1 == root.val:
+                inc = max(inc, left[0] + 1)
+            if root.left.val + 1 == root.val:
+                dec = max(dec, left[1] + 1)
+
+        if root.right:
+            if root.right.val - 1 == root.val:
+                inc = max(inc, right[0] + 1)
+            if root.right.val + 1 == root.val:
+                dec = max(dec, right[1] + 1)
+
+        self.res = max(self.res, inc + dec - 1)
+        return [inc, dec]
 
 
 
 
+"""
+325. Maximum Size Subarray Sum Equals k
+"""
+
+class Solution325:
+    def maxSubArrayLen(self, nums, k: int) -> int:
+        res = 0
+        summ = 0
+        table = {0 : -1}
+        for i in range(len(nums)):
+            summ += nums[i]
+            if summ - k in table:
+                res = max(res, i - table[summ - k])
+            #we dont update the table since we want to have max
+            if summ not in table:
+                table[summ] = i
+        return res
 
 
+"""
+114. Flatten Binary Tree to Linked List
+"""
+
+class Solution114:
+    def __init__(self):
+        self.prev = None
+
+    def flatten(self, root: TreeNode) -> None:
+        if not root:
+            return None
+
+        self.flatten(root.right)
+        self.flatten(root.left)
+        root.right = self.prev
+        root.left = None
+        self.prev = root
 
 
+"""
+494. Target Sum
+"""
+class Solution494:
+    def findTargetSumWays(self, nums, S: int) -> int:
+        cache = {}
+        return self.helper(nums, 0, S, cache)
 
+    def helper(self, nums, pos, target, cache):
+        if (pos, target) not in cache:
+            res = 0
+            if pos == len(nums):
+                if target == 0:
+                    res = 1
+
+            else:
+                add = self.helper(nums, pos + 1, target + nums[pos], cache)
+                minus = self.helper(nums, pos + 1, target - nums[pos], cache)
+                res = add + minus
+            cache[(pos, target)] = res
+        return cache[(pos, target)]
 
 
 

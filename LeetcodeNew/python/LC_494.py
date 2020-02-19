@@ -31,7 +31,10 @@ class Solution:
         return self.helper(nums, 0, S, cache)
 
     def helper(self, nums, pos, target, cache):
-        if (pos, target) not in cache:
+        if (pos, target) in cache:
+            return cache[(pos, target)]
+
+        else:
             res = 0
             if pos == len(nums):
                 if target == 0:
