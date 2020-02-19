@@ -24,11 +24,8 @@ import collections
 
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-
         n1, n2 = len(s1), len(s2)
-
         counter1, counter2 = collections.Counter(s1), collections.Counter(s2[:n1])
-
         for i in range(n1, n2):
             if counter1 == counter2:
                 return True

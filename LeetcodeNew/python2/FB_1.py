@@ -2175,6 +2175,199 @@ class Solution139:
 
 
 
+"""
+478. Generate Random Point in a Circle
+"""
+
+import math, random
+
+class Solution478:
+    def __init__(self, radius, x_center, y_center):
+        self.x_min, self.x_max = x_center - radius, x_center + radius
+        self.y_min, self.y_max = y_center - radius, y_center + radius
+        self.radius = radius
+        self.x_center = x_center
+        self.y_center = y_center
+
+    def randPoint(self):
+        while True:
+            x = random.uniform(self.x_min, self.x_max)
+            y = random.uniform(self.y_min, self.y_max)
+            if (x - self.x_center)**2 + (y - self.y_center)**2 <= self.radius**2:
+                return [x, y]
+
+
+
+"""
+148. Sort List
+"""
+
+class Solution148:
+    def sortList(self, head):
+        if not head or not head.next:
+            return head
+        mid = self.findMid(head)
+        right = mid.next
+        mid.next = None
+        return self.merge(self.sortList(head), self.sortList(right))
+
+    def findMid(self, head):
+        slow, fast = head, head
+        while fast and fast.next and fast.next.next:
+            fast = fast.next.next
+            slow = slow.next
+        return slow
+
+    def merge(self, left, right):
+        dummy = ListNode(None)
+        node = dummy
+        while left and right:
+            if left.val < right.val:
+                node.next = left
+                left = left.next
+            else:
+                node.next = right
+                right = right.next
+            node = node.next
+
+        node.next = left or right
+        return dummy.next
+
+
+
+"""
+417. Pacific Atlantic Water Flow
+"""
+
+
+class Solution417:
+    def pacificAtlantic(self, matrix):
+        if not matrix:
+            return []
+        self.directions = [(-1, 0) ,(1, 0) ,(0, -1) ,(0, 1)]
+        m, n = len(matrix), len(matrix[0])
+        p_visited = [[False for i in range(n)] for j in range(m)]
+        a_visited = [[False for i in range(n)] for j in range(m)]
+        res = []
+        for i in range(m):
+            self.dfs(matrix, i, 0, p_visited, m, n)
+            self.dfs(matrix, i, n- 1, a_visited, m, n)
+        for j in range(n):
+            self.dfs(matrix, 0, j, p_visited, m, n)
+            self.dfs(matrix, m - 1, j, a_visited, m, n)
+        for i in range(m):
+            for j in range(n):
+                if a_visited[i][j] and p_visited[i][j]:
+                    res.append([i, j])
+        return res
+
+    def dfs(self, matrix, i, j, cache, m, n):
+        cache[i][j] = True
+        for direction in self.directions:
+            x, y = i + direction[0], j + direction[1]
+            if x < 0 or y < 0 or x >= m or y >= n or cache[x][y] or matrix[x][y] < matrix[i][j]:
+                continue
+            self.dfs(matrix, x, y, cache, m, n)
+
+
+
+
+"""
+658. Find K Closest Elements
+"""
+
+class SolutionLee658:
+    def findClosestElements(self, arr, k, x):
+        left = 0
+        right = len(arr) - k
+        while left < right:
+            mid = (left + right) // 2
+            # it means A[mid + 1] ~ A[mid + k] is better than A[mid] ~ A[mid + k - 1]
+            if x - arr[mid] > arr[mid + k] - x:
+                left = mid + 1
+            else:
+                right = mid
+
+        return arr[left:left + k]
+
+"""
+ |______x________|
+   mid
+"""
+
+"""
+334. Increasing Triplet Subsequence
+"""
+
+class Solution334:
+    def increasingTriplet(self, nums):
+        x1 = x2 = float('inf')
+        for num in nums:
+            if num <= x1:
+                x1 = num
+            elif num <= x2:
+                x2 = num
+            else:
+                return True
+        return False
+
+"""
+277. Find the Celebrity
+"""
+
+def knows(a, b):
+    pass
+
+class Solution277:
+    def findCelebrity(self, n):
+        cand = 0
+        for i in range(n):
+            if knows(cand, i):
+                cand = i
+
+        for i in range(0, cand):
+            if knows(cand, i):
+                return -1
+            if not knows(i, cand):
+                return -1
+
+        for i in range(cand, n):
+            if not knows(i, cand):
+                return -1
+
+        return cand
+
+
+
+"""
+567. Permutation in String
+Sliding window
+"""
+
+class Solution567:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        n1, n2 = len(s1), len(s2)
+        counter1, counter2 = collections.Counter(s1), collections.Counter(s2[:n1])
+        for i in range(n1, n2):
+            if counter1 == counter2:
+                return True
+            counter2[s2[i]] += 1
+            counter2[s2[i - n1]] -= 1
+            if counter2[s2[i - n1]] <= 0:
+                del counter2[s2[i - n1]]
+
+        return counter1 == counter2
+
+
+
+"""
+395. Longest Substring with At Least K Repeating Characters
+"""
+
+
+
+
+
 
 
 

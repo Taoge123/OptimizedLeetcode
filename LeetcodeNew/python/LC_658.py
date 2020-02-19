@@ -58,18 +58,21 @@ O(K) to create the returned list.
 """
 
 import bisect
-class Solution:
-    def findClosestElements(self, arr, k, x):
-        index = min(bisect.bisect_left(arr, x), len(arr) - 1)
-        left = index - 1
-        right = index + 1 if arr[index] == x else index
 
-        while right - left < k + 1:
-            if left >= 0 and (right >= len(arr) or abs(arr[left] - x) <= abs(arr[right] - x)):
-                left -= 1
+class SolutionLee:
+    def findClosestElements(self, arr, k, x):
+        left = 0
+        right = len(arr) - k
+
+        while left < right:
+            mid = (left + right) // 2
+            # it means A[mid + 1] ~ A[mid + k] is better than A[mid] ~ A[mid + k - 1]
+            if x - arr[mid] > arr[mid + k] - x:
+                left = mid + 1
             else:
-                right += 1
-        return arr[left + 1:right]
+                right = mid
+
+        return arr[left:left + k]
 
 
 class SolutionGongJin:
@@ -78,8 +81,10 @@ class SolutionGongJin:
         l, r = index, index
 
         while r - l < k:
-            if l == 0: return arr[:k]
-            if r == len(arr): return arr[-k:]
+            if l == 0:
+                return arr[:k]
+            if r == len(arr):
+                return arr[-k:]
             if x - arr[l - 1] <= arr[r] - x:
                 l -= 1
             else:
@@ -97,18 +102,16 @@ class SolutionGongJin:
         return l
 
 
-class SolutionLee:
+
+class SolutionSquareMichael:
     def findClosestElements(self, arr, k, x):
-        left = 0
-        right = len(arr) - k
+        if not arr or k <= 0:
+            return []
 
-        while left < right:
-            mid = (left + right) // 2
-            # it means A[mid + 1] ~ A[mid + k] is better than A[mid] ~ A[mid + k - 1]
-            if x - arr[mid] > arr[mid + k] - x:
-                left = mid + 1
+        n = len(arr)
+        while len(arr) > k:
+            if abs(arr[0] - x) > abs(arr[-1] - x):
+                arr.pop(0)
             else:
-                right = mid
-
-        return arr[left:left + k]
-
+                arr.pop(-1)
+        return arr

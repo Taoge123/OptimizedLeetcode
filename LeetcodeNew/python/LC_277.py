@@ -66,7 +66,7 @@ class Solution:
         return cand
 
 
-class Solution:
+class Solution1:
     def findCelebrity(self, n):
 
         cand = 0

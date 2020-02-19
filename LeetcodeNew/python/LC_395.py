@@ -35,7 +35,6 @@ class Solution:
 
 class Solution2:
     def longestSubstring(self, s: str, k: int) -> int:
-
         if len(s) < k:
             return 0
         maxi = 0
