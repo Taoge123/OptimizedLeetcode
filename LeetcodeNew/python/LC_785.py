@@ -50,7 +50,6 @@ class Solution:
 
         return True
 
-
     def dfs(self, graph, color, pos):
         for i in graph[pos]:
             if i in color:

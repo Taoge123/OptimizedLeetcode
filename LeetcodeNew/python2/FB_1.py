@@ -3503,12 +3503,120 @@ class Solution129:
                + self.helper(root.right, res * 10 + root.val)
 
 
+"""
+105. Construct Binary Tree from Preorder and Inorder Traversal
+"""
+
+class Solution105:
+    def buildTree(self, preorder, inorder):
+        if inorder:
+            index = inorder.index(preorder.pop(0))
+            root = TreeNode(inorder[index])
+            root.left = self.buildTree(preorder, inorder[:index])
+            root.right = self.buildTree(preorder, inorder[index + 1:])
+            return root
+
+
+"""
+40. Combination Sum II
+"""
+class Solution040:
+    def combinationSum2(self, candidates, target):
+        res = []
+        candidates.sort()
+        self.backtrack(candidates, 0, target, [], res)
+        return res
+
+    def backtrack(self, nums, index, target, path, res):
+        if target < 0:
+            return
+        if target == 0:
+            res.append(path)
+            return
+
+        for i in range(index, len(nums)):
+            if i > index and nums[i] == nums[i - 1]:
+                continue
+            if nums[i] > target:
+                break
+            self.backtrack(nums, i + 1, target - nums[i], path + [nums[i]], res)
+
+
+"""
+309. Best Time to Buy and Sell Stock with Cooldown
+"""
+
+class Solution309:
+    def maxProfit(self, prices):
+        n = len(prices)
+        if not n:
+            return 0
+
+        buy = [0] * n
+        sell = [0] * n
+        cool = [0] * n
+        buy[0] = -prices[0]
+
+        for i in range(1, n):
+            buy[i] = max(buy[i-1], cool[i-1] - prices[i])
+            sell[i] = max(sell[i-1], buy[i-1] + prices[i])
+            cool[i] = max(cool[i-1], sell[i-1])
+        return sell[-1]
 
 
 
+"""
+785. Is Graph Bipartite?
+"""
+class Solution785:
+    def isBipartite(self, graph) -> bool:
+
+        color = {}
+        for i in range(len(graph)):
+            if i not in color:
+                color[i] = 0
+                if not self.dfs(graph, color, i):
+                    return False
+
+        return True
+
+    def dfs(self, graph, color, pos):
+        for i in graph[pos]:
+            if i in color:
+                if color[i] == color[pos]:
+                    return False
+            else:
+                color[i] = 1 - color[pos]
+                if not self.dfs(graph, color, i):
+                    return False
+
+        return True
 
 
+"""
+298. Binary Tree Longest Consecutive Sequence
+"""
 
+class Solution298:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.res = 0
+        self.helper(root, 0, root.val)
+        return self.res
+
+    def helper(self, root, count, target):
+        if not root:
+            return 0
+
+        if root.val == target:
+            count += 1
+        else:
+            count = 1
+        self.res = max(self.res, count)
+
+        self.helper(root.left, count, root.val + 1)
+        self.helper(root.right, count, root.val + 1)
 
 
 
