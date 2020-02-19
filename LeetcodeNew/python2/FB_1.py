@@ -1905,6 +1905,276 @@ class Solution393:
         return count == 0
 
 
+"""
+117. Populating Next Right Pointers in Each Node II
+"""
+
+class Solution117:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
+
+        queue = collections.deque([root])
+        nextLevel = collections.deque()
+        while queue:
+            node = queue.popleft()
+            if node.left:
+                nextLevel.append(node.left)
+            if node.right:
+                nextLevel.append(node.right)
+            if queue:
+                node.next = queue[0]
+            if not queue:
+                queue, nextLevel = nextLevel, queue
+        return root
+
+
+
+"""
+223. Rectangle Area
+"""
+
+class Solution223:
+    def computeArea(self, A: int, B: int, C: int, D: int, E: int, F: int, G: int, H: int) -> int:
+
+        area1 = abs(C - A) * abs(B - D)
+        area2 = abs(E - G) * abs(F - H)
+        w = min(C, G) - max(A, E)
+        h = min(D, H) - max(B, F)
+        if w <= 0 or h <= 0:
+            return area1 + area2
+        else:
+            return area1 + area2 - w * h
+
+
+"""
+92. Reverse Linked List II
+"""
+
+
+class Solution092:
+    def reverseBetween(self, head, m, n):
+        # Edge
+        if m == n:
+            return head
+        if not head or not m or not n:
+            return None
+        # Set starting point
+        dummy = ListNode(0)
+        dummy.next = head
+        start = dummy
+        for i in range(m - 1):
+            start = start.next
+        # Set ending point
+        end = cur = start.next
+        prev = None
+        # reverse
+        for i in range(n - m + 1):
+            next = cur.next
+            cur.next = prev
+            prev = cur
+            cur = next
+        # Connect
+        start.next = prev
+        end.next = cur
+        return dummy.next
+
+
+"""
+m = 2
+n = 4
+       1 -> 2 -> 3 -> 4 -> 5
+dummy   
+     start
+           end 
+           cur 
+prev = None
+       1   2 <- 3 <- 4 -> 5
+dummy
+    start
+           end   
+                    prev      
+                          cur
+
+"""
+
+
+"""
+1091. Shortest Path in Binary Matrix
+"""
+
+class Solution1091:
+    def shortestPathBinaryMatrix(self, grid):
+        n = len(grid)
+        if grid[0][0] or grid[n - 1][n - 1]:
+            return -1
+        queue = [(0, 0, 1)]
+        for i, j, step in queue:
+            if i == n - 1 and j == n - 1:
+                return step
+            for x, y in ((i - 1, j - 1), (i - 1, j), (i - 1, j + 1), (i, j - 1), (i, j + 1), (i + 1, j - 1), (i + 1, j),(i + 1, j + 1)):
+                if x >= 0 and y >= 0 and x < n and y < n and not grid[x][y]:
+                    grid[x][y] = 1
+                    queue.append((x, y, step + 1))
+        return -1
+
+
+"""
+56. Merge Intervals
+"""
+
+class Interval:
+    def __init__(self, s=0, e=0):
+        self.start = s
+        self.end = e
+
+class Solution056:
+    def merge(self, intervals):
+
+        if len(intervals) == 0:
+            return []
+
+        intervals = sorted(intervals, key=lambda x: x.start)
+
+        res = []
+        res.append(intervals[0])
+        for interval in intervals[1:]:
+            #Basically if the new interval is less than last end, then we merge, else its a new interval
+            if interval.start <= res[-1].end:
+                res[-1].end = max(interval.end, res[-1].end)
+            else:
+                res.append(interval)
+        return res
+
+
+
+"""
+285. Inorder Successor in BST
+"""
+
+class Solution285:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        res = None
+        while root:
+            if root.val <= p.val:
+                root = root.right
+            else:
+                res = root
+                root = root.left
+        return res
+
+class Solution285_:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        self.res = None
+        self.dfs(root, p)
+        return self.res
+
+    def dfs(self, root, p):
+        if not root:
+            return
+        if p.val < root.val:
+            self.res = root
+            self.dfs(root.left, p)
+        else:
+            self.dfs(root.right, p)
+
+
+"""
+210. Course Schedule II
+"""
+
+
+class Solution210:
+    def findOrder(self, numCourses: int, prerequisites):
+        graph = collections.defaultdict(list)
+        visited = [False for i in range(numCourses)]
+        res = []
+        for u, v in prerequisites:
+            graph[u].append(v)
+
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visited, res):
+                return []
+        return res
+
+    def dfs(self, i, graph, visited, res):
+        if visited[i] == '-1':
+            return False
+        if visited[i] == '1':
+            return True
+
+        visited[i] = '-1'
+        for j in graph[i]:
+            if not self.dfs(j, graph, visited, res):
+                return False
+        visited[i] = '1'
+        #almost just one line changed
+        res.append(i)
+        return True
+
+class Solution210_:
+    def findOrder(self, numCourses: int, prerequisites):
+        graph = collections.defaultdict(list)
+        indegree = collections.defaultdict(int)
+
+        for u, v in prerequisites:
+            graph[u].append(v)
+            indegree[v] += 1
+
+        queue = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
+        visited = []
+        while queue:
+            node = queue.popleft()
+            visited.append(node)
+            for i in graph[node]:
+                indegree[i] -= 1
+                if indegree[i] == 0:
+                    queue.append(i)
+        if len(visited) == numCourses:
+            return visited[::-1]
+        return []
+
+
+
+"""
+228. Summary Ranges
+"""
+class Solution228:
+    def summaryRanges(self, nums):
+        i, j = 0, 0
+        res = []
+        while i < len(nums) and j < len(nums):
+            k = 0
+            while j < len(nums) and nums[i] + k == nums[j]:
+                j += 1
+                k += 1
+            if j == i + 1:
+                res.append(str(nums[i]))
+            else:
+                res.append(str(nums[i]) + '->' + str(nums[j-1]))
+            i = j
+        return res
+
+
+"""
+139. Word Break
+"""
+
+class Solution139:
+    def wordBreak(self, s: str, wordDict) -> bool:
+        wordDict = set(wordDict)
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+
+        for i in range(len(s) + 1):
+            for j in range(i):
+                if dp[j] and s[j:i] in wordDict:
+                    dp[i] = True
+
+        return dp[-1]
+
+
+
 
 
 
