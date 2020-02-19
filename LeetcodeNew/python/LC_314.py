@@ -94,6 +94,7 @@ class Solution:
         s = sorted(res)
         return [res[i] for i in sorted(res)]
 
+
 """
 res = defaultdict(<class 'list'>, {0: [1, 5, 6], -1: [2], 1: [3], -2: [4], 2: [7]})
 [[4], [2], [1, 5, 6], [3], [7]]

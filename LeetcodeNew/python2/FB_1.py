@@ -1906,6 +1906,32 @@ class Solution393:
 
 
 """
+116. Populating Next Right Pointers in Each Node
+"""
+
+
+class Solution116:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
+
+        queue = collections.deque()
+        queue.append(root)
+        while queue:
+            node = queue.popleft()
+            if node.left and node.right:
+                node.left.next = node.right
+                if node.next:
+                    node.right.next = node.next.left
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return root
+
+
+"""
 117. Populating Next Right Pointers in Each Node II
 """
 
@@ -2551,14 +2577,399 @@ class Solution261:
         return False
 
 
+"""
+616. Add Bold Tag in String
+"""
+
+class Solution616:
+    def addBoldTag(self, s, words):
+        status = [False] * len(s)
+        res = ""
+        for word in words:
+            start = s.find(word)
+            end = len(word)
+            while start != -1:
+                for i in range(start, start + end):
+                    status[i] = True
+                start = s.find(word, start + 1)
+        i = 0
+        while i < len(s):
+            if status[i]:
+                res += "<b>"
+                while i < len(s) and status[i]:
+                    res += s[i]
+                    i += 1
+                res += "</b>"
+            else:
+                res += s[i]
+                i += 1
+        return res
 
 
 
+"""
+186. Reverse Words in a String II
+"""
+
+
+class Solution186:
+    def reverseWords(self, s):
+        self.reverse(s, 0, len(s) - 1)
+
+        beg = 0
+        for i in range(len(s)):
+            if s[i] == ' ':
+                self.reverse(s, beg, i - 1)
+                beg = i + 1
+            elif i == len(s) - 1:
+                self.reverse(s, beg, i)
+
+    def reverse(self, s, start, end):
+        while start < end:
+            s[start], s[end] = s[end], s[start]
+            start += 1
+            end -= 1
+
+
+class Solution186_:
+    def reverseWords(self, s):
+        s[:] = list(' '.join(reversed(''.join(s).split(' '))))
+
+
+"""
+670. Maximum Swap
+"""
+
+class Solution670:
+    def maximumSwap(self, num: int) -> int:
+        num = list(str(num))
+        res = num[:]
+        for i in range(len(num)):
+            for j in range(i +1, len(num)):
+                num[i], num[j] = num[j], num[i]
+                if num > res:
+                    res = num[:]
+                num[i], num[j] = num[j], num[i]
+
+        return int("".join(res))
+
+
+"""
+We can also get an O(N) solution. At each digit, if there is a larger digit that occurs later, 
+we want the swap it with the largest such digit that occurs the latest.
+"""
+
+class Solution670_:
+    def maximumSwap(self, num: int) -> int:
+        temp = list(str(num))
+        table = {int(x): i for i, x in enumerate(temp)}
+        for i, x in enumerate(temp):
+            for digit in range(9, int(x), -1):
+                if table.get(digit, 0) > i:
+                    temp[i], temp[table[digit]] = temp[table[digit]], temp[i]
+                    return int("".join(temp))
+        return num
 
 
 
+"""
+450. Delete Node in a BST
+"""
+
+class Solution450:
+    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
+        if not root:
+            return None
+
+        if root.val < key:
+            root.right = self.deleteNode(root.right, key)
+        elif root.val > key:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            if root.left and root.right:
+                tmp = self.finMin(root.right)
+                root.val = tmp.val
+                root.right = self.deleteNode(root.right, tmp.val)
+            else:
+                if not root.left:
+                    return root.right
+                if not root.right:
+                    return root.left
+        return root
+
+    def finMin(self, node):
+        while node.left:
+            node = node.left
+        return node
 
 
+
+"""
+593. Valid Square
+"""
+import itertools
+
+class Solution593:
+    def validSquare(self, p1, p2, p3, p4) -> bool:
+        visited = set()
+
+        for a, b in itertools.combinations((p1, p2, p3, p4), 2):
+            visited.add(self.distance(a, b))
+
+        return 0 not in visited and len(visited) == 2
+
+    def distance(self, a, b):
+        return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
+
+
+
+"""
+300. Longest Increasing Subsequence
+"""
+
+class Solution300:
+    def lengthOfLIS(self, nums):
+        dp = []
+        for num in nums:
+            index = bisect.bisect_left(dp, num)
+            if index == len(dp):
+                dp.append(num)
+            else:
+                dp[index] = num
+        return len(dp)
+
+
+
+"""
+73. Set Matrix Zeroes
+"""
+
+class Solution073:
+    def setZeroes(self, matrix):
+        rownum = len(matrix)
+        colnum = len(matrix[0])
+
+        row = [False for i in range(rownum)]
+        col = [False for i in range(colnum)]
+
+        for i in range(rownum):
+            for j in range(colnum):
+                if matrix[i][j] == 0:
+                    row[i] = col[j] = True
+
+        for i in range(rownum):
+            for j in range(colnum):
+                if row[i] or col[j]:
+                    matrix[i][j] = 0
+
+
+"""
+622. Design Circular Queue
+"""
+
+class MyCircularQueue622:
+    def __init__(self, k):
+        self.size = k
+        self.curSize = 0
+        self.head = self.tail = Node(-1)
+        self.head.next = self.tail
+        self.tail.pre = self.head
+
+    def enQueue(self, value):
+        if self.curSize < self.size:
+            node = Node(value)
+            node.pre = self.tail.pre
+            node.next = self.tail
+            node.pre.next = node.next.pre = node
+            self.curSize += 1
+            return True
+        return False
+
+    def deQueue(self):
+        if self.curSize > 0:
+            node = self.head.next
+            node.pre.next = node.next
+            node.next.pre = node.pre
+            self.curSize -= 1
+            return True
+        return False
+
+    def Front(self):
+        return self.head.next.val
+
+    def Rear(self):
+        return self.tail.pre.val
+
+    def isEmpty(self):
+        return self.curSize == 0
+
+    def isFull(self):
+        return self.curSize == self.size
+
+
+
+"""
+435. Non-overlapping Intervals
+"""
+
+class Solution435:
+    def eraseOverlapIntervals(self, intervals) -> int:
+        if not intervals:
+            return 0
+        intervals.sort(key=lambda x: x[0])  # sort on start time
+        currEnd = intervals[0][1]
+        res = 0
+        for x in intervals[1:]:
+            if x[0] < currEnd:  # find overlapping interval
+                res += 1
+                currEnd = min(currEnd, x[1])  # erase the one with larger end time
+            else:
+                currEnd = x[1]   # update end time
+        return res
+
+
+"""
+240. Search a 2D Matrix II
+"""
+
+class Solution240:
+    def searchMatrix(self, matrix, target):
+
+        if not matrix:
+            return False
+        m, n = len(matrix), len(matrix[0])
+
+        i, j = m- 1, 0
+        while i >= 0 and j < n:
+            if matrix[i][j] == target:
+                return True
+            if matrix[i][j] < target:
+                j += 1
+            else:
+                i -= 1
+
+        return False
+
+
+"""
+236. Lowest Common Ancestor of a Binary Tree
+"""
+
+class Solution236:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+
+        if root == p or root == q:
+            return root
+
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+
+        if left and right:
+            return root
+        if not left:
+            return right
+        if not right:
+            return left
+
+
+
+"""
+80. Remove Duplicates from Sorted Array II
+"""
+
+class Solution080:
+    def removeDuplicates(self, nums):
+        tail = 0
+        for num in nums:
+            if tail < 2 or num != nums[tail - 2]:
+                nums[tail] = num
+                tail += 1
+        return tail
+
+
+"""
+162. Find Peak Element
+"""
+
+class Solution162:
+    def findPeakElement(self, nums) -> int:
+        left = 0
+        right = len(nums) - 1
+        while left < right:
+            mid = (right - left) // 2 + left
+            if nums[mid] > nums[mid + 1]:
+                right = mid
+            else:
+                left = mid + 1
+
+        if nums[left] > nums[right]:
+            return left
+        return right
+
+
+
+"""
+106. Construct Binary Tree from Inorder and Postorder Traversal
+"""
+
+class Solution106:
+    def buildTree(self, inorder, postorder) -> TreeNode:
+        """
+        inorder   = [9,3,15,20,7]
+        postorder = [9,15,7,20,3]
+        need to build the tree from right to left, because we are popping from the last element from the postorder array.
+        """
+        if inorder:
+            index = inorder.index(postorder.pop())
+            root = TreeNode(inorder[index])
+            root.right = self.buildTree(inorder[index + 1:], postorder)
+            root.left = self.buildTree(inorder[:index], postorder)
+
+            return root
+
+
+
+"""
+560. Subarray Sum Equals K
+"""
+
+class Solution560:
+    def subarraySum(self, nums, k: int) -> int:
+        res, summ = 0, 0
+        cache = collections.defaultdict(int)
+        cache[0] = 1
+        for num in nums:
+            summ += num
+            res += cache[summ - k]
+            cache[summ] += 1
+
+        return res
+
+
+"""
+528. Random Pick with Weight
+"""
+
+
+class Solution528:
+    def __init__(self, w):
+        self.w = w
+        self.n = len(w)
+        for i in range(1, self.n):
+            w[i] += w[i-1]
+
+    def pickIndex(self) -> int:
+        seed = random.randint(1, self.w[-1])
+        l, r = 0, self.n - 1
+        while l < r:
+            mid = (l + r) // 2
+            if self.w[mid] >= seed:
+                r = mid
+            else:
+                l = mid + 1
+        return l
 
 
 

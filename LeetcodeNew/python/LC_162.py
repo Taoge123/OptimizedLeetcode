@@ -48,7 +48,6 @@ class Solution:
 
 class Solution2:
     def findPeakElement(self, nums) -> int:
-
         left = 0
         right = len(nums) - 1
         while left < right:
@@ -61,4 +60,6 @@ class Solution2:
         if nums[left] > nums[right]:
             return left
         return right
+
+
 
