@@ -2379,6 +2379,33 @@ class Solution395:
 
 
 
+"""
+438. Find All Anagrams in a String
+"""
+
+class Solution438:
+    def findAnagrams(self, s: str, p: str):
+        res = []
+        pCounter = collections.Counter(p)
+        sCounter = collections.Counter(s[:len(p)-1])
+
+        for i in range(len(p)-1, len(s)):
+            head = i - len(p) + 1
+
+            sCounter[s[i]] += 1
+            if sCounter == pCounter:
+                res.append(i - len(p) + 1)
+
+            sCounter[s[head]] -= 1
+            if sCounter[s[head]] == 0:
+                del sCounter[s[head]]
+        return res
+
+
+
+
+
+
 
 
 

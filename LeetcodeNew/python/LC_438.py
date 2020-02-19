@@ -36,11 +36,9 @@ import collections
 
 class Solution:
     def findAnagrams(self, s: str, p: str):
-
         res = []
-
         pCounter = collections.Counter(p)
-        sCounter = collections.Counter(s[:len(p) -1])
+        sCounter = collections.Counter(s[:len(p)-1])
 
         for i in range(len(p)-1, len(s)):
             head = i - len(p) + 1
@@ -52,8 +50,9 @@ class Solution:
             sCounter[s[head]] -= 1
             if sCounter[s[head]] == 0:
                 del sCounter[s[head]]
-
         return res
+
+
 
 s = "cbaebabacd"
 p = "abc"
