@@ -3284,3 +3284,247 @@ class Solution109:
 
 
 
+"""
+525. Contiguous Array
+"""
+
+
+class Solution525:
+    def findMaxLength(self, nums) -> int:
+        table = {}
+        table[0] = -1
+        res = 0
+        count = 0
+        for i, num in enumerate(nums):
+            if num == 1:
+                count += 1
+            else:
+                count -= 1
+            if count in table.keys():
+                res = max(res, i - table[count])
+            else:
+                table[count] = i
+        return res
+
+
+
+"""
+319. Bulb Switcher
+"""
+
+class Solution319:
+    def bulbSwitch(self, n: int) -> int:
+        count = 0
+        for i in range(1, n + 1):
+            numSwitch = self.helper(i)
+            if numSwitch % 2 == 1:
+                count += 1
+        return count
+
+    def helper(self, n):
+        count = 0
+        for i in range(1, n + 1):
+            if n % i == 0:
+                count += 1
+        return count
+
+
+"""
+251. Flatten 2D Vector
+"""
+
+class Vector2D251:
+    def __init__(self, vec2d):
+        self.col = 0
+        self.row = 0
+        self.vec = vec2d
+
+    def next(self):
+        if self.hasNext():
+            result = self.vec[self.row][self.col]
+            self.col += 1
+            return result
+
+    def hasNext(self):
+        while self.row < len(self.vec):
+            if self.col < len(self.vec[self.row]):
+                return True
+
+            self.col = 0
+            self.row += 1
+
+        return False
+
+
+
+"""
+103. Binary Tree Zigzag Level Order Traversal
+"""
+
+class Solution103:
+    def zigzagLevelOrder(self, root: TreeNode):
+        if not root:
+            return []
+
+        res = []
+        queue = collections.deque([root])
+        reverse = False
+        while queue:
+            size = len(queue)
+            cur_level = collections.deque()
+            for i in range(size):
+                node = queue.popleft()
+                # print(queue)
+                if reverse:
+                    # becuz we append from left to right, when reverse is True, we will need to insert 9, then insert 20 the the 0 position so 20 is at the left of 9
+                    cur_level.appendleft(node.val)
+                else:
+                    cur_level.append(node.val)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            res.append(cur_level)
+            reverse = not reverse
+        return res
+
+"""
+380. Insert Delete GetRandom O(1)
+"""
+
+
+class RandomizedSet:
+    def __init__(self):
+        self.nums = []
+        self.pos = {}
+
+    def insert(self, val: int) -> bool:
+        if val not in self.pos:
+            self.nums.append(val)
+            self.pos[val] = len(self.nums) - 1
+            return True
+        return False
+
+    def remove(self, val: int) -> bool:
+        if val in self.pos:
+            idx, last = self.pos[val], self.nums[-1]
+            self.nums[idx] = last
+            self.pos[last] = idx
+            self.nums.pop()
+            # self.pos.pop(val)
+            del self.pos[val]
+            return True
+        return False
+
+    def getRandom(self) -> int:
+        return self.nums[random.randint(0, len(self.nums) - 1)]
+
+
+
+"""
+90. Subsets II
+"""
+
+class Solution090:
+    def subsetsWithDup(self, nums):
+        res = []
+        nums.sort()
+        self.backtrack(nums, 0, [], res)
+        return res
+
+    def backtrack(self, nums, index, path, res):
+        res.append(path)
+        for i in range(index, len(nums)):
+
+            if i > index and nums[i -1] == nums[i]:
+                continue
+            self.backtrack(nums, i + 1, path + [nums[i]], res)
+
+
+"""
+721. Accounts Merge
+"""
+
+class UnionFind:
+    def __init__(self):
+        self.parent = [i for i in range(10001)]
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x, y):
+        self.parent[self.find(x)] = self.find(y)
+
+
+class Solution721:
+    def accountsMerge(self, accounts):
+        uf = UnionFind()
+        nameTable = {}
+        indexTable = {}
+        i = 0
+        for acc in accounts:
+            name = acc[0]
+            emails = acc[1:]
+            for email in emails:
+                nameTable[email] = name
+                if email not in indexTable:
+                    indexTable[email] = i
+                    i += 1
+                uf.union(indexTable[acc[1]], indexTable[email])
+
+        res = collections.defaultdict(list)
+        for email in nameTable:
+            res[uf.find(indexTable[email])].append(email)
+
+        return [[nameTable[v[0]]] + sorted(v) for v in res.values()]
+
+
+
+"""
+129. Sum Root to Leaf Numbers
+"""
+class Solution129:
+    def sumNumbers(self, root: TreeNode) -> int:
+
+        return self.helper(root, 0)
+
+    def helper(self, root, res):
+        if not root:
+            return 0
+
+        if not root.left and not root.right:
+            return root.val + res * 10
+
+        return self.helper(root.left, res * 10 + root.val) \
+               + self.helper(root.right, res * 10 + root.val)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

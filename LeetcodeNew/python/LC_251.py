@@ -30,25 +30,6 @@ As an added challenge, try to code it using only iterators in C++ or iterators i
 """
 
 
-class Vector2D:
-    def __init__(self, v):
-
-        def search(v):
-            for row in v:
-                for col in row:
-                    self.size -= 1
-                    yield col
-
-        self.search = search(v)
-        self.size = sum(len(row) for row in v)
-
-    def next(self) -> int:
-        return next(self.search)
-
-    def hasNext(self) -> bool:
-        return self.size > 0
-
-
 class Vector2D2:
     def __init__(self, vec2d):
         self.col = 0
@@ -70,6 +51,26 @@ class Vector2D2:
             self.row += 1
 
         return False
+
+
+
+class Vector2D:
+    def __init__(self, v):
+
+        def search(v):
+            for row in v:
+                for col in row:
+                    self.size -= 1
+                    yield col
+
+        self.search = search(v)
+        self.size = sum(len(row) for row in v)
+
+    def next(self) -> int:
+        return next(self.search)
+
+    def hasNext(self) -> bool:
+        return self.size > 0
 
 
 
