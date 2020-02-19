@@ -47,16 +47,22 @@ class Solution:
             else:  # 是文件。
                 key = file.count("\t")
                 # 　文件的长度：所有目录的长度＋文件的长度＋“\”的数量
-                length = sum([dict[j] for j in dict.keys() if j < key]) + len(file.replace("\t", "")) + key
+                # temp = [dict[k] for k in dict.keys() if k < key]
+                length = sum([dict[k] for k in dict.keys() if k < key]) + len(file.replace("\t", "")) + key
                 res = max(res, length)
         return res
 
 
 
-input = "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"
+input = "dir\n\tsubdi111csdcsdvsvsdfvsdcvsdvdsr1\n\tsubdir2\n\t\tfile.ext"
 
 a = Solution()
 print(a.lengthLongestPath(input))
+
+
+"""
+825. Friends Of Appropriate Ages
+"""
 
 
 

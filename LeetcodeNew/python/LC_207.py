@@ -29,8 +29,7 @@ import collections
 
 
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-
+    def canFinish(self, numCourses: int, prerequisites) -> bool:
         graph = collections.defaultdict(list)
         visited = [0 for i in range(numCourses)]
         for u, v in prerequisites:

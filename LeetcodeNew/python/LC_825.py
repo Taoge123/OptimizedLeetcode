@@ -5,15 +5,15 @@ class Solution:
     def numFriendRequests(self, ages) -> int:
         count = collections.Counter(ages)
         res = 0
-
         for ageA, countA in count.items():
             for ageB, countB in count.items():
                 if (0.5 * ageA + 7) < ageB <= ageA:
                     res += countA * countB
                     if ageA == ageB:
                         res -= countA
-
         return res
+
+
 
 
 class Solution2:

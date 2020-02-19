@@ -2436,9 +2436,97 @@ class Solution222:
 
 
 
+"""
+207. Course Schedule
+"""
+
+class Solution207:
+    def canFinish(self, numCourses: int, prerequisites) -> bool:
+        graph = collections.defaultdict(list)
+        visited = [0 for i in range(numCourses)]
+        for u, v in prerequisites:
+            graph[u].append(v)
+
+        for i in range(numCourses):
+            if not self.dfs(graph, i, visited):
+                return False
+        return True
+
+    def dfs(self, graph, i, visited):
+        if visited[i] == -1:
+            return False
+        if visited[i] == 1:
+            return True
+        visited[i] = -1
+        for j in graph[i]:
+            if not self.dfs(graph, j, visited):
+                return False
+        visited[i] = 1
+        return True
+
+
+class Solution207:
+    def canFinish(self, numCourses, prerequisites):
+
+        graph = collections.defaultdict(list)
+        indegree = collections.defaultdict(int)
+        for u, v in prerequisites:
+            graph[u].append(v)
+            indegree[v] += 1
+
+        queue = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
+        visited = []
+        while queue:
+            node = queue.popleft()
+            visited.append(node)
+            for i in graph[node]:
+                indegree[i] -= 1
+                if indegree[i] == 0:
+                    queue.append(i)
+        return len(visited) == numCourses
 
 
 
+
+
+"""
+388. Longest Absolute File Path
+"""
+
+class Solution388:
+    def lengthLongestPath(self, input: str) -> int:
+        dict = {}
+        res = 0
+        fileList = input.split("\n")
+        for file in fileList:  # 是文件夹
+            if "." not in file:
+                key = file.count("\t")  # 是几级文件夹
+                value = len(file.replace("\t", ""))  # 除去\t后的长度，是实际长度
+                dict[key] = value
+            else:  # 是文件。
+                key = file.count("\t")
+                # 　文件的长度：所有目录的长度＋文件的长度＋“\”的数量
+                length = sum([dict[j] for j in dict.keys() if j < key]) + len(file.replace("\t", "")) + key
+                res = max(res, length)
+        return res
+
+
+
+"""
+825. Friends Of Appropriate Ages
+"""
+
+class Solution825:
+    def numFriendRequests(self, ages) -> int:
+        count = collections.Counter(ages)
+        res = 0
+        for ageA, countA in count.items():
+            for ageB, countB in count.items():
+                if (0.5 * ageA + 7) < ageB <= ageA:
+                    res += countA * countB
+                    if ageA == ageB:
+                        res -= countA
+        return res
 
 
 
