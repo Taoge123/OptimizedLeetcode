@@ -3732,9 +3732,176 @@ class Solution494:
         return cache[(pos, target)]
 
 
+"""
+767. Reorganize String
+"""
+
+
+"""
+247. Strobogrammatic Number II
+"""
+
+
+class Solution247:
+    def findStrobogrammatic(self, n):
+
+        return self.helper(n, n)
+
+    def helper(self, n, length):
+
+        if n == 0:
+            return [""]
+        if n == 1:
+            return ["0", "1", "8"]
+
+        middles = self.helper( n -2, length)
+        res = []
+        for middle in middles:
+            if n != length:
+                res.append("0" + middle + "0")
+            res.append("1" + middle + "1")
+            res.append("6" + middle + "9")
+            res.append("8" + middle + "8")
+            res.append("9" + middle + "6")
+        return res
 
 
 
+"""
+505. The Maze II
+"""
+import collections, heapq
 
+class Solution505:
+    def shortestDistance(self, maze, start, destination):
+        m, n = len(maze), len(maze[0])
+        dp = collections.defaultdict(int)
+        queue = [(0, start[0], start[1])]
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        while queue:
+            dist, i, j = heapq.heappop(queue)
+            if [i, j] == destination:
+                return dist
+
+            for dir in directions:
+                step, x, y = dist, i, j
+                while 0 <= x + dir[0] < m and 0 <= y + dir[1] < n and maze[x + dir[0]][y + dir[1]] != 1:
+                    x += dir[0]
+                    y += dir[1]
+                    step += 1
+                if (x, y) not in dp.keys() or step < dp[(x, y)]:
+                    dp[(x, y)] = step
+                    heapq.heappush(queue, (step, x, y))
+        return -1
+
+
+
+"""
+792. Number of Matching Subsequences
+"""
+
+
+class Solution792:
+    def numMatchingSubseq(self, S, words):
+        return sum((self.check(S, word, 0) for word in words))
+
+    def check(self, S, string, i):
+        for s in string:
+            i = S.find(s, i) + 1
+
+            if not i:
+                return False
+        return True
+
+
+
+"""
+498. Diagonal Traverse
+"""
+
+class Solution498:
+    def findDiagonalOrder(self, matrix):
+        if not matrix:
+            return []
+
+        res = []
+        m, n = len(matrix), len(matrix[0])
+        lines = collections.defaultdict(list)
+
+        for i in range(m):
+            for j in range(n):
+                lines[i + j].append(matrix[i][j])
+
+        for k in range(m + n - 1):
+            if k % 2 == 0:
+                res += lines[k][::-1]
+            else:
+                res += lines[k]
+        return res
+
+
+"""
+36. Valid Sudoku
+"""
+class Solution036:
+    def isValidSudoku(self, board) -> bool:
+        visited = set()
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    cur = board[i][j]
+                    print(i, cur, '---', cur, j, '---', i // 3, j // 3, cur)
+                    if (i, cur) in visited or (cur, j) in visited or (i//3, j// 3, cur) in visited:
+                        return False
+                    visited.add((i, cur))
+                    visited.add((cur, j))
+                    visited.add((i // 3, j // 3, cur))
+
+        return True
+
+
+"""
+688. Knight Probability in Chessboard
+"""
+
+class Solution688:
+    def knightProbability(self, N, K, r, c):
+        dp = [[0] * N for _ in range(N)]
+        dp[r][c] = 1
+        for _ in range(K):
+            temp = [[0] * N for _ in range(N)]
+            for r, row in enumerate(dp):
+                for c, val in enumerate(row):
+                    for dr, dc in ((2,1),(2,-1),(-2,1),(-2,-1),(1,2),(1,-2),(-1,2),(-1,-2)):
+                        if 0 <= r + dr < N and 0 <= c + dc < N:
+                            temp[r+dr][c+dc] += val / 8.0
+            dp = temp
+        return sum(map(sum, dp))
+
+
+"""
+621. Task Scheduler
+"""
+
+class Solution621:
+    def leastInterval(self, tasks, n):
+        counter = collections.Counter(tasks)
+        freq = sorted(counter.values())
+
+        maxi = freq[-1] - 1
+
+        freq.pop()
+
+        idle = maxi * n
+        for f in reversed(freq):
+            idle -= min(f, maxi)
+
+        if idle > 0:
+            return len(tasks) + idle
+        else:
+            return len(tasks)
+
+        # return len(tasks) + idle if idle > 0 else len(tasks)
 
 
