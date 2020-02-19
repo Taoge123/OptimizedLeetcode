@@ -2529,6 +2529,35 @@ class Solution825:
         return res
 
 
+"""
+261. Graph Valid Tree
+"""
+class Solution261:
+    def validTree(self, n: int, edges) -> bool:
+        graph = collections.defaultdict(list)
+        visited = set()
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        return not self.hasCycle(graph, visited, 0, -1) and n == len(visited)
+
+    def hasCycle(self, graph, visited, node, parent):
+        visited.add(node)
+        for i in graph[node]:
+            if i != parent:
+                if i in visited or self.hasCycle(graph, visited, i, node):
+                    return True
+        return False
+
+
+
+
+
+
+
+
+
 
 
 
