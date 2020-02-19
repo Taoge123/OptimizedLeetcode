@@ -19,7 +19,7 @@ The given array may contain duplicates, and two equal integers should also be co
 
 
 class Solution:
-    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+    def findSubsequences(self, nums):
         res = set()
         self.backTrack(nums, 0, [], res)
         return list(res)
@@ -36,7 +36,7 @@ class Solution:
                 path.pop()
 
 
-class Solution:
+class Solution2:
     def findSubsequences(self, nums):
         res = set()
         self.backtrack(nums, 0, [], res)

@@ -2972,6 +2972,66 @@ class Solution528:
         return l
 
 
+"""
+208. Implement Trie (Prefix Tree)
+"""
+
+class TrieNode208:
+    # Initialize your data structure here.
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.is_word = False
+
+
+class Trie208:
+    def __init__(self):
+        self.root = TrieNode208()
+
+    def insert(self, word):
+        current = self.root
+        for letter in word:
+            current = current.children[letter]
+        current.is_word = True
+
+    def search(self, word):
+        current = self.root
+        for letter in word:
+            current = current.children.get(letter)
+            if current is None:
+                return False
+        return current.is_word
+
+    def startsWith(self, prefix):
+        current = self.root
+        for letter in prefix:
+            current = current.children.get(letter)
+            if current is None:
+                return False
+        return True
+
+
+"""
+491. Increasing Subsequences
+"""
+
+class Solution491:
+    def findSubsequences(self, nums):
+        res = set()
+        self.backtrack(nums, 0, [], res)
+        return list(res)
+
+    def backtrack(self, nums, pos, path, res):
+        if len(path) > 1:
+            res.add(tuple(path))
+
+        for i in range(pos, len(nums)):
+            if not path or path[-1] <= nums[i]:
+                self.backtrack(nums, i + 1, path + [nums[i]], res)
+
+
+
+
+
 
 
 
