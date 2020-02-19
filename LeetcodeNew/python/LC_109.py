@@ -25,7 +25,42 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
+    def sortedListToBST(self, head):
+        if not head:
+            return None
+
+        mid = self.findMiddle(head)
+        node = TreeNode(mid.val)
+
+        if head == mid:
+            return node
+
+        node.left = self.sortedListToBST(head)
+        node.right = self.sortedListToBST(mid.next)
+        return node
+
+
+    def findMiddle(self, head):
+        prev = None
+        slow = head
+        fast = head
+
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+
+        # Handling the case when slowPtr was equal to head.
+        if prev:
+            prev.next = None
+
+        return slow
+
+
+
+class Solution2:
     def sortedListToBST(self, head):
         if not head:
             return
@@ -48,36 +83,3 @@ class Solution:
         root.left = self.sortedListToBST(head)
         root.right = self.sortedListToBST(tmp.next)
         return root
-
-
-class Solution2:
-    def findMiddle(self, head):
-        prev = None
-        slow = head
-        fast = head
-
-        while fast and fast.next:
-            prev = slow
-            slow = slow.next
-            fast = fast.next.next
-
-        # Handling the case when slowPtr was equal to head.
-        if prev:
-            prev.next = None
-
-        return slow
-
-    def sortedListToBST(self, head):
-        if not head:
-            return None
-
-        mid = self.findMiddle(head)
-        node = TreeNode(mid.val)
-
-        if head == mid:
-            return node
-
-        node.left = self.sortedListToBST(head)
-        node.right = self.sortedListToBST(mid.next)
-        return node
-

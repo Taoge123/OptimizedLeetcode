@@ -3146,8 +3146,141 @@ class Solution279:
         return dp[-1]
 
 
+"""
+75. Sort Colors
+"""
+class Solution075:
+    def sortColors(self, nums):
+        first, second, last = 0, 0, len(nums) - 1
+
+        while second <= last:
+            if nums[second] == 0:
+                nums[first], nums[second] = nums[second], nums[first]
+                second += 1
+                first += 1
+
+            elif nums[second] == 1:
+                second += 1
+
+            elif nums[second] == 2:
+                nums[second], nums[last] = nums[last], nums[second]
+                last -= 1
 
 
+"""
+253. Meeting Rooms II
+"""
+
+class Solution253:
+    def minMeetingRooms(self, intervals):
+        intervals.sort(key=lambda x: x.start)
+        heap = []  # stores the end time of intervals
+        for i in intervals:
+            if heap and i.start >= heap[0]:
+                # means two intervals can use the same room
+                heapq.heapreplace(heap, i.end)
+            else:
+                # a new room is allocated
+                heapq.heappush(heap, i.end)
+        return len(heap)
+
+
+
+"""
+17. Letter Combinations of a Phone Number
+"""
+
+class Solution017:
+    def letterCombinations(self, digits):
+        self.phone = {'2': ['a', 'b', 'c'],
+                      '3': ['d', 'e', 'f'],
+                      '4': ['g', 'h', 'i'],
+                      '5': ['j', 'k', 'l'],
+                      '6': ['m', 'n', 'o'],
+                      '7': ['p', 'q', 'r', 's'],
+                      '8': ['t', 'u', 'v'],
+                      '9': ['w', 'x', 'y', 'z']}
+        res = []
+        if digits:
+            self.backtrack("", digits, res)
+        return res
+
+    def backtrack(self, path, digits, res):
+        if not digits:
+            res.append(path)
+        else:
+            for letter in self.phone[digits[0]]:
+                self.backtrack(path + letter, digits[1:], res)
+
+
+
+"""
+200. Number of Islands
+"""
+
+class Solution200:
+    def numIslands(self, grid):
+        if not grid:
+            return 0
+
+        m, n = len(grid), len(grid[0])
+        self.directions = [(-1, 0) ,(1, 0) ,(0, -1) ,(0, 1)]
+        visited = [[False for i in range(n)] for j in range(m)]
+        res = 0
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == '1' and not visited[r][c]:
+                    self.dfs(r, c, grid, m, n, visited)
+                    res += 1
+
+        return res
+
+    def dfs(self, r, c, grid, m, n, visited):
+        if r< 0 or c < 0 or r >= m or c >= n or grid[r][c] != '1' or visited[r][c]:
+            return
+        visited[r][c] = True
+        for direction in self.directions:
+            x, y = r + direction[0], c + direction[1]
+            self.dfs(x, y, grid, m, n, visited)
+
+
+
+
+"""
+109. Convert Sorted List to Binary Search Tree
+"""
+
+class Solution109:
+    def sortedListToBST(self, head):
+        if not head:
+            return None
+
+        mid = self.findMiddle(head)
+        node = TreeNode(mid.val)
+
+        if head == mid:
+            return node
+
+        node.left = self.sortedListToBST(head)
+        node.right = self.sortedListToBST(mid.next)
+        return node
+
+
+    def findMiddle(self, head):
+        prev = None
+        slow = head
+        fast = head
+
+        while fast and fast.next:
+            prev = slow
+            slow = slow.next
+            fast = fast.next.next
+
+        # Handling the case when slowPtr was equal to head.
+        if prev:
+            prev.next = None
+
+        return slow
 
 
 

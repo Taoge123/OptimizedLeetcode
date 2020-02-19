@@ -21,7 +21,7 @@ class Solution:
     def sortColors(self, nums):
         first, second, last = 0, 0, len(nums) - 1
 
-        while white <= last:
+        while second <= last:
             if nums[second] == 0:
                 nums[first], nums[second] = nums[second], nums[first]
                 second += 1
