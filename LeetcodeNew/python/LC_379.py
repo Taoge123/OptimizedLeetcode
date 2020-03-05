@@ -63,42 +63,28 @@ class PhoneDirectory:
 class PhoneDirectory2:
 
     def __init__(self, maxNumbers: int):
-        """
-        Initialize your data structure here
-        @param maxNumbers - The maximum numbers that can be stored in the phone directory.
-        """
         self.next = 0
         self.max = maxNumbers
         self.released = set()
 
 
     def get(self) -> int:
-        """
-        Provide a number which is not assigned to anyone.
-        @return - Return an available number. Return -1 if none is available.
-        """
         if self.next < self.max:
             self.next += 1
             return self.next - 1
         return self.released.pop() if self.released else -1
 
     def check(self, number: int) -> bool:
-        """
-        Check if a number is available or not.
-        """
         return (number in self.released) or self.next <= number < self.max
 
     def release(self, number: int) -> None:
-        """
-        Recycle or release a number.
-        """
         if number < self.next:
             self.released.add(number)
 
 
 
 # Your PhoneDirectory object will be instantiated and called as such:
-# obj = PhoneDirectory(maxNumbers)
+# obj = PhoneDirectory(maxNumbers)!
 # param_1 = obj.get()
 # param_2 = obj.check(number)
 # obj.release(number)
