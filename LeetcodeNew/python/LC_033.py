@@ -21,9 +21,7 @@ Output: -1
 
 
 class Solution:
-
     def search(self, nums, target):
-
         return self.binarySearch(nums, target, 0, len(nums) - 1)
 
     def binarySearch(self, nums, target, start, end):

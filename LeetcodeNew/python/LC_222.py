@@ -36,19 +36,19 @@ class Solution:
         else:
             return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 
-    def leftDepth(self, root):
-        res = 0
-        while root:
-            res += 1
-            root = root.left
-        return res
-
-    def rightDepth(self, root):
-        res = 0
-        while root:
-            res += 1
-            root = root.right
-        return res
+    # def leftDepth(self, root):
+    #     res = 0
+    #     while root:
+    #         res += 1
+    #         root = root.left
+    #     return res
+    #
+    # def rightDepth(self, root):
+    #     res = 0
+    #     while root:
+    #         res += 1
+    #         root = root.right
+    #     return res
 
     def helper(self, root, isLeft):
         if not root:

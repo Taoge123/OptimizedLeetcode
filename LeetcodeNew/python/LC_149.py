@@ -74,6 +74,9 @@ class Solution:
             return self.gcd(y, x % y)
 
 
+
+
+
 points = [[0,10],[0,11],[0,50]]
 a = Solution()
 print(a.maxPoints(points))
