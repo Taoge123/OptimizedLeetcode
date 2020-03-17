@@ -76,7 +76,14 @@ class Solution:
             i += 1 # incrementing the iterator
         return left
 
-
+"""
+ h e l 2 b bbbbbbb
+         l
+                i
+    count = ['2']
+     count = 200 --- ['2', '0', '0']
+ 
+"""
 
 class Solution2:
     def compress(self, chars):

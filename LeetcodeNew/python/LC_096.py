@@ -28,6 +28,7 @@ root : 3 left : 2 right : 0 f(2) * f(0)
 f(n) = f(0) * f(n-1) + f(1) * f(n-2) + f(n-2) * f(1)
 
 """
+
 class Solution:
     def numTrees(self, n: int) -> int:
         res = [0] * (n+1)

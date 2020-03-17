@@ -36,13 +36,13 @@ class Solution:
         self.preorder(root.left, res)
         self.preorder(root.right, res)
 
+
 class Solution1:
     def preorderTraversal(self, root: TreeNode):
         if not root:
             return None
 
         stack, res = [root], []
-
         while stack:
             node = stack.pop()
             # print(node)

@@ -12,6 +12,9 @@ Examples:
 s = "3[a]2[bc]", return "aaabcbc".
 s = "3[a2[c]]", return "accaccacc".
 s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
+https://leetcode.com/problems/decode-string/discuss/208633/DFS-simple-python
+https://leetcode.com/problems/decode-string/discuss/428957/2-Clean-Python-Solution-(Recursion-Stack-Explained)
+
 """
 
 
@@ -42,3 +45,30 @@ class Solution:
         return curString
 
 
+class Solution2:
+    def decodeString(self, s):
+        return self.helper(list(s)[::-1])
+
+    def helper(self, s):
+        res = ""
+        while s:
+            num = ""
+            while s and s[-1].isdigit():
+                num += s.pop()
+            if num:
+                num = int(num)
+                s.pop()
+                res += self.helper(s) * num
+            else:
+                c = s.pop()
+                if c not in "[]":
+                    res += c
+                if c == ']':
+                    break
+        return res
+
+
+
+s = "3[a]2[bc]"
+a = Solution2()
+print(a.decodeString(s))

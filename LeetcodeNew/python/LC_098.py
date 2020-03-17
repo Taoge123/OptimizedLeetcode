@@ -80,6 +80,7 @@ class Solution1:
             if node.left:
                 stack.append(node.left)
 
+
 class Solution2:
     def isValidBST(self, root: TreeNode) -> bool:
         self.flag = True

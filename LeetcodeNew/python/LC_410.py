@@ -35,7 +35,6 @@ where the largest sum among the two subarrays is only 18.
 
 class Solution:
     def splitArray(self, nums, m):
-
         left, right = max(nums), sum(nums)
         while left < right:
             mid = (right - left) // 2 + left

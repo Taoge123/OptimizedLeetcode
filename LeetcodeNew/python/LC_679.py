@@ -1,6 +1,7 @@
 
 
 class Solution:
+
     def judgePoint24(self, nums):
         n = len(nums)
         if n == 1 and abs(nums[0] - 24) < 0.001:
@@ -24,4 +25,6 @@ class Solution:
 nums = [4, 1, 8, 7]
 a = Solution()
 print(a.judgePoint24(nums))
+
+
 

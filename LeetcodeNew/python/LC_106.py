@@ -25,6 +25,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
     def buildTree(self, inorder, postorder) -> TreeNode:
         """
