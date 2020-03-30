@@ -31,7 +31,7 @@ import collections
 class Solution:
     def canFinish(self, numCourses: int, prerequisites) -> bool:
         graph = collections.defaultdict(list)
-        visited = [0 for i in range(numCourses)]
+        visited = [0 for _ in range(numCourses)]
         for u, v in prerequisites:
             graph[u].append(v)
 
@@ -55,7 +55,6 @@ class Solution:
 
 class Solution1:
     def canFinish(self, numCourses, prerequisites):
-
         graph = collections.defaultdict(list)
         indegree = collections.defaultdict(int)
         for u, v in prerequisites:
