@@ -30,7 +30,7 @@ class Solution:
         return dp[-1][-1]
 
 
-class Solution:
+class Solution2:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
         m, n, l = len(s1), len(s2), len(s3)
         if m + n != l:

@@ -14,6 +14,7 @@ Explanation: 13 = 4 + 9.
 
 """
 
+import collections, math
 
 class Solution:
     def numSquares(self, n):
@@ -27,6 +28,29 @@ class Solution:
                 dp[i] = min(dp[i], dp[i - j * j] + 1)
                 j += 1
         return dp[-1]
+
+
+class Solution2:
+    def numSquares(self, n):
+        queue = collections.deque([0])
+        visited = set()
+        step = 0
+        while queue:
+            size = len(queue)
+            step += 1
+            for i in range(size):
+                val = queue.popleft()
+                for i in range(1, int(math.sqrt(n) + 1)):
+                    j = val + i * i
+                    if j > n:
+                        break
+                    if j == n:
+                        return step
+                    if j not in visited:
+                        visited.add(j)
+                        queue.append(j)
+
+
 
 n = 13
 a = Solution()

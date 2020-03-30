@@ -67,10 +67,10 @@ class Solution2:
         while queue:
             node = queue.popleft()
             visited.append(node)
-            for i in graph[node]:
-                indegree[i] -= 1
-                if indegree[i] == 0:
-                    queue.append(i)
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
         return len(visited) == numCourses
 
 

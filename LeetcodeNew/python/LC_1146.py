@@ -22,8 +22,6 @@ class SnapshotArray:
 
 
 
-
-
 class SnapshotArrayLee:
     def __init__(self, length: int):
         self.nums = [[[-1, 0]] for i in range(length)]
@@ -40,6 +38,8 @@ class SnapshotArrayLee:
     def get(self, index: int, snap_id: int) -> int:
         pos = bisect.bisect_left(self.nums[index], [snap_id + 1]) - 1
         return self.nums[index][pos][1]
+
+
 
 a = SnapshotArray(10)
 print(a.set(1, 11))

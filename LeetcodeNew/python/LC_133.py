@@ -26,25 +26,8 @@ class Node:
         self.neighbors = neighbors
 
 
+
 class Solution:
-    def cloneGraph(self, node: 'Node') -> 'Node':
-        if not node:
-            return None
-        graph = collections.defaultdict(list)
-        return self.dfs(node, graph)
-
-    def dfs(self, node, graph):
-        if graph[node]:
-            return graph[node]
-        newNode = Node(node.val, [])
-        graph[node] = newNode
-        for nei in node.neighbors:
-            newNode.neighbors.append(self.dfs(nei, graph))
-        return newNode
-
-
-
-class Solution1:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
             return None
@@ -62,4 +45,22 @@ class Solution1:
 
 
 
+class Solution2:
+    def cloneGraph1(self, node):
+        if not node:
+            return
+        nodeCopy = Node(node.label)
+        dic = {node: nodeCopy}
+        queue = collections.deque([node])
+        while queue:
+            node = queue.popleft()
+            for neighbor in node.neighbors:
+                if neighbor not in dic:  # neighbor is not visited
+                    neighborCopy = Node(neighbor.label)
+                    dic[neighbor] = neighborCopy
+                    dic[node].neighbors.append(neighborCopy)
+                    queue.append(neighbor)
+                else:
+                    dic[node].neighbors.append(dic[neighbor])
+        return nodeCopy
 

@@ -155,16 +155,16 @@ class Solution3:
         :type nums: List[int]
         :rtype: int
         """
-        dmap = {1 : 0}
+        table = {1 : 0}
         leaves = set([1])
         for num in nums:
             path, val = num / 10, num % 10
             lvl, seq = path / 10, path % 10
             parent = (lvl - 1) * 10 + (seq + 1) / 2
-            dmap[path] = dmap[parent] + val
+            table[path] = table[parent] + val
             leaves.add(path)
             if parent in leaves: leaves.remove(parent)
-        return sum(dmap[v] for v in leaves)
+        return sum(table[v] for v in leaves)
 
 
 

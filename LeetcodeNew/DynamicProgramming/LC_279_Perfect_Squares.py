@@ -238,15 +238,13 @@ class SolutionBFS3:
                     queue.append((k, step))
 
 
-class Solution33:
+class Solution:
     def numSquares(self, n):
         queue = collections.deque([(0, 0)])
         visited = set()
         while queue:
             val, dis = queue.popleft()
-            # if val == n:
-            #     return dis
-            for i in range(1, n + 1):
+            for i in range(1, int(math.sqrt(n) + 1)):
                 j = val + i * i
                 if j > n:
                     break
@@ -255,4 +253,5 @@ class Solution33:
                 if j not in visited:
                     visited.add(j)
                     queue.append((j, dis + 1))
+
 

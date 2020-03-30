@@ -58,6 +58,8 @@ class MyQueue:
         """
         return not self.s1 and not self.s2
 
+
+
 # Your MyQueue object will be instantiated and called as such:
 # obj = MyQueue()
 # obj.push(x)

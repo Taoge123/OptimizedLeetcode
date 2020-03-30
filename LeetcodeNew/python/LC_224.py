@@ -31,37 +31,6 @@ Do not use the eval built-in library function.
 """
 
 
-class SolutionBest:
-    def calculate(self, s):
-        return self.helper(s, 0)
-
-    def helper(self, s, i):
-        res = 0
-        num, sign = "", 1
-        while (i < len(s)):
-            # if s[i] in "0123456789"
-            char = s[i]
-            if char.isdigit():
-                num += char
-            elif char in "+-()":
-                if num != "":
-                    res += sign * int(num)
-                num = ""
-                if char == "+":
-                    sign = 1
-                elif char == "-":
-                    sign = -1
-                elif char == "(":
-                    nxt, i = self.helper(s, i + 1)
-                    res += sign * nxt
-                elif char == ")":
-                    return (res, i)
-            i += 1
-        if num != "":
-            res += sign * int(num)
-        return res
-
-
 
 class SolutionBestToBeTested:
     def calculate(self, s):

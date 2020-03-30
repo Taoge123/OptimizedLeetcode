@@ -14,7 +14,7 @@ Note:
 n does not exceed 1690.
 """
 
-
+import heapq
 
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
@@ -36,6 +36,22 @@ class Solution:
         return nums[-1]
 
 
+class Solution2:
+    def nthUglyNumber(self, n):
+        h = [(1, 1)]
+        for _ in range(n):
+            val, fact = heapq.heappop(h)
+            for x in 2, 3, 5:
+                if fact <= x:
+                    heapq.heappush(h, (val * x, x))
+        return val
+
+
+
+
+n = 10
+a = Solution2()
+print(a.nthUglyNumber(n))
 
 
 

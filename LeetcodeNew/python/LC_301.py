@@ -154,6 +154,47 @@ class SolutionBFS:
         return cnt == 0
 
 
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        level = [s]
+        stack = self.search(s)
+        step = 0
+        while level:
+            valid = [sub_str for sub_str in level if self.is_valid(sub_str)]
+            if valid:
+                return valid
+            curr_delete = stack[step]
+            step += 1
+            new_level = set()
+            for sub_str in level:
+                for i in range(len(sub_str)):
+                    if sub_str[i] != curr_delete:
+                        continue
+                    new_level.add(sub_str[:i] + sub_str[i + 1:])
+
+            level = new_level
+        return ['']
+
+    def is_valid(self, s):
+        count = 0
+        for c in s:
+            if c == '(':
+                count += 1
+            elif c == ')':
+                count -= 1
+                if count < 0:
+                    return False
+        return count == 0
+
+    def search(self, s):
+        stack = []
+        for char in s:
+            if stack and stack[-1] == '(' and char == ')':
+                stack.pop()
+            elif char in ('(', ')'):
+                stack.append(char)
+        return stack
+
 
 s = "(a)())()"
 a = SolutionBFS()

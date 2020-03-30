@@ -50,11 +50,16 @@ class Union:
         self.rank[p] = 1
         self.count += 1
 
+    # def find(self, i):
+    #     while i != self.parent[i]:
+    #         self.parent[i] = self.parent[self.parent[i]]
+    #         i = self.parent[i]
+    #     return i
+
     def find(self, i):
-        while i != self.parent[i]:
-            self.parent[i] = self.parent[self.parent[i]]
-            i = self.parent[i]
-        return i
+        if i != self.parent[i]:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
 
     def union(self, p, q):
         i, j = self.find(p), self.find(q)

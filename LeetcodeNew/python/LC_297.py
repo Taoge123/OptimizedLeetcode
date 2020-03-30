@@ -78,6 +78,11 @@ root.left.left = TreeNode(3)
 root.right = TreeNode(5)
 root.right.left = TreeNode(6)
 root.right.right = TreeNode(7)
+"""
+   1
+  2 5
+ 3  6 7
+"""
 
 a = Codec()
 print(a.serialize(root))

@@ -103,6 +103,35 @@ class Solution3:
         return True
 
 
+class SolutionBetter:
+    def countComponents(self, n: int, edges) -> int:
+        res = n
+        parent = [i for i in range(n)]
+        self.rank = [1] * n
+        for u, v in edges:
+            if self.union(parent, u, v):
+                res -= 1
+        return res
+
+    def find(self, parent, i):
+        if parent[i] != i:
+            parent[i] = self.find(parent, parent[i])
+        return parent[i]
+
+    def union(self, parent, i, j):
+        x, y = self.find(parent, i), self.find(parent, j)
+
+        if x == y:
+            return False
+
+        if self.rank[x] > self.rank[y]:
+            parent[y] = x
+        elif self.rank[x] < self.rank[y]:
+            parent[x] = y
+        else:
+            parent[x] = y
+            self.rank[y] += 1
+        return True
 
 
 n = 5

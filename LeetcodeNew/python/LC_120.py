@@ -36,12 +36,13 @@ class Solution:
         return min(res[-1])
 
 
-class Solution:
+
+class Solution2:
     def minimumTotal(self, triangle):
         res = [0] * (len(triangle) + 1)
         for row in triangle[::-1]:
             for i in range(len(row)):
-                res[i] = row[i] + min(res[i], res[ i +1])
+                res[i] = row[i] + min(res[i], res[i +1])
         return res[0]
 
 

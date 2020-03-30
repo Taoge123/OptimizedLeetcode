@@ -57,27 +57,29 @@ class Solution:
         res.append(i)
         return True
 
+
 class Solution2:
     def findOrder(self, numCourses: int, prerequisites):
         graph = collections.defaultdict(list)
+        # visited = collections.defaultdict(int)
+        res = []
         indegree = collections.defaultdict(int)
-
         for u, v in prerequisites:
-            graph[u].append(v)
-            indegree[v] += 1
+            graph[v].append(u)
+            indegree[u] += 1
 
         queue = collections.deque([i for i in range(numCourses) if indegree[i] == 0])
-        visited = []
         while queue:
             node = queue.popleft()
-            visited.append(node)
-            for i in graph[node]:
-                indegree[i] -= 1
-                if indegree[i] == 0:
-                    queue.append(i)
-        if len(visited) == numCourses:
-            return visited[::-1]
+            res.append(node)
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+        if len(res) == numCourses:
+            return res
         return []
+
 
 
 
