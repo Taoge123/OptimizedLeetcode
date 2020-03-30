@@ -32,7 +32,7 @@ import collections
 class Solution:
     def findOrder(self, numCourses: int, prerequisites):
         graph = collections.defaultdict(list)
-        visited = [False for i in range(numCourses)]
+        visited = [False for _ in range(numCourses)]
         res = []
         for u, v in prerequisites:
             graph[u].append(v)
