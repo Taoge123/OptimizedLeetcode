@@ -34,4 +34,36 @@ class Solution:
         return min(dp[-1])
 
 
+class Solution:
+    def minCost(self, costs) -> int:
+
+        if not costs:
+            return 0
+
+        m, n = len(costs), len(costs[0])
+
+        dp = [[0 for i in range(n)] for i in range(2)]
+
+        dp[0] = costs[0]
+        for i in range(1, m):
+            dp[i % 2][0] = costs[i][0] + min(dp[(i - 1) % 2][1:])
+            dp[i % 2][1] = costs[i][1] + min(dp[(i - 1) % 2][0], dp[(i - 1) % 2][2])
+            dp[i % 2][2] = costs[i][2] + min(dp[(i - 1) % 2][:2])
+
+        return min(dp[(m - 1) % 2])
+
+
+class Solution:
+    def minCost(self, costs: List[List[int]]) -> int:
+        if not costs:
+            return 0
+
+        n = len(costs)
+        r, b, g = costs[0]
+
+        for i in range(1, n):
+            r, b, g = min(b, g) + costs[i][0], min(r, g) + costs[i][1], min(r, b) + costs[i][2]
+
+        return min(r, g, b)
+
 

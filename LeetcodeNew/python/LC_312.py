@@ -35,6 +35,8 @@ class Solution:
                                           nums[left]*nums[i]*nums[right])
         return dp[0][n-1]
 
+
+
 """
 [0, 0, 3, 30, 159, 167]
 [0, 0, 0, 15, 135, 159]

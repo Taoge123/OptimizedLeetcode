@@ -34,6 +34,42 @@ class Solution:
         return min(dp)
 
 
+
+class Solution:
+    def minCostII(self, costs) -> int:
+
+        if not costs:
+            return 0
+
+        m, n = len(costs), len(costs[0])
+
+        dp = [[0 for i in range(n)] for j in range(m)]
+        dp[0] = costs[0]
+        for i in range(1, m):
+            for j in range(n):
+                temp = dp[i-1][:j] + dp[i-1][j+1:]
+                dp[i][j] = costs[i][j] + min(temp)
+        return min(dp[-1])
+
+
+
+class Solution:
+    def minCostII(self, costs) -> int:
+
+        if not costs:
+            return 0
+
+        m, n = len(costs), len(costs[0])
+
+        dp = [0 for i in range(n)]
+        dp = costs[0]
+        for i in range(1, m):
+            dpCopy = dp[:]
+            for j in range(n):
+                temp = dpCopy[:j] + dpCopy[j+1:]
+                dp[j] = costs[i][j] + min(temp)
+        return min(dp)
+
 costs = [[1,5,3],
          [2,9,4],
          [3,3,3],

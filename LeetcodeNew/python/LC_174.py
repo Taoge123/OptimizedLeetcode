@@ -63,10 +63,6 @@ class Solution:
             for j in range(c-2, -1, -1):
                 dp[i][j] = max(1, min(dp[i+1][j], dp[i][j+1])-dungeon[i][j])
 
-        for i in dungeon:
-            print(i)
-        for i in dp:
-            print(i)
 
         return dp[0][0]
 

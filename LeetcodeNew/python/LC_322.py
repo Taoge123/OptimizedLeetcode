@@ -31,7 +31,6 @@ class Solution:
 
 class Solution2:
     def coinChange(self, coins, amount: int) -> int:
-
         cache = {}
         cache[0] = 0
         return self.helper(coins, amount, cache)

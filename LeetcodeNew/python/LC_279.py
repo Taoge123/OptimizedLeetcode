@@ -18,7 +18,7 @@ import collections, math
 
 class Solution:
     def numSquares(self, n):
-        dp = [n ] *( n +1)
+        dp = [n ] *(n +1)
         dp[0] = 0
         dp[1] = 1
         for i in range(2, n+1):
