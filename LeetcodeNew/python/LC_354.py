@@ -35,6 +35,23 @@ class Solution:
 
 
 
+class SolutionTLE:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        if not envelopes:
+            return 0
+        n = len(envelopes)
+        dp = [1 for i in range(n)]
+        envelopes.sort()
+
+        for i in range(n):
+            for j in range(i):
+                if envelopes[i][0] > envelopes[j][0] and envelopes[i][1] > envelopes[j][1]:
+                    dp[i] = max(dp[j] + 1, dp[i])
+
+        return max(dp)
+
+
+
 
 
 

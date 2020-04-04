@@ -22,8 +22,37 @@ case 3: k > max(len1, len2) + 1 - return -1
 """
 
 
-
 class Solution:
+    def maxNumber(self, nums1, nums2, k):
+        m, n, result = len(nums1), len(nums2), []
+        dp1, dp2 = self.maximize(nums1, m), self.maximize(nums2, n)
+
+        for i in range(min(m + 1, k + 1)):
+            if k - i not in dp2:
+                continue
+            temp = []
+            for _ in range(k):
+                if dp1[i] < dp2[k - i]:
+                    temp.append(dp2[k - i].pop(0))
+                else:
+                    temp.append(dp1[i].pop(0))
+            result = max(result, temp)
+        return result
+
+    def maximize(self, nums, length):
+        dp, i = {length: nums}, 0
+        while (length):
+            while (i + 1 < length and nums[i] >= nums[i + 1]):
+                i += 1
+            nums, length = nums[:i] + nums[i + 1:], length - 1
+            dp[length] = nums
+            if i > 0: i -= 1
+        return dp
+
+
+
+
+class Solution2:
     def maxNumber(self, nums1, nums2, k):
         n, m= len(nums1), len(nums2)
         ret = [0] * k

@@ -21,7 +21,13 @@ class Solution:
         return ans
 
 
+"""
+1
+9
+81
+81 * 8
 
+"""
 
 
 

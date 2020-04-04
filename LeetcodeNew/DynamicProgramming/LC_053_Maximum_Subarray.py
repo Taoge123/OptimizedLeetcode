@@ -14,6 +14,18 @@ If you have figured out the O(n) solution,
 try coding another solution using the divide and conquer approach, which is more subtle.
 """
 
+
+class SolutionBruteBorce:
+    def maxSubArray(self, nums) -> int:
+        dp = [0] * len(nums)
+
+        for i in range(len(nums)):
+            dp[i] = max(dp[i - 1] + nums[i], nums[i])
+
+        return max(dp)
+
+
+
 class Solution1:
     def maxSubArray(self, nums):
         for i in range(1, len(nums)):
