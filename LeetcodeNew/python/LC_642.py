@@ -8,10 +8,10 @@ class TrieNode:
 class AutocompleteSystem(object):
     def __init__(self, sentences, times):
         self.buffer = ''
-        self.stimes = collections.defaultdict(int)
+        self.table = collections.defaultdict(int)
         self.root = TrieNode()
         for s, t in zip(sentences, times):
-            self.stimes[s] = t
+            self.table[s] = t
             self.addSentence(s)
         self.tnode = self.root
 
@@ -22,9 +22,9 @@ class AutocompleteSystem(object):
             if self.tnode:
                 self.tnode = self.tnode.children.get(c)
             if self.tnode:
-                ans = sorted(self.tnode.sentences, key=lambda x: (-self.stimes[x], x))[:3]
+                ans = sorted(self.tnode.sentences, key=lambda x: (-self.table[x], x))[:3]
         else:
-            self.stimes[self.buffer] += 1
+            self.table[self.buffer] += 1
             self.addSentence(self.buffer)
             self.buffer = ''
             self.tnode = self.root
@@ -39,6 +39,42 @@ class AutocompleteSystem(object):
                 current.children[letter] = child
             current = child
             child.sentences.add(sentence)
+
+
+
+class AutocompleteSystem2:
+    def __init__(self, sentences, times):
+        self.buffer = ''
+        self.table = collections.defaultdict(int)
+        self.root = TrieNode()
+        for s, t in zip(sentences, times):
+            self.table[s] = t
+            self.addSentences(s)
+        self.tnode = self.root
+
+    def input(self, c: str):
+        res = []
+        if c != '#':
+            self.buffer += c
+            if self.tnode:
+                self.tnode = self.tnode.children.get(c)
+            if self.tnode:
+                res = sorted(self.tnode.sentences, key=lambda x: (-self.table[x], x))[:3]
+        else:
+            self.table[self.buffer] += 1
+            self.addSentences(self.buffer)
+            self.buffer = ''
+            self.tnode = self.root
+        return res
+
+    def addSentences(self, sentence):
+        node = self.root
+        for char in sentence:
+            if not node.children.get(char):
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            node.sentences.add(sentence)
+
 
 
 

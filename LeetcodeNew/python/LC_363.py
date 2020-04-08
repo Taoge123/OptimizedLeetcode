@@ -1,5 +1,12 @@
 
+"""
+560. Subarray Sum Equals K
+974. Subarray Sums Divisible by K
+325. Maximum Size Subarray Sum Equals k
+1074. Number of Submatrices That Sum to Target
+363. Max Sum of Rectangle No Larger Than K
 
+"""
 """
 Given a non-empty 2D matrix matrix and an integer k, find the max sum of a rectangle in the matrix such that its sum is no larger than k.
 
@@ -41,17 +48,17 @@ maxDown
 
 import bisect
 
-class Solution:
+class SolutionTLE:
     def maxSumSubmatrix(self, matrix, k):
         if not matrix or not matrix[0]:
             return 0
         curSum, maxSum = float('-inf'), float('-inf')
         M, N = len(matrix), len(matrix[0])
-        for L in range(N):
+        for left in range(N):
             curArr = [0] * M
-            for R in range(L, N):
+            for right in range(left, N):
                 for m in range(M):
-                    curArr[m] += matrix[m][R]
+                    curArr[m] += matrix[m][right]
                 curSum = self.getSumArray(curArr, M, k)
                 if curSum > maxSum:
                     maxSum = curSum
@@ -71,7 +78,9 @@ class Solution:
 
 
 
-class Solution2:
+
+
+class SolutionBetter:
     def maxSumSubmatrix(self, matrix, k):
         m, n = len(matrix), len(matrix[0])
         res = float('-inf')
@@ -80,18 +89,17 @@ class Solution2:
             for right in range(left, n):
                 for i in range(m):
                     preSum[i] += matrix[i][right]
-                # print(preSum)
-                # print('--')
                 res = max(res, self.kadane(preSum, k))
         return res
+
 
     def kadane(self, preSum, k):
         curSum, maxSum = 0, float('-inf')
         nums = [0]
-        for i, num in enumerate(preSum, 1):
+        for i, num in enumerate(preSum):
             curSum += num
             idx = bisect.bisect_left(nums, curSum - k)
-            if idx != i:
+            if idx != i+1:
                 maxSum = max(maxSum, curSum - nums[idx])
             bisect.insort(nums, curSum)
         return maxSum
@@ -99,13 +107,17 @@ class Solution2:
 
 # matrix = [[1,0,1],[0,-2,3]]
 # k = 2
-matrix = [[2, 1,-3,-4, 5],
-          [0, 6, 3, 4, 1],
-          [2,-2,-1, 4,-5],
-          [-3, 3, 1, 0, 3]]
-k = 100
+# matrix = [[2, 1,-3,-4, 5],
+#           [0, 6, 3, 4, 1],
+#           [2,-2,-1, 4,-5],
+#           [-3, 3, 1, 0, 3]]
+# k = 100
 
-a = Solution2()
+# matrix = [[2],[0],[3],[4],[4]]
+# k = 4
+matrix = [[1,0,1],[0,-2,3]]
+k = 2
+a = SolutionBetter()
 print(a.maxSumSubmatrix(matrix, k))
 
 

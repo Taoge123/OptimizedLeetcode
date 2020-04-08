@@ -59,7 +59,7 @@ class Solution2:
 
 #Path compression
 
-class UnionFindSet(object):
+class UnionFindSet:
     def __init__(self):
         self.parents = range(1001)
         self.rank = [0] * 1001

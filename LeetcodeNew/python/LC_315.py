@@ -22,14 +22,12 @@ import bisect
 
 class Solution:
     def countSmaller(self, nums):
-
         arr = []
         res = []
         for num in nums[::-1]:
             idx = bisect.bisect_left(arr, num)
             res.append(idx)
             arr.insert(idx, num)
-
         return res[::-1]
 
 
@@ -55,7 +53,6 @@ class Solution2:
             while i < mid + 1 and nums[i][0] < nums[j][0]:
                 i += 1
             res[nums[j][1]] += i - left
-
         nums[left:right + 1] = sorted(nums[left:right + 1])
 
 

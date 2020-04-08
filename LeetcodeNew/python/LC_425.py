@@ -97,6 +97,57 @@ LEA will be the prefix, then we will search LEA in table and continue to backtra
 
 """
 
+
+class SolutionTrie:
+    def wordSquares(self, words):
+        self.N = len(words[0])
+        self.trie = self.buildTrie(words)
+        self.ans = []
+        for w in words:
+            self.buildSquare([w])
+        return self.ans
+
+    def buildTrie(self, words):
+        trie = {}
+        for w in words:
+            node = trie
+            for char in w:
+                if char not in node:
+                    node[char] = {}
+                node = node[char]
+            node['#'] = w
+        return trie
+
+    def buildSquare(self, square):
+        cur_len = len(square)
+        if cur_len == self.N:
+            self.ans.append(square)
+            return
+
+        cur_sq_prefix = list(zip(*square))
+        cur_prefix = ''.join(cur_sq_prefix[cur_len])
+        self.candidates = []
+        self.searchPrefix(self.trie, cur_prefix)
+        for w in self.candidates:
+            self.buildSquare(square + [w])
+
+    def searchPrefix(self, node, prefix):
+        if '#' in node:
+            self.candidates.append(node['#'])
+            return
+
+        for char in prefix:
+            if char not in node:
+                return
+            node = node[char]
+
+        for char in node:
+            self.searchPrefix(node[char], '')
+
+
+
+
+
 words = ["area","lead","wall","lady","ball"]
 a = Solution()
 print(a.wordSquares(words))

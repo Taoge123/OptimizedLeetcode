@@ -40,28 +40,27 @@ self.c[8] = nums[0] + nums[1] + nums[2] + nums[3] + nums[4] + nums[5] + nums[6] 
 """
 
 
-
 class BinaryIndexTree:
     def __init__(self, nums):
-        n = len(nums)
-        self.nums = [0 for _ in range(n + 1)]
-        self.BIT = [0 for _ in range(n + 1)]
+        self.nums = [0] * len(nums)
+        self.BIT = [0] * (len(nums) + 1)
         for i, num in enumerate(nums):
-            self.set(i + 1, num)
+            self.update(i, num)
 
     def _lowbit(self, a):
         return a & -a
 
-    def set(self, i, val):
+    def update(self, i, val):
         diff = val - self.nums[i]
         self.nums[i] = val
+        i += 1
         while i < len(self.BIT):
             self.BIT[i] += diff
             i += self._lowbit(i)
 
     def get(self, i):
         res = 0
-        while i > 0:
+        while i:
             res += self.BIT[i]
             i -= self._lowbit(i)
         return res
@@ -72,10 +71,12 @@ class NumArray:
         self.bit = BinaryIndexTree(nums)
 
     def update(self, i, val):
-        self.bit.set(i + 1, val)
+        self.bit.update(i, val)
 
     def sumRange(self, i, j):
         return self.bit.get(j + 1) - self.bit.get(i)
+
+
 
 
 
@@ -105,6 +106,12 @@ class NumArrayShorter:
 
 
 
+
+
+
+"""
+------------------------------------------------------------------------------------------------------------------------
+"""
 class NumArray2:
     def __init__(self, nums):
         self.n = len(nums)
@@ -134,4 +141,9 @@ class NumArray2:
             res -= self.nums[i]
             i -= (i & -i)
         return res
+
+
+nums = [1, 3, 5]
+a = NumArray(nums)
+print(a.sumRange(1,2))
 

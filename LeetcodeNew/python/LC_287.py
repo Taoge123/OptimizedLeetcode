@@ -23,8 +23,6 @@ class Solution:
     def findDuplicate(self, nums):
 
         left, right = 1, len(nums ) -1
-
-
         while left <= right:
 
             mid = left + (right - left) // 2

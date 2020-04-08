@@ -187,9 +187,7 @@ class Trie:
         for c, nxtNode in node.children.items():
             self.findAllWords(nxtNode, path + c, words)
 
-
 class WordFilter4:
-
     def __init__(self, words):
         self.weightMap = {word: i for i, word in enumerate(words)}
         self.prefixTrie, self.suffixTrie = Trie(), Trie()

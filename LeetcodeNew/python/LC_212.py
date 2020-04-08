@@ -55,7 +55,7 @@ class Solution:
 
         for i in range(m):
             for j in range(n):
-                self.dfs(board, words, node,  i, j, m, n, "", res)
+                self.dfs(board, node,  i, j, m, n, "", res)
         return res
 
     def dfs(self, board, node, i, j, m, n, path, res):

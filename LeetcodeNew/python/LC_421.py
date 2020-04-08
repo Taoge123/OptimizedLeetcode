@@ -27,7 +27,6 @@ mask = 11110 -> [00010, 01010, 00100, 11000, 00010, 01000], maximum = 11110 ? fa
 mask = 11111 -> [00011, 01010, 00101, 11001, 00010, 01000], maximum = 11101 ? false -> maximum = 11100
 maximum = 11100 = 28
 
-
 我们还需要用上一个异或的特性，假设a和b产生了最终的答案max，即a ^ b = x，
 那么根据异或的特性，a ^ x = b。同理，a和b的最高位（前n位）也有相同的性质。
 
@@ -48,26 +47,25 @@ maximum = 11100 = 28
 2. i = 2, set = {1100, 1000, 0100, 0000} => max = 1100
 3. i = 1, set = {1110, 1010, 0110, 0010} => max = 1100
 4. i = 0, set = {1110, 1011, 0111, 0010} => max = 1100
-最终答案是1100 => 12，1011 ^ 0111 = 1100(11 ^ 7 = 12)
+最终答案是1100 => 12，1011 ^ 0111 = 1100 (11 ^ 7 = 12)
 
 """
 
 
 class Solution:
     def findMaximumXOR(self, nums) -> int:
-
         res, mask = 0, 0
         for i in range(31, -1, -1):
             possible_mx = res | 1 << i
+            print(bin(possible_mx)[2:])
             mask = mask | 1 << i
-            bits = set()
+            hashSet = set()
             for num in nums:
-                bits.add(num & mask)
-                # print(bin(num)[2:], bin(num&mask)[2:])
-            print([bin(i)[2:] for i in bits])
-
-            for bit in bits:
-                if bit ^ possible_mx in bits:
+                hashSet.add(num & mask)
+            #     print(bin(num)[2:], bin(num & mask)[2:])
+            # print([bin(i)[2:] for i in hashSet])
+            for bit in hashSet:
+                if bit ^ possible_mx in hashSet:
                     res = possible_mx
                     break
         return res

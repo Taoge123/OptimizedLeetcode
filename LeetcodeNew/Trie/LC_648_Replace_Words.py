@@ -81,3 +81,17 @@ class Solution2:
 
 
 
+
+class Solution3:
+    def replaceWords(self, dict, sentence: str) -> str:
+        trie = Trie()
+        for word in dict:
+            trie.insert(word)
+
+        sentence = sentence.split(" ")
+        res = []
+        for i, word in enumerate(sentence):
+            res.append(trie.search(word))
+        return " ".join(res)
+
+

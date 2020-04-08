@@ -96,10 +96,70 @@ class Trie2:
         return True
 
 
+class Trie3:
+    def __init__(self):
+        self.root = {}
+
+    def insert(self, word):
+        p = self.root
+        for c in word:
+            if c not in p:
+                p[c] = {}
+            p = p[c]
+        p['#'] = True
+        print(self.root)
+
+    def search(self, word):
+        node = self.find(word)
+        return node is not None and '#' in node.keys()
+
+    def startsWith(self, prefix):
+        return self.find(prefix) is not None
+
+    def find(self, prefix):
+        p = self.root
+        for c in prefix:
+            if c not in p:
+                return None
+            p = p[c]
+        return p
+
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_word = False
+
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for c in word:
+            if c not in node.children:
+                node.children[c] = TrieNode()
+            node = node.children[c]
+        node.is_word = True
+
+    def search(self, word):
+        node = self.find(word)
+        return node.is_word if node else False
+
+    def startsWith(self, prefix):
+        return self.find(prefix) is not None
+
+    def find(self, prefix):
+        node = self.root
+        for c in prefix:
+            if c not in node.children:
+                return None
+            node = node.children[c]
+        return node
 
 
 trie = Trie()
-
 trie.insert("apple")
 trie.search("apple")
 trie.search("app")
