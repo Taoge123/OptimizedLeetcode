@@ -22,7 +22,49 @@ All the numbers in the input array are in the range of 32-bit integer.
 
 
 import bisect
+
+
+class BIT:
+    def __init__(self, n):
+        self.sums = [0] * (n + 1)
+
+    def _lowbit(self, i):
+        return i & -i
+
+    def update(self, i, delta):
+        while i < len(self.sums):
+            self.sums[i] += delta
+            i += self._lowbit(i)
+
+    def query(self, i):
+        res = 0
+        while i > 0:
+            res += self.sums[i]
+            i -= self._lowbit(i)
+        return res
+
+
 class Solution:
+    def reversePairs(self, nums):
+        newNums = nums + [num * 2 for num in nums]
+        sortNums = sorted(list(set(newNums)))
+        tree = BIT(len(sortNums))
+        res = 0
+        ranks = {}
+        for i, n in enumerate(sortNums):
+            ranks[n] = i + 1
+
+        for n in nums[::-1]:
+            res += tree.query(ranks[n] - 1)
+            tree.update(ranks[n * 2], 1)
+
+        return res
+
+
+
+
+
+class Solution11:
     def reversePairs(self, nums) -> int:
         res = 0
         arr = []

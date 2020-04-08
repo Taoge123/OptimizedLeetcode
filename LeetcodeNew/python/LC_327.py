@@ -16,6 +16,11 @@ Input: nums = [-2,5,-1], lower = -2, upper = 2,
 Output: 3
 Explanation: The three ranges are : [0,0], [2,2], [0,2] and their respective sums are: -2, -1, 2.
 """
+"""
+建议去看 leetcode 315, 327, 493 这些题都可以用这个套路叫BIT + rank
+这道题对于每个prefixsum 我们需要数比他小的数量，BIT 其实就是用来记录每个prefixsum 出现的频率用的
+sort是为了rank所有prefixsum的大小，让BIT可以知道哪些prefixsum应该放在前面的node 哪些放在后面的node.
+"""
 
 import bisect
 import collections
@@ -57,7 +62,9 @@ class Solution:
             right = bisect.bisect_right(newSums, num - lower)
             left = bisect.bisect_left(newSums, num - upper)
             count += tree.query(right) - tree.query(left)
+            # print(tree.BIT)
             tree.update(bisect.bisect_right(newSums, num))
+            # print(bisect.bisect_right(newSums, num))
         return count
 
 
@@ -124,7 +131,7 @@ class Solution3:
 
 
 
-nums = [2,1,5,-3,-3,8,2,6]
+nums = [-1,-2,5,-3,-3,8,2,6]
 lower = 0
 upper = 2
 
