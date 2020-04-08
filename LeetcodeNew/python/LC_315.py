@@ -67,7 +67,6 @@ class Solution:
             index = table[nums[i]]
             res.append(tree.query(index))
             tree.update(index)
-
         return res[::-1]
 
 
@@ -106,6 +105,13 @@ class Solution2:
                 i += 1
             res[nums[j][1]] += i - left
         nums[left:right + 1] = sorted(nums[left:right + 1])
+
+
+
+
+nums = [5, 2, 6, 1]
+a = Solution()
+print(a.countSmaller(nums))
 
 
 
