@@ -20,7 +20,59 @@ To the right of 1 there is 0 smaller element.
 """
 import bisect
 
+"""
+-x = ~x + 1 x & (-x) -> lowest bit (two’s complement)
+
+Nums = [5, 2, 6, 1] 
+Ranks = [3, 2, 4, 1] 
+1, 6, 2, 5 
+1, 4, 2, 3 
+Nums = [0, 0, 0, 0, 0] 
+Nums = [0, 1, 0, 0, 0], 4 => presum(num[:4]) = 1 
+Nums = [0, 1, 0, 0, 1] 2 => presum(num[:2]) = 1 
+Nums = [0, 1, 1, 0, 1] 3 => presum(num[:3]) = 2 
+Nums = [0, 1, 1, 1, 1]
+"""
+
+
+class BinaryIndexTree:
+    def __init__(self, N):
+        self.BIT = [0] * (N + 1)
+
+    def _lowbit(self, i):
+        return i & -i
+
+    def query(self, i):
+        count = 0
+        while i > 0:
+            count += self.BIT[i]
+            i -= self._lowbit(i)
+        return count
+
+    def update(self, i):
+        i += 1
+        while i < len(self.BIT):
+            self.BIT[i] += 1
+            i += self._lowbit(i)
+
+
 class Solution:
+    def countSmaller(self, nums):
+        table = {val: i for i, val in enumerate(sorted(set(nums)))}
+        N = len(nums)
+        tree = BinaryIndexTree(N + 1)
+        res = []
+
+        for i in range(N - 1, -1, -1):
+            index = table[nums[i]]
+            res.append(tree.query(index))
+            tree.update(index)
+
+        return res[::-1]
+
+
+
+class Solution1:
     def countSmaller(self, nums):
         arr = []
         res = []
