@@ -28,7 +28,7 @@ class BinaryIndexTree:
     def _lowbit(self, i):
         return i & -i
 
-    def getCount(self, i):
+    def query(self, i):
         count = 0
         while i > 0:
             count += self.BIT[i]
@@ -56,9 +56,10 @@ class Solution:
         for num in preSum:
             right = bisect.bisect_right(newSums, num - lower)
             left = bisect.bisect_left(newSums, num - upper)
-            count += tree.getCount(right) - tree.getCount(left)
+            count += tree.query(right) - tree.query(left)
             tree.update(bisect.bisect_right(newSums, num))
         return count
+
 
 
 class Solution11:
@@ -123,7 +124,7 @@ class Solution3:
 
 
 
-nums = [1,1,1,1,1,1,1,1]
+nums = [2,1,5,-3,-3,8,2,6]
 lower = 0
 upper = 2
 
