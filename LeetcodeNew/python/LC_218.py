@@ -44,7 +44,54 @@ so we can use a min heap hp storing -H as "max heap".
 Thanks to this discussion, set comprehension is faster and shorter than list(set((R, 0, None) for L, R, H in buildings))
 
 """
-from heapq import *
+
+
+class FenwickTree:
+    def __init__(self, n):
+        self.bit = [0] * (n + 1)
+
+    def _lowbit(self, i):
+        return i & - i
+
+    def update(self, p, h):
+        while p > 0:  # scope of h is towards left
+            self.bit[p] = max(self.bit[p], h)
+            p -= self._lowbit(p)
+
+    def query(self, p):
+        ret = 0
+        while p <= len(self.bit):  # check anything to the right that has a higher value
+            ret = max(ret, self.bit[p])
+            p += self._lowbit(p)
+        return ret
+
+
+class Solution0:
+    def getSkyline(self, buildings):
+        ends, points = {}, []
+        res = []
+        for i, b in enumerate(buildings):
+            points += ((b[0], -1, -b[2]), (b[1], 1, -b[2]))
+            ends[points[-2]] = points[-1]
+
+        tree = FenwickTree(len(points))
+        points.sort()
+        idx = {points[i]: i for i in range(len(points))}  # keep sorted index
+
+        for i, p in enumerate(points):
+            if p[1] == -1:
+                end = ends[p]
+                tree.update(idx[end], -p[-1])  # end idx is exclusive
+            h = tree.query(i + 1)  # start idx is inclusive
+            if not res or res[-1][1] != h:
+                if res and res[-1][0] == p[0]:
+                    res[-1][1] = h
+                else:
+                    res.append([p[0], h])
+        return res
+
+
+
 
 class Solution:
     def getSkyline(self, buildings):
