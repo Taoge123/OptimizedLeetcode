@@ -21,7 +21,47 @@ import bisect
 import collections
 
 
+class BinaryIndexTree:
+    def __init__(self, n):
+        self.BIT = [0] * (n + 1)
+
+    def _lowbit(self, i):
+        return i & -i
+
+    def getCount(self, i):
+        count = 0
+        while i > 0:
+            count += self.BIT[i]
+            i -= i & -i
+        return count
+
+    def update(self, i):
+        while i < len(self.BIT):
+            self.BIT[i] += 1
+            i += i & -i
+
+
 class Solution:
+    def countRangeSum(self, nums, lower, upper):
+        preSum = [0]
+        for num in nums:
+            preSum.append(preSum[-1] + num)
+
+        newSums = sorted(preSum)
+        count = 0
+
+        self.len = len(preSum)
+        tree = BinaryIndexTree(self.len)
+
+        for num in preSum:
+            right = bisect.bisect_right(newSums, num - lower)
+            left = bisect.bisect_left(newSums, num - upper)
+            count += tree.getCount(right) - tree.getCount(left)
+            tree.update(bisect.bisect_right(newSums, num))
+        return count
+
+
+class Solution11:
     def countRangeSum(self, nums, lower: int, upper: int) -> int:
         presum = [0]
         summ = 0

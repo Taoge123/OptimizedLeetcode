@@ -1,4 +1,5 @@
 """
+https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/208385/Python-three-methods%3A-binary-index-tree-binary-search-tree-segment-tree
 https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/408322/Python-Different-Concise-Solutions
 
 315. Count of Smaller Numbers After Self
