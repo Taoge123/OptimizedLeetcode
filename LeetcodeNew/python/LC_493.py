@@ -24,7 +24,7 @@ All the numbers in the input array are in the range of 32-bit integer.
 import bisect
 
 
-class BIT:
+class BinaryIndexTree:
     def __init__(self, n):
         self.sums = [0] * (n + 1)
 
@@ -48,19 +48,16 @@ class Solution:
     def reversePairs(self, nums):
         newNums = nums + [num * 2 for num in nums]
         sortNums = sorted(list(set(newNums)))
-        tree = BIT(len(sortNums))
+        tree = BinaryIndexTree(len(sortNums))
         res = 0
         ranks = {}
         for i, n in enumerate(sortNums):
-            ranks[n] = i + 1
+            ranks[n] = i
 
-        for n in nums[::-1]:
-            res += tree.query(ranks[n] - 1)
-            tree.update(ranks[n * 2], 1)
-
+        for num in nums[::-1]:
+            res += tree.query(ranks[num])
+            tree.update(ranks[num * 2] + 1, 1)
         return res
-
-
 
 
 
