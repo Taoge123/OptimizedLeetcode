@@ -18,8 +18,8 @@ Explanation: The three ranges are : [0,0], [2,2], [0,2] and their respective sum
 """
 """
 建议去看 leetcode 315, 327, 493 这些题都可以用这个套路叫BIT + rank
-这道题对于每个prefixsum 我们需要数比他小的数量，BIT 其实就是用来记录每个prefixsum 出现的频率用的
-sort是为了rank所有prefixsum的大小，让BIT可以知道哪些prefixsum应该放在前面的node 哪些放在后面的node.
+这道题对于每个preSum 我们需要数比他小的数量，BIT 其实就是用来记录每个preSum 出现的频率用的
+sort是为了rank所有prefixsum的大小，让BIT可以知道哪些preSum应该放在前面的node 哪些放在后面的node.
 """
 
 import bisect
@@ -52,21 +52,47 @@ class Solution:
         for num in nums:
             preSum.append(preSum[-1] + num)
 
-        newSums = sorted(preSum)
-        count = 0
+        sortedSum = sorted(preSum)
+        res = 0
 
         self.len = len(preSum)
         tree = BinaryIndexTree(self.len)
 
         for num in preSum:
-            right = bisect.bisect_right(newSums, num - lower)
-            left = bisect.bisect_left(newSums, num - upper)
-            count += tree.query(right) - tree.query(left)
-            # print(tree.BIT)
-            tree.update(bisect.bisect_right(newSums, num))
-            # print(bisect.bisect_right(newSums, num))
-        return count
+            right = bisect.bisect_right(sortedSum, num - lower)
+            left = bisect.bisect_left(sortedSum, num - upper)
+            res += tree.query(right) - tree.query(left)
+            # print(tree.query(right) , tree.query(left) , '----',num - lower, num - upper)
 
+            print(tree.BIT, '- ', tree.query(right) , tree.query(left))
+            tree.update(bisect.bisect_right(sortedSum, num))
+            # print(bisect.bisect_right(newSums, num))
+        return res
+
+"""
+nums = [5, 2, 6, 1]
+preSum = [0, 5, 7, 13, 14]
+sorted = [0, 5, 7, 13, 14]
+[0, 0, 0, 0, 0, 0] - 0  -2
+[0, 1, 1, 0, 1, 0] - 5  3
+[0, 1, 2, 0, 2, 0] - 7  5
+[0, 1, 2, 1, 3, 0] - 13 11
+[0, 1, 2, 1, 4, 0] - 14 12
+
+nums = [-2, 5, -1, 7, -3, 6]
+preSum = [0, -2, 3, 2, 9, 6, 12]
+sorted = [-2, 0, 2, 3, 6, 9, 12]
+[0, 0, 0, 0, 0, 0, 0, 0] -  0 0
+[0, 0, 1, 0, 1, 0, 0, 0] -  0 0
+[0, 1, 2, 0, 2, 0, 0, 0] -  2 2
+[0, 1, 2, 0, 3, 0, 0, 0] -  2 1
+[0, 1, 2, 1, 4, 0, 0, 0] -  4 4
+[0, 1, 2, 1, 4, 0, 1, 0] -  4 4
+[0, 1, 2, 1, 4, 1, 2, 0] -  6 6
+
+
+
+"""
 
 
 class Solution11:
@@ -131,7 +157,7 @@ class Solution3:
 
 
 
-nums = [-1,-2,5,-3,-3,8,2,6]
+nums = [-2, 5, -1, 7, -3, 6]
 lower = 0
 upper = 2
 

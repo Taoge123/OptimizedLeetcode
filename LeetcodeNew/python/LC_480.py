@@ -32,8 +32,7 @@ import bisect
 
 class Solution:
     def medianSlidingWindow(self, nums, k):
-
-        res = [];
+        res = []
         window = sorted(nums[:k])
         res.append(self.median(window, k))
         for i in range(k, len(nums)):
@@ -49,5 +48,6 @@ class Solution:
             return (window[k // 2] + window[k // 2 - 1]) / 2.0
 
 
-
-
+nums = [1,3,-1,-3,5,3,6,7]
+a = Solution()
+print(a.medianSlidingWindow(nums, 3))

@@ -27,7 +27,6 @@ class Solution:
         while mid > 0:
             if area % mid == 0:
                 return [int(area / mid), int(mid)]
-
             mid -= 1
 
 
