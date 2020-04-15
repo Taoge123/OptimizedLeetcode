@@ -21,28 +21,22 @@ What if nums1's size is small compared to nums2's size? Which algorithm is bette
 What if elements of nums2 are stored on disk, and the memory is limited such that you cannot load all elements into the memory at once?
 """
 
+import collections
 
 class Solution:
     def intersect(self, nums1, nums2):
 
-        dic = {}
-        result = []
-
-        for i in nums1:
-            dic[i] = dic.get(i, 0) + 1
-
-        for i in nums2:
-            if i in dic and dic[i] != 0:
-                result.append(i)
-                dic[i] -= 1
-
-        return result
-
+        count = collections.Counter(nums1)
+        res = []
+        for num in nums2:
+            if count.get(num) and count[num] > 0:
+                res.append(num)
+                count[num] -= 1
+        return res
 
 
 class Solution2:
     def intersect(self, nums1, nums2):
-
         nums1, nums2 = sorted(nums1), sorted(nums2)
         pt1 = pt2 = 0
         res = []
