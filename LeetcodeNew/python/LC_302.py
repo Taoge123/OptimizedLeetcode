@@ -50,32 +50,55 @@ We can do the same for the other boundaries. The area is then calculated by the 
 Thus the algorithm runs in O(m log n + n log m)
 """
 
+
 class Solution:
     def minArea(self, image, x, y):
-        m, n = len(image), len(image[0])
         top = self.searchRows(image, 0, x, True)
-        bottom = self.searchRows(image, x + 1, m, False)
+        bottom = self.searchRows(image, x + 1, len(image), False)
         left = self.searchColumns(image, 0, y, top, bottom, True)
-        right = self.searchColumns(image, y + 1, n, top, bottom, False)
+        right = self.searchColumns(image, y + 1, len(image[0]), top, bottom, False)
         return (right - left) * (bottom - top)
 
-    def searchRows(self, image, left, right, opt):
-        while left != right:
-            mid = (left + right) // 2
-            if ('1' in image[mid]) == opt:
-                right = mid
+    def searchRows(self, image, top, bottom, opt):
+        while top < bottom:
+            m = (top + bottom) // 2
+            if ('1' in image[m]) == opt:
+                bottom = m
             else:
-                left = mid + 1
-        return left
+                top = m + 1
+        return top
 
     def searchColumns(self, image, left, right, top, bottom, opt):
-        while left != right:
-            mid = (left+ right) // 2
-            if any(image[k][mid] == '1' for k in range(top, bottom)) == opt:
-                right = mid
+        while left < right:
+            m = (left + right) // 2
+            if any(image[k][m] == '1' for k in range(top, bottom)) == opt:
+                right = m
             else:
-                left = mid + 1
+                left = m + 1
         return left
+
+
+
+class SolutionDFS:
+    def minArea(self, image, x, y):
+        left, right, up, down, m, n = [y], [y], [x], [x], len(image), len(image[0])
+        self.dfs(image, x, y, left, right, up, down, m, n)
+        return (right[0] - left[0] + 1) * (down[0] - up[0] + 1)
+
+    def dfs(self, image, i, j, left, right, up, down, m, n):
+        if i < up[0]:
+            up[0] = i
+        elif i > down[0]:
+            down[0] = i
+        if j < left[0]:
+            left[0] = j
+        elif j > right[0]:
+            right[0] = j
+        for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+            if 0 <= x < m and 0 <= y < n and image[x][y] == "1":
+                image[x][y] = "0"
+                self.dfs(image, x, y, left, right, up, down, m, n)
+
 
 
 

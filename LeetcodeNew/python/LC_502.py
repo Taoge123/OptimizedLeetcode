@@ -26,10 +26,8 @@ import heapq
 
 class Solution:
     def findMaximizedCapital(self, k, W, Profits, Capital):
-
         heap = []
         projects = sorted(zip(Profits, Capital), key=lambda l: l[1])
-
         i = 0
         for _ in range(k):
             # add small capital's profits into heap

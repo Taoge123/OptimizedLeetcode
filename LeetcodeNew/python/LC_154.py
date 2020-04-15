@@ -23,7 +23,29 @@ Would allow duplicates affect the run-time complexity? How and why?
 """
 
 
-class Solution:
+class SolutionTest:
+    def findMin(self, nums):
+        left = 0
+        right = len(nums) - 1
+
+        while left <= right:
+            while left < len(nums) and right > 0 and nums[left] == nums[right]:
+                right -= 1
+            if nums[left] <= nums[right]:
+                return nums[left]
+
+            mid = (right - left) // 2 + left
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid
+
+        return nums[left]
+
+
+
+
+class Solution1:
     def findMin(self, nums):
         left = 0
         right = len(nums) - 1

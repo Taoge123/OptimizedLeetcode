@@ -22,20 +22,19 @@ Given target = 20, return false.
 
 class Solution:
     def searchMatrix(self, matrix, target):
-
-        if not matrix:
+        if not matrix or not matrix[0]:
             return False
         m, n = len(matrix), len(matrix[0])
-
-        i, j = m- 1, 0
+        i, j = m - 1, 0
         while i >= 0 and j < n:
             if matrix[i][j] == target:
                 return True
-            if matrix[i][j] < target:
+            elif matrix[i][j] < target:
                 j += 1
             else:
                 i -= 1
-
         return False
+
+
 
 

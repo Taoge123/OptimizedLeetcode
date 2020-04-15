@@ -62,11 +62,7 @@ class Solution:
             right = bisect.bisect_right(sortedSum, num - lower)
             left = bisect.bisect_left(sortedSum, num - upper)
             res += tree.query(right) - tree.query(left)
-            # print(tree.query(right) , tree.query(left) , '----',num - lower, num - upper)
-
-            print(tree.BIT, '- ', tree.query(right) , tree.query(left))
             tree.update(bisect.bisect_right(sortedSum, num))
-            # print(bisect.bisect_right(newSums, num))
         return res
 
 """

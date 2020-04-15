@@ -27,7 +27,6 @@ Could you solve it in logarithmic time complexity?
 
 class Solution:
     def hIndex(self, citations):
-
         n = len(citations)
         left, right = 0, n- 1
 
@@ -37,7 +36,6 @@ class Solution:
                 right = mid - 1
             else:
                 left = mid + 1
-
         return n - left
 
 

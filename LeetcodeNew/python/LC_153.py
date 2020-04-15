@@ -18,6 +18,23 @@ Output: 0
 """
 
 
+
+
+class SolutionTest:
+    def findMin(self, nums) -> int:
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            if nums[left] <= nums[right]:
+                return nums[left]
+            mid = left + (right - left) // 2
+            if nums[mid] > nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return nums[left]
+
+
+
 class Solution:
     def findMin(self, nums):
 
@@ -33,6 +50,18 @@ class Solution:
                 right = mid
 
         return nums[left]
+
+
+
+
+
+
+
+nums = [3, 1, 2]
+a = SolutionTest()
+print(a.findMin(nums))
+
+
 
 
 

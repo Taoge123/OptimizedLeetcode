@@ -22,6 +22,35 @@ You end up paying $5 + $7 + $9 = $21.
 Given a particular n ≥ 1, find out how much money you need to have to guarantee a win.
 """
 
+"""
+dp[i][j] = min(k + max(dp[i][k - 1], dp[k + 1][j]))
+"""
+
+
+class SolutionTony:
+    def getMoneyAmount(self, n):
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
+        for k in range(1, n):
+            for lo in range(1, n + 1 - k):
+                hi = lo + k
+                dp[lo][hi] = min(x + max(dp[lo][x - 1], dp[x + 1][hi]) for x in range(lo, hi))
+        return dp[1][n]
+
+
+class SolutionGoogle:
+    def getMoneyAmount(self, n):
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
+        for k in range(1, n):
+            for lo in range(1, n + 1 - k):
+                hi = lo + k
+                minCost = float('inf')
+                for x in range(lo, hi):
+                    cost = x + max(dp[lo][x - 1], dp[x + 1][hi])
+                    minCost = min(cost, minCost)
+
+                dp[lo][hi] = minCost
+        return dp[1][n]
+
 
 class Solution:
     def getMoneyAmount(self, n: int) -> int:
@@ -55,7 +84,7 @@ class Solution2:
 
 
 n = 4
-a = Solution2()
+a = SolutionTony()
 print(a.getMoneyAmount(n))
 
 

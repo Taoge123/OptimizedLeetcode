@@ -30,5 +30,47 @@ class Solution:
 
 
 
+class SolutionTest:
+    def lengthOfLIS(self, nums) -> int:
+        if not nums:
+            return 0
+
+        dp = []
+        for i, num in enumerate(nums):
+            index = self.bisect_left(dp, num)
+            if index >= len(dp):
+                dp.append(num)
+            else:
+                dp[index] = num
+        return len(dp)
+
+    def bisect_left(self, nums, target):
+        left, right = 0, len(nums)
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] >= target:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+
+"""
+  [1, 3, 6, 7, 9, 4, 10, 5, 6]
+               i 
+
+   1. 2. 3. 4. 5. 3. 6.  3. 5
+
+if nums[j] > nums[i]:
+    dp[j] = max(dp[i] + 1, dp[j])
+else:
+
+
+"""
+
+
+
+
+
 
 

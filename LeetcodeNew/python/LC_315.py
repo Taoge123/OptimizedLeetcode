@@ -72,6 +72,75 @@ class Solution:
 
 
 
+
+class SegmentTreeNode:
+    def __init__(self, val, start, end):
+        self.val = val
+        self.start, self.end = start, end
+        self.left, self.right = None, None
+
+class SegmentTree(object):
+    def __init__(self, n):
+        self.root = self.buildTree(0, n-1)
+
+    def buildTree(self, start, end):
+        if start > end:
+            return None
+        root = SegmentTreeNode(0, start, end)
+        if start == end:
+            return root
+        mid = (start+end) / 2
+        root.left, root.right = self.buildTree(start, mid), self.buildTree(mid+1, end)
+        return root
+
+    def update(self, i, diff, root=None):
+        root = root or self.root
+        if i < root.start or i > root.end:
+            return
+        root.val += diff
+        if i == root.start == root.end:
+            return
+        self.update(i, diff, root.left)
+        self.update(i, diff, root.right)
+
+    def sum(self, start, end, root=None):
+        root = root or self.root
+        if end < root.start or start > root.end:
+            return 0
+        if start <= root.start and end >= root.end:
+            return root.val
+        return self.sum(start, end, root.left) + self.sum(start, end, root.right)
+
+
+class Solution22:
+    def countSmallerSegmentTree(self, nums):
+        seg_tree, res = SegmentTree(len(nums)), []
+        num_rank = {v:i for i, v in enumerate(sorted(nums))}
+        for i in reversed(range(len(nums))):
+            total = seg_tree.sum(0, num_rank[nums[i]]-1)
+            res.append(total)
+            seg_tree.update(num_rank[nums[i]], 1)
+        return res[::-1]
+
+
+    # The number we search is guarantee to be in the array
+    def index(self, nums, x):
+        return bisect.bisect_left(nums, x)
+
+    def countSmallerSegmentTreeBS(self, nums):
+        seg_tree, res = SegmentTree(len(nums)), []
+        sorted_nums = sorted(nums)
+        for i in reversed(range(len(nums))):
+            idx = self.index(sorted_nums, nums[i])
+            total = seg_tree.sum(0, idx-1)
+            res.append(total)
+            seg_tree.update(idx, 1)
+        return res[::-1]
+
+
+
+
+
 class Solution1:
     def countSmaller(self, nums):
         arr = []
@@ -81,6 +150,7 @@ class Solution1:
             res.append(idx)
             arr.insert(idx, num)
         return res[::-1]
+
 
 
 class Solution2:

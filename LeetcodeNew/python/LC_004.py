@@ -52,3 +52,49 @@ class Solution:
                 return self.kth(a[:ia], b, k)
 
 
+"""
+--------- ma -----------
+---------------- mb ------------------
+
+
+"""
+
+
+
+class Solution2:
+    def findMedianSortedArrays(self, nums1, nums2):
+        n1, n2 = len(nums1), len(nums2)
+        l = n1 + n2
+        if l % 2 == 1:
+            return self.find(nums1, 0, n1 - 1, nums2, 0, n2 - 1, l // 2)
+        else:
+            return (self.find(nums1, 0, n1 - 1, nums2, 0, n2 - 1, l // 2)
+                    + self.find(nums1, 0, n1 - 1, nums2, 0, n2 - 1, l // 2 - 1)) / 2.0
+
+    def find(self, nums1, s1, e1, nums2, s2, e2, k):
+        if e1 - s1 < 0:
+            return nums2[k + s2]
+        if e2 - s2 < 0:
+            return nums1[k + s1]
+        if k < 1:
+            return min(nums1[k + s1], nums2[k + s2])
+
+        ia, ib = (s1 + e1) // 2, (s2 + e2) // 2
+        ma, mb = nums1[ia], nums2[ib]
+
+        #如果两个数组左半段之和还是小于k，删除小的左半段，k也要减去删除size的大小
+        if (ia - s1) + (ib - s2) < k:
+            if ma > mb:
+                return self.find(nums1, s1, e1, nums2, ib + 1, e2, k - (ib - s2) - 1)
+            else:
+                return self.find(nums1, ia + 1, e1, nums2, s2, e2, k - (ia - s1) - 1)
+        # 相反删右边，k不变
+        else:
+            if ma > mb:
+                return self.find(nums1, s1, ia - 1, nums2, s2, e2, k)
+            else:
+                return self.find(nums1, s1, e1, nums2, s2, ib - 1, k)
+
+
+
+

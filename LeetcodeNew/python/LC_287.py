@@ -20,41 +20,41 @@ There is only one duplicate number in the array, but it could be repeated more t
 
 
 class Solution:
-    def findDuplicate(self, nums):
-
-        left, right = 1, len(nums ) -1
-        while left <= right:
-
+    def findDuplicate(self, nums) -> int:
+        left, right = 0, len(nums)
+        while left < right:
             mid = left + (right - left) // 2
-            count = 0
-
-            for i in range(len(nums)):
-                if nums[i] <= mid:
-                    count += 1
-            # If there are more nums less than the mid, then go left
+            #count how many elements are <= mid
+            count = self.count(nums, mid)
+            #we have more elements than mid, then duplicates is in left, vice versa
             if count > mid:
-                right = mid - 1
-
+                right = mid
             else:
                 left = mid + 1
-
         return left
+
+    def count(self, nums, target):
+        count = 0
+        for num in nums:
+            if num <= target:
+                count += 1
+        return count
+
+
 
 
 class Solution2:
     def findDuplicate(self, nums) -> int:
-
-        slow = nums[0]
-        fast = nums[nums[0]]
-
-        while slow != fast:
+        slow = fast = 0
+        while True:
             slow = nums[slow]
             fast = nums[nums[fast]]
+            if slow == fast:
+                # Once they are equal, point fast back to origen and restart until they meet again
+                fast = 0
+                while slow != fast:
+                    slow = nums[slow]
+                    fast = nums[fast]
+                return slow
 
-        fast = 0
-        while slow != fast:
-            slow = nums[slow]
-            fast = nums[fast]
-
-        return slow
 
