@@ -13,7 +13,7 @@ Input: [[5,4],[6,4],[6,7],[2,3]]
 Output: 3
 Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).
 """
-
+import bisect
 
 class Solution:
     def maxEnvelopes(self, envelopes):
@@ -36,7 +36,7 @@ class Solution:
 
 
 class SolutionTLE:
-    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+    def maxEnvelopes(self, envelopes) -> int:
         if not envelopes:
             return 0
         n = len(envelopes)

@@ -48,6 +48,33 @@ maxDown
 
 import bisect
 
+class SolutionBetter:
+    def maxSumSubmatrix(self, matrix, k):
+        m, n = len(matrix), len(matrix[0])
+        res = float('-inf')
+        for left in range(n):
+            nums = [0] * m
+            for right in range(left, n):
+                for i in range(m):
+                    nums[i] += matrix[i][right]
+                res = max(res, self.kadane(nums, k))
+        return res
+
+
+    def kadane(self, nums, k):
+        curSum, maxSum = 0, float('-inf')
+        dp = [0]
+        for i, num in enumerate(nums):
+            curSum += num
+            idx = bisect.bisect_left(dp, curSum - k)
+            if idx != len(dp):
+                maxSum = max(maxSum, curSum - dp[idx])
+            bisect.insort(dp, curSum)
+        return maxSum
+
+
+
+
 class SolutionTLE:
     def maxSumSubmatrix(self, matrix, k):
         if not matrix or not matrix[0]:
@@ -78,31 +105,6 @@ class SolutionTLE:
 
 
 
-
-
-class SolutionBetter:
-    def maxSumSubmatrix(self, matrix, k):
-        m, n = len(matrix), len(matrix[0])
-        res = float('-inf')
-        for left in range(n):
-            preSum = [0] * m
-            for right in range(left, n):
-                for i in range(m):
-                    preSum[i] += matrix[i][right]
-                res = max(res, self.kadane(preSum, k))
-        return res
-
-
-    def kadane(self, preSum, k):
-        curSum, maxSum = 0, float('-inf')
-        nums = [0]
-        for i, num in enumerate(preSum):
-            curSum += num
-            idx = bisect.bisect_left(nums, curSum - k)
-            if idx != i+1:
-                maxSum = max(maxSum, curSum - nums[idx])
-            bisect.insort(nums, curSum)
-        return maxSum
 
 
 # matrix = [[1,0,1],[0,-2,3]]

@@ -159,6 +159,9 @@ class SummaryRanges2:
         return self.intervals
 
 
+
+
+
 class SummaryRanges3:
     def __init__(self):
         self.visited=set()

@@ -10,8 +10,8 @@ prefix = '/Users/taocheng/.Trash/'
 
 file = '/Users/taocheng/.Trash/test/AD-MACE-Core/src/Common/Utils/EnvironmentDescriptors.cs'
 
-file1 = open('/Users/taocheng/.Trash/test/ID-MACE/src/EdgeCredsNotifier/ServiceEventSource.cs', 'r')
-Lines = file1.read()
+file1 = open('/Users/taocheng/PycharmProjects/parse/test/ID-MACE/src/LinkedInAccountService/LinkedInAccountService.txt', 'rU',  encoding='utf8')
+Lines = file1.readlines()
 
 count = 0
 stack = []
