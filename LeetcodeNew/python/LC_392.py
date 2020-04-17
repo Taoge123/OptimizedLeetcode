@@ -26,7 +26,6 @@ Special thanks to @pbrother for adding this problem and creating all test cases.
 
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
-
         if not s:
             return True
         if not t:
@@ -41,6 +40,20 @@ class Solution:
         return si == len(s)
 
 
+
+
+class SolutionTony:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        i, j = 0, 0
+        while i < len(s):
+            if j >= len(t):
+                return False
+            if s[i] == t[j]:
+                i += 1
+                j += 1
+            else:
+                j += 1
+        return True
 
 
 
