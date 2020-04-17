@@ -58,6 +58,30 @@ class Solution:
 
 
 
+class SolutionTony:
+    def splitArray(self, nums, m: int) -> int:
+        left, right = max(nums), sum(nums) + 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if self.search(nums, mid) <= m:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+    def search(self, nums, mid):
+        count = 1
+        curSum = 0
+        for num in nums:
+            curSum += num
+            if curSum > mid:
+                count += 1
+                curSum = num
+        return count
+
+
+
+
 
 class Solution2:
     def splitArray(self, nums, m: int) -> int:
@@ -80,6 +104,9 @@ class Solution2:
         return dp[m][n]
 
 
-
+nums = [7,2,5,10,8]
+m = 2
+a = SolutionTest()
+print(a.splitArray(nums, m))
 
 
