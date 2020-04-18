@@ -17,30 +17,28 @@ class ListNode:
         self.next = None
 
 
-class Solution:
+class SolutionBetter:
     def swapPairs(self, head: ListNode) -> ListNode:
-        # Dummy node acts as the prevNode for the head node
-        # of the list and hence stores pointer to the head node.
+        if not head or not head.next:
+            return head
+
         dummy = ListNode(-1)
         dummy.next = head
-        prev = dummy
+        curr = dummy
 
-        while head and head.next:
-            # Nodes to be swapped
-            first = head;
-            second = head.next;
+        while curr.next and curr.next.next:
+            first = curr.next
+            second = curr.next.next
 
-            # Swapping
-            prev.next = second
+            curr.next = second
             first.next = second.next
             second.next = first
+            curr = curr.next.next
 
-            # Reinitializing the head and prev for next swap
-            prev = first
-            head = first.next
-
-        # Return the new head node.
         return dummy.next
+
+
+
 
 
 class Solution2:

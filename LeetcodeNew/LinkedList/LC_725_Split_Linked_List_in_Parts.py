@@ -50,6 +50,38 @@ class ListNode:
         self.val = x
         self.next = None
 
+
+class SolutionTony:
+    def splitListToParts(self, root: ListNode, k: int):
+        dummy = ListNode(-1)
+        dummy.next = root
+        curr = dummy
+        count = 0
+        while curr.next:
+            count += 1
+            curr = curr.next
+
+        chunk = count // k
+        increments = count % k
+
+        buckets = [chunk] * k
+        for i in range(increments):
+            buckets[i] += 1
+
+        res = []
+        prev = dummy
+        curr = dummy.next
+        for i, num in enumerate(buckets):
+            res.append(curr)
+            for j in range(num):
+                prev = curr
+                curr = curr.next
+            prev.next = None
+        return res
+
+
+
+
 class Solution:
     def splitListToParts(self, root, k):
         # Count the length of the linked list

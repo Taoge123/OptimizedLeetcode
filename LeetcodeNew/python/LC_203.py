@@ -13,7 +13,25 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+
+        dummy = ListNode(-1)
+        dummy.next = head
+        curr = dummy
+
+        while curr and curr.next:
+            nxt = curr.next
+            while nxt and nxt.val == val:
+                nxt = nxt.next
+            curr.next = nxt
+            curr = curr.next
+
+        return dummy.next
+
+
+class Solution2:
     def removeElements(self, head, val):
         if not head:
             return head

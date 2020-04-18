@@ -22,12 +22,36 @@ class ListNode:
         self.next = None
 
 
+class SolutionAlan:
+    def insertionSortList(self, head):
+        dummy = ListNode(0)
+        curr = dummy.next = head
+
+        while curr and curr.next:
+            if curr.val < curr.next.val:
+                curr = curr.next
+                continue
+
+            pre = dummy
+            node_to_move = curr.next
+            while pre.next.val < node_to_move.val:
+                pre = pre.next
+
+            # insert between pre and pre.next
+            curr.next = node_to_move.next
+            tmp = pre.next
+            pre.next = node_to_move
+            node_to_move.next = tmp
+
+        return dummy.next
+
+
+
+
 class Solution:
     def insertionSortList(self, head):
-
         dummy = ListNode(0)
-        dummy.next = newNode = head
-
+        dummy.next =  head
         while head and head.next:
             if head.val > head.next.val:
                 # Locate newNode.
@@ -56,9 +80,7 @@ dummy        head
 """
 
 
-
-
-class Solution1:
+class Solution2:
     def insertionSortList(self, head):
         p = dummy = ListNode(0)
         cur = dummy.next = head
@@ -67,15 +89,20 @@ class Solution1:
             if cur.val < val:
                 cur = cur.next
                 continue
+            # lazy operation, p only move back to dummy when it greater than current value
             if p.next.val > val:
                 p = dummy
+
             while p.next.val < val:
                 p = p.next
+
             new = cur.next
             cur.next = new.next
             new.next = p.next
             p.next = new
+
         return dummy.next
+
 
 
 

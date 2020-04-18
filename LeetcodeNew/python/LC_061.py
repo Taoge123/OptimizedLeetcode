@@ -53,6 +53,35 @@ class Solution:
         return slow
 
 
+
+class SolutionTony:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        if not head:
+            return head
+
+        dummy = ListNode(-1)
+        dummy.next = head
+        curr = head
+        count = 1
+        while curr and curr.next:
+            count += 1
+            curr = curr.next
+        curr.next = head
+
+        k = k % count
+        flag = count - k
+
+        prev = dummy
+        cur = head
+        for i in range(flag):
+            prev = prev.next
+            cur = cur.next
+        prev.next = None
+        return cur
+
+
+
+
 class Solution2:
     def rotateRight(self, head: 'ListNode', k: 'int') -> 'ListNode':
         # base cases

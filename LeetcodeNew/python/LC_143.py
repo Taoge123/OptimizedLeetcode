@@ -40,9 +40,46 @@ class Solution:
         # Merge in-place
         first, second = head, pre
         while second.next:
+            #             first.next, first = second, first.next
+            #             second.next, second = first, second.next
+
+            temp = first.next
+            first.next = second
+            first = temp
+
+            temp = second.next
+            second.next = first
+            second = temp
+
+        return
+
+
+
+
+
+class Solution2:
+    def reorderList(self, head: ListNode) -> None:
+        if not head:
+            return
+
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # revese the second hald in-place
+        pre, cur = None, slow
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+
+        # Merge in-place
+        first, second = head, pre
+        while second.next:
             first.next, first = second, first.next
             second.next, second = first, second.next
-
         return
 
 """

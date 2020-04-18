@@ -28,6 +28,44 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        l1 = self.reverse(l1)
+        l2 = self.reverse(l2)
+
+        dummy = ListNode(-1)
+        curr = dummy
+        curr1, curr2 = l1, l2
+        carry = 0
+        while curr1 or curr2 or carry:
+            if curr1:
+                carry += curr1.val
+                curr1 = curr1.next
+
+            if curr2:
+                carry += curr2.val
+                curr2 = curr2.next
+
+            carry, val = divmod(carry, 10)
+            curr.next = ListNode(val)
+            curr = curr.next
+
+        return self.reverse(dummy.next)
+
+    def reverse(self, head):
+        prev = None
+        curr = head
+
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        return prev
+
+
+
+
+class Solution1:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
 
         x1, x2 = 0, 0
         while l1:

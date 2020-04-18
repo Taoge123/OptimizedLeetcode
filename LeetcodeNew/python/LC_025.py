@@ -65,11 +65,13 @@ class Solution3:
         while node and count < k:
             node = node.next
             count += 1
-        if count < k: return head
+        if count < k:
+            return head
         new_head, prev = self.reverse(head, count)
         head.next = self.reverseKGroup(new_head, k)
         return prev
 
+    #prev 是这一轮开头, curr是下一轮开头
     def reverse(self, head, count):
         prev, cur, nxt = None, head, head
         while count > 0:
@@ -79,6 +81,39 @@ class Solution3:
             cur = nxt
             count -= 1
         return (cur, prev)
+
+
+class SolutionAlan:
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        dummy = tail = ListNode(0)
+        dummy.next = head
+        for _ in range(k):
+            tail = tail.next
+            if not tail:
+                return dummy.next
+
+        # reverse k nodes
+        next_head = tail.next
+        new_head = self.reverse_k_nodes(head, k)
+
+        # recursive
+        head.next = self.reverseKGroup(next_head, k)
+
+        return new_head
+
+    def reverse_k_nodes(self, head, k):
+        curr = head
+        prev = None
+
+        for _ in range(k):
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+
+        return prev
+
+
 
 
 class Solution4:

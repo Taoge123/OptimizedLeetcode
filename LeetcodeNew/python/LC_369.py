@@ -25,6 +25,35 @@ class ListNode:
 
 再来看9->9->9的情况，找不到不为9的数字，那么再前面新建一个值为0的节点，进行加1处理变成了1，把后面的数字都置0，得到1->0->0->0。
 """
+
+
+class Solution1:
+    def plusOne(self, head: ListNode) -> ListNode:
+        head = self.reverse(head)
+        carry = 1
+
+        curr = head
+        while curr:
+            val = curr.val + carry
+            if val > 9:
+                carry = 1
+                val %= 10
+            else:
+                carry = 0
+
+            curr.val = val
+            curr = curr.next
+
+        head = self.reverse(head)
+
+        if carry:
+            newNode = ListNode(carry)
+            newNode.next = head
+            head = newNode
+        return head
+
+
+
 class Solution:
     def plusOne(self, head: ListNode) -> ListNode:
 
