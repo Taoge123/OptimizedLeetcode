@@ -20,7 +20,36 @@ class ListNode:
         self.val = x
         self.next = None
 
+
 class Solution:
+    def mergeKLists(self, lists):
+        if not lists:
+            return
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        l = self.mergeKLists(lists[:mid])
+        r = self.mergeKLists(lists[mid:])
+        return self.mergeList(l, r)
+
+    def mergeList(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy = curr = ListNode(0)
+
+        while l1 and l2:
+            if l1.val < l2.val:
+                curr.next = l1
+                l1 = l1.next
+            else:
+                curr.next = l2
+                l2 = l2.next
+            curr = curr.next
+
+        curr.next = l1 or l2
+        return dummy.next
+
+
+
+class Solution2:
     def mergeKLists(self, lists):
         queue = []
         dummy = curr = ListNode(0)
