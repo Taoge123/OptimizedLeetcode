@@ -1,4 +1,6 @@
 
+
+
 """
 http://www.cnblogs.com/grandyang/p/7878548.html
 
@@ -98,58 +100,6 @@ class Solution:
             for i in range(num):
                 prev, curr = curr, curr.next
         return res
-
-
-class Solution2:
-    def splitListToParts(self, root, k):
-        length = 0
-        curr = root
-        while curr:
-            length += 1
-            curr = curr.next
-
-        len_mean = length // k
-        len_over = length % k
-
-        parts = []
-        prev = ListNode(0)
-        curr = root
-        for _ in range(k):
-            if curr:
-                parts.append(curr)
-                len_part = len_mean + 1 if len_over > 0 else len_mean
-                len_over -= 1
-                for _ in range(len_part):
-                    prev, curr = curr, curr.next
-                prev.next = None  # cut here
-            else:
-                parts.append(None)
-        return parts
-
-
-
-class Solution3:
-    def splitListToParts(self, root, k):
-        cur = root
-        for N in range(1001):
-            if not cur: break
-            cur = cur.next
-        width, remainder = divmod(N, k)
-
-        ans = []
-        cur = root
-        for i in range(k):
-            head = cur
-            for j in range(width + (i < remainder) - 1):
-                if cur: cur = cur.next
-            if cur:
-                cur.next, cur = None, cur.next
-            ans.append(head)
-        return ans
-
-
-
-
 
 
 
