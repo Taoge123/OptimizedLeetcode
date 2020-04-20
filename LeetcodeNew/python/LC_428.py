@@ -154,10 +154,43 @@ class Codec3:
         root.children = []
         for i in range(size):
             root.children.append(self.helper2(queue))
-
         return root
 
 
+root = Node(1, [])
+node2 = Node(2, [])
+node3 = Node(3, [])
+node4 = Node(4, [])
+node5 = Node(5, [])
+node6 = Node(6, [])
+root.children.append(node2)
+root.children.append(node3)
+root.children.append(node4)
+root.children.append(node5)
+root.children.append(node6)
+node7 = Node(7, [])
+node8 = Node(8, [])
+node9 = Node(9, [])
+node10 = Node(10, [])
+node11 = Node(11, [])
+node2.children.append(node7)
+node2.children.append(node8)
+node2.children.append(node9)
+node3.children.append(node10)
+node3.children.append(node11)
 
+"""
+            1
+        2    3     4  5  6
+       789  10 11    
+[1, 5, 2, 3, 7, 0, 8, 0, 9, 0, 3, 2, 10, 0, 11, 0, 4, 0, 5, 0, 6, 0]
+
+"""
+
+
+a = Codec3()
+data = a.serialize(root)
+print(a.serialize(root))
+print(a.deserialize(data))
 
 

@@ -59,13 +59,14 @@ class BinaryIndexTree:
 
 class Solution:
     def countSmaller(self, nums):
-        table = {val: i for i, val in enumerate(sorted(set(nums)))}
+        #rank will reduce num to index ex: [2, 6, 3, 7] -> [1, 3, 2, 4]
+        rank = {val: i for i, val in enumerate(sorted(set(nums)))}
         N = len(nums)
         tree = BinaryIndexTree(N + 1)
         res = []
 
         for i in range(N - 1, -1, -1):
-            index = table[nums[i]]
+            index = rank[nums[i]]
             res.append(tree.query(index))
             tree.update(index)
         return res[::-1]
