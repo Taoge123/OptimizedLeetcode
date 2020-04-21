@@ -38,6 +38,79 @@ import collections
 import string
 
 
+class SolutionBestOneWay:
+    def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
+        n = len(beginWord)
+        wordList = set(wordList)
+
+        # construct word comb dict
+        table = collections.defaultdict(list)
+        for word in wordList:
+            for i in range(n):
+                table[word[:i] + '*' + word[i + 1:]].append(word)
+
+        # bfs prep
+        queue = collections.deque()
+        queue.append(beginWord)
+        visited = set()
+        level = 0
+
+        # bfs
+        while queue:
+            size = len(queue)
+            level += 1
+            for _ in range(size):
+                node = queue.popleft()
+                for i in range(n):
+                    newNode = node[:i] + '*' + node[i + 1:]
+                    for word in table[newNode]:
+                        if endWord == word:
+                            return level + 1
+                        if word not in visited:
+                            visited.add(word)
+                            queue.append(word)
+        return 0
+
+
+# two-way bfs
+class SolutionBestTwoWay:
+    def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
+        if endWord not in wordList:
+            return 0
+        wordSet = set(wordList)
+        word_len = len(beginWord)
+
+        # construct word comb dict
+        table = collections.defaultdict(list)
+        for word in wordSet:
+            for i in range(word_len):
+                table[word[:i] + '*' + word[i + 1:]].append(word)
+
+        # bfs prep
+        queue = collections.deque()
+        queue.append(beginWord)
+        queue.append(endWord)
+        visited = {beginWord: 1, endWord: -1}
+
+        # bfs
+        while queue:
+            n = queue.popleft()
+            level = visited[n]
+            for i in range(word_len):
+                node = n[:i] + '*' + n[i + 1:]
+                for word in table[node]:
+                    if word not in visited:
+                        visited[word] = level + 1 if level > 0 else level - 1
+                        queue.append(word)
+                    if (visited[word] > 0) ^ (level > 0):
+                        return abs(visited[word] - level)
+
+        return 0
+
+
+
+
+
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList) -> int:
         wordList = set(wordList)

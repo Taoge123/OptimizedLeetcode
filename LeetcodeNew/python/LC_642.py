@@ -5,7 +5,7 @@ class TrieNode:
         self.children = dict()
         self.sentences = set()
 
-class AutocompleteSystem(object):
+class AutocompleteSystem:
     def __init__(self, sentences, times):
         self.buffer = ''
         self.table = collections.defaultdict(int)
@@ -15,20 +15,22 @@ class AutocompleteSystem(object):
             self.addSentence(s)
         self.tnode = self.root
 
-    def input(self, c):
-        ans = []
-        if c != '#':
-            self.buffer += c
+
+    def input(self, char):
+        res = []
+        if char != '#':
+            self.buffer += char
             if self.tnode:
-                self.tnode = self.tnode.children.get(c)
+                self.tnode = self.tnode.children.get(res)
             if self.tnode:
-                ans = sorted(self.tnode.sentences, key=lambda x: (-self.table[x], x))[:3]
+                res = sorted(self.tnode.sentences, key=lambda x: (-self.table[x], x))[:3]
         else:
             self.table[self.buffer] += 1
             self.addSentence(self.buffer)
             self.buffer = ''
             self.tnode = self.root
-        return ans
+        return res
+
 
     def addSentence(self, sentence):
         current = self.root
