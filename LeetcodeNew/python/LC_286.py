@@ -25,6 +25,25 @@ After running your function, the 2D grid should be:
 
 import collections
 
+
+class SolutionDFS:
+    def wallsAndGates(self, rooms) -> None:
+        for i in range(len(rooms)):
+            for j in range(len(rooms[0])):
+                if rooms[i][j] == 0:
+                    self.helper(i, j, rooms, 0)
+
+    def helper(self, i, j, rooms, dist):
+        if i < 0 or j < 0 or i >= len(rooms) or j >= len(rooms[0]) or rooms[i][j] < dist:
+            return
+        rooms[i][j] = dist
+        self.helper(i + 1, j, rooms, dist + 1)
+        self.helper(i - 1, j, rooms, dist + 1)
+        self.helper(i, j + 1, rooms, dist + 1)
+        self.helper(i, j - 1, rooms, dist + 1)
+
+
+
 class Solution:
     def wallsAndGates(self, rooms):
         if not rooms:
@@ -46,4 +65,5 @@ class Solution:
                 if 0 <= row + x < m and 0 <= col + y < n and rooms[row + x][col + y] > rooms[row][col]:
                     rooms[row + x][col + y] = rooms[row][col] + 1
                     queue.append((row + x, col + y))
+
 

@@ -64,3 +64,5 @@ class Solution2:
                     table[node].neighbors.append(table[neighbor])
         return nodeCopy
 
+
+

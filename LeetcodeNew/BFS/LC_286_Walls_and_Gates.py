@@ -120,10 +120,7 @@ class Solution:
 
 class SOlutionDFS:
     def wallsAndGates(self, a):
-        """
-        :type rooms: List[List[int]]
-        :rtype: void Do not return anything, modify rooms in-place instead.
-        """
+
         for i in range(len(a)):
             for j in range(len(a[0])):
                 if a[i][j] == 0:
