@@ -50,17 +50,17 @@ class Solution2:
         if not node:
             return
         nodeCopy = Node(node.label)
-        dic = {node: nodeCopy}
+        table = {node: nodeCopy}
         queue = collections.deque([node])
         while queue:
             node = queue.popleft()
             for neighbor in node.neighbors:
-                if neighbor not in dic:  # neighbor is not visited
+                if neighbor not in table:  # neighbor is not visited
                     neighborCopy = Node(neighbor.label)
-                    dic[neighbor] = neighborCopy
-                    dic[node].neighbors.append(neighborCopy)
+                    table[neighbor] = neighborCopy
+                    table[node].neighbors.append(neighborCopy)
                     queue.append(neighbor)
                 else:
-                    dic[node].neighbors.append(dic[neighbor])
+                    table[node].neighbors.append(table[neighbor])
         return nodeCopy
 
