@@ -50,7 +50,7 @@ class Solution:
                 if grid[i][j] != "\\":
                     self.union((i, j, 3), (i, j, 0))
                     self.union((i, j, 1), (i, j, 2))
-        print(list(map(self.find, self.parent)))
+
         return len(set(map(self.find, self.parent)))
 
 

@@ -49,6 +49,22 @@ Output: false
 
 # https://leetcode.com/problems/wildcard-matching/discuss/256025/Python-DP-with-illustration
 
+"""
+B b a r c c b b b 
+* c * * * b   
+          s j
+C a c a
+          i
+* a
+   J
+A a a a 
+  i
+* * * a 
+      j
+Star = 2
+Match = 1
+
+"""
 class Solution:
     def isMatch(self, s, p):
         i = 0

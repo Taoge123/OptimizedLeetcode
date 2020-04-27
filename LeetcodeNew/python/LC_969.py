@@ -35,7 +35,21 @@ A[i] is a permutation of [1, 2, ..., A.length]
 找到最大的数字，假设它的下标是i
 反转0到i之间的数字，使得A[i]变成第一个数
 反转整个数组，让最大的数到末尾
+
+[3,2,4,1]
+     i
+ 4 2 3 1
+ 
+ 1 3 2 4
+   i
+ 3 1 2 4
+ 2 1 3 4
+ i 
+ 1 2 3 4  
+ 
 """
+
+
 """
 Explanation
 Find the index i of the next maximum number x.
@@ -59,45 +73,63 @@ For example A = [3,2,4,1]. First number I need to handle is 4. To place 4 to 4th
 Before these swaps, if k is already at the kth place, there is no need to swap at all. If k is already at the 1st place, then there is no need for the first i-swap. After the swaps, A will be updated to A[:i:-1] + A[:i]. 
 (A[:i] is swapped twice so its internal sequence remains but it's placed after reversed(A[i+1:]). A[i+1:] is swapped once so its sequence is reversed to A[:i:-1]. A[i] is fixed since then so there is no need to include it for the next swaps).
 """
+"""
+3 2 4 1
+-----
+-------
 
+abcd
+cbad
+
+42318749 34
+
+
+
+"""
 
 class Solution:
     def pancakeSort(self, A):
         res = []
-        for x in range(len(A), 1, -1):
-            i = A.index(x)
-            res.extend([i+1, x])
+        for num in range(len(A), 1, -1):
+            i = A.index(num)
+            res.extend([i+1, num])
             left = A[:i:-1]
             right = A[:i]
             print(left, right)
             # reversed(A[i+1:]) + A[:i], exclude k or A[i] after each iteration
             A = A[:i:-1] + A[:i]
-            print(A, '-')
 
         return res
+
+
+"""
+找到最大的数字，假设它的下标是i
+反转0到i之间的数字，使得A[i]变成第一个数
+反转整个数组，让最大的数到末尾
+"""
 
 
 class Solution2:
     def pancakeSort(self, A):
         n = len(A)
         res = []
-        for i in range(n):
-            cur_max = max(A[0:n - i])
+        for num in range(n):
+            curMax = max(A[0:n - num])
             j = 0
-            while A[j] != cur_max:
+            while A[j] != curMax:
                 j += 1
             # should reverse j+1 elements
             A[:j + 1] = reversed(A[:j + 1])
             res.append(j + 1)
             # reverse all
-            A[:n - i] = reversed(A[:n - i])
-            res.append(n - i)
+            A[:n - num] = reversed(A[:n - num])
+            res.append(n - num)
         return res
 
 
 
 # A = [1,2,3,4,5,6,7,8,9]
-A = [9,8,7,6,5,4,3,2,1]
+A = [9,8,7,6,5,1,2,3,4]
 a = Solution()
 print(a.pancakeSort(A))
 

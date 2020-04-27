@@ -1,4 +1,9 @@
 """
+https://www.youtube.com/watch?v=YVZttWzvyw8
+https://www.youtube.com/watch?v=SV1ZaKCozS4
+https://www.youtube.com/watch?v=kbUiR5YWUpQ
+
+
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
 
 Example 1:
@@ -34,7 +39,8 @@ class Solution:
             # If palindrome centered at i expand past R,
             # adjust center based on expanded palindrome.
             if i + P[i] > R:
-                C, R = i, i + P[i]
+                C = i
+                R = i + P[i]
 
         # Find the maximum element in P.
         maxLen, centerIndex = max((n, i) for i, n in enumerate(P))
@@ -42,7 +48,7 @@ class Solution:
 
 
 
-class Solution:
+class Solution1:
     def longestPalindrome(self, s: str) -> str:
         if not s:
             return ""

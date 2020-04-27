@@ -21,7 +21,39 @@ case 3: k > max(len1, len2) + 1 - return -1
 
 """
 
+"""
+K < min(len(s1,s2))
+S1 + s2 = n
+max()
+s1 + s2 - (k-1)
+4 + 6 - 4 = 6
+K = 5
+3465  => min(4, 6)
+912583 => min(6, 6)
+K = 5
+135  =  min(3, 4)
+24689 = min(5, 4) = 4  max(s2[:4])
+8 - (5-1) = 4
+l1, l2 = len(nums1), len(nums2)
+reserve = l1 + l2 - (k-1)
+Greedy: temp =  max(max(nums1[:min(l1, reserve)]),   max(nums2[:min(l2, reserve)]))
+min(temp, up[0])
+135
+9
+L1 + l2 == k
+9 135
+89135
+ans[i]
+Up[i]
 
+I+ 1 has up
+Up[i] > ans[i]
+3456
+29
+K > l1 + l2
+
+
+"""
 class Solution:
     def maxNumber(self, nums1, nums2, k):
         m, n, result = len(nums1), len(nums2), []
@@ -55,15 +87,16 @@ class Solution:
 class Solution2:
     def maxNumber(self, nums1, nums2, k):
         n, m= len(nums1), len(nums2)
-        ret = [0] * k
+        res = [0] * k
         for i in range(0, k + 1):
             j = k - i
-            if i > n or j > m: continue
+            if i > n or j > m:
+                continue
             left = self.maxSingleNumber(nums1, i)
             right = self.maxSingleNumber(nums2, j)
             num = self.mergeMax(left, right)
-            ret = max(num, ret)
-        return ret
+            res = max(num, res)
+        return res
 
     def mergeMax(self, nums1, nums2):
         ans = []
@@ -78,15 +111,15 @@ class Solution2:
 
     def maxSingleNumber(self, nums, selects):
         n = len(nums)
-        ret = [-1]
-        if selects > n: return ret
+        res = [-1]
+        if selects > n: return res
         while selects > 0:
-            start = ret[-1] + 1  # search start
+            start = res[-1] + 1  # search start
             end = n - selects + 1  # search end
-            ret.append(max(range(start, end), key=nums.__getitem__))
+            res.append(max(range(start, end), key=nums.__getitem__))
             selects -= 1
-        ret = [nums[item] for item in ret[1:]]
-        return ret
+        res = [nums[item] for item in res[1:]]
+        return res
 
 
 

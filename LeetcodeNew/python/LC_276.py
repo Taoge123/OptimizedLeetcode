@@ -25,7 +25,25 @@ Explanation: Take c1 as color 1, c2 as color 2. All possible ways are:
 
 """
 
+
 class Solution:
+    def numWays(self, n: int, k: int) -> int:
+        if n == 0:
+            return 0
+        if n == 1:
+            return k
+
+        same = [0] * n
+        diff = [0] * n
+        diff[0] = k
+
+        for i in range(1, n):
+            same[i] = diff[i - 1] * 1
+            diff[i] = (same[i - 1] + diff[i - 1]) * (k - 1)
+
+        return same[-1] + diff[-1]
+
+class Solution1:
     def numWays(self, n: int, k: int) -> int:
         if n == 0:
             return 0
