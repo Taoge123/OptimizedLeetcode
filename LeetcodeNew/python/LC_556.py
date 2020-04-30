@@ -37,7 +37,6 @@ Next permunation
 
 class Solution:
     def nextGreaterElement(self, n: int) -> int:
-
         nums = list(str(n))
         length = len(nums)
 

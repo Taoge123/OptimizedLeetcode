@@ -1,6 +1,5 @@
 class Solution:
     def nextGreaterElements(self, nums):
-
         stack = []
         res = [-1] * len(nums)
 

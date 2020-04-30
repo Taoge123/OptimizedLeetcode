@@ -21,12 +21,11 @@ class Solution:
             while stack and nums[i] > nums[stack[-1]]:
                 res[stack.pop()] = nums[i]
             stack.append(i)
-
         return res
 
 
 
-nums = [5, 1,2,3,4]
+nums = [3,2,1,4]
 a = Solution()
 print(a.nextGreaterElements(nums))
 
