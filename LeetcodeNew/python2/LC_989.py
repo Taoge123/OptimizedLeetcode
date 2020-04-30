@@ -7,7 +7,7 @@ class Solution:
             A[i] %= 10
 
         while K > 0:
-            A.insert(0, K% 10)
+            A.insert(0, K % 10)
             K //= 10
 
         return A

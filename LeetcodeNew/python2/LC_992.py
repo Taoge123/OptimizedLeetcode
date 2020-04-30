@@ -31,11 +31,13 @@ class Solution:
         res = 0
         for j in range(len(A)):
             count[A[j]] += 1
+            #超标了需要动
             while len(count) > K:
                 count[A[start]] -= 1
                 if count[A[start]] == 0:
                     del count[A[start]]
-                i += 1
+                start += 1
+            #无论如何都要加
             res += j - start + 1
         return res
 
