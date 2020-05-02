@@ -1,5 +1,17 @@
 """
 340. Longest Substring with At Most K Distinct Characters
+Good luck and have fun.
+
+Count Number of Nice Subarrays
+Replace the Substring for Balanced String
+Max Consecutive Ones III
+Binary Subarrays With Sum
+Subarrays with K Different Integers
+Fruit Into Baskets
+Shortest Subarray with Sum at Least K
+Minimum Size Subarray Sum
+
+
 
 class Solution:
     def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
