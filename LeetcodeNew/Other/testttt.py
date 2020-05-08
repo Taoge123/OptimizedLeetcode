@@ -123,56 +123,102 @@
 # print(a.numOfMinutes(n, headID, manager, informTime))
 #
 
+#
+# import collections
+#
+# class Solution:
+#     def frogPosition(self, n: int, edges, t: int, target: int) -> float:
+#         graph = collections.defaultdict(list)
+#         summ = 1
+#         for u, v in edges:
+#             graph[u].append(v)
+#             graph[v].append(u)
+#         visited = set()
+#         self.dfs(graph, 1, None, t, target, summ, visited)
+#         return 1/summ
+#     def dfs(self, graph, i, parent, t, target, summ, visited):
+#         print(i, t)
+#
+#         if t < 0:
+#             return 0
+#
+#         if i == target and t >= 0:
+#             return 1 / summ
+#
+#         summ = summ * len(graph[i])
+#         visited.add(i)
+#         for j in graph[i]:
+#             if j not in visited:
+#                 self.dfs(graph, j, parent, t, target, summ, visited)
+#
+#
+# n = 7
+# edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]]
+# t = 1
+# target = 7
+#
+# a = Solution()
+# print(a.frogPosition(n, edges, t, target))
+#
+#
+#
+# """
+#
+# 91  93 89 88 100 112
+#  0  1  2  3  4   5
+#
+# """
+#
+# def hashKey(timestamp):
+#     timestamp = timestamp.split(':')
+#     return int(timestamp[-1]) + int(timestamp[-2]) * 60 + int(timestamp[-3]) * 60 * 60
+#
 
-import collections
+import bisect
+
 
 class Solution:
-    def frogPosition(self, n: int, edges, t: int, target: int) -> float:
-        graph = collections.defaultdict(list)
-        summ = 1
-        for u, v in edges:
-            graph[u].append(v)
-            graph[v].append(u)
-        visited = set()
-        self.dfs(graph, 1, None, t, target, summ, visited)
-        return 1/summ
-    def dfs(self, graph, i, parent, t, target, summ, visited):
-        print(i, t)
+    def longestSubarray(self, nums, limit: int) -> int:
+        temp = []
+        for i in range(len(nums) - 1):
+            temp.append(nums[i + 1] - nums[i])
 
-        if t < 0:
-            return 0
+        print(temp)
+        left = 0
+        count = 0
+        summ = 0
+        res = 0
+        for i, num in enumerate(temp):
+            if abs(num) > limit:
+                count = 0
+                summ = 0
+                left = i + 1
+            else:
+                while abs(summ) > limit:
+                    summ -= nums[left]
+                    count -= 1
+                    left += 1
+                else:
+                    count += 1
+                    summ += num
+                    if abs(summ) <= limit:
+                        res = max(res, count)
+        return res + 1
 
-        if i == target and t >= 0:
-            return 1 / summ
 
-        summ = summ * len(graph[i])
-        visited.add(i)
-        for j in graph[i]:
-            if j not in visited:
-                self.dfs(graph, j, parent, t, target, summ, visited)
+# nums = [4,2,2,2,4,4,2,2]
+# limit = 0
+# nums = [8,2,4,7]
+# limit = 4
+# nums = [8,2,4,7]
+# # [-6, 2, 3]
+# #      2  3
+# limit = 4
 
-
-n = 7
-edges = [[1,2],[1,3],[1,7],[2,4],[2,6],[3,5]]
-t = 1
-target = 7
-
+nums = [4,8,5,1,7,9]
+limit = 6
 a = Solution()
-print(a.frogPosition(n, edges, t, target))
-
-
-
-"""
-
-91  93 89 88 100 112
- 0  1  2  3  4   5
-
-"""
-
-def hashKey(timestamp):
-    timestamp = timestamp.split(':')
-    return int(timestamp[-1]) + int(timestamp[-2]) * 60 + int(timestamp[-3]) * 60 * 60
-
+print(a.longestSubarray(nums, limit))
 
 
 

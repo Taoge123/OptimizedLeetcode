@@ -42,7 +42,6 @@ class TreeNode:
 
 class Solution:
     def sameTree(self, tree1, tree2):
-
         if not tree1 or not tree2:
             return tree1 is tree2
 
@@ -50,8 +49,8 @@ class Solution:
                 and self.sameTree(tree1.left, tree2.left)
                 and self.sameTree(tree1.right, tree2.right))
 
-    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
 
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
         if self.sameTree(s, t):
             return True
         if not s:
