@@ -74,7 +74,6 @@ class SolutionLee:
 
 
 
-
 blocked = []
 source = [0,0]
 target = [999999,999999]
