@@ -22,6 +22,8 @@ Output: 28
 
 """
 
+from functools import lru_cache
+
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
         if not m or not n:
@@ -35,6 +37,38 @@ class Solution:
         return dp[-1]
 
 
+class Solution1:
+    def uniquePaths(self, x: int, y: int) -> int:
+        return self.helper(x, y)
+
+    @lru_cache(None)
+    def helper(self, x, y):
+        if x <= 0 or y <= 0:
+            return 0
+
+        if x == 1 and y == 1:
+            return 1
+
+        return self.helper(x - 1, y) + self.helper(x, y - 1)
+
+
+class SolutionCache:
+    def uniquePaths(self, x: int, y: int) -> int:
+        cache = {}
+        return self.helper(x, y, cache)
+
+    def helper(self, x, y, cache):
+        if x <= 0 or y <= 0:
+            return 0
+
+        if x == 1 and y == 1:
+            return 1
+
+        if (x, y) in cache:
+            return cache[(x, y)]
+
+        cache[(x, y)] = self.helper(x - 1, y, cache) + self.helper(x, y - 1, cache)
+        return cache[(x, y)]
 
 
 

@@ -43,6 +43,43 @@ return the maximum length from all combinations.
 """
 
 
+
+class Solution2:
+    def __init__(self):
+        self.res = 0
+
+    def maxLength(self, arr):
+        self.dfs(arr, 0, [])
+        return self.res
+
+    def dfs(self, arr, start, path):
+        self.res = max(self.res, len("".join(path)))
+
+        for i in range(start, len(arr)):
+            path.append(arr[i])
+            temp = "".join(path)
+            if len(set(temp)) == len(temp):
+                self.dfs(arr, i + 1, path)
+            path.pop()
+
+
+class Solution3:
+    def maxLength(self, arr):
+        path = [""]
+        res = 0
+
+        for word in arr:
+            for i in range(len(path)):
+                newWord = word + path[i]
+                if len(newWord) == len(set(newWord)):
+                    path.append(newWord)
+                    res = max(res, len(newWord))
+
+        return res
+
+
+
+
 class Solution:
     def maxLength(self, arr) -> int:
 
@@ -60,23 +97,6 @@ class Solution:
         return max(len(s) for s in dp)
 
 
-
-class Solution2:
-    def __init__(self):
-        self.res = 0
-
-    def maxLength(self, arr) -> int:
-        self.backtrack([], 0, arr)
-        return self.res
-
-    def backtrack(self, path, pos, arr):
-        self.res = max(self.res, len("".join(path)))
-        for i in range(pos, len(arr)):
-            path.append(arr[i])
-            temp = "".join(path)
-            if len(set(temp)) == len(temp):
-                self.backtrack(path, i + 1, arr)
-            path.pop()
 
 
 class SolutionBest:

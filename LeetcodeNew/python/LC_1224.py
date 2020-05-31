@@ -15,7 +15,7 @@ When the iteration is at index 3, the count will be equal to the length. It shou
 
 Case 2:
 frequency * (number of elements with that frequency) == length - 1
-E.g. [1,1,1,2,2,3]
+E.g. [1,1,1,2,2]
 When the iteration is at index 4, the count will be equal to (length - 1). It should update the result with length as it fulfil the condition.
 
 Complexity
@@ -35,7 +35,7 @@ class Solution:
         for i, num in enumerate(nums):
             # update counts
             counts[num] += 1
-            # update counts with that frequency
+            # update frequency of the count
             freq[counts[num]] += 1
 
             prod = freq[counts[num]] * counts[num]

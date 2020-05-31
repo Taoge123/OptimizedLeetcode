@@ -28,7 +28,6 @@ After applying operation [0,2,-2]:
 
 class Solution:
     def getModifiedArray(self, length: int, updates):
-
         res = [0] * length
         for num in updates:
             start, end, inc = num
