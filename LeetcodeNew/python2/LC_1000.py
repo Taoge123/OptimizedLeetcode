@@ -1,4 +1,8 @@
 """
+
+https://leetcode.com/problems/minimum-cost-to-merge-stones/discuss/247567/JavaC%2B%2BPython-DP
+
+
 这道题的最后一步是将已经merge成K堆的石子做最后一步简单的合并。所以，问题的关键就是变成如何最优化地将原本N堆石子合并成K堆石子，换句话说，需要将[0,N-1]分成K个区间。对于分成K个区间的DP题而言，我们显然会考虑如何先把第一个区间确定，那么其余的就是在剩下的元素里分成K-1个区间。这是比较常见的思路。
 
 所以本题的状态设计为dp[i][j][k]，表示我们将从第i个到第j个元素，拆分成k个区间的最小cost是多少。根据上面的想法，我们需要遍历第一个区间可能的范围（即拆分位置m），寻找最优的拆分。也就是
@@ -30,6 +34,8 @@ return dp[0][N-1][1];
 另外，在上面的更新dp[i][j][1]时，要考虑所有加项必须是有意义的，比如dp[i][m][1]和dp[m+1][j][k-1]不能是无意义的INF。
 """
 
+import functools
+
 
 class Solution:
     def mergeStones(self, stones, K: int) -> int:
@@ -60,6 +66,43 @@ class Solution:
         if dp[0][n - 1][1] == float('inf'):
             return -1
         return dp[0][n - 1][1]
+
+
+
+
+class SolutionTopDown:
+    def mergeStones(self, stones, K: int) -> int:
+        n = len(stones)
+        inf = float('inf')
+        preSum = [0] * (n + 1)
+        for i in range(n):
+            preSum[i + 1] = preSum[i] + stones[i]
+
+        @functools.lru_cache(None)
+        def dp(i, j, m):
+            if (j - i + 1 - m) % (K - 1):
+                return inf
+            if i == j:
+                return 0 if m == 1 else inf
+
+            if m == 1:
+                return dp(i, j, K) + preSum[j + 1] - preSum[i]
+
+            res = float('inf')
+            #mid is the step, we go K-1 step each time
+            for mid in range(i, j, K - 1):
+                res = min(res, dp(i, mid, 1) + dp(mid + 1, j, m - 1))
+            return res
+
+        res = dp(0, n - 1, 1)
+        return res if res < inf else -1
+
+
+
+
+
+
+
 
 
 
