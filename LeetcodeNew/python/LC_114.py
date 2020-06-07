@@ -45,5 +45,27 @@ class Solution:
         self.prev = root
 
 
+class SolutionWisdom:
+    def flatten(self, root: TreeNode) -> None:
+        if not root:
+            return
+
+        if not root.left:
+            self.flatten(root.right)
+            return
+
+        left = root.left
+        right = root.right
+        self.flatten(root.left)
+        self.flatten(root.right)
+
+        root.right = left
+        root.left = None
+
+        # 右边的链子搭到左边的底端
+        while left.right:
+            left = left.right
+        left.right = right
+
 
 

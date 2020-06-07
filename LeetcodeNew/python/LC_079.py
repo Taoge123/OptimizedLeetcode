@@ -46,12 +46,47 @@ class Solution:
         return result
 
 
-board =[
-          ['A','B','C','E'],
-          ['S','F','C','S'],
-          ['A','D','E','E']
-        ]
-word = "ABCCED"
 
-a = Solution()
+
+class SolutionTony:
+    def exist(self, board, word: str) -> bool:
+        m, n = len(board), len(board[0])
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        visited = [[False for i in range(n)] for j in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if self.dfs(board, i, j, word, visited):
+                    return True
+        return False
+
+    def dfs(self, board, i, j, word, visited):
+        m, n = len(board), len(board[0])
+        if not word:
+            return True
+        if i < 0 or i >= m or j < 0 or j >= n or visited[i][j]:
+            return False
+        if board[i][j] != word[0]:
+            return False
+
+        visited[i][j] = True
+        for dx, dy in self.directions:
+            x = i + dx
+            y = j + dy
+            if self.dfs(board, x, y, word[1:], visited):
+                return True
+        visited[i][j] = False
+
+
+
+#
+# board =[
+#           ['A','B','C','E'],
+#           ['S','F','C','S'],
+#           ['A','D','E','E']
+#         ]
+# word = "ABCCED"
+#
+
+board, word = ['a'], 'a'
+a = SolutionTony()
 print(a.exist(board, word))

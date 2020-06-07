@@ -36,19 +36,19 @@ Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another
 class Solution:
     def lengthLongestPath(self, input: str) -> int:
 
-        dict = {}
+        table = {}
         res = 0
         fileList = input.split("\n")
         for file in fileList:  # 是文件夹
             if "." not in file:
                 key = file.count("\t")  # 是几级文件夹
                 value = len(file.replace("\t", ""))  # 除去\t后的长度，是实际长度
-                dict[key] = value
+                table[key] = value
             else:  # 是文件。
                 key = file.count("\t")
                 # 　文件的长度：所有目录的长度＋文件的长度＋“\”的数量
-                # temp = [dict[k] for k in dict.keys() if k < key]
-                length = sum([dict[k] for k in dict.keys() if k < key]) + len(file.replace("\t", "")) + key
+                # temp = [table[k] for k in table.keys() if k < key]
+                length = sum([table[k] for k in table.keys() if k < key]) + len(file.replace("\t", "")) + key
                 res = max(res, length)
         return res
 

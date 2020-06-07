@@ -52,6 +52,7 @@ class Solution:
                 n -= 1
                 if n == 0:
                     return res
+            #1变成2， 2变成1
             val ^= 3
         return res
 

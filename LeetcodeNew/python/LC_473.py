@@ -1,4 +1,9 @@
-
+"""
+416. Partition Equal Subset Sum
+473. Matchsticks to Square
+698. Partition to K Equal Sum Subsets
+996. Number of Squareful Arrays
+"""
 """
 Remember the story of Little Match Girl? By now, you know exactly what matchsticks the little match girl has, please find out a way you can make one square by using up all those matchsticks. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.
 

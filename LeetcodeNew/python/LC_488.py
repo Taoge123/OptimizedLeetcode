@@ -41,7 +41,8 @@ class SolutionFast:
     def dfs(self, board, counter):
         if not board:
             return 0
-        res, i = float("inf"), 0
+        res = float("inf")
+        i = 0
         while i < len(board):
             j = i + 1
             while j < len(board) and board[i] == board[j]:

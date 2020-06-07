@@ -29,35 +29,39 @@ The input is always valid. You may assume that evaluating the queries will resul
 
 import collections
 
+
 class Solution:
     def calcEquation(self, equations, values, queries):
-
-        table = collections.defaultdict(dict)
+        graph = collections.defaultdict(dict)
         for (x, y), val in zip(equations, values):
-            table[x][y] = val
-            table[y][x] = 1.0 / val
+            graph[x][y] = val
+            graph[y][x] = 1 / val
 
         res = []
-        for i, j in queries:
-            if i in table and j in table:
-                res.append(self.dfs(i, j, table, set()))
+        for u, v in queries:
+            if u in graph and v in graph:
+                res.append(self.dfs(graph, u, v, set()))
             else:
-                res.append(-1.0)
+                res.append(-1)
+
         return res
 
-    def dfs(self, i, j, table, visited):
-        if i == j:
-            return 1.0
-        visited.add(i)
+    def dfs(self, graph, i, j, visited):
 
-        for n in table[i]:
-            if n in visited:
+        if i == j:
+            return 1
+
+        for nei in graph[i]:
+            if nei in visited:
                 continue
-            visited.add(n)
-            div = self.dfs(n, j, table, visited)
+            visited.add(nei)
+            div = self.dfs(graph, nei, j, visited)
             if div > 0:
-                return div * table[i][n]
-        return -1.0
+                return graph[i][nei] * div
+
+        return -1
+
+
 
 
 class SolutionBFS:

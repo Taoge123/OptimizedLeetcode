@@ -25,6 +25,36 @@ Output: []
 """
 
 
+class Solution1:
+    def __init__(self):
+        self.res = []
+        self.target = 0
+
+    def addOperators(self, num: str, target: int):
+        self.target = target
+        self.dfs(num, 0, 0, 0, [])
+        return self.res
+
+    def dfs(self, nums, index, prev, value, path):
+        if index == len(nums):
+            if value == self.target:
+                self.res.append("".join(path))
+            return
+
+        curr = 0
+        for i in range(index, len(nums)):
+            curr = curr * 10 + int(nums[i])
+            if index == 0:
+                self.dfs(nums, i + 1, curr, curr, path + [str(curr)])
+            else:
+                self.dfs(nums, i + 1, curr, value + curr, path + ['+' + str(curr)])
+                self.dfs(nums, i + 1, -curr, value - curr, path + ['-' + str(curr)])
+                self.dfs(nums, i + 1, prev * curr, value - prev + curr * prev, path + ['*' + str(curr)])
+
+            if nums[index] == '0':
+                break
+
+
 class Solution:
 
     def __init__(self):
@@ -81,36 +111,7 @@ class Solution:
 
 
 
-class Solution1:
-    def __init__(self):
-        self.res = []
-        self.nums = None
-        self.target = None
 
-    def addOperators(self, nums, target):
-        self.nums = nums
-        self.target = target
-        self.helper(0, 0, [], 0)
-        return self.res
-
-    def helper(self, index, value, path, prev):
-        nums = self.nums
-        if index == len(nums):
-            if value == self.target:
-                self.res.append("".join(path))
-            return
-        curr = 0
-        for i in range(index, len(nums)):
-            curr = curr*10 + int(nums[i])
-            if index == 0:
-                self.helper(i + 1, curr, path + [str(curr)], curr)
-            else:
-                v = value - prev
-                self.helper(i + 1, v + (prev * curr), path + ['*' + str(curr)], prev * curr)
-                self.helper(i + 1, value + curr, path + ['+' + str(curr)], curr)
-                self.helper(i + 1, value - curr, path + ['-' + str(curr)], -curr)
-            if nums[index] == '0':
-                break
 
 
 
@@ -142,8 +143,27 @@ class SolutionToBeFixed:
                 self.helper(res, path + "*" + str(cur), num, target, i + 1, val-pre+pre*cur, pre * cur)
 
 
+class SolutionTest:
+    def addOperators(self, num: str, target: int):
+
+        self.res = []
+        self.dfs(num, 0, target, [], 0, 0)
+        return self.res
+
+    def dfs(self, num, index, target, path, prev, cur):
+        if index == len(num):
+            if cur == target:
+                self.res.append("".join(path))
+
+            for i in range(index, len(num)):
+                self.dfs(num, index + 1, target, path + ['+'] + [num[i]], num[i], cur + int(num[i]))
+                self.dfs(num, index + 1, target, path + ['-'] + [num[i]], num[i], cur - int(num[i]))
+
+        return self.res
+
+
 
 num = "123"
 target = 6
-a = Solution2()
+a = SolutionTest()
 print(a.addOperators(num, target))

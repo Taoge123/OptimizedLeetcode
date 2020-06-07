@@ -22,7 +22,7 @@ Good luck and have fun.
 """
 
 
-class Solution:
+class SolutionUF:
     def __init__(self):
         self.parent = {}
 
@@ -35,9 +35,13 @@ class Solution:
     def union(self, x, y):
         a = self.find(x)
         b = self.find(y)
-        self.parent[a] = b
+        if a != b:
+            self.parent[a] = b
+            self.count -= 1
 
     def regionsBySlashes(self, grid):
+        n = len(grid)
+        self.count = n * n * 4
         for i in range(len(grid)):
             for j in range(len(grid)):
                 if i:
@@ -51,11 +55,54 @@ class Solution:
                     self.union((i, j, 3), (i, j, 0))
                     self.union((i, j, 1), (i, j, 2))
 
-        return len(set(map(self.find, self.parent)))
+        return self.count
+
+
+
+
+
+class SolutionDFS:
+    def regionsBySlashes(self, grid) -> int:
+        n = len(grid)
+        matrix = [[0 for i in range(n * 3)] for j in range(n * 3)]
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == '/':
+                    print(i*3, j*3)
+                    matrix[i * 3 + 0][j * 3 + 2] = 1
+                    matrix[i * 3 + 1][j * 3 + 1] = 1
+                    matrix[i * 3 + 2][j * 3 + 0] = 1
+                elif grid[i][j] == '\\':
+                    matrix[i * 3 + 0][j * 3 + 0] = 1
+                    matrix[i * 3 + 1][j * 3 + 1] = 1
+                    matrix[i * 3 + 2][j * 3 + 2] = 1
+        print(matrix)
+        self.count = 0
+        for i in range(n * 3):
+            for j in range(n * 3):
+                if matrix[i][j] == 0:
+                    self.dfs(matrix, i, j)
+                    self.count += 1
+
+        return self.count
+
+    def dfs(self, matrix, i, j):
+        n = len(matrix)
+        if i < 0 or i >= n or j < 0 or j >= n:
+            return
+        if matrix[i][j] != 0:
+            return
+        matrix[i][j] = 2
+        for dx, dy in self.directions:
+            x = i + dx
+            y = j + dy
+            self.dfs(matrix, x, y)
+
 
 
 grid = [" /","/ "]
-a = Solution()
+a = SolutionUF()
 print(a.regionsBySlashes(grid))
 
 

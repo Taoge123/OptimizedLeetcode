@@ -40,7 +40,7 @@ class Solution:
         res = []
         for i in range(m):
             self.dfs(matrix, i, 0, p_visited, m, n)
-            self.dfs(matrix, i, n- 1, a_visited, m, n)
+            self.dfs(matrix, i, n - 1, a_visited, m, n)
         for j in range(n):
             self.dfs(matrix, 0, j, p_visited, m, n)
             self.dfs(matrix, m - 1, j, a_visited, m, n)

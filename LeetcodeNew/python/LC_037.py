@@ -11,35 +11,34 @@ Empty cells are indicated by the character '.'.
 
 
 class Solution:
-    def solveSudoku(self, board):
-        self.dfs(board)
-
-    def dfs(self, board):
-        for row in range(9):
-            for col in range(9):
-                if board[row][col] == '.':
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        m, n = len(board), len(board[0])
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == '.':
                     for char in '123456789':
-                        board[row][col] = char
-                        if self.isValid(board, row, col) and self.dfs(board):
+                        board[i][j] = char
+                        if self.isValid(board, i, j) and self.solveSudoku(board):
                             return True
-                        board[row][col] = '.'
+                        board[i][j] = '.'
                     return False
+
         return True
 
-    #replace board[i][j] to temp and check row, col and corners
-    def isValid(self, board, i, j):
-        temp = board[i][j]
-        board[i][j] = '.'
+    def isValid(self, board, row, col):
+        temp = board[row][col]
+        board[row][col] = '.'
         for num in range(9):
-            if board[num][j] == temp or board[i][num] == temp:
+            if board[num][col] == temp or board[row][num] == temp:
                 return False
 
-        for row in range(3):
-            for col in range(3):
-                if board[( i//3 ) * 3 + row][( j//3 ) * 3 + col] == temp:
+        for i in range(3):
+            for j in range(3):
+                if board[(row // 3) * 3 + i][(col // 3) * 3 + j] == temp:
                     return False
-        board[i][j] = temp
+        board[row][col] = temp
         return True
+
 
 
 

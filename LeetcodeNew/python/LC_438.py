@@ -53,6 +53,23 @@ class Solution:
         return res
 
 
+class SolutionTony:
+    def findAnagrams(self, s: str, p: str):
+        count1 = collections.Counter(s[:len(p) - 1])
+        count2 = collections.Counter(p)
+        res = []
+        for i in range(len(p) - 1, len(s)):
+            head = i - len(p) + 1
+            count1[s[i]] += 1
+            if count1 == count2:
+                res.append(i - len(p) + 1)
+
+            count1[s[head]] -= 1
+            if count1[s[head]] == 0:
+                del count1[s[head]]
+
+        return res
+
 
 s = "cbaebabacd"
 p = "abc"
