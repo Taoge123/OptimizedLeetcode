@@ -24,7 +24,30 @@ N>1时，其实这道题就是将N分解为M个数字的乘积，且M个数字�
 即求最快的把一个数分解为N个质数的和。
 
 大神的解法，从小到大的去试探，尽量用小的数字去除就可以。
+n = 6
+A A A A A A
+AA AA AA
+AAA AAA
+
 """
+
+class SolutionDP:
+    def minSteps(self, n: int) -> int:
+        dp = [float('inf')] * (n+1)
+        dp[1] = 0
+        for i in range(2, n+1):
+            # 至少砍一半，最多砍成i份
+            for j in range(2, i + 1):
+                if i % j != 0:
+                    continue
+                #j代表看成多少份， k代表每份多少个
+                k = i // j
+                #需要另外(j-1)份，1是copy
+                dp[i] = min(dp[i], dp[k]+1+j-1)
+                break
+
+        return dp[n]
+
 
 
 class SolutionLee:
@@ -35,21 +58,6 @@ class SolutionLee:
                 return self.minSteps(n // i) + i
 
 
-
-
-class Solution:
-    def minSteps(self, n: int) -> int:
-        dp = [float('inf')] * ( n +1)
-        dp[1] = 0
-        for i in range(2, n+ 1):
-            for j in range(2, i + 1):
-                if i % j != 0:
-                    continue
-                k = i // j
-                dp[i] = min(dp[i], dp[k] + j)
-                break
-
-        return dp[n]
 
 
 """
