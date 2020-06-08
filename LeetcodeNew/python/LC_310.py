@@ -53,12 +53,12 @@ class Solution:
         while n > 2:
             n -= len(leaves)
             newLeaves = []
-            for leaf in leaves:
+            for node in leaves:
                 #remove from both direction
-                j = graph[leaf].pop()
-                graph[j].remove(leaf)
-                if len(graph[j]) == 1:
-                    newLeaves.append(j)
+                nei = graph[node].pop()
+                graph[nei].remove(node)
+                if len(graph[nei]) == 1:
+                    newLeaves.append(nei)
             leaves = newLeaves
         return leaves
 
