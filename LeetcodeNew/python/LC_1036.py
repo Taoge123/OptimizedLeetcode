@@ -20,31 +20,40 @@ class Solution:
         if not blocked:
             return True
 
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         blocked = set(map(tuple, blocked))
         return self.bfs(blocked, source, target) and self.bfs(blocked, target, source)
 
     def bfs(self, blocked, source, target):
-        level = 0
+        step = 0
         queue = collections.deque([source])
         visited = set()
         while queue:
-            for i in range(len(queue)):
+            size = len(queue)
+            for i in range(size):
                 i, j = queue.popleft()
                 if [i, j] == target:
                     return True
-                for x, y in ((i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)):
-                    if x >= 0 and y >= 0 and x < 10 ** 6 and y < 10 ** 6 and (x, y) not in visited and (
-                    x, y) not in blocked:
-                        visited.add((x, y))
-                        queue.append((x, y))
+                for dx, dy in self.directions:
+                    x = i + dx
+                    y = j + dy
+                    if x < 0 or x >= 10 ** 6 or y < 0 or y >= 10 ** 6 or (x, y) in visited:
+                        continue
+                    if (x, y) in blocked:
+                        continue
+                    visited.add((x, y))
+                    queue.append((x, y))
 
-            level += 1
-            if level == len(blocked):
+            step += 1
+            if step == len(blocked):
                 break
 
             if len(queue) == 0:
                 return False
         return True
+
+
+
 
 
 

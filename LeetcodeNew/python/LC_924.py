@@ -1,3 +1,22 @@
+"""
+0123 456 7
+3333 666 7
+1.
+2.if group contains 2 nodes in intial, continue
+
+0 - 3
+4 -
+
+graph = [
+     0 1 2
+0   [1,1,0]
+1   [1,1,0]
+2   [0,0,1]
+
+initial= [0, 1, 2]
+parent = [0, 0, 2]
+
+"""
 
 import collections
 
@@ -26,7 +45,8 @@ class Solution:
         for i in initial:
             if malware[self.find(i)] == 1:
                 if size[self.find(i)] > maxi:
-                    size, res = size[self.find(i)], i
+                    size = size[self.find(i)]
+                    res = i
                 elif size[self.find(i)] == maxi:
                     res = min(res, i)
         return res

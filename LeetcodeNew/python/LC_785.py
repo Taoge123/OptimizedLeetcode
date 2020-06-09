@@ -37,6 +37,7 @@ The graph is undirected: if any element j is in graph[i], then i will be in grap
 """
 
 
+import collections
 
 class Solution:
     def isBipartite(self, graph) -> bool:
@@ -63,6 +64,31 @@ class Solution:
         return True
 
 
+
+class SolutionBFS:
+    def isBipartite(self, graph) -> bool:
+        n = len(graph)
+        # {node, group (0,1)}
+        visited = [-1] * (n)
+        for i in range(n):
+            if visited[i] != -1:
+                continue
+
+            queue = collections.deque()
+            queue.append([i, 0])
+            visited[i] = 0
+            while queue:
+                node, group = queue.popleft()
+
+                for nei in graph[node]:
+                    if visited[nei] != -1:
+                        if visited[nei] != 1 - group:
+                            return False
+                    else:
+                        visited[nei] = 1 - group
+                        queue.append([nei, 1 - group])
+
+        return True
 
 
 

@@ -1,32 +1,38 @@
+"""
+https://buptwc.com/2018/10/21/Leetcode-928-Minimize-Malware-Spread-II/
+
+"""
+
 import collections
 import itertools
 
-class Solution:
+class SolutionBFS:
     def minMalwareSpread(self, graph, initial):
         n = len(graph)
-        table = collections.defaultdict(list)
+        sources = collections.defaultdict(list)
         # 对每个初始感染节点依次bfs，因为节点总数不超过300，所以不会超时
         for init in initial:
             visited = set(initial)
             queue = collections.deque([init])
             while queue:
-                infect = queue.popleft()
-                for node in range(len(graph[infect])):
-                    if graph[infect][node] == 0:
+                node = queue.popleft()
+                for nei in range(len(graph[node])):
+                    if graph[node][nei] == 0:
                         continue
-                    if node in visited:
+                    if nei in visited:
                         continue
-                    visited.add(node)
-                    table[node].append(init)
-                    queue.append(node)
+                    visited.add(nei)
+                    sources[nei].append(init)
+                    queue.append(nei)
         # 统计出现最多次的感染节点
-        res = [0] * n
-        for key in table:
-            if len(table[key]) == 1:
-                res[table[key][0]] += 1
-        if max(res) == 0:
+        count = [0] * n
+        for key in sources.keys():
+            #如果一个节点只有另一个能感染
+            if len(sources[key]) == 1:
+                count[sources[key][0]] += 1
+        if max(count) == 0:
             return min(initial)
-        return res.index(max(res))
+        return count.index(max(count))
 
 
 
