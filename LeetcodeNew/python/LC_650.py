@@ -36,11 +36,10 @@ class SolutionDP:
         dp = [float('inf')] * (n+1)
         dp[1] = 0
         for i in range(2, n+1):
-            # 至少砍一半，最多砍成i份
+            # 至少砍一半，最多砍成i份, j代表看成多少份， k代表每份多少个
             for j in range(2, i + 1):
                 if i % j != 0:
                     continue
-                #j代表看成多少份， k代表每份多少个
                 k = i // j
                 #需要另外(j-1)份，1是copy
                 dp[i] = min(dp[i], dp[k]+1+j-1)

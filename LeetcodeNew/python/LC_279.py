@@ -13,12 +13,18 @@ Output: 2
 Explanation: 13 = 4 + 9.
 
 """
+"""
+
+dp[i] : the least number of perfect square numbers which sum to i
+n = a^2 + b^2 + ... + n^2
+dp[n] = min(dp[n - x^2]) for all x
+"""
 
 import collections, math
 
 class Solution:
     def numSquares(self, n):
-        dp = [n ] *(n +1)
+        dp = [n] *(n+1)
         dp[0] = 0
         dp[1] = 1
         for i in range(2, n+1):

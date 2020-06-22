@@ -68,22 +68,22 @@ class Solution1:
         return res
 
 
-
 class Solution2:
     def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
 
         dp = [[0] * n for i in range(m)]
-
+        mod = 10 ** 9 + 7
         for k in range(1, N + 1):
-            state = [[0] * n for i in range(m)]
+            newDP = [[0 for i in range(n)] for j in range(m)]
             for x in range(m):
                 for y in range(n):
-                    v1 = 1 if x == 0 else dp[x - 1][y]
-                    v2 = 1 if x == m - 1 else dp[x + 1][y]
-                    v3 = 1 if y == 0 else dp[x][y - 1]
-                    v4 = 1 if y == n - 1 else dp[x][y + 1]
-                    state[x][y] = (v1 + v2 + v3 + v4) % (10 ** 9 + 7)
-            dp = state
+                    a = 1 if x == 0 else dp[x - 1][y]
+                    b = 1 if x == m - 1 else dp[x + 1][y]
+                    c = 1 if y == 0 else dp[x][y - 1]
+                    d = 1 if y == n - 1 else dp[x][y + 1]
+                    newDP[x][y] = (a + b + c + d) % mod
+
+            dp = newDP
 
         return dp[i][j]
 

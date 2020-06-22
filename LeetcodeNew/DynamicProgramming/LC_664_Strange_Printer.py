@@ -122,7 +122,7 @@ class Solution0:
             if i > j: return 0
             if (i, j) not in memo:
                 ans = dp(i+1, j) + 1
-                for k in xrange(i+1, j+1):
+                for k in range(i+1, j+1):
                     if S[k] == S[i]:
                         ans = min(ans, dp(i, k-1) + dp(k+1, j))
                 memo[i, j] = ans
@@ -198,16 +198,19 @@ then paint the rest in dp(i+1, j) turns.
 class Solution3:
     def strangePrinter(self, s):
         n = len(s)
-        dp = [[0] * n for i in xrange(n + 1)]
-        for i in xrange(n):
+        dp = [[0] * n for i in range(n + 1)]
+        for i in range(n):
             dp[i][i] = 1
-        for l in xrange(1, n):
-            for i in xrange(n-l):
-                dp[i][i+l] = dp[i+1][i+l] + 1
-                for j in xrange(i+1, i+l+1):
+        for step in range(1, n):
+            for i in range(n-step):
+                k = i+step
+                dp[i][k] = dp[i+1][k] + 1
+                for j in range(i+1, k+1):
                     if s[i] == s[j]:
-                        dp[i][i+l] = min(dp[i][i+l], dp[i][j-1] + dp[j+1][i+l])
+                        dp[i][k] = min(dp[i][k], dp[i][j-1] + dp[j+1][k])
         return dp[0][-1] if s else 0
+
+
 
 class Solution4:
     def strangePrinter(self, s):

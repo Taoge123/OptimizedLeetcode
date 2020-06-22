@@ -12,6 +12,36 @@ delete happen in i or not in i=> dp1[i]=max(dp1[i-1]+arr[i],dp0[i-1])
 
 """
 
+"""
+
+X X X X 
+dp[i] : maximum sum for a non-empty subarray ending at i
+
+dp[i][0] : max sum for non-empty subarray ending at i, w/o any deletion
+dp[i][1] : max sum for non-empty subarray ending at i, with one deletion
+
+"""
+
+
+class SolutionTony:
+    def maximumSum(self, arr):
+        if all(num < 0 for num in arr):
+            return max(arr)
+        n = len(arr)
+        dp = [[0, 0] for i in range(n)]
+        res = float('-inf')
+        dp[0][0] = arr[0]
+        dp[0][1] = 0
+
+        for i in range(1, n):
+            dp[i][0] = max(dp[i - 1][0] + arr[i], arr[i])
+            # 删当前数字arr[i] 或者之前数字
+            dp[i][1] = max(dp[i - 1][0], dp[i - 1][1] + arr[i])
+
+            res = max(res, dp[i][0], dp[i][1])
+
+        return res
+
 
 class Solution:
     def maximumSum(self, arr) -> int:

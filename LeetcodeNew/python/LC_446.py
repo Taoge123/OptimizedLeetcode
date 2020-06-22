@@ -1,4 +1,6 @@
 """
+https://github.com/wisdompeak/LeetCode/tree/master/Hash/446.Arithmetic-Slices-II-Subsequence
+
 好，既然决定要用DP了，那么首先就要确定dp数组的定义了，刚开始我们可能会考虑使用个一维的dp数组，
 然后dp[i]定义为范围为[0, i]的子数组中等差数列的个数。定义的很简单，OK，
 但是基于这种定义的状态转移方程却十分的难想。我们想对于(0, i)之间的任意位置j，
@@ -52,7 +54,7 @@ import collections
 class Solution:
     def numberOfArithmeticSlices(self, A) -> int:
 
-        total = 0
+        res = 0
         dp = [collections.defaultdict(int) for a in A]
         for i in range(len(A)):
             for j in range(i):
@@ -60,8 +62,24 @@ class Solution:
                 dp[i][diff] += 1
                 if diff in dp[j]:
                     dp[i][diff] += dp[j][diff]
-                    total += dp[j][diff]
-        return total
+                    res += dp[j][diff]
+        return res
+
+
+
+class SolutionSlow:
+    def numberOfArithmeticSlices(self, A) -> int:
+
+        n = len(A)
+        dp = collections.defaultdict(int)
+        res = 0
+        for i in range(n):
+            for j in range(i):
+                diff = A[i] - A[j]
+                dp[(i, diff)] += dp[(j, diff)] + 1
+                res += dp[(j, diff)]
+        return res
+
 
 
 A = [2, 4, 6, 8, 10]

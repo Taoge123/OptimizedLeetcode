@@ -16,6 +16,27 @@ Output: [[1,2,6], [1,3,5], [2,3,4]]
 
 """
 
+
+class SolutionTony:
+    def combinationSum3(self, k: int, n: int):
+        nums = [i for i in range(1, 10)]
+        res = []
+        self.dfs(nums, 0, n, k, [], res)
+        return res
+
+    def dfs(self, nums, index, target, k, path, res):
+        if target < 0:
+            return
+
+        if target == 0 and len(path) == k:
+            res.append(path)
+
+        for i in range(index, len(nums)):
+            self.dfs(nums, i + 1, target - nums[i], k, path + [nums[i]], res)
+
+        return res
+
+
 class Solution:
     def combinationSum3(self, k, n):
         res = []

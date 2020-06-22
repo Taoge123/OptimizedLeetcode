@@ -25,6 +25,29 @@ that ends in a number M is at most log(M).
 import collections
 
 
+class SolutionHuahua:
+    def lenLongestFibSubseq(self, A) -> int:
+        table = {val: i for i, val in enumerate(A)}
+        n = len(A)
+        res = 0
+        dp = [[2 for i in range(n)] for j in range(n)]
+        for j in range(n):
+            for k in range(j + 1, n):
+                diff = A[k] - A[j]
+                # Pruning
+                if diff >= A[j]:
+                    break
+                if diff not in table:
+                    continue
+                i = table[diff]
+                dp[j][k] = dp[i][j] + 1
+                res = max(res, dp[j][k])
+        return res
+
+
+
+
+
 class Solution:
     def lenLongestFibSubseq(self, A) -> int:
         nums = set(A)
@@ -78,7 +101,6 @@ class SolutionDPLee:
 
 class SolutionDP2:
     def lenLongestFibSubseq(self, A) -> int:
-        table = collections.defaultdict(int)
         table = {val: i for i, val in enumerate(A)}
 
         n = len(A)

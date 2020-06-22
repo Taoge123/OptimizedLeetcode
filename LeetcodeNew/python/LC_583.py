@@ -12,6 +12,63 @@ The length of given words won't exceed 500.
 Characters in given words can only be lower-case letters.
 """
 
+"""
+dp[i][j] : the minimum number if steps required to make word[0:i] and word[0:j] the same
+dp[i][j]
+dp[i-1][j]
+dp[i][j-1]
+
+X X X X X X X X i
+Y Y Y Y Y Y Y Y Y j
+
+if i == j:
+    dp[i-1][j-1]
+else:
+    dp[i-1][j], dp[i][j-1]
+
+
+"""
+
+
+class SolutionTony:
+    def minDistance(self, word1: str, word2: str) -> int:
+        if not word1 or not word2:
+            return len(word1) or len(word2)
+
+        m, n = len(word1), len(word2)
+        dp = [[float('inf') for j in range(n + 1)] for i in range(m + 1)]
+
+        for i in range(m + 1):
+            for j in range(n + 1):
+                if i == 0 or j == 0:
+                    dp[i][j] = i + j
+                if word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = min(dp[i][j], dp[i - 1][j - 1])
+                else:
+                    dp[i][j] = min(dp[i][j], min(dp[i - 1][j], dp[i][j - 1]) + 1)
+
+        return dp[m][n]
+
+
+
+class SolutionDP:
+    def minDistance(self, word1: str, word2: str) -> int:
+
+        m, n = len(word1), len(word2)
+        dp = [[0] * (n + 1) for i in range(m + 1)]
+
+        for i in range(m + 1):
+            for j in range(n + 1):
+                if i == 0 or j == 0:
+                    dp[i][j] = i + j
+                elif word1[i - 1] == word2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1])
+        print(dp)
+        return dp[m][n]
+
+
 
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
@@ -54,22 +111,6 @@ class Solution1:
         return dp[0][0]
 
 
-class Solution2:
-    def minDistance(self, word1: str, word2: str) -> int:
-
-        m, n = len(word1), len(word2)
-        dp = [[0] * (n + 1) for i in range(m + 1)]
-
-        for i in range(m + 1):
-            for j in range(n + 1):
-                if i == 0 or j == 0:
-                    dp[i][j] = i + j
-                elif word1[i - 1] == word2[j - 1]:
-                    dp[i][j] = dp[i - 1][j - 1]
-                else:
-                    dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1])
-        print(dp)
-        return dp[m][n]
 
 
 class Solution4:

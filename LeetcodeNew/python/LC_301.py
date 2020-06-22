@@ -21,6 +21,42 @@ Output: [""]
 import collections
 
 
+class SolutionBFS:
+    def removeInvalidParentheses(self, s: str):
+        if not s:
+            return ['']
+
+        queue = collections.deque([s])
+        visited = {s}
+        res = []
+        found = False
+        while queue:
+            node = queue.popleft()
+            if self.isValid(node):
+                found = True
+                res.append(node)
+            elif not found:
+                for i in range(len(node)):
+                    if node[i] == '(' or node[i] == ')':
+                        newNode = node[:i] + node[i + 1:]
+                        if newNode not in visited:
+                            queue.append(newNode)
+                            visited.add(newNode)
+        return res
+
+    def isValid(self, s):
+        count = 0
+        for char in s:
+            if char == '(':
+                count += 1
+            elif char == ')':
+                if count == 0:
+                    return False
+                count -= 1
+
+        return count == 0
+
+
 class SolutionEasy:
     def removeInvalidParentheses(self, s: str):
         level = [s]
@@ -79,8 +115,6 @@ class SolutionCspiration:
             self.helper(res, reverse, 0, 0, [')', '('])
         else:
             res.append(reverse)
-
-
 
 
 
@@ -151,42 +185,11 @@ class Solution:
         return a + b
 
 
-class SolutionBFS:
-    def removeInvalidParentheses(self, s):
 
-        if not s:
-            return ['']
-        queue = collections.deque([s])
-        res, visited = [], set([s])
-        found = False
-        while queue:
-            cur = queue.popleft()
-            if self.isValidParentheses(cur):
-                found = True
-                res.append(cur)
-            elif not found:
-                for i in range(len(cur)):
-                    if cur[i] == '(' or cur[i] == ')':
-                        new = cur[:i] + cur[i + 1:]
-                        if new not in visited:
-                            queue.append(new)
-                            visited.add(new)
-        return res
-
-    def isValidParentheses(self, s):
-        cnt = 0
-        for c in s:
-            if c == '(':
-                cnt += 1
-            elif c == ')':
-                if cnt == 0:
-                    return False
-                cnt -= 1
-        return cnt == 0
 
 
 class Solution:
-    def removeInvalidParentheses(self, s: str) -> List[str]:
+    def removeInvalidParentheses(self, s: str):
         level = [s]
         stack = self.search(s)
         step = 0

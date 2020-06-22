@@ -57,8 +57,6 @@ class Solution:
         next_higher, next_lower = [0] * n, [0] * n
 
         stack = []
-        # print(sorted([num, i] for i, num in enumerate(A)))
-        # print(sorted([-num, i] for i, num in enumerate(A)))
         for num, i in sorted([num, i] for i, num in enumerate(A)):
             while stack and stack[-1] < i:
                 next_higher[stack.pop()] = i

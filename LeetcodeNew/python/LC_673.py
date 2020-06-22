@@ -1,24 +1,37 @@
+"""
+673.Number-of-Longest-Increasing-Subsequence
+在传统的LIS的DP解法基础上，再设置一个表征LIS数目的数组。len[i]表示以i元素结尾的LIS的长度；num[i]表示以i元素结尾的LIS的数目。
+
+递推关系是：
+
+len[i] = max (len[j]+1) for 0<=j<i && nums[j]<nums[i]
+
+num[i] = sum (num[j]) for 0<=j<i && len[j]+1=len[i]
+"""
+
 import collections
 import bisect
+
 
 class Solution:
     def findNumberOfLIS(self, nums):
         if len(nums) == 0:
             return 0
-        dp = [1] * len(nums)
+        length = [1] * len(nums)
         count = [1] * len(nums)
-        dp[0], count[0] = 1, 1
-        for i in range(len(nums)):
+
+        for i in range(1, len(nums)):
             for j in range(i):
-                if nums[j] < nums[i]:
-                    if dp[j] + 1 == dp[i]:
-                        count[i] += count[j]
-                    elif dp[j] + 1 > dp[i]:
-                        dp[i] = dp[j] + 1
-                        count[i] = count[j]
-        maxi = max(dp)
-        # print(count)
-        return sum([count[i] for i in range(len(count)) if dp[i] == maxi])
+                if nums[j] >= nums[i]:
+                    continue
+                if length[j] + 1 > length[i]:
+                    length[i] = max(length[i], length[j] + 1)
+                    count[i] = count[j]
+                elif length[j] + 1 == length[i]:
+                    count[i] += count[j]
+
+        maxLen = max(length)
+        return sum(count[i] for i in range(len(count)) if length[i] == maxLen)
 
 
 

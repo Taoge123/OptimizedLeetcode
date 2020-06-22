@@ -14,6 +14,21 @@ Output: 0
 Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 """
 
+
+class SolutionTony:
+    def maxProduct(self, nums) -> int:
+        res = nums[0]
+        mini, maxi = nums[0], nums[0]
+        for i in range(1, len(nums)):
+            newMax = max(nums[i], maxi * nums[i], mini * nums[i])
+            newMin = min(nums[i], maxi * nums[i], mini * nums[i])
+            maxi, mini = newMax, newMin
+            res = max(res, maxi)
+        return res
+
+
+
+
 class Solution:
     def maxProduct(self, nums):
         mini = maxi = res = nums[0]

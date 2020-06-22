@@ -27,13 +27,13 @@ class Solution:
         dp = [[0 for i in range(n)] for j in range(n)]
 
         for step in range(2, n):
-            for left in range(n-step):
-                right = left + step
-                for i in range(left+1, right):
-                    dp[left][right] = max(dp[left][right],
-                                          dp[left][i]+dp[i][right] +
-                                          nums[left]*nums[i]*nums[right])
-        return dp[0][n-1]
+            for i in range(n - step):
+                j = i + step
+                for k in range(i + 1, j):
+                    dp[i][j] = max(dp[i][j], dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j])
+        return dp[0][n - 1]
+
+
 
 
 
@@ -59,13 +59,13 @@ class Solution2:
     def dfs(self, nums, i, j, cache):
         if cache[i][j] or j == i + 1:
             return cache[i][j]
-        coins = 0
+        res = 0
         for k in range(i + 1, j):
-            coins = max(coins, nums[i] * nums[k] * nums[j] +
+            res = max(res, nums[i] * nums[k] * nums[j] +
                         self.dfs(nums, i, k, cache) +
                         self.dfs(nums, k, j, cache))
-        cache[i][j] = coins
-        return coins
+        cache[i][j] = res
+        return res
 
 
 

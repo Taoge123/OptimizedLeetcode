@@ -47,10 +47,22 @@ class Solution2:
         return val
 
 
+class SolutionTest:
+    def nthUglyNumber(self, n):
+        heap = [(1, 1)]
+        for i in range(n):
+            num, step = heapq.heappop(heap)
+            if step <= 2:
+                heapq.heappush(heap, [num * 2, 2])
+            if step <= 3:
+                heapq.heappush(heap, [num * 3, 3])
+            if step <= 5:
+                heapq.heappush(heap, [num * 5, 5])
+        return num
 
 
 n = 10
-a = Solution2()
+a = SolutionTest()
 print(a.nthUglyNumber(n))
 
 

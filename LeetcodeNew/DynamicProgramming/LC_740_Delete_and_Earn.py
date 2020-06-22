@@ -87,11 +87,11 @@ dp[x] = max(dp[x - 1], dp[x - 2] + cnt[x] * x)
 class Solution2:
     def deleteAndEarn(self, nums):
         cnt = collections.Counter(nums)
-        maxn = max(nums + [0])
-        dp = [0] * (maxn + 10)
-        for x in range(1, maxn + 1):
+        maxi = max(nums + [0])
+        dp = [0] * (maxi + 10)
+        for x in range(1, maxi + 1):
             dp[x] = max(dp[x - 1], dp[x - 2] + cnt[x] * x)
-        return dp[maxn]
+        return dp[maxi]
 
 
 """

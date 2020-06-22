@@ -33,7 +33,9 @@ class SolutionTony:
         for k in range(1, n):
             for lo in range(1, n + 1 - k):
                 hi = lo + k
-                dp[lo][hi] = min(x + max(dp[lo][x - 1], dp[x + 1][hi]) for x in range(lo, hi))
+                dp[lo][hi] = float('inf')
+                for x in range(lo, hi):
+                    dp[lo][hi] = min(x + max(dp[lo][x - 1], dp[x + 1][hi]), dp[lo][hi])
         return dp[1][n]
 
 

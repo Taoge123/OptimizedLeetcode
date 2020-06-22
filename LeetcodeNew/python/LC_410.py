@@ -33,30 +33,6 @@ where the largest sum among the two subarrays is only 18.
 """
 
 
-class Solution:
-    def splitArray(self, nums, m):
-        left, right = max(nums), sum(nums)
-        while left < right:
-            mid = (right - left) // 2 + left
-            if self.valid(mid, nums, m):
-                right = mid
-            else:
-                left = mid + 1
-
-        return left
-
-    def valid(self, target, nums, m):
-        cuts, total = 0, 0
-        for num in nums:
-            total += num
-            if total > target:
-                total = num
-                cuts += 1
-                if cuts >= m:
-                    return False
-        return True
-
-
 
 class SolutionTony:
     def splitArray(self, nums, m: int) -> int:
@@ -78,6 +54,35 @@ class SolutionTony:
                 count += 1
                 curSum = num
         return count
+
+
+
+
+class Solution:
+    def splitArray(self, nums, m: int) -> int:
+        self.m = m
+        left, right = max(nums), sum(nums)
+        while left < right:
+            mid = (right - left) // 2 + left
+            if self.valid(nums, mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+    def valid(self, nums, mid):
+        count = 0
+        summ = 0
+        for num in nums:
+            summ += num
+            if summ > mid:
+                summ = num
+                count += 1
+                if count >= self.m:
+                    return False
+        return True
+
+
 
 
 
@@ -104,9 +109,9 @@ class Solution2:
         return dp[m][n]
 
 
+
+
 nums = [7,2,5,10,8]
-m = 2
-a = SolutionTest()
-print(a.splitArray(nums, m))
+print(search(nums, 10))
 
 

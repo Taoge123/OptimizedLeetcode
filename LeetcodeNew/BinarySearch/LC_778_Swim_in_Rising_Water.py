@@ -61,6 +61,36 @@ grid[i][j] is a permutation of [0, ..., N*N - 1].
 import heapq
 
 
+class SolutionTony:
+    def swimInWater(self, grid) -> int:
+        m, n = len(grid), len(grid[0])
+        heap = []
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        heapq.heappush(heap, (grid[0][0], 0, 0))
+        visited = set()
+        visited.add((0, 0))
+        res = 0
+        while heap:
+            node, i, j = heapq.heappop(heap)
+            res = max(res, node)
+
+            if i == j == n - 1:
+                return res
+            for dx, dy in self.directions:
+                x = i + dx
+                y = j + dy
+
+                if x < 0 or x >= m or y < 0 or y >= n or (x, y) in visited:
+                    continue
+
+                heapq.heappush(heap, (grid[x][y], x, y))
+                visited.add((x, y))
+
+
+
+
+
+
 class SolutionLeeHeap:
     def swimInWater(self, grid):
         N, pq, seen, res = len(grid), [(grid[0][0], 0, 0)], set([(0, 0)]), 0

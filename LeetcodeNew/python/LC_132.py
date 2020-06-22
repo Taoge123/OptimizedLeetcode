@@ -15,9 +15,9 @@ Explanation: The palindrome partitioning ["aa","b"] could be produced using 1 cu
 class Solution:
     def minCut(self, s: str) -> int:
 
-        dp = [-1] + [len(s) -1 for _ in range(len(s))]
+        dp = [-1] + [len(s) - 1 for _ in range(len(s))]
         for i in range(len(s)):
-            for j in range(i+1 ,len(s) +1):
+            for j in range(i+1, len(s)+1):
                 temp = s[i:j]
                 if s[i:j] == s[i:j][::-1]:
                     dp[j] = min(dp[j], dp[i] + 1)
@@ -44,6 +44,35 @@ class Solution2:
                         mini = min(mini, dp[j - 1] + 1)
             dp[i] = mini
         return dp[n - 1]
+
+
+"""
+dp[i] : minimum cuts needed for a palindrome partitioning of s
+X X X X X X X [j X i]
+
+dp[i] = min(dp[j] + 1 if s[j:i] == s[j:i][::-1] for every j)
+"""
+
+
+class SolutionWisdom1:
+    def minCut(self, s: str) -> int:
+
+        n = len(s)
+        dp = [float('inf') for i in range(n)]
+        dp[0] = 1
+        for i in range(1, n):
+            for j in range(i + 1):
+                if self.isPal(s, j, i):
+                    if j == 0:
+                        dp[i] = 1
+
+                    else:
+                        dp[i] = min(dp[i], dp[j - 1] + 1)
+
+        return dp[n - 1] - 1
+
+    def isPal(self, s, i, j):
+        return s[i:j + 1] == s[i:j + 1][::-1]
 
 
 s = "aab"

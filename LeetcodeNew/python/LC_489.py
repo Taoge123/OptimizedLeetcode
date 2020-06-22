@@ -83,25 +83,29 @@ class Robot:
        :rtype void
        """
 
+
 class Solution:
     def cleanRoom(self, robot):
         self.directions = [(-1, 0), (0, -1), (1, 0), (0, 1)]
-        self.dfs(robot, 0, 0, set(), 0)
+        self.dfs(robot, 0, 0, 0, set())
 
-    def dfs(self, robot, i, j, visited, index):
+    def dfs(self, robot, index, i, j, visited):
         robot.clean()
         visited.add((i, j))
-
         for k in range(4):
-            direction = self.directions[(index + k) % 4]
-            if (i + direction[0], j + direction[1]) not in visited and robot.move():
-                self.dfs(robot, i + direction[0], j + direction[1], visited, (index + k) % 4)
+            dx, dy = self.directions[(index + k) % 4]
+            x = i + dx
+            y = j + dy
+            if (x, y) not in visited and robot.move():
+                self.dfs(robot, (index + k) % 4, x, y, visited)
                 robot.turnLeft()
                 robot.turnLeft()
                 robot.move()
                 robot.turnLeft()
                 robot.turnLeft()
             robot.turnLeft()
+
+
 
 
 

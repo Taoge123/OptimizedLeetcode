@@ -49,6 +49,35 @@ class TreeNode:
         self.right = None
 
 
+
+class Solution2:
+    def distanceK(self, root, target, K):
+
+        self.dfs(root, None)
+        queue = collections.deque([(target, 0)])
+        visited = {target}
+        while queue:
+            if queue[0][1] == K:
+                return [node.val for node, dist in queue]
+            node, dist = queue.popleft()
+            for nei in (node.left, node.right, node.parent):
+                if nei and nei not in visited:
+                    visited.add(nei)
+                    queue.append((nei, dist + 1))
+
+        return []
+
+    def dfs(self, node, parent):
+        if node:
+            node.parent = parent
+            self.dfs(node.left, node)
+            self.dfs(node.right, node)
+
+
+
+
+
+
 class Solution1:
     def distanceK(self, root, target, K):
         graph = collections.defaultdict(list)
@@ -76,31 +105,6 @@ class Solution1:
             self.connect(graph, child, child.left)
         if child.right:
             self.connect(graph, child, child.right)
-
-
-class Solution2:
-    def distanceK(self, root, target, K):
-
-        self.dfs(root, None)
-        queue = collections.deque([(target, 0)])
-        visited = {target}
-        while queue:
-            if queue[0][1] == K:
-                return [node.val for node, dist in queue]
-            node, dist = queue.popleft()
-            for nei in (node.left, node.right, node.parent):
-                if nei and nei not in visited:
-                    visited.add(nei)
-                    queue.append((nei, dist + 1))
-
-        return []
-
-    def dfs(self, node, parent):
-        if node:
-            node.parent = parent
-            self.dfs(node.left, node)
-            self.dfs(node.right, node)
-
 
 
 
