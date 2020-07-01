@@ -39,10 +39,13 @@ So, we run DFS to find the minimum cost. Without memoisation, the runtime comple
 最终的结果是在所有的dp[n-1][i]中找最小的值。这是因为我们一定已经保证了有一个手指位于word.back()。
 
 """
+
+import collections
+
 class Solution:
     def minimumDistance(self, word: str) -> int:
         n = len(word)
-        self.dp = [[[0 for i in range(27)] for j in range(27)] for k in range(n)]
+        self.dp = collections.defaultdict(int)
         return self.helper(word, 0, 26, 26)
 
     def cost(self, c1, c2):
@@ -53,12 +56,12 @@ class Solution:
     def helper(self, word, pos, left, right):
         if pos >= len(word):
             return 0
-        if self.dp[pos][left][right] == 0:
+        if self.dp[(pos, left, right)] == 0:
             to = ord(word[pos]) - ord('A')
-            # 动左边或者动右边
-            self.dp[pos][left][right] = min(self.cost(left, to) + self.helper(word, pos + 1, to, right),
-                                            self.cost(right, to) + self.helper(word, pos + 1, left, to)) + 1
-        return self.dp[pos][left][right] - 1
+            self.dp[(pos, left, right)] = min(self.cost(left, to) + self.helper(word, pos + 1, to, right),
+                                              self.cost(right, to) + self.helper(word, pos + 1, left, to)) + 1
+        return self.dp[(pos, left, right)] - 1
+
 
 
 

@@ -1,210 +1,193 @@
+"""
 
-class Solution:
-    def minWindow(self, S: str, T: str) -> str:
-        pass
+https://www.cnblogs.com/grandyang/p/8684817.html
 
+
+这道题给了我们两个字符串S和T，让我们找出S的一个长度最短子串W，使得T是W的子序列，如果长度相同，取起始位置靠前的。清楚子串和子序列的区别，那么题意就不难理解，
+题目中给的例子也很好的解释了题意。我们经过研究可以发现，返回的子串的起始字母和T的起始字母一定相同，这样才能保证最短。那么你肯定会想先试试暴力搜索吧，以S中每个T的起始字母为起点，
+均开始搜索字符串T，然后维护一个子串长度的最小值。如果是这种思路，那么还是趁早打消念头吧，博主已经替你试过了，OJ 不依。原因也不难想，假如S中有大量的连续b，并且如果T也很长的话，
+这种算法实在是不高效啊。根据博主多年经验，这种玩字符串且还是 Hard 的题，十有八九都是要用动态规划 Dynamic Programming 来做的，那么就直接往 DP 上去想吧。DP 的第一步就是设计 dp 数组，
+像这种两个字符串的题，一般都是一个二维数组，想想该怎么定义。确定一个子串的两个关键要素是起始位置和长度，那么我们的 dp 值到底应该是定起始位置还是长度呢？That is a question! 仔细想一想，
+其实起始位置是长度的基础，因为我们一旦知道了起始位置，那么当前位置减去起始位置，就是长度了，所以我们 dp 值定为起始位置。
+那么 dp[i][j] 表示范围S中前i个字符包含范围T中前j个字符的子串的起始位置，注意这里的包含是子序列包含关系。然后就是确定长度了，有时候会使用字符串的原长度，有时候会多加1，看个人习惯吧，
+这里博主长度多加了个1。
+
+OK，下面就是重中之重啦，求状态转移方程。一般来说，dp[i][j] 的值是依赖于之前已经求出的dp值的，在递归形式的解法中，dp数组也可以看作是记忆数组，从而省去了大量的重复计算，
+这也是 dp 解法凌驾于暴力搜索之上的主要原因。牛B的方法总是最难想出来的，dp 的状态转移方程就是其中之一。在脑子一片浆糊的情况下，博主的建议是从最简单的例子开始分析，
+比如 S = "b", T = "b", 那么我们就有 dp[1][1] = 0，因为S中的起始位置为0，长度为1的子串可以包含T。如果当 S = "d", T = "b"，那么我们有 dp[1][1] = -1，
+因为我们的dp数组初始化均为 -1，表示未匹配或者无法匹配。下面来看一个稍稍复杂些的例子，S = "dbd", T = "bd"，我们的dp数组是：
+
+   ∅  b  d
+∅  ?  ?  ?
+d  ? -1 -1
+b  ?  1 -1
+d  ?  1  1
+这里的问号是边界，我们还不知道如何初给边界赋值，我们看到，为 -1 的地方是对应的字母不相等的地方。我们首先要明确的是 dp[i][j] 中的j不能大于i，
+因为T的长度不能大于S的长度，所以j大于i的 dp[i][j] 一定都是-1的。再来看为1的几个位置，首先是 dp[2][1] = 1，这里表示db包含b的子串起始位置为1，make sense！然后是 dp[3][1] = 1，
+这里表示 dbd 包含b的子串起始位置为1，没错！然后是 dp[3][2] = 1，这里表示 dbd 包含 bd 的起始位置为1，all right! 那么我们可以观察出，当 S[i] == T[j] 的时候，
+实际上起始位置和 dp[i - 1][j - 1] 是一样的，比如 dbd 包含 bd 的起始位置和 db 包含b的起始位置一样，所以可以继承过来。那么当 S[i] != T[j] 的时候，怎么搞？
+其实是和 dp[i - 1][j] 是一样的，比如 dbd 包含b的起始位置和 db 包含b的起始位置是一样的。
+
+嗯，这就是状态转移方程的核心了，下面再来看边界怎么赋值，由于j比如小于等于i，所以第一行的第二个位置往后一定都是-1，我们只需要给第一列赋值即可。通过前面的分析，
+我们知道了当 S[i] == T[j] 时，我们取的是左上角的 dp 值，表示当前字母在S中的位置，由于我们dp数组提前加过1，所以第一列的数只要赋值为当前行数即可。最终的 dp 数组如下：
+
+   ∅  b  d
+∅  0 -1 -1
+d  1 -1 -1
+b  2  1 -1
+d  3  1  1
+为了使代码更加简洁，我们在遍历完每一行，检测如果 dp[i][n] 不为-1，说明T已经被完全包含了，且当前的位置跟起始位置都知道了，我们计算出长度来更新一个全局最小值 minLen，
+同时更新最小值对应的起始位置 start，最后取出这个全局最短子串，如果没有找到返回空串即可
 
 
 """
-dp[i][j] stores the starting index of the substring where T has length i and S has length j.
 
-So dp[i][j would be:
-if T[i - 1] == S[j - 1], this means we could borrow the start index from dp[i - 1][j - 1] to make the current
-substring valid;
-else, we only need to borrow the start index from dp[i][j - 1] which could either exist or not.
+"""
+727.Minimum-Window-Subsequence
+对于双字符串的DP题，如果没有其他思路，不妨就考虑dp[i][j]代表了字符串A的前i个、字符串B的前j个的子问题，很大概率上就可以成功。
 
-Finally, go through the last row to find the substring with min length and appears first.
+在本题中，我们令 dp[i][j] 表示字符串T子串（1~i）是字符串S子串（1~j）的subsequence的、最小的S串长度，这个长度必须要从S串的j位置往前算起。
+最终的答案是在dp[N][j] (j=1,2,...M)中找最小的。
 
-    int m = T.length(), n = S.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int j = 0; j <= n; j++) {
-        dp[0][j] = j + 1;
-    }
+和很多字符串的DP题一样，动态转移方程很套路，根据 T[i]==S[j]分别考虑即可：
 
-    for (int i = 1; i <= m; i++) {
+for (int i=1; i<=N; i++)
+ for (int j=1; j<=M; j++)
+ {
+    if (T[i]==S[j])
+       dp[i][j]=dp[i-1][j-1]+1;
+    else
+       dp[i][j]=dp[i][j-1]+1; //说明S[j]没有帮助，还要依靠dp[i][j-1]
+ }
+然后我们考虑边界条件。易知 dp[0][j] (i=0, j=1,2,...M) 都是要考虑的。长度为0的T子串肯定是任意S子串的subsequence。故这些初始值应该是0.
 
+另外可以看出 dp[i][0] (i=1,2,...,N, j=0)也是需要提前设置初始值。显然，长度不为0的T子串不是任何空字串的subsequence，故这些值应该是inf.
 
+最后在所有dp[N][j]中找到第一个最小值k，那么 S.substr(j-k+1,k)就是答案。
 
+"""
 
 
 
 
+class Solution:
+    def minWindow(self, S, T):
+        m, n = len(S), len(T)
+        # 那么 dp[i][j] 表示范围S中前i个字符包含范围T中前j个字符的子串的起始位置
+        dp = [[0 for i in range(n + 1)] for j in range(m + 1)]
 
+        for j in range(1, n + 1):
+            dp[0][j] = -1
 
+        for j in range(1, m + 1):
+            dp[j][0] = j
 
+        minLen = float('inf')
+        start = - 1
 
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                dp[i][j] = -1
 
+                if S[i - 1] == T[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = dp[i - 1][j]
 
+            if dp[i][-1] != -1:
+                length = i - dp[i][-1]
+                if length < minLen:
+                    start = dp[i][-1]
+                    minLen = length
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        for (int j = 1; j <= n; j++) {
-            if (T.charAt(i - 1) == S.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1];
-            } else {
-                dp[i][j] = dp[i][j - 1];
-            }
-        }
-    }
-    int start = 0, len = n + 1;
-    for (int j = 1; j <= n; j++) {
-        if (dp[m][j] != 0) {
-            if (j - dp[m][j] + 1 < len) {
-                start = dp[m][j] - 1;
-                len = j - dp[m][j] + 1;
-            }
-        }
-    }
-    return len == n + 1 ? "" : S.substring(start, start + len);
-}
-                 j
-     a  b  c  d  e  b  d  d  e
-  1  2  3  4  5. 6  7  8  9. 10
-b 0  0. 2  2  2  2  6  6  6  6
-d 0  0  0  0  2  2  2  6  6  6
-e 0  0  0  0  0  2  2  2  2  6
-
-                 j
-     a  b  c  d  e  b  d  d  e
-  1  2  3  4  5. 6  7  8  9. 10
-e 0  0. 0  0. 0  5. 5  5. 5  5.
-e 0  0  0  0  0  0. 0  0  0  5
-
-
-e 0  0  0  0  0  0. 0  0  0  0
+        if start == -1:
+            return ""
+        else:
+            return S[start: start + minLen]
 
 
 S = "abcdebdde"
 T = "bde"
+a = Solution()
+print(a.minWindow(S, T))
 
-   b    d     e
-a  -1.  -1    -1
-b  b.   -1.   -1
-c  bc.  -1    -1
-d  bcd. bcd.  -1
-e  bcde.  bcd.  bde
-b  bcde.  bcd.  bde
-d  bcd.  bcd.  bde
-d  b.   bd   bde
-e  b.   bd   bde
 
-"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -16,6 +16,49 @@ Input: [1,2,4,8]
 Output: [1,2,4,8]
 """
 
+"""
+1 2 3 4 9 36
+          i
+    j
+if nums[i] % nums[j] == 0:
+    dp[i] = dp[j] + 1
+    parent[i] = j
+
+"""
+
+
+class SolutionWisdom:
+    def largestDivisibleSubset(self, nums):
+        if not nums:
+            return []
+
+        n = len(nums)
+        nums.sort()
+        dp = [1 for i in range(n)]
+        parent = [-1 for i in range(n)]
+        for i in range(n):
+            for j in range(i):
+                if nums[i] % nums[j] == 0:
+                    dp[i] = max(dp[i], dp[j] + 1)
+                    if dp[i] == dp[j] + 1:
+                        parent[i] = j
+
+        length = 0
+        idx = 0
+        for i in range(n):
+            if dp[i] > length:
+                length = dp[i]
+                idx = i
+
+        res = []
+        while idx != -1:
+            res.append(nums[idx])
+            idx = parent[idx]
+
+        return res
+
+
+
 
 class Solution:
     def largestDivisibleSubset(self, nums):
@@ -36,8 +79,6 @@ class Solution:
                         index = i
 
         res = []
-        print(dp)
-        print(parent)
         while index != -1:
             res.append(nums[index])
             index = parent[index]

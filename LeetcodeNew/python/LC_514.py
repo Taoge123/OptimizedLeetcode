@@ -51,6 +51,38 @@ class SolutionTLE:
         return dp[0][0] + m
 
 
+"""
+dp[i][cur_pos] : at the i-round, we are going to move the letter at ring[pos] to 12 o'clock
+                min number of steps in order to spell all the characters in the keyword[0:i]
+
+dp[i][pos] => dp[i-1][prev] + dis(prev, pos) for prev = ......
+
+"""
+
+
+class SolutionWidsom:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+        m, n = len(ring), len(key)
+        dp = [[float('inf') for i in range(m)] for j in range(n)]
+        table = collections.defaultdict(list)
+        for i, char in enumerate(ring):
+            table[char].append(i)
+
+        for i in range(n):
+            if i == 0:
+                for pos in table[key[i]]:
+                    dp[i][pos] = min(pos, abs(m - pos))
+            elif i >= 1:
+                for cur in table[key[i]]:
+                    for prev in table[key[i - 1]]:
+                        dp[i][cur] = min(dp[i][cur], dp[i - 1][prev] + min(abs(cur - prev), m - abs(cur - prev)))
+
+        res = float('inf')
+        for pos in table[key[n - 1]]:
+            res = min(res, dp[n - 1][pos])
+
+        return res + n
+
 
 class Solution1:
     def findRotateSteps(self, ring: str, key: str) -> int:

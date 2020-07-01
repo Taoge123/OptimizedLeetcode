@@ -34,15 +34,14 @@ class Solution2:
         isPalindrome = [[0 for i in range(n)] for j in range(n)]
 
         for i in range(n):
-            mini = i
+            dp[i] = i
             for j in range(i + 1):
                 if s[i] == s[j] and (i - j < 2 or isPalindrome[j + 1][i - 1]):
                     isPalindrome[j][i] = True
                     if j == 0:
-                        mini = 0
+                        dp[i] = 0
                     else:
-                        mini = min(mini, dp[j - 1] + 1)
-            dp[i] = mini
+                        dp[i] = min(dp[i], dp[j - 1] + 1)
         return dp[n - 1]
 
 

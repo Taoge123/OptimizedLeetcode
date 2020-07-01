@@ -29,6 +29,25 @@ class Solution:
 
 
 
+class Solution2:
+    def minHeightShelves(self, books, shelf_width: int) -> int:
+
+        n = len(books)
+        dp = [float('inf')] * (n + 1)
+        dp[0] = 0
+
+        for i in range(1, n + 1):
+            maxHeight = 0
+            totalWeight = 0
+            for j in range(i - 1, -1, -1):
+                totalWeight += books[j][0]
+                if totalWeight > shelf_width:
+                    break
+                maxHeight = max(maxHeight, books[j][1])
+                if totalWeight >= 0:
+                    dp[i] = min(dp[i], dp[j] + maxHeight)
+
+        return dp[-1]
 
 
 

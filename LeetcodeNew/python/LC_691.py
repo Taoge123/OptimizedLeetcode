@@ -1,4 +1,6 @@
 """
+1125
+
 691.Stickers-to-Spell-Word
 设置状态数组dp[i],dp的大小是 N = 2^n, 其中n是target的大小。怎么理解？将dp的索引i进行二进制拆解，
 i的每一个bit表示的是target对应位置的字符是否得到了满足。比如n=3时，dp数组的大小N=8，
@@ -37,7 +39,6 @@ class SolutionSlow:
         return -1 if dp[N - 1] == float('inf') else dp[N - 1]
 
     def findNextState(self, state, word, target):
-
         n = len(target)
         for char in word:
             for k in range(n):

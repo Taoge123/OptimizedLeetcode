@@ -18,22 +18,22 @@ import heapq
 
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
-        nums = [0] * n
-        nums[0] = 1
+        dp = [0] * n
+        dp[0] = 1
 
         i2, i3, i5 = 0, 0, 0
-        for i in range(1, len(nums)):
-            n2, n3, n5 = nums[i2] * 2, nums[i3] * 3, nums[i5] * 5
+        for i in range(1, len(dp)):
+            n2, n3, n5 = dp[i2] * 2, dp[i3] * 3, dp[i5] * 5
 
-            nums[i] = min(n2, n3, n5)
-            if nums[i] == n2:
+            dp[i] = min(n2, n3, n5)
+            if dp[i] == n2:
                 i2 += 1
-            if nums[i] == n3:
+            if dp[i] == n3:
                 i3 += 1
-            if nums[i] == n5:
+            if dp[i] == n5:
                 i5 += 1
 
-        return nums[-1]
+        return dp[-1]
 
 
 class Solution2:

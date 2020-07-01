@@ -1,7 +1,6 @@
 
 class Solution:
     def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
-
         m, n = len(str1), len(str2)
         dp = [[0 for i in range( n +1)] for j in range( m +1)]
 

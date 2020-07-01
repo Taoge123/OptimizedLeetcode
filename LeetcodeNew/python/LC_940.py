@@ -31,7 +31,22 @@ XXX(a3)
 减去的dp[j-1]，去掉了形如XXXYYY(a2)的重复，其实也就已经去掉了形如XXX(a1)的重复。所以我们不需要考虑其他在j之前的任何S[k]==S[i]的case。
 
 
+X X X X X X X X X X X Xi
 
+X
+XX
+XXX
+Xi
+XXi
+XXXi
+
+It will at least doubled -> dp[i] = dp[i-1] * 2
+then we dedupulicate
+
+
+X X X X X X X S[j]=a X X X X X S[i]=a
+找到最靠后的j, s[j] == s[i]
+dp[i] = dp[i-1]*2 - dp[j-1]
 
 """
 
@@ -40,12 +55,12 @@ XXX(a3)
 class Solution:
     def distinctSubseqII(self, S: str) -> int:
         n = len(S)
-        dp = [0 for i in range( n +1)]
+        dp = [0 for i in range(n+1)]
         dp[0] = 1
         table = {}
         mod = 10 ** 9 + 7
 
-        for i in range(1, n+ 1):
+        for i in range(1, n+1):
             dp[i] = (dp[i - 1] * 2) % mod
             if S[i - 1] in table:
                 dp[i] = (dp[i] - dp[table[S[i - 1]] - 1]) % mod

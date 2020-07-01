@@ -6,12 +6,12 @@ class Solution:
         for i in range(n):
             dp[i][i] = 0
 
-        for len in range(2, n + 1):
-            for i in range(n - len + 1):
-                j = i + len - 1
+        for step in range(2, n + 1):
+            for i in range(n - step + 1):
+                j = i + step - 1
                 for k in range(i, j):
-                    rootVal = max(arr[i: k +1]) * max(arr[ k +1: j +1])
-                    dp[i][j] = min(dp[i][j], rootVal + dp[i][k] + dp[k + 1][j])
+                    rootVal = max(arr[i:k+1]) * max(arr[k+1:j+1])
+                    dp[i][j] = min(dp[i][j], rootVal + dp[i][k] + dp[k+1][j])
         return dp[0][n - 1]
 
 

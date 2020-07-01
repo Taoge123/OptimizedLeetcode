@@ -65,18 +65,18 @@ class SolutionWisdom:
         if k > n / 2:
             return sum(i - j for i, j in zip(prices[1:], prices[:-1]) if i - j > 0)
 
-        hold = [float('-inf') for i in range(k + 1)]
+        buy = [float('-inf') for i in range(k + 1)]
         sold = [float('-inf') for i in range(k + 1)]
-        hold[0] = 0
+        buy[0] = 0
         sold[0] = 0
         for i in range(n):
-            oldHold = hold
+            oldBuy = buy
             oldSold = sold
 
             for j in range(1, k + 1):
                 # 有还是没有, 第几次交易
-                hold[j] = max(oldHold[j], oldSold[j - 1] - prices[i])
-                sold[j] = max(oldSold[j], oldHold[j] + prices[i])
+                buy[j] = max(oldBuy[j], oldSold[j - 1] - prices[i])
+                sold[j] = max(oldSold[j], oldBuy[j] + prices[i])
 
         res = float('-inf')
         for i in range(k + 1):

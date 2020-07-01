@@ -17,21 +17,22 @@ class Solution:
     def findNumberOfLIS(self, nums):
         if len(nums) == 0:
             return 0
-        length = [1] * len(nums)
+        # dp is the length
+        dp = [1] * len(nums)
         count = [1] * len(nums)
 
         for i in range(1, len(nums)):
             for j in range(i):
                 if nums[j] >= nums[i]:
                     continue
-                if length[j] + 1 > length[i]:
-                    length[i] = max(length[i], length[j] + 1)
+                if dp[j] + 1 > dp[i]:
+                    dp[i] = max(dp[i], dp[j] + 1)
                     count[i] = count[j]
-                elif length[j] + 1 == length[i]:
+                elif dp[j] + 1 == dp[i]:
                     count[i] += count[j]
 
-        maxLen = max(length)
-        return sum(count[i] for i in range(len(count)) if length[i] == maxLen)
+        maxLen = max(dp)
+        return sum(count[i] for i in range(len(count)) if dp[i] == maxLen)
 
 
 

@@ -39,6 +39,39 @@ Note:
 
 """
 
+"""
+dp[person+x][profit+y] += d[person][profit]
+
+"""
+
+
+class Solution:
+    def profitableSchemes(self, G: int, P: int, group: List[int], profit: List[int]) -> int:
+
+        dp = [[[0] * (P + 1) for i in range(G + 1)] for j in range(len(group) + 1)]
+        mod = 10 ** 9 + 7
+        # no person and no profit的方案有1种
+        dp[0][0][0] = 1
+        for k in range(1, len(group) + 1):
+            g = group[k - 1]
+            p = profit[k - 1]
+            # for person
+            for i in range(G + 1):
+                # for profit, profit can be 0
+                for j in range(P + 1):
+                    dp[k][i][j] = dp[k - 1][i][j]
+                    if i >= g:
+                        pp = max(0, j - p)
+                        dp[k][i][j] += dp[k - 1][i - g][pp]
+                        dp[k][i][j] %= mod
+
+        res = 0
+        for i in range(G + 1):
+            res += dp[-1][i][P]
+            res %= mod
+        return res
+
+
 
 
 

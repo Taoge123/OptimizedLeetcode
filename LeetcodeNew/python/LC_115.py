@@ -1,5 +1,7 @@
 """
 010,097,072,712,727
+https://www.youtube.com/watch?v=mPqqXh8XvWY
+
 
 Given a string S and a string T, count the number of distinct subsequences of S which equals T.
 

@@ -37,7 +37,7 @@ class Solution:
             dp[-1][j] = max(dp[-1][j+1] - dungeon[-1][j], 1)
 
         for i in range(m-2, -1, -1):
-            dp[i][-1] = max(dp[i +1][-1] - dungeon[i][-1], 1)
+            dp[i][-1] = max(dp[i+1][-1] - dungeon[i][-1], 1)
 
         for i in range(m-2, -1, -1):
             for j in range(n-2, -1, -1):

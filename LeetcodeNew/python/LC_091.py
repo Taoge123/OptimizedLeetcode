@@ -25,7 +25,7 @@ class Solution:
         if s == "":
             return 0
         n = len(s)
-        dp = [0 for x in range(n +1)]
+        dp = [0 for x in range(n+1)]
         dp[0] = 1
 
         for i in range(1, n + 1):

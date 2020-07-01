@@ -45,14 +45,14 @@ X X X X X X X X X
 
 
 class SolutionBU:
-    def largestSumOfAverages(self, A: List[int], K: int) -> float:
+    def largestSumOfAverages(self, A, K: int) -> float:
         n = len(A)
-        dp = [[0 for j in range( K +1)] for i in range(n)]
+        dp = [[0 for j in range(K+1)] for i in range(n)]
 
         summ = 0
         for i in range(n):
             summ += A[i]
-            dp[i][1] = summ / ( i +1)
+            dp[i][1] = summ / (i+1)
 
 
         for k in range(2, K+ 1):

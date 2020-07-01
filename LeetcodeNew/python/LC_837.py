@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/new-21-game/discuss/220949/Python-3-Memorize-DFS-from-O(KW%2BW)-to-O(K-%2B-W)
+
 https://www.youtube.com/watch?v=bd0t6cj7_4E
 https://github.com/wisdompeak/LeetCode/tree/master/Dynamic_Programming/837.New-21-Game
 
@@ -34,19 +36,20 @@ x-W-1>=0
 """
 
 
-
 class Solution:
     def new21Game(self, N: int, K: int, W: int) -> float:
-        dp = [0] * ( N + W +1)
-        for k in range(K, N+ 1):
+        dp = [0] * (K + W)
+        if len(dp) == 1:
+            return 1
+        for k in range(K, min(N + 1, K + W)):
             dp[k] = 1
 
-        summ = min(N - K + 1, W)
+        S = N - K + 1
         for k in range(K - 1, -1, -1):
-            dp[k] = summ / W
-            summ += dp[k] - dp[k + W]
-
+            dp[k] = S / W
+            S += dp[k] - dp[k + W]
         return dp[0]
+
 
 
 

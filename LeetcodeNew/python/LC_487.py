@@ -15,15 +15,6 @@ Follow up:
 What if the input numbers come in one by one as an infinite stream?
 In other words, you can't store all numbers coming from the stream as it's too large to hold in memory. Could you solve it efficiently?
 
-487.Max Consecutive Ones II
-类似于动态规划的思想，设计两个状态变量：
-count1记录当前从未使用反转权力、可以得到的连续1的个数；count2记录当前已经使用反转权力、可以得到的连续1的个数。
-
-如果nums[i]==1，那么count1和count2各自加1，没有问题。
-
-如果nums[i]==0，那么count1要置零；count2怎么办呢？事实上count2=count1+1既可。
-
-一路上追踪最大曾出现过的count2就是最后的答案。
 
 """
 
@@ -40,10 +31,58 @@ class Solution:
                 queue.append(i)
             if len(queue) > k:
                 left = queue.popleft() + 1
-
             res = max(res, i - left + 1)
-
         return res
+
+
+"""
+【1 0 0 1 1 1】
+    
+queue = [2]
+res = 2
+
+
+"""
+
+"""
+if nums[i] == 0:
+    no[i] = 0
+    use[i] = no[i-1] + 1
+
+if nums[i] == 1:
+    no[i] = no[i-1] + 1
+    use[i] = use[i-1] + 1
+
+487.Max Consecutive Ones II
+类似于动态规划的思想，设计两个状态变量：
+count1记录当前从未使用反转权力、可以得到的连续1的个数；count2记录当前已经使用反转权力、可以得到的连续1的个数。
+
+如果nums[i]==1，那么count1和count2各自加1，没有问题。
+
+如果nums[i]==0，那么count1要置零；count2怎么办呢？事实上count2=count1+1既可。
+
+一路上追踪最大曾出现过的count2就是最后的答案。
+
+"""
+
+
+class SolutionDP:
+    def findMaxConsecutiveOnes(self, nums) -> int:
+        # no is no flip and use has one flip
+        no = 0
+        use = 0
+        res = 0
+        for num in nums:
+            if num == 0:
+                use = no + 1
+                no = 0
+            else:
+                use += 1
+                no += 1
+            res = max(res, no, use)
+        return res
+
+
 
 
 class Solution2:

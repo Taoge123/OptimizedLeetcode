@@ -24,11 +24,10 @@ class Solution:
 
 class SolutionFloyd:
     def findCheapestPrice(self, n: int, flights, src: int, dst: int, K: int) -> int:
-
         dp = [float('inf') for i in range(n)]
 
         dp[src] = 0
-        for k in range( K +1):
+        for k in range(K+1):
             prevDP = dp[:]
             for a, b, cost in flights:
                 dp[b] = min(dp[b], prevDP[a] + cost)

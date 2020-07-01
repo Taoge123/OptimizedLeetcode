@@ -107,6 +107,6 @@ class Solution2:
 
 
 A = [10,13,12,14,15]
-a = Solution2()
+a = Solution()
 print(a.oddEvenJumps(A))
 
