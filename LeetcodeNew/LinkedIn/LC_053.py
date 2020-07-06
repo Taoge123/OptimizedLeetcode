@@ -4,7 +4,7 @@ def maxSubArray(self, nums):
         return None
     dp = [0] * len(nums)
     res = dp[0] = nums[0]
-    for i in xrange(1, len(nums)):
+    for i in range(1, len(nums)):
         dp[i] = max(dp[i - 1] + nums[i], nums[i])
         res = max(res, dp[i])
     return res

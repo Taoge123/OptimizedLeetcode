@@ -70,6 +70,7 @@ We count digit by digit, so it's O(logN)
 class SolutionTLE:
     def numDupDigitsAtMostN(self, N: int) -> int:
         self.count = 0
+        # starts with each number
         for i in range(1, 10):
             nums = [False for i in range(10)]
             nums[i] = True
@@ -99,16 +100,17 @@ class SolutionTLE:
 
 """
 
-class SolutionWisdom:
+class Solution:
     def numDupDigitsAtMostN(self, N: int) -> int:
         self.count = 0
         num = list(str(N))
         num = [int(i) for i in num]
+        n = len(num)
         # 先算出所有n-1位的permutation
-        for k in range(1, len(num)):
-            print(k, len(num) - (k + 1), self.perm(9, len(num) - (k + 1)))
-            #第一位数必须是9, 因为用了一位了， 后面就是9位选一位
-            self.count += 9 * self.perm(9, len(num) - (k + 1))
+        for k in range(1, n):
+            print(k, n - (k + 1), self.perm(9, n - (k + 1)))
+            #第一位数必须是9(1-9, 0不能选), 因为用了一位了， 后面就是9位选一位
+            self.count += 9 * self.perm(9, n - (k + 1))
 
         digits = [False for i in range(10)]
         # 0代表最高位
@@ -116,7 +118,8 @@ class SolutionWisdom:
         return N - self.count
 
     def dfs(self, num, digits, k):
-        if k == len(num):
+        n = len(num)
+        if k == n:
             self.count += 1
             return
 
@@ -124,13 +127,15 @@ class SolutionWisdom:
             # 最高位不能是0
             if k == 0 and i == 0:
                 continue
-
+            # 被占用了就不考虑了
             if digits[i] == True:
                 continue
 
+            #<num[i], 可以全排列
             if i < num[k]:
-                # (k+1)代表已经用过多少数字了, 要减掉
-                self.count += self.perm(10 - (k + 1), len(num) - (k + 1))
+                # (k+1)代表已经用过多少数字了, 要减掉, 我们只可以从(10-(k+1))里面选
+                self.count += self.perm(10 - (k + 1), n - (k + 1))
+            #==num[i], 继续往前走
             elif i == num[k]:
                 digits[i] = True
                 self.dfs(num, digits, k + 1)
@@ -147,7 +152,7 @@ class SolutionWisdom:
 
 
 
-class Solution:
+class SolutionGood:
     def numDupDigitsAtMostN(self, N):
         nums = list(map(int, str(N + 1)))
         res = 0

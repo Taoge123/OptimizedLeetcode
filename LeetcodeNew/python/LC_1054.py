@@ -1,7 +1,44 @@
+"""
+identical toi 767 - Reorganize String
+
+"""
+
 import collections
 import heapq
 
+
 class Solution:
+    def rearrangeBarcodes(self, barcodes):
+        freq = collections.Counter(barcodes)
+        heap = [[-count, num] for num, count in freq.items()]
+        heapq.heapify(heap)
+        res = []
+
+        while len(heap) >= 2:
+            count1, num1 = heapq.heappop(heap)
+            count2, num2 = heapq.heappop(heap)
+
+            res.append(num1)
+            res.append(num2)
+
+            if count1 < -1:
+                heapq.heappush(heap, [count1 + 1, num1])
+
+            if count2 < -1:
+                heapq.heappush(heap, [count2 + 1, num2])
+
+        if len(heap) == 0:
+            return res
+        else:
+            count, num = heapq.heappop(heap)
+            if count < -1:
+                return []
+            else:
+                return res + [num]
+
+
+
+class SolutionLee:
     def rearrangeBarcodes(self, packages):
         i = 0
         n = len(packages)

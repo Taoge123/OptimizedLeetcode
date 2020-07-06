@@ -1,4 +1,6 @@
 """
+862. Shortest Subarray with Sum at Least K
+
 Given an array of n positive integers and a positive integer s, find the minimal length of a contiguous subarray of which the sum ≥ s. If there isn't one, return 0 instead.
 
 Example:
@@ -16,14 +18,14 @@ If you have figured out the O(n) solution, try coding another solution of which 
 class Solution:
     def minSubArrayLen(self, s, nums):
 
-        total, left = 0, 0
+        summ, left = 0, 0
         res = float('inf')
 
         for right, num in enumerate(nums):
-            total += num
-            while total >= s:
+            summ += num
+            while summ >= s:
                 res = min(res, right - left + 1)
-                total -= nums[left]
+                summ -= nums[left]
                 left += 1
 
         return res if res <= len(nums) else 0

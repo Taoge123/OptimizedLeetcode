@@ -6,7 +6,6 @@ l       r
 """
 class Solution2:
     def removeBoxes(self, boxes):
-
         n = len(boxes)
         self.boxes = boxes
         self.dp = [[[0] * n for _ in range(n)] for _ in range(n)]

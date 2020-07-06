@@ -56,6 +56,33 @@ One pass O(N) time, Space O(1)
 *可以加一可以减一
 """
 
+
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        lower, upper = 0, 0
+        for char in s:
+            if char == '(':
+                lower += 1
+                upper += 1
+
+            elif char == ')':
+                lower = max(0, lower - 1)
+                upper -= 1
+
+            elif char == '*':
+                lower = max(0, lower - 1)
+                upper += 1
+
+            # 说明左括号太多了
+            if upper < 0:
+                return False
+
+        return lower == 0
+
+
+
+
+
 class SolutionLee:
     def checkValidString(self, s):
         mini = maxi = 0

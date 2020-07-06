@@ -73,7 +73,7 @@ class MedianFinder2:
 
 
 nums = [1,2,3,4,5]
-a = MedianFinder2()
+a = MedianFinder()
 for i in nums:
     print(a.addNum(i))
     print(a.findMedian())

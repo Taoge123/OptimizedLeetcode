@@ -25,7 +25,13 @@ Explanation of Input Syntax:
 The input is two lists: the subroutines called and their arguments.
 Solution's constructor has one argument, the array w. pickIndex has no arguments.
 Arguments are always wrapped with a list, even if there aren't any.
+
+1 2 3 4 1 4 2
+0 1 2 3 4 5 6
+[0,0][1,2][3,4,5][6,7][8,8][9,10,11,12][13,14]
+
 """
+
 
 import random, bisect
 

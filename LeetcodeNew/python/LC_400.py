@@ -25,21 +25,25 @@ Output:
 
 Explanation:
 The 11th digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... is a 0, which is part of the number 10.
+
 """
 
 
 class Solution:
     def findNthDigit(self, n):
+        length = 1
+        count = 9  # 每个bucket里面多少数字
         start = 1
-        size = 1
-        step = 9
-        while n > size * step:
-            n = n - (size * step)
-            size += 1
-            step *= 10
-            #第size位的最开始的数是在start开始的
+        while n > length * count:
+            # size * step, 看看是不是1-9之间
+            n -= length * count
+            length += 1
+            # 1-9， 10-99， 100-999, ...
+            count *= 10
             start *= 10
-        return int(str(start + (n - 1) // size)[(n - 1) % size])
+        # 找到那个数字
+        start += (n - 1) / length
+        return int(str(start)[(n - 1) % length])
 
 
 n = 1994516

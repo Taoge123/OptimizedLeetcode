@@ -57,7 +57,70 @@ Hope it helps
 
 import collections
 
-class Solution:
+
+class SolutionTony:
+    def numSubmatrixSumTarget(self, matrix, target: int) -> int:
+        m, n = len(matrix), len(matrix[0])
+        res = 0
+        # for up in range(m):
+        #     nums = [0] * n
+        #     for down in range(up, m):
+        #         for col in range(n):
+        #             nums[col] += matrix[down][col]
+        #         res += self.helper(nums, target)
+        # return res
+
+        for left in range(n):
+            nums = [0] * m
+            for right in range(left, n):
+                for i in range(m):
+                    nums[i] += matrix[i][right]
+                res += self.helper(nums, target)
+        return res
+
+    def helper(self, nums, target):
+        n = len(nums)
+        count = collections.defaultdict(int)
+        count[0] = 1
+        presum = 0
+        res = 0
+        for j in range(n):
+            presum += nums[j]
+            res += count[presum - target]
+            count[presum] += 1
+        return res
+
+
+
+
+class SolutionWisdom:
+    def numSubmatrixSumTarget(self, matrix, target: int) -> int:
+        m, n = len(matrix), len(matrix[0])
+        res = 0
+        for up in range(m):
+            nums = [0] * n
+            for down in range(up, m):
+                for col in range(n):
+                    nums[col] += matrix[down][col]
+                res += self.helper(nums, target)
+        return res
+
+    def helper(self, nums, target):
+        n = len(nums)
+        count = collections.defaultdict(int)
+        count[0] = 1
+        presum = 0
+        res = 0
+        for j in range(n):
+            presum += nums[j]
+            res += count[presum - target]
+            count[presum] += 1
+        return res
+
+
+
+
+class SolutionLee:
     def numSubmatrixSumTarget(self, matrix, target: int) -> int:
         m, n = len(matrix), len(matrix[0])
         for row in matrix:

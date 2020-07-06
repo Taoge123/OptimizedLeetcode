@@ -81,8 +81,13 @@ class MyCalendar2:
         return True
 
 
+"""
+[10, 20], [15, 25], [20, 30]
+starts = [10]
+ends   = [20]
 
-a = MyCalendar()
+"""
+a = MyCalendar2()
 print(a.book(10, 20))
 print(a.book(15, 25))
 print(a.book(20, 30))

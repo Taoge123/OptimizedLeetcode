@@ -1,6 +1,43 @@
 """
 https://www.youtube.com/watch?v=tEx3z4L7F-c
 """
+"""
+
+------------------------right
+    --------
+        --------
+            ----------
+                           --------------------
+            
+            
+            
+"""
+
+class SolutionTony:
+    def videoStitching(self, clips, T: int) -> int:
+        clips = sorted(clips)
+        right = 0
+        idx = 0
+        count = 0
+
+        while idx < len(clips):
+            if clips[idx][0] > right:
+                return -1
+
+            reach = right
+            # clip起始点<=right, 继续考察
+            while idx < len(clips) and clips[idx][0] <= right:
+                reach = max(reach, clips[idx][1])
+                idx += 1
+
+            right = reach
+            count += 1
+            if reach >= T:
+                return count
+        return -1
+
+
+
 
 class Solution:
     def videoStitching(self, clips, T: int) -> int:

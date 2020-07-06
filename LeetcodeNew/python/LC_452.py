@@ -31,7 +31,6 @@ and another arrow at x = 11 (bursting the other two balloons).
 
 class Solution:
     def findMinArrowShots(self, points) -> int:
-
         points = sorted(points, key = lambda x: x[1])
         res, end = 0, -float('inf')
         for interval in points:

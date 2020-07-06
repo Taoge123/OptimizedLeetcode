@@ -16,6 +16,21 @@ Solution solution = new Solution(head);
 solution.getRandom();
 
 """
+"""
+[a, b, c, d]
+x = a
+x = 50% x, 50%b => 50%a, 50%b
+x = 2/3 x, 1/3 c => 1/3 a, 1/3 b, 1/3 c
+x = 3/4 x, 1/4 d => 1/4a, 1/4b, 1/4c, 1/4d
+
+
+
+"""
+
+
+
+
+
 import random
 
 class ListNode:

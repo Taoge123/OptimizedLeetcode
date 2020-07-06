@@ -48,9 +48,10 @@ class Solution:
 
 class Solution478:
     def __init__(self, radius, x_center, y_center):
-
-        self.x_min, self.x_max = x_center - radius, x_center + radius
-        self.y_min, self.y_max = y_center - radius, y_center + radius
+        self.x_min = x_center - radius
+        self.x_max = x_center + radius
+        self.y_min = y_center - radius
+        self.y_max = y_center + radius
         self.radius = radius
         self.x_center = x_center
         self.y_center = y_center

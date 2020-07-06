@@ -42,10 +42,10 @@ class Solution:
 class Solution2:
     def maxJumps(self, arr, d: int) -> int:
         dp = [1 for _ in range(len(arr))]
-        nums = [[i, num] for i, num in enumerate(arr)]
-        nums = sorted(nums, key=lambda x: x[1])
+        nums = [[num, i] for i, num in enumerate(arr)]
+        nums = sorted(nums)
 
-        for i, _ in nums:
+        for _, i in nums:
             for j in range(i + 1, i + d + 1):
                 if j < 0 or j >= len(arr) or arr[i] <= arr[j]:
                     break
@@ -57,6 +57,5 @@ class Solution2:
                 dp[i] = max(dp[i], dp[j] + 1)
 
         return max(dp)
-
 
 

@@ -26,6 +26,28 @@ Output: 8
 
 import math
 
+
+class Solution2:
+    def nthMagicalNumber(self, N: int, A: int, B: int) -> int:
+        mod = 10**9 + 7
+
+        def count(x):
+            #How many magical numbers are <= x?
+            return x // A + x // B - x // (A * B // math.gcd(A,B))
+
+        left = 0
+        right = 10**15
+        while left < right:
+            mi = (left + right) // 2
+            if count(mi) < N:
+                left = mi + 1
+            else:
+                right = mi
+
+        return left % mod
+
+
+
 class Solution1:
     def nthMagicalNumber(self, N, A, B):
         from fractions import gcd
@@ -47,27 +69,6 @@ class Solution1:
 
         return (q * L + min(heads)) % MOD
 
-
-class Solution2:
-    def nthMagicalNumber(self, N, A, B):
-        from fractions import gcd
-        MOD = 10**9 + 7
-        L = A / gcd(A,B) * B
-
-        def magic_below_x(x):
-            #How many magical numbers are <= x?
-            return x / A + x / B - x / L
-
-        lo = 0
-        hi = 10**15
-        while lo < hi:
-            mi = (lo + hi) / 2
-            if magic_below_x(mi) < N:
-                lo = mi + 1
-            else:
-                hi = mi
-
-        return lo % MOD
 
 
 """

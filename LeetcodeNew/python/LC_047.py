@@ -49,5 +49,21 @@ class Solution2:
 
 
 
+class SolutionWisdom:
+    def permuteUnique(self, nums):
+        def insert(Perm, num):
+            res = []
+            for p in Perm:
+                for i in range(len(p) + 1):
+                    res.append(p[:i] + [num] + p[i:])
+                    if i < len(p) and p[i] == num:
+                        break
+            return res
+
+        Perm = [[]]
+        for num in nums:
+            Perm = insert(Perm, num)
+        return Perm
+
 
 

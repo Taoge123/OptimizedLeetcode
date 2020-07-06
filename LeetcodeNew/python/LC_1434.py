@@ -88,6 +88,7 @@ class Solution:
             newDP = dp[:]
             for state in range(1 << n):
                 for person in personForThisHat[hat]:
+                    # hat were taken
                     if ((state >> person) & 1) == 1:
                         continue
                     newDP[state + (1 << person)] += dp[state]

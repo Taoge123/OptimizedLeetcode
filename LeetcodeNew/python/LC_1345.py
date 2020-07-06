@@ -19,7 +19,7 @@ class Solution:
             size = len(queue)
             for i in range(size):
                 node = queue.pop()
-                if node == n- 1:
+                if node == n-1:
                     return res
                 for pos in table[arr[node]] + [node - 1, node + 1]:
                     if pos >= 0 and pos not in visited:

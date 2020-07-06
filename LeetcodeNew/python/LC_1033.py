@@ -1,3 +1,11 @@
+"""
+  O  O  O
+x[  y   ]z
+
+
+
+"""
+
 
 class Solution:
     def numMovesStones(self, a: int, b: int, c: int):
