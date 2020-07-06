@@ -1,10 +1,37 @@
+"""
+
+99 2 34 4 3
+   -    -
+选后面的4
+
+"""
+
+class SolutionTony:
+    def maximumSwap(self, num: int) -> int:
+        s = str(num)
+        t = s
+        t = sorted(t)[::-1]
+        i = 0
+        while i < len(s) and s[i]==t[i]:
+            i += 1
+        if i == len(s):
+            return num
+
+        pos = 0
+        for j in range(i+1, len(s)):
+            if s[j] == t[i]:
+                pos = j
+        s[i], s[pos] = s[pos], s[i]
+        return s
+
+
 
 class Solution:
     def maximumSwap(self, num: int) -> int:
         num = list(str(num))
         res = num[:]
         for i in range(len(num)):
-            for j in range(i +1, len(num)):
+            for j in range(i+1, len(num)):
                 num[i], num[j] = num[j], num[i]
                 if num > res:
                     res = num[:]
@@ -33,5 +60,6 @@ class Solution2:
 
 
 
-
+a = SolutionTony()
+print(a.maximumSwap(2736))
 

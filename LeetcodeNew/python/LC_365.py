@@ -40,7 +40,7 @@ z = m * x + n * y
 
 class Solution:
     def canMeasureWater(self, x, y, z):
-        return z == 0 or (x + y >= z and z % self.gcd(x, y) == 0)
+        return z == 0 or (z <= x + y and z % self.gcd(x, y) == 0)
 
     def gcd(self, x, y):
         return x if y == 0 else self.gcd(y, x % y)
