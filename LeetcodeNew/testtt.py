@@ -421,8 +421,12 @@ print(a.minFlips(target))
 """
 test2
 test3
+<<<<<<< HEAD
 test4
 we
+=======
+>>>>>>> 0ea3b4d... test3
+
 """
 
 
