@@ -424,9 +424,7 @@ test3
 <<<<<<< HEAD
 test4
 we
-=======
->>>>>>> 0ea3b4d... test3
-tony
+
 """
 
 
