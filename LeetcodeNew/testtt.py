@@ -329,25 +329,92 @@ ababbabbbabbab
 #
 #
 #
+#
+# import bisect
+# class Solution:
+#     def numSubseq(self, nums, target: int) -> int:
+#         nums = sorted(nums)
+#
+#         res = 0
+#         for i, num in enumerate(nums):
+#             idx = bisect.bisect_left(nums, target - num)
+#             res += (idx - i )
+#         return res
+#
+#
+# nums = [3,3,6,8]
+# k = 10
+# a = Solution()
+# print(a.numSubseq(nums, k))
+#
 
-import bisect
+
+# import collections
+#
+# class Solution:
+#     def maxProbability(self, n: int, edges, succProb, start: int, end: int) -> float:
+#
+#         graph = collections.defaultdict(dict)
+#         for edge, p in zip(edges, succProb):
+#             graph[edge[0]][edge[1]] = p
+#             graph[edge[1]][edge[0]] = p
+#
+#         res = []
+#         visited = set()
+#         self.dfs(graph, start, end, 1, res, visited)
+#         print(res)
+#         return max(res)
+#
+#     def dfs(self, graph, start, end, cur, res, visited):
+#         if start in visited:
+#             return
+#
+#         if start == end:
+#             res.append(cur)
+#         visited.add(start)
+#
+#         for nei in graph[start]:
+#             self.dfs(graph, nei, end, cur * graph[start][nei], res, visited)
+#         visited.remove(start)
+#
+#         return res
+#
+# n = 3
+# edge = [[0,1]]
+# succProb = [0.5]
+# start = 0
+# end = 2
+#
+# a = Solution()
+# print(a.maxProbability(n, edge, succProb, start, end))
+#
+#
+
+import collections
 class Solution:
-    def numSubseq(self, nums, target: int) -> int:
-        nums = sorted(nums)
+    def minFlips(self, target: str) -> int:
+        n = len(target)
+        start = 0
+        table = collections.Counter(target)
 
-        res = 0
-        for i, num in enumerate(nums):
-            idx = bisect.bisect_left(nums, target - num)
-            res += (idx - i )
-        return res
+        for i in range(n):
+            if target[i] == '1':
+                start = i
+                break
+        if len(table.keys()) == 1 and start == 0:
+            return 0
+        if len(table.keys()) == 1 and start == n-1:
+            return 0
+        count = 1
+        for i in range(start + 1, n):
+            if target[i] == target[i - 1]:
+                continue
+            else:
+                count += 1
+        return count
 
 
-nums = [3,3,6,8]
-k = 10
+target = "001011101"
 a = Solution()
-print(a.numSubseq(nums, k))
-
-
-
-
+print(a.minFlips(target))
 
