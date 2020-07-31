@@ -420,6 +420,9 @@ print(a.minFlips(target))
 
 """
 test2
+test3
+test4
+we
 """
 
 
