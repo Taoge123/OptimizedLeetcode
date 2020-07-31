@@ -20,6 +20,32 @@ class Solution:
                 return N
 
 
+"""
+x1 = k*q + r
+x2 = 10*1+1 = k*10q + 10r = 10r1 + 1 (mod K)
+x3 = 10*2+1 = 10r2 + 1 (mod K)
+
+
+"""
+
+
+class SolutionWisdom:
+    def smallestRepunitDivByK(self, K: int) -> int:
+        N = 1
+        count = 1
+        visited = set()
+        while True:
+            remain = N % K
+            if remain == 0:
+                return count
+            if remain in visited:
+                return -1
+            visited.add(remain)
+            N = N % K * 10 + 1
+            count += 1
+        return -1
+
+
 
 
 

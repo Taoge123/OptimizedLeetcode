@@ -33,4 +33,23 @@ class Solution:
         return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2
 
 
+class Solution2:
+    def validSquare(self, p1, p2, p3, p4) -> bool:
+        edges = set()
+        for p1, p2 in itertools.combinations([p1, p2, p3, p4], 2):
+            print(self.dist(p1, p2))
+            edges.add(self.dist(p1, p2))
 
+        return len(edges) == 2
+
+    def dist(self, p1, p2):
+        return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
+
+
+
+p1 = [0,0]
+p2 = [1,1]
+p3 = [1,0]
+p4 = [0,1]
+a = Solution2()
+print(a.validSquare(p1, p2, p3, p4))

@@ -48,13 +48,13 @@ we want the swap it with the largest such digit that occurs the latest.
 
 class Solution2:
     def maximumSwap(self, num: int) -> int:
-        temp = list(str(num))
-        table = {int(x): i for i, x in enumerate(temp)}
-        for i, x in enumerate(temp):
+        s = list(str(num))
+        table = {int(x): i for i, x in enumerate(s)}
+        for i, x in enumerate(s):
             for digit in range(9, int(x), -1):
                 if table.get(digit, 0) > i:
-                    temp[i], temp[table[digit]] = temp[table[digit]], temp[i]
-                    return int("".join(temp))
+                    s[i], s[table[digit]] = s[table[digit]], s[i]
+                    return int("".join(s))
         return num
 
 

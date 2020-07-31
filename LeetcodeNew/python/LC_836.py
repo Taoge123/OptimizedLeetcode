@@ -83,6 +83,39 @@ Consider a 1D overlap (Interval problem).
 
 """
 
+"""
+     |-----|
+--------   |
+|    | |   |
+|    --|----
+|      |
+--------
+
+          |-----|
+--------  |     |
+|      |  |     |
+|      |  -------
+|      |
+--------
+
+      x的右在y左的左
+
+"""
+
+
+class SolutionTony:
+    def isRectangleOverlap(self, rec1, rec2) -> bool:
+        # x的右在y左的左
+        if rec1[2] <= rec2[0] or rec1[0] >= rec2[2]:
+            return False
+
+        if rec1[3] <= rec2[1] or rec1[1] >= rec2[3]:
+            return False
+
+        return True
+
+
+
 
 class Solution:
     def isRectangleOverlap(self, rec1, rec2) -> bool:

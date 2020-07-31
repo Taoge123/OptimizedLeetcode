@@ -47,6 +47,69 @@ Like Java we may need StringBuilder,
 but those are not what I want to discuss deeply here.
 """
 
+"""
+xyz(10) = abcde(2)
+
+N = x*10^2 + y*10^1 + z*10^0
+  = a*2^4 + b*2^3 + c*2^2 + d*2^1 + e*2^0
+
+    r0 = N%10
+    N = N//10 => (N-r0)//10
+    r1 = N%10
+    N = (N-r1)//10
+
+    r0 = N%2
+    N = N//2 => (N-r0)//2
+    r1 = N%2
+    N = (N-r1)//2
+
+    ...
+
+    r0 = N%-2
+    N = N//-2 => (N-r0)//-2
+    r1 = N%-2
+    N = (N-r1)//-2
+
+5/3    => 1=1 r=2
+-5/-3  => 1=1 r=-2
+5/-3   => 1=1 r=-2
+5/-3   => 1=2 r=1
+1017.Convert-to-Base--2
+本质上和求N的任何K进制的转化一样的做法。求得余数r=N%K作为当前最低位的数字，然后将N=(N-r)/K作为下一个循环的初始值直至为零。把所有的数字拼接起来倒序输出就是K进制的结果。
+
+特别注意，余数r必须是正数，也就是说无法除尽的时候，采用的是向下取整。比如说5/(-3)，依据严格的数学定义，商是-2，余数是1.
+
+但是，当除数是负数的时候，不同语言的运算规则会不一样。在C++/Java里面，整数的除法都是向零取整。比如说5/(-3)，结果商是-1，余数是-2.这个余数因为是负数，是无法用来作为进制转换结果的。解决方案是：将商加上一，余数加上abs(K)。这样就转变成了向下取整的结果，余数也变成了正数。在这个例子中，结果商就是-1，余数是1.
+
+事实上，在wiki里面已经明确写明了negative base calculation的方法：https://en.wikipedia.org/wiki/Negative_base#Calculation
+
+"""
+
+
+class SolutionWisdom:
+    def baseNeg2(self, N: int) -> str:
+        if N == 0:
+            return "0"
+        res = []
+        while (N != 0):
+            remain = N % -2
+            div = (N - remain) // -2
+
+            if remain < 0:
+                div += 1
+                remain += 2
+
+            res.append(str(remain))
+            N = div
+
+        return "".join(res[::-1])
+
+
+
+
+
+
+
 def convertToBaseK(n, K):
     res = ""
     while n != 0:

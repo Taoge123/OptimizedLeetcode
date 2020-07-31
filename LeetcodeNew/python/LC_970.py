@@ -1,14 +1,14 @@
 
 class Solution:
     def powerfulIntegers(self, x, y, bound):
-        ans = set()
+        res = set()
         # 2**18 > bound
         for i in range(25):
             for j in range(25):
-                v = x** i + y ** j
-                if v <= bound:
-                    ans.add(v)
-        return list(ans)
+                summ = x**i + y**j
+                if summ <= bound:
+                    res.add(summ)
+        return list(res)
 
 
 class SolutionLee:

@@ -54,17 +54,49 @@ LC 1238. Circular Permutation in Binary Representation 和本题一模一样。
           1 01
           1 00
 """
+"""
+镜像法:
+
+0 1
+0 1 1 0 -> 00 01 11 10
+00 01 11 10 | 10 11 01 00 -> 000 001 011 010 110 111 101 100
 
 
-class SolutionMirror:
+0   00    000
+1   01    001
+    11    011
+    10    010
+          110
+          111
+          101
+          100
+
+"""
+
+
+class Solution:
     def grayCode(self, n):
+        res = [0]
         if n == 0:
-            return [0]
-        res = [0, 1]
-        for i in range(2, n + 1):
-            for j in range(len(res) - 1, -1, -1):
-                res.append(res[j] | 1 << i - 1)
+            return res
+        for i in range(n):
+            step = len(res)
+            for j in range(step - 1, -1, -1):
+                # 每次新加的要左移i位
+                res.append(res[j] | (1 << i))
+
         return res
+
+
+# class SolutionMirror:
+#     def grayCode(self, n):
+#         if n == 0:
+#             return [0]
+#         res = [0, 1]
+#         for i in range(2, n + 1):
+#             for j in range(len(res) - 1, -1, -1):
+#                 res.append(res[j] | 1 << i - 1)
+#         return res
 
 
 

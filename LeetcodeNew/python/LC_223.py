@@ -14,6 +14,35 @@ Note:
 Assume that the total area is never beyond the maximum possible value of int.
 
 """
+"""
+223.Rectangle-Area
+整体而言这是一个容斥原理的应用。A并B = A + B - A交B
+
+其中“A交B”的面积计算，通过确定相交区域的左下角和右上角来得到。
+
+x_left_bottom = max(x1_left_bottom, x2_left_bottom)
+y_left_bottom = max(y1_left_bottom, y2_left_bottom)
+x_right_top = min(x1_right_top, x2_right_top)
+y_right_top = min(y1_right_top, y2_right_top)
+特别注意要检查 x_left_bottom < x_right_top和 y_left_bottom < y_right_top，才能说明有真正意义的相交矩形。
+"""
+
+class SolutionTony:
+    def computeArea(self, A: int, B: int, C: int, D: int, E: int, F: int, G: int, H: int) -> int:
+
+        x1 = max(A, E)
+        y1 = max(B, F)
+
+        x2 = min(C, G)
+        y2 = min(D, H)
+        if x2 - x1 < 0 or y2 - y1 < 0:
+            overlap = 0
+        else:
+            overlap = max((x2 - x1) * (y2 - y1), 0)
+
+        return (C - A) * (D - B) + (G - E) * (H - F) - overlap
+
+
 
 
 class Solution:
