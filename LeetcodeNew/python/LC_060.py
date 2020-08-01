@@ -114,6 +114,7 @@ class Solution:
 
         k -= 1
         res = []
+        # or while nums, as long as we have nums left
         while n > 0:
             a = k // fact[n - 1]
             res.append(str(nums[a]))
