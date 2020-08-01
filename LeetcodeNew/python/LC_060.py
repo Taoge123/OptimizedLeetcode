@@ -48,6 +48,68 @@ i = 2 index=1/1=1   k=1%1=0
 from itertools import permutations
 import math
 
+"""
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+
+
+1234567
+1765432
+
+
+1XXXXXX
+2XXXXXX
+...
+YXXXXXX
+
+
+1 + {2, 3, 4}
+2 + {1, 3, 4}
+3 + {1, 2, 4}
+4 + {1, 2, 4}
+
+res  : 1 2 3 4 
+fact : 1 1 2 6
+
+k = 17
+i = 4 index = 17 // 6 = 2 -> k = 17 % 6 = 5
+i = 3 index = 5 // 2 = 2  -> k = 5 % 2 = 1
+i = 4 index = 1 // 1 = 1  -> k = 1 % 1 = 0
+
+
+"""
+
+
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+
+        nums = []
+        for i in range(1, n + 1):
+            nums.append(i)
+
+        fact = [1] + [0] * (n - 1)
+        for i in range(1, n):
+            fact[i] = i * fact[i - 1]
+
+        k -= 1
+        res = []
+        while n > 0:
+            a = k // fact[n - 1]
+            res.append(str(nums[a]))
+            k -= a * fact[n - 1]
+            n -= 1
+            nums.pop(a)
+        return "".join(res)
+
+
+
+
+
+
 class Solution:
     def getPermutation(self, n, k):
 
