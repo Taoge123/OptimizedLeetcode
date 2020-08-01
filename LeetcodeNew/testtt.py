@@ -424,10 +424,17 @@ test3
 <<<<<<< HEAD
 test4
 we
+<<<<<<< HEAD
 =======
 >>>>>>> 0ea3b4d84651d29526d173d7b1dcc2d15a1e87ed
 
 fae
+=======
+tony
+f
+
+cherry1
+>>>>>>> a554e17... cherry 1
 """
 
 
