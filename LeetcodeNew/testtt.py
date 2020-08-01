@@ -435,12 +435,7 @@ tony
 f
 
 cherry1
->>>>>>> a554e17... cherry 1
-=======
-=======
->>>>>>> 0ea3b4d... test3
 tony
->>>>>>> afa0f26cd514cb209574b954e224af45900cf402
 """
 
 
