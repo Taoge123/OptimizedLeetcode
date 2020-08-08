@@ -1,5 +1,6 @@
 import heapq
 
+
 class Solution:
     def smallestRange(self, nums):
         # first elem of all lists
@@ -9,15 +10,22 @@ class Solution:
         res = -1e9, 1e9
         # get the max from first elem of all lists
         right = max(row[0] for row in nums)
+
         while heap:
-            left, i, pos = heapq.heappop(heap)
+            left, row, pos = heapq.heappop(heap)
             if right - left < res[1] - res[0]:
                 res = left, right
-            if pos + 1 == len(nums[i]):
+            print(pos + 1, len(nums[row]))
+            # pos tracks index, i tracks which row
+            if pos + 1 == len(nums[row]):
                 return res
-            val = nums[i][pos + 1]
+            # next val
+            val = nums[row][pos + 1]
             right = max(right, val)
-            heapq.heappush(heap, (val, i, pos + 1))
+            heapq.heappush(heap, (val, row, pos + 1))
 
 
 
+nums = [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
+a = Solution()
+print(a.smallestRange(nums))
