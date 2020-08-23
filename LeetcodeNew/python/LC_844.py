@@ -1,20 +1,36 @@
-
 class Solution:
     def backspaceCompare(self, S: str, T: str) -> bool:
-        a = self.process(S, [])
-        b = self.process(T, [])
-        return a == b
+        s = self.convert(S)
+        t = self.convert(T)
+        return s == t
 
-    def process(self, s, stack):
+    def convert(self, s):
+        stack = []
         for char in s:
-            if char is not '#':
+            if char != '#':
                 stack.append(char)
             else:
-                if not stack:
-                    continue
-                stack.pop()
-
+                if stack:
+                    stack.pop()
         return stack
+
+
+class SolutionBetter:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        s, i = self.convert(list(S))
+        t, j = self.convert(list(T))
+        return s[:i] == t[:j]
+
+    def convert(self, s):
+        i = 0
+        for j in range(len(s)):
+            if s[j] != '#':
+                s[i] = s[j]
+                i += 1
+            else:
+                i = max(0, i - 1)
+        return s, i
+
 
 
 class SolutionLeeON:

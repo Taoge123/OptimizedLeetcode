@@ -27,6 +27,7 @@ class Solution:
                 stack.append(i)
 
             else:
+                # (((((
                 if not stack:
                     start = i
                 else:
@@ -80,11 +81,11 @@ class Solution2:
         return max_to_now
 
 
-s1 = "(()"
+s1 = "()()"
 s2 = "((()))"
 
 a = Solution()
-print(a.longestValidParentheses(s2))
+print(a.longestValidParentheses(s1))
 
 
 

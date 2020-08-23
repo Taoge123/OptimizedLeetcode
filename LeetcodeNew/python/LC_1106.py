@@ -13,17 +13,20 @@ class Solution:
             return not child, i + 1
         if exp[i] == '&':
             i += 1  # "("
-            true = True
+            flag = True
             while exp[i] != ")":
                 child, i = self.parse(exp, i + 1)
-                true &= child
-            return true, i + 1
+                flag &= child
+            return flag, i + 1
         if exp[i] == '|':
             i += 1  # "("
-            true = False
+            flag = False
             while exp[i] != ")":
                 child, i = self.parse(exp, i + 1)
-                true |= child
-            return true, i + 1
+                flag |= child
+            return flag, i + 1
 
 
+expression = "|(&(t,f,t),!(t))"
+a = Solution()
+print(a.parseBoolExpr(expression))

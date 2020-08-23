@@ -1,61 +1,50 @@
+"""
+https://leetcode.com/problems/redundant-connection-ii/discuss/254733/Python-Union-Find-Clear-Logic
+
+"""
+
+
+class UnionFind:
+    def __init__(self, n):
+        self.parent = list(range(n))
+
+    def find(self, i):
+        if self.parent[i] == i:
+            return i
+        return self.find(self.parent[i])
+
+    def union(self, i, j):
+        x = self.find(i)
+        y = self.find(j)
+        if x == y:
+            return False
+        self.parent[x] = self.parent[y]
+        return True
 
 
 
-
-
-
-
-class UnionFindSet(object):
-    def __init__(self):
-        self.parents = range(1001)
-        self.rank = [0] * 1001
-
-    def find(self, val):
-        """find with path compression"""
-        if self.parents[val] != val:
-            self.parents[val] = self.find(self.parents[val])
-        return self.parents[val]
-
-    def union(self, v1, v2):
-        """union by rank, check whether union two vertics will lead to a cycle"""
-        p1, p2 = self.find(v1), self.find(v2)
-        if p1 == p2:
-            return True
-        elif self.rank[p1] > self.rank[p2]:
-            self.parents[p2] = p1
-        elif self.rank[p1] < self.rank[p2]:
-            self.parents[p1] = p2
-        else:
-            self.rank[p2] += 1
-            self.parents[p1] = p2
-        return False
-
-
-class SolutionBest:
+class Solution:
     def findRedundantDirectedConnection(self, edges):
-        redundant_edges = None
-        count = {}
-        for e in edges:
-            if e[1] not in count:
-                count[e[1]] = []
-            count[e[1]].append(e)
-            if len(count[e[1]]) == 2:
-                redundant_edges = count[e[1]]
+        cand1, cand2 = None, None
+        point_to = {}
+        for u, v in edges:
+            if v in point_to:
+                cand1 = point_to[v]
+                cand2 = [u, v]
                 break
+            point_to[v] = [u, v]
 
-        if redundant_edges:
-            ufs = UnionFindSet()
-            for edge in edges:
-                if edge == redundant_edges[1]:
-                    continue
-                if ufs.union(edge[0], edge[1]):
-                    return redundant_edges[0]
-            return redundant_edges[1]
-        else:
-            ufs = UnionFindSet()
-            for edge in edges:
-                if ufs.union(edge[0], edge[1]):
-                    return edge
+        ds = UnionFind(len(edges))
+        for u, v in edges:
+            if [u, v] == cand2:
+                continue
+            if not ds.union(u - 1, v - 1):
+                if cand1:
+                    return cand1
+                return [u, v]
+        return cand2
+
+
 
 
 class Solution2:

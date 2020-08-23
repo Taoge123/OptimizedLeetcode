@@ -29,8 +29,61 @@ Do not use the eval built-in library function.
 - 如果當前是)，那麼說明當前括號裡的內容已經計算完畢，所以要把之前的結果出棧，然後計算整個式子的結果；
 - 最後，當所有數字結束的時候，需要把結果進行計算，確保結果是正確的。
 """
+"""
+典型的栈的应用。需要设置两个栈
+
+  stack<int>nums;
+  stack<int>sign;
+nums用来存储数值，sign用来存储符号。这里需要有个小技巧，在字符串最开始添加一个+入栈，遇到'('也添加一个+入栈，这样保证每个数字（和小括号产生的中间结果）都在sign中有一个对应的符号位。
+
+具体的算法是：遇到'('就将当前结果curResult入栈并清零。遇到')'就将当前结果与sign的栈顶元素结合形成新数（然后sign退栈），并加上nums的栈顶元素结合形成新数（然后nums退栈）。遇到符号就加入sign的栈。遇到纯数字就取出sign的栈顶元素结合
+"""
+
+class SolutionWisdom:
+    def calculate(self, s: str) -> int:
+        S = "+"
+        for ch in s:
+            if ch == ' ':
+                continue
+            S += ch
+            if ch == '(':
+                S += '+'
+        s = S
+        nums = []
+        signs = []
+        res = 0
+        sign = 0
+        i = 0
+        while i < len(s):
+            if s[i] == '+' or s[i] == '-':
+                sign = 1 if s[i] == '+' else -1
+
+            elif s[i].isdigit():
+                j = i
+                while j < len(s) and s[j].isdigit():
+                    j += 1
+                num = int(s[i:j])
+                # 当前平行单项式
+                res += num * sign
+                # i已经指向了最后一位num的下一位, 要回去一位
+                i = j - 1
+
+            elif s[i] == '(':
+                # 记录下一层之前的结果和符号
+                nums.append(res)
+                signs.append(sign)
+                res = 0
+
+            elif s[i] == ')':
+                #之前存的sign再加上之前的res(在nums里面)
+                res = nums.pop() + signs.pop() * res
+            i += 1
+        return res
 
 
+"""
++(1+(+4+5+2)-3)+(+6+8)
+"""
 
 class SolutionBestToBeTested:
     def calculate(self, s):

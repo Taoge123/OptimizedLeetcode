@@ -191,7 +191,12 @@ class Solution:
         return res
 
 
+"""
+1234543
+54321
+123345
 
+"""
 class SolutionLee:
     def sumSubarrayMins(self, A):
         n = len(A)
@@ -203,7 +208,7 @@ class SolutionLee:
         for i in range(n):
             count = 1
             #新来的num > 前面，说明没有大于的, count = 1 ex: 1234 - 1111
-            while stack1 and stack1[-1][0] > A[i]:
+            while stack1 and A[i] < stack1[-1][0]:
                 count += stack1.pop()[1]
             left[i] = count
             stack1.append([A[i], count])
@@ -213,7 +218,7 @@ class SolutionLee:
         # 新来的num < 后面，说明没有大于的, count = 1    ex: 4321 - 1111
         for i in range(n)[::-1]:
             count = 1
-            while stack2 and stack2[-1][0] >= A[i]:
+            while stack2 and A[i] <= stack2[-1][0]:
                 count += stack2.pop()[1]
             right[i] = count
             stack2.append([A[i], count])

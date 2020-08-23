@@ -46,13 +46,42 @@ class NestedInteger:
        :rtype List[NestedInteger]
        """
 
-class NestedIterator:
+"""
+仔细分析数据结构的定义。vector<NestedInteger>包含的是元素是NestedInteger类型. 
+当对元素做.getInteger()操作后得到的才是整形；做.getList()操作后得到的是vector<NestedInteger>类型。
 
+设计一个stack<NestedInteger>Stack的堆栈。
+
+hasNext()的目的，就是将Stack的栈顶元素不断展开（如果对应的是List数据的话），直至栈顶元素isInteger()为止。
+则下一步的next()就是读取栈顶元素并抽取整形数据，同时退栈。
+"""
+
+
+class NestedIteratorBetter:
+    def __init__(self, nestedList: [NestedInteger]):
+        self.stack = []
+        for i in range(len(nestedList) - 1, -1, -1):
+            self.stack.append(nestedList[i])
+
+    def next(self) -> int:
+        res = self.stack.pop().getInteger()
+        return res
+
+    def hasNext(self) -> bool:
+        while self.stack and not self.stack[-1].isInteger():
+            temp = self.stack.pop().getList()
+            for i in range(len(temp) - 1, -1, -1):
+                self.stack.append(temp[i])
+
+        if not self.stack:
+            return False
+        return True
+
+
+
+
+class NestedIterator:
     def __init__(self, nestedList):
-        """
-        Initialize your data structure here.
-        :type nestedList: List[NestedInteger]
-        """
         self.queue = collections.deque()
         self.flatten(nestedList)
 
@@ -64,15 +93,9 @@ class NestedIterator:
                 self.flatten(item.getList())
 
     def next(self):
-        """
-        :rtype: int
-        """
         return self.queue.popleft()
 
     def hasNext(self):
-        """
-        :rtype: bool
-        """
         return len(self.queue) > 0
 
 # Your NestedIterator object will be instantiated and called as such:

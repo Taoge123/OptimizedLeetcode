@@ -26,7 +26,7 @@ class MinStack:
         self.stack = []
 
     def push(self, x: int) -> None:
-        self.stack.append([x, x if not self.stack else min(x, self.getMin())])
+        self.stack.append([x, x if not self.stack else min(x, self.stack[-1][1])])
 
     def pop(self) -> None:
         self.stack.pop()
@@ -36,7 +36,6 @@ class MinStack:
 
     def getMin(self) -> int:
         return self.stack[-1][1]
-
 
 
 

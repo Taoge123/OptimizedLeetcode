@@ -33,6 +33,62 @@ then we can split the array into two chunks at this index.
 
 class Solution:
     def maxChunksToSorted(self, arr) -> int:
+        res = 0
+        sum1, sum2 = 0, 0
+        for a, b in zip(arr, sorted(arr)):
+            sum1 += a
+            sum2 += b
+            if sum1 == sum2:
+                res += 1
+        return res
+
+
+class SolutionTony:
+    def maxChunksToSorted(self, arr) -> int:
+        expect = sorted(arr)
+        nums1 = [0]
+        nums2 = [0]
+        for i in range(len(arr)):
+            nums1.append(arr[i] + nums1[-1])
+            nums2.append(expect[i] + nums2[-1])
+
+        res = 0
+        for i in range(1, len(nums1)):
+            if nums1[i] == nums2[i]:
+                res += 1
+        return res
+
+
+"""
+3 7 8 4 6 5 9
+3
+3 7
+3 7 8
+3 8
+3 8
+3 8
+3 8 9
+
+"""
+
+
+class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        stack = []
+        curMax = 0
+        for num in arr:
+            if not stack or stack[-1] <= num:
+                stack.append(num)
+                curMax = num
+            else:
+                while stack and stack[-1] > num:
+                    stack.pop()
+                stack.append(curMax)
+        return len(stack)
+
+
+class Solution:
+    def maxChunksToSorted(self, arr) -> int:
         maxi = 0
         res = 0
         for i, num in enumerate(arr):
@@ -50,8 +106,4 @@ class SolutionLee:
             curMax = max(curMax, v)
             res += curMax == i
         return res
-
-
-
-
 

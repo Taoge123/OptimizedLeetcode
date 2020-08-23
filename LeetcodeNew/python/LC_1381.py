@@ -29,7 +29,6 @@ class CustomStack:
             self.stack.append(x)
 
     def pop(self) -> int:
-        temp = 0
         if not self.stack:
             return -1
         else:
@@ -60,4 +59,20 @@ class CustomStackLee:
     def increment(self, k, val):
         if self.inc:
             self.inc[min(k, len(self.inc)) - 1] += val
+
+
+
+a = CustomStackLee(10)
+print(a.push(1))
+print(a.push(1))
+print(a.push(1))
+print(a.push(2))
+print(a.push(2))
+print(a.push(2))
+print(a.increment(2,2))
+print(a.increment(4,2))
+print(a.pop())
+print(a.pop())
+
+
 

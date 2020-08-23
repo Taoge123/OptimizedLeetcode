@@ -22,19 +22,20 @@ class Solution:
     def decodeString(self, s: str) -> str:
         curNum = 0
         curString = ""
-        stack = []
+        nums = []
+        string = []
+
         for char in s:
             if char == "[":
-                stack.append(curString)
-                stack.append(curNum)
+                string.append(curString)
+                nums.append(curNum)
                 curString = ""
                 curNum = 0
 
             elif char == ']':
-                tempNum = stack.pop()
-                prevString = stack.pop()
-                curString = prevString + tempNum * curString
-
+                prevNum = nums.pop()
+                prevString = string.pop()
+                curString = prevString + prevNum * curString
 
             elif char.isdigit():
                 curNum = curNum * 10 + int(char)
@@ -43,6 +44,7 @@ class Solution:
                 curString += char
 
         return curString
+
 
 
 class Solution2:

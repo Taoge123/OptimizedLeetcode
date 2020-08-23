@@ -1,5 +1,6 @@
 
 """
+similar to 321
 Given a nested list of integers represented as a string, implement a parser to deserialize it.
 
 Each element is either an integer, or a list -- whose elements may also be integers or other lists.
@@ -73,7 +74,6 @@ class NestedInteger(object):
 
 class Solution:
     def deserialize(self, s):
-
         return self.getNumber(eval(s))
 
     def getNumber(self, nums):
@@ -84,6 +84,26 @@ class Solution:
             List.add(self.getNumber(num))
         return List
 
+
+class Solution2:
+    def deserialize(self, s):
+        stack, num, last = [], "", None
+        for c in s:
+            if c.isdigit() or c == "-":
+                num += c
+            elif c == "," and num:
+                stack[-1].add(NestedInteger(int(num)))
+                num = ""
+            elif c == "[":
+                elem = NestedInteger()
+                if stack: stack[-1].add(elem)
+                stack.append(elem)
+            elif c == "]":
+                if num:
+                    stack[-1].add(NestedInteger(int(num)))
+                    num = ""
+                last = stack.pop()
+        return last if last else NestedInteger(int(num))
 
 
 s = "[123,[456,[789]]]"

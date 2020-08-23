@@ -29,3 +29,43 @@ class Solution:
         return res
 
 
+
+
+class SolutionUF:
+    def find(self, i):
+        if self.parent[i] == i:
+            return self.parent[i]
+        return self.find(self.parent[i])
+
+    def union(self, i, j):
+        x = self.find(i)
+        y = self.find(j)
+        if x != y:
+            self.parent[y] = x
+            self.size[x] += self.size[y]
+
+    def longestConsecutive(self, nums) -> int:
+        if not nums:
+            return 0
+
+        # remove the duplicate if any
+        nums = set(nums)
+
+        self.parent, self.size = {}, {}
+
+        for num in nums:
+            self.parent[num] = num
+            self.size[num] = 1
+
+        for n in nums:
+            if n - 1 in nums:
+                self.union(n, n - 1)
+            if n + 1 in nums:
+                self.union(n, n + 1)
+
+        return max(self.size.values())
+
+
+
+
+

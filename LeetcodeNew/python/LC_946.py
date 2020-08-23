@@ -1,4 +1,15 @@
 
+class Solution2:
+    def validateStackSequences(self, pushed, popped) -> bool:
+        i = 0
+        stack = []
+        for num in pushed:
+            stack.append(num)
+            while stack and stack[-1] == popped[i]:
+                stack.pop()
+                i += 1
+        return i == len(pushed)
+
 
 class Solution:
     def validateStackSequences(self, pushed, popped) -> bool:
@@ -6,8 +17,8 @@ class Solution:
         for num in pushed:
             pushed[i] = num
             while i >= 0 and pushed[i] == popped[j]:
-                i = i - 1
-                j = j + 1
+                i -= 1
+                j += 1
             i += 1
         return i == 0
 
