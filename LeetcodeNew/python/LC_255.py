@@ -21,8 +21,11 @@ Output: true
 Follow up:
 Could you do it using only constant space complexity?
 
-"""
+for every pair {a, b} and a < b, we need a < c for every c after b
 
+a_max < b => c
+
+"""
 
 class Solution:
     def verifyPreorder(self, preorder) -> bool:
@@ -39,6 +42,36 @@ class Solution:
             stack.append(num)
 
         return True
+
+
+
+"""
+
+a [XXXXXXXXXXXX]    [YYYYYYYYYYY]
+  b[XXXXX][YYYYYY]
+
+
+"""
+
+class SolutionTLE:
+    def verifyPreorder(self, preorder) -> bool:
+        return self.dfs(preorder, 0, len(preorder) - 1)
+
+    def dfs(self, preorder, start, end):
+        if start >= end:
+            return True
+
+        root = preorder[start]
+        i = start + 1
+        while i <= end and preorder[i] < root:
+            i += 1
+
+        for j in range(i, end + 1):
+            if preorder[j] < root:
+                return False
+        return self.dfs(preorder, start + 1, i - 1) and self.dfs(preorder, i, end)
+
+
 
 
 preorder = [5,2,6,1,3]

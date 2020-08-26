@@ -96,6 +96,70 @@ class Solution:
         return ''
 
 
+"""
+ban: (1 * 26^2 + 0 * 26^1 + 13 * 26^0) % 31 = 7
+ana: (0 * 26^2 + 13 * 26^1 + 0 * 26^0) % 31 = 28
+nan: (13 * 26^2 + 0 * 26^1 + 13 * 26^0) % 31 = 28
+ana: (0 * 26^2 + 13 * 26^1 + 0 * 26^0) % 31 = 28
 
+
+ban for example：
+i = 0 : b
+hash_ = 0 * 26 + num[i] = 1
+i = 1 : a
+hash_ = 1 * 26 + nums[i] = 26 
+i = 2 : n
+hash_ = 26 * 26 + nums[i] = 39
+
+aL = 26 * mid (18)
+
+xxxxxxxxxxxxxxxxxxxxxx
+ s         start+mid-1
+  
+"""
+
+
+class SolutionOfficial:
+
+    def longestDupSubstring(self, S: str) -> str:
+        n = len(S)
+        self.nums = [ord(S[i]) - ord('a') for i in range(n)]
+
+        left, right = 1, n
+        while left <= right:
+            mid = left + (right - left) // 2
+            if self.search(S, mid) != -1:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+        start = self.search(S, left - 1)
+        return S[start: start + left - 1]
+
+    def search(self, S, len_):
+        n = len(S)
+        base = 26
+        MOD = 2 ** 32
+
+        # compute the hash of string S[:mid]
+        hash_ = 0
+        for i in range(len_):
+            hash_ = (hash_ * base + self.nums[i]) % MOD
+
+        # already visited hashes of strings of length mid
+        visited = {hash_}
+        # const value to be used often : a**mid % mod
+        for start in range(1, n - len_ + 1):
+            # compute rolling hash in O(1) time
+            hash_ = (hash_ * base - self.nums[start - 1] * pow(base, len_, MOD) + self.nums[start + len_ - 1]) % MOD
+            if hash_ in visited:
+                return start
+            visited.add(hash_)
+        return -1
+
+
+S = "bababababbababababbababbanannababbab"
+a = SolutionOfficial()
+print(a.longestDupSubstring(S))
 
 

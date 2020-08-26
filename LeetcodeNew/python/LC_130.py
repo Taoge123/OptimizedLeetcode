@@ -67,9 +67,9 @@ class SolutionBFS:
             r, c = queue.popleft()
             if 0 <= r < len(board) and 0 <= c < len(board[0]) and board[r][c] == "O":
                 board[r][c] = "D"
-                queue.append((r - 1, c));
+                queue.append((r - 1, c))
                 queue.append((r + 1, c))
-                queue.append((r, c - 1));
+                queue.append((r, c - 1))
                 queue.append((r, c + 1))
 
         for r in range(len(board)):
