@@ -27,6 +27,10 @@ Given the following multilevel doubly linked list:
 
 
 We should return the following flattened doubly linked list:
+
+h + dfs(h.child) + dfs(h.next)
+   要的是末尾
+
 """
 
 
@@ -37,6 +41,41 @@ class Node:
         self.next = next
         self.child = child
 
+class SolutionWisdom:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return None
+
+        self.dfs(head)
+        return head
+
+    def dfs(self, node):
+        child = node.child
+        nxt = node.next
+        node.child = None
+
+        if child and nxt:
+            childEnd = self.dfs(child)
+            nextEnd = self.dfs(nxt)
+
+            node.next = child
+            child.prev = node
+
+            childEnd.next = nxt
+            nxt.prev = childEnd
+            return nextEnd
+
+        elif not child and nxt:
+            nextEnd = self.dfs(nxt)
+            return nextEnd
+
+        elif child and not nxt:
+            childEnd = self.dfs(child)
+            node.next = child
+            child.prev = node
+            return childEnd
+        else:
+            return node
 
 class Solution:
     def flatten(self, head):
@@ -65,16 +104,6 @@ class Solution:
         dummy.next.prev = None
         return dummy.next
 
-
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val, prev, next, child):
-        self.val = val
-        self.prev = prev
-        self.next = next
-        self.child = child
-"""
 
 
 class Solution2:

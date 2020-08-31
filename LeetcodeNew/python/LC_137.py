@@ -54,6 +54,39 @@ class Solution3:
         return res
 
 
+"""
+13
+13
+13
+34
+34
+34
+...
+...
+...
+25
+
+% 3 -> 
+
+"""
+
+
+class Solution33:
+    def singleNumber(self, nums):
+        bits = [0] * 32
+        for num in nums:
+            for i in range(32):
+                bits[i] += num >> i & 1
+        res = 0
+        for i, val in enumerate(bits):
+            # if the single numble is negative,
+            # this case should be considered separately
+            if i == 31 and val % 3:
+                res = -((1 << 31) - res)
+            else:
+                res |= (val % 3) * (1 << i)
+        return res
+
 
 nums = [2, 2, 3, 2]
 a = Solution()

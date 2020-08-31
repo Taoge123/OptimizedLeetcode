@@ -59,7 +59,7 @@ class Solution3:
 
 
 
-nums = [3,2,1,4,5,6,7]
+nums = [3,2,9,4,5,6,5]
 k = 4
 a = Solution()
 print(a.findKthLargest(nums, k))
