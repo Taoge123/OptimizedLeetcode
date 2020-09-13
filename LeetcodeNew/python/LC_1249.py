@@ -1,3 +1,43 @@
+"""
+
+921: # of minimum remove
+301: all valid strings by removing minimum # of parentheses
+1249: any valid strings by removing minimum # of parenthese
+
+stack : ( ( ) )
+greedy:
+    count : # of unmatched left parenthesis when count < 0
+
+
+"""
+
+
+class SolutionWisdom:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        s = list(s)
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append(i)
+            elif s[i] == ')':
+                # 前面没有匹配的(, 就直接改成空
+                if not stack:
+                    s[i] = ' '
+                # 前面有匹配的(, 就直接改pop()
+                else:
+                    stack.pop()
+
+        # 没有匹配的(也都改成' '
+        while stack:
+            s[stack.pop()] = ' '
+
+        res = []
+        for ch in s:
+            if ch != ' ':
+                res.append(ch)
+        return "".join(res)
+
+
 
 class Solution0:
     def minRemoveToMakeValid(self, s: str) -> str:

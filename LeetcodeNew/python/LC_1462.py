@@ -1,5 +1,7 @@
+import collections
 
-class Solution:
+
+class SolutionDP:
     def checkIfPrerequisite(self, n, prerequisites, queries):
         dp = [[False] * n for i in range(n)]
 
@@ -12,5 +14,43 @@ class Solution:
                     dp[i][j] = dp[i][j] or (dp[i][k] and dp[k][j])
 
         return [dp[i][j] for i, j in queries]
+
+
+
+
+class SolutionTopo:
+    def checkIfPrerequisite(self, n: int, prerequisites, queries):
+        table = collections.defaultdict(set)
+        inDegree = [0] * n
+        preSet = [set() for i in range(n)]
+
+        for u, v in prerequisites:
+            table[u].add(v)
+            inDegree[v] += 1
+
+        queue = collections.deque()
+        for i in range(n):
+            preSet[i].add(i)
+            if inDegree[i] == 0:
+                queue.append(i)
+
+        while queue:
+            node = queue.popleft()
+
+            for nei in table[node]:
+                for x in preSet[node]:
+                    preSet[nei].add(x)
+
+                inDegree[nei] -= 1
+                if inDegree[nei] == 0:
+                    queue.append(nei)
+
+        res = []
+        for u, v in queries:
+            if u in preSet[v]:
+                res.append(True)
+            else:
+                res.append(False)
+        return res
 
 

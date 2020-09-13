@@ -1,6 +1,24 @@
+class Solution(object):
+    def strWithout3a3b(self, A, B):
+        res = []
+        while A or B:
+            if len(res) >= 2 and res[-1] == res[-2]:
+                writeA = res[-1] == 'b'
+            else:
+                writeA = A >= B
+
+            if writeA:
+                A -= 1
+                res.append('a')
+            else:
+                B -= 1
+                res.append('b')
+
+        return "".join(res)
 
 
-class Solution:
+
+class Solution2:
     def strWithout3a3b(self, A: int, B: int) -> str:
         res = []
         if A > B:

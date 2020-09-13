@@ -40,7 +40,8 @@ class Solution:
         res = set()
         for i, word in enumerate(words):
             for k in range(len(word) + 1):
-                a, b = word[:k], word[k:]
+                a = word[:k]
+                b = word[k:]
 
                 if a == a[::-1] and table.get(b[::-1], -1) not in [-1, i]:
                     res.add((table[b[::-1]], i))
