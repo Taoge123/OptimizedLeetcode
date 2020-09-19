@@ -1,3 +1,9 @@
+"""
+O(900) * O(900)
+
+"""
+
+
 
 import collections
 

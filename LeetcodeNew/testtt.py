@@ -389,57 +389,58 @@ ababbabbbabbab
 # print(a.maxProbability(n, edge, succProb, start, end))
 #
 #
+#
+# import collections
+# class Solution:
+#     def minFlips(self, target: str) -> int:
+#         n = len(target)
+#         start = 0
+#         table = collections.Counter(target)
+#
+#         for i in range(n):
+#             if target[i] == '1':
+#                 start = i
+#                 break
+#         if len(table.keys()) == 1 and start == 0:
+#             return 0
+#         if len(table.keys()) == 1 and start == n-1:
+#             return 0
+#         count = 1
+#         for i in range(start + 1, n):
+#             if target[i] == target[i - 1]:
+#                 continue
+#             else:
+#                 count += 1
+#         return count
+#
+#
+# target = "001011101"
+# a = Solution()
+# print(a.minFlips(target))
+#
+# """
 
-import collections
 class Solution:
-    def minFlips(self, target: str) -> int:
-        n = len(target)
-        start = 0
-        table = collections.Counter(target)
-
-        for i in range(n):
-            if target[i] == '1':
-                start = i
-                break
-        if len(table.keys()) == 1 and start == 0:
-            return 0
-        if len(table.keys()) == 1 and start == n-1:
-            return 0
-        count = 1
-        for i in range(start + 1, n):
-            if target[i] == target[i - 1]:
-                continue
-            else:
-                count += 1
-        return count
+    def containsPattern(self, arr, m: int, k: int) -> bool:
+        for i in range(len(arr) - m):
+            count = k - 1
+            pattern = arr[i:i+m]
+            j = i + m
+            while j < len(arr):
+                if arr[j:j + m] == pattern:
+                    count -= 1
+                if count == 0:
+                    return True
+                j += m
+        return False
 
 
-target = "001011101"
+
+arr = [1,2,1,2,1,3]
+m = 2
+k = 3
+
 a = Solution()
-print(a.minFlips(target))
-
-"""
-test2
-test3
-<<<<<<< HEAD
-test4
-we
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0ea3b4d84651d29526d173d7b1dcc2d15a1e87ed
-
-fae
-<<<<<<< HEAD
-=======
-tony
-f
-
-cherry1
-tony
-
-cherry2
-"""
-
+print(a.containsPattern(arr, m, k))
 
 

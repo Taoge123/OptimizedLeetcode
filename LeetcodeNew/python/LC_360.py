@@ -22,7 +22,13 @@ class Solution:
         nums = [x*x*a + x*b + c for x in nums]
         res = [0] * len(nums)
         left, right = 0, len(nums) - 1
-        index, step = (left, 1) if a < 0 else (right, -1)
+        # index, step = (left, 1) if a < 0 else (right, -1)
+        if a < 0:
+            index = left
+            step = 1
+        else:
+            index = right
+            step = -1
         while left <= right:
             if nums[left] * -step > nums[right] * -step:
                 res[index] = nums[left]

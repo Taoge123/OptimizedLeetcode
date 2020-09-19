@@ -15,38 +15,25 @@ nums2 = [2,5,6],       n = 3
 Output: [1,2,2,3,5,6]
 
 """
-#
-# class Solution:
-#     def merge(self, nums1, m, nums2, n):
-#
-#         p = m - 1
-#         q = n - 1
-#         k = m + n - 1
-#
-#         while p >= 0 and q >= 0:
-#             if nums1[p] > nums2[q]:
-#                 nums1[k] = nums1[p]
-#                 k = k - 1
-#                 p = p - 1
-#             else:
-#                 nums1[k] = nums2[q]
-#                 k = k - 1
-#                 q = q - 1
-#
-#         nums1[:q + 1] = nums2[:q + 1]
-#
 
+class Solution:
+    def merge(self, nums1, m, nums2, n):
 
-def maxTrailing(levels):
-    # Write your code here
-    res = -1
-    mini = float('inf')
-    for i in levels:
-        mini = min(i, mini)
-        res = max(i - mini, res)
-    return res
+        p = m - 1
+        q = n - 1
+        k = m + n - 1
 
+        while p >= 0 and q >= 0:
+            if nums1[p] > nums2[q]:
+                nums1[k] = nums1[p]
+                k = k - 1
+                p = p - 1
+            else:
+                nums1[k] = nums2[q]
+                k = k - 1
+                q = q - 1
 
-print(maxTrailing([5,3,6,7,4]))
+        nums1[:q + 1] = nums2[:q + 1]
+
 
 
