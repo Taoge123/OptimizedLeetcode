@@ -22,6 +22,32 @@ class UnionFind:
         return True
 
 
+class SolutionCsp:
+    def findRedundantDirectedConnection(self, edges):
+        uf = UnionFind(len(edges) + 1)
+        res1 = []
+        res2 = []
+        for u, v in edges:
+            x = uf.find(u)
+            y = uf.find(v)
+            if y != v:
+                res1 = [u, v]
+            elif x == y:
+                res2 = [u, v]
+            else:
+                uf.parent[y] = x
+
+        if not res1:
+            return res2
+        if not res2:
+            return res1
+
+        for u, v in edges:
+            if v == res1[1]:
+                return [u, v]
+        return [0, 0]
+
+
 
 class Solution:
     def findRedundantDirectedConnection(self, edges):

@@ -59,6 +59,22 @@ O(K) to create the returned list.
 
 import bisect
 
+
+class SolutionCsp:
+    def findClosestElements(self, arr, k: int, x: int):
+        left, right = 0, len(arr) - k
+
+        while left < right:
+            mid = (right - left) // 2 + left
+            if x - arr[mid] > arr[mid + k] - x:
+                left = mid + 1
+            else:
+                right = mid
+
+        return arr[left:left + k]
+
+
+
 class SolutionLee:
     def findClosestElements(self, arr, k, x):
         left = 0

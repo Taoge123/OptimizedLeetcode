@@ -419,28 +419,45 @@ ababbabbbabbab
 # print(a.minFlips(target))
 #
 # """
+#
+# class Solution:
+#     def containsPattern(self, arr, m: int, k: int) -> bool:
+#         for i in range(len(arr) - m):
+#             count = k - 1
+#             pattern = arr[i:i+m]
+#             j = i + m
+#             while j < len(arr):
+#                 if arr[j:j + m] == pattern:
+#                     count -= 1
+#                 if count == 0:
+#                     return True
+#                 j += m
+#         return False
+
 
 class Solution:
-    def containsPattern(self, arr, m: int, k: int) -> bool:
-        for i in range(len(arr) - m):
-            count = k - 1
-            pattern = arr[i:i+m]
-            j = i + m
-            while j < len(arr):
-                if arr[j:j + m] == pattern:
-                    count -= 1
-                if count == 0:
-                    return True
-                j += m
-        return False
+    def maxUniqueSplit(self, s: str) -> int:
+        self.res = []
+        visited = set()
+        self.dfs(list(s), 0, [], visited)
+        print(self.res)
+        return self.res
+
+    def dfs(self, s, index, path, visited):
+        print(s)
+        if not s:
+            self.res.append(path)
+            return
+
+        for i in range(1, len(s)):
+            if "".join(s[:i]) in visited:
+                continue
+            visited.add("".join(s[:i]))
+            self.dfs(s[i:], index+1, path + [s[:i]], visited)
 
 
-
-arr = [1,2,1,2,1,3]
-m = 2
-k = 3
-
+s = "addbsd"
 a = Solution()
-print(a.containsPattern(arr, m, k))
+print(a.maxUniqueSplit(s))
 
 

@@ -1,3 +1,39 @@
+
+
+
+
+import collections
+
+class SolutionCsp:
+    def pathSum(self, nums) -> int:
+        table = collections.defaultdict(int)
+        if not nums or len(nums) == 0:
+            return 0
+        self.res = 0
+        for num in nums:
+            table[num // 10] = num % 10
+
+        self.helper(nums[0] // 10, 0, table)
+        return self.res
+
+    def helper(self, root, summ, table):
+        level = root // 10
+        pos = root % 10
+        left = (level + 1) * 10 + pos * 2 - 1
+        right = (level + 1) * 10 + pos * 2
+
+        cur = summ + table[root]
+        if left not in table and right not in table:
+            self.res += cur
+            return
+
+        if left in table:
+            self.helper(left, cur, table)
+        if right in table:
+            self.helper(right, cur, table)
+
+
+
 class Solution:
     def pathSum(self, nums):
         res, cache = 0, {}

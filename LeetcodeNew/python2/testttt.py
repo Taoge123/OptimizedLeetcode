@@ -59,17 +59,7 @@ New hire每周都要给老板weekly report. 每周1on1的时候老板会问上�
 #
 #
 
-class ListNode:
-    def __init__(self, val):
-        self.val = val
-        self.next = None
 
-a = ListNode(1)
-a.next = ListNode(2)
-a.next.next = ListNode(3)
 
-dummy = curr = ListNode(-1)
-# curr = ListNode(-1)
-curr.val = 3
-print(dummy.val)
+
 

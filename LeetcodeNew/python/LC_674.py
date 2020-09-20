@@ -1,3 +1,21 @@
+class Solution00:
+    def findLengthOfLCIS(self, nums) -> int:
+
+        if not nums or len(nums) == 0:
+            return 0
+
+        res = 1
+        count = 1
+
+        for i in range(len(nums) - 1):
+            if nums[i] < nums[i + 1]:
+                count += 1
+                res = max(res, count)
+            else:
+                count = 1
+
+        return res
+
 
 class Solution:
     def findLengthOfLCIS(self, nums) -> int:

@@ -77,6 +77,30 @@ One pass O(N) time, Space O(1)
 """
 
 
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        stack = []
+        count = 0
+        for ch in s:
+            if ch == '(':
+                stack.append(ch)
+            else:
+                if ch == ')' and stack:
+                    stack.pop()
+                elif ch == ')' and count > 0:
+                    count -= 1
+                elif ch == ')':
+                    return False
+                # if it's *
+                else:
+                    count += 1
+                    if stack:
+                        stack.pop()
+                        count += 1
+        return not stack
+
+
+
 class SolutionWisdom:
     def checkValidString(self, s: str) -> bool:
         countMax = 0  # max of  unmatched left parenthesis, try to use * as ( if possible
@@ -106,7 +130,7 @@ class SolutionWisdom:
 
 
 
-class Solution:
+class Solution2:
     def checkValidString(self, s: str) -> bool:
         lower, upper = 0, 0
         for char in s:
