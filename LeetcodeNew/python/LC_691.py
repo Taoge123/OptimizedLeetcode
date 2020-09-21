@@ -20,7 +20,7 @@ i的每一个bit表示的是target对应位置的字符是否得到了满足。�
 """
 
 
-class SolutionSlow:
+class Solution:
     def minStickers(self, stickers, target: str) -> int:
         n = len(target)
         N = (1 << n)
@@ -36,7 +36,10 @@ class SolutionSlow:
                 j = self.findNextState(i, word, target)
                 dp[j] = min(dp[j], dp[i] + 1)
 
-        return -1 if dp[N - 1] == float('inf') else dp[N - 1]
+        if dp[N - 1] == float('inf'):
+            return -1
+        else:
+            return dp[N - 1]
 
     def findNextState(self, state, word, target):
         n = len(target)
