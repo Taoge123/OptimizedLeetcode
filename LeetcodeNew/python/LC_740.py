@@ -50,5 +50,41 @@ class Solution:
 
 
 
+class Solution2:
+    def deleteAndEarn(self, nums):
+        points = [0] * 1001
+        for num in nums:
+            points[num] += num
+        prev, curr = 0, 0
+        for point in points:
+            prev, curr = curr, max(point + prev, curr)
+        return curr
+
+
+class Solution22:
+    def deleteAndEarn(self, nums):
+        points = [0] * 10001
+        for num in nums:
+            points[num] += num
+        preTake, preSkip = 0, 0
+        for i in range(10001):
+            take = preSkip + points[i]
+            skip = max(preSkip, preTake)
+            preTake = take
+            preSkip = skip
+        return max(preSkip, preTake)
+
+
+class Solution222:
+    def deleteAndEarn(self, nums):
+        points = [0] * 10001
+        for num in nums:
+            points[num] += num
+
+        dp = [0] * 10001
+        dp[1] = 1
+        for i in range(1, 10001):
+            dp[i] = max(dp[i - 1], dp[i - 2] + points[i])
+        return dp[-1]
 
 

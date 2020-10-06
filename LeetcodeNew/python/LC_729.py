@@ -37,6 +37,19 @@ class Node:
         self.right = None
 
 
+class MyCalendarCs:
+    def __init__(self):
+        self.calender = []
+
+    def book(self, start: int, end: int) -> bool:
+        for event in self.calender:
+            if event[0] < end and start < event[1]:
+                return False
+
+        self.calender.append([start, end])
+        return True
+
+
 class MyCalendar:
 
     def __init__(self):

@@ -16,6 +16,12 @@ class Solution:
         return False
 
 
+class Solution2:
+    def isOneBitCharacter(self, bits) -> bool:
+        index = len(bits) - 2
+        while index >= 0 and bits[index] > 0:
+            index -= 1
+        return (len(bits) - index) % 2 == 0
 
 
 

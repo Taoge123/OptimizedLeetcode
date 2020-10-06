@@ -283,81 +283,168 @@ import collections
 #             self.dfs(graph, nei, target, step + 1)
 
 
-class Solution:
-    def minTime(self, n: int, edges, hasApple) -> int:
-        graph = collections.defaultdict(list)
-        for u, v in edges:
-            graph[u].append(v)
-            # graph[v].append(u)
+# class Solution:
+#     def minTime(self, n: int, edges, hasApple) -> int:
+#         graph = collections.defaultdict(list)
+#         for u, v in edges:
+#             graph[u].append(v)
+#             # graph[v].append(u)
+#
+#         targets = []
+#         for i, val in enumerate(hasApple):
+#             if val:
+#                 targets.append(i)
+#
+#         self.sum = 0
+#         for target in targets:
+#             self.dfs(graph, 0, target, 0)
+#         return self.sum
+#
+#     def dfs(self, graph, root, target, step):
+#         if root == target:
+#             self.sum += step * 2
+#             return
+#
+#         for nei in graph[root]:
+#             self.dfs(graph, nei, target, step + 1)
+#
+#
+# class Solution2:
+#     def minTime(self, n: int, edges, hasApple) -> int:
+#         # graph = collections.defaultdict(list)
+#
+#         graph = [[float('inf') for i in range(n)] for j in range(n)]
+#         for u, v in edges:
+#             # graph[u].append([v, 1])
+#             # graph[v].append(u)
+#             graph[u][v] = 1
+#             graph[v][u] = 1
+#
+#         targets = []
+#
+#         for i, val in enumerate(hasApple):
+#             if val:
+#                 targets.append(i)
+#
+#         dist = self.dfs(graph)
+#         print(dist)
+#         print(targets)
+#
+#
+#     def dfs(self, graph):
+#         dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
+#         n = len(graph)
+#         for k in range(n):
+#             for i in range(n):
+#                 for j in range(n):
+#                     dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+#         return dist
+#
+# """
+# [2, 1, 1, 2, 2, 2, 2],
+# [1, 2, 2, 3, 1, 1, 3],
+# [1, 2, 2, 1, 3, 3, 1],
+# [2, 3, 1, 2, 4, 4, 2],
+# [2, 1, 3, 4, 2, 2, 4],
+# [2, 1, 3, 4, 2, 2, 4],
+# [2, 3, 1, 2, 4, 4, 2]
+#
+# 0 2 4 5
+# """
+#
+# n = 7
+# edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]]
+# hasApple = [False,False,True,False,True,True,False]
+#
+#
+# a = Solution2()
+# print(a.minTime(n, edges, hasApple))
+#
 
-        targets = []
-        for i, val in enumerate(hasApple):
-            if val:
-                targets.append(i)
 
-        self.sum = 0
-        for target in targets:
-            self.dfs(graph, 0, target, 0)
-        return self.sum
+# def maxProfit(invetory, order):
+#     n = len(invetory)
+#     for i in range()
 
-    def dfs(self, graph, root, target, step):
-        if root == target:
-            self.sum += step * 2
-            return
-
-        for nei in graph[root]:
-            self.dfs(graph, nei, target, step + 1)
-
-
-class Solution2:
-    def minTime(self, n: int, edges, hasApple) -> int:
-        # graph = collections.defaultdict(list)
-
-        graph = [[float('inf') for i in range(n)] for j in range(n)]
-        for u, v in edges:
-            # graph[u].append([v, 1])
-            # graph[v].append(u)
-            graph[u][v] = 1
-            graph[v][u] = 1
-
-        targets = []
-
-        for i, val in enumerate(hasApple):
-            if val:
-                targets.append(i)
-
-        dist = self.dfs(graph)
-        print(dist)
-        print(targets)
-
-
-    def dfs(self, graph):
-        dist = list(map(lambda i: list(map(lambda j: j, i)), graph))
-        n = len(graph)
-        for k in range(n):
-            for i in range(n):
-                for j in range(n):
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
-        return dist
 
 """
-[2, 1, 1, 2, 2, 2, 2], 
-[1, 2, 2, 3, 1, 1, 3], 
-[1, 2, 2, 1, 3, 3, 1], 
-[2, 3, 1, 2, 4, 4, 2], 
-[2, 1, 3, 4, 2, 2, 4], 
-[2, 1, 3, 4, 2, 2, 4], 
-[2, 3, 1, 2, 4, 4, 2]
+3, [1, 2, 3]
+3
+[3, 2, 1]
+3
 
-0 2 4 5
+
 """
+# def test(num, boxes, unitSize, unitsPerBox, truckSize):
+#     List = sorted(zip(unitsPerBox, boxes))
+#     totalBoxes = 0
+#     for i, j in List:
+#         totalBoxes += (i * j)
+#     if totalBoxes < truckSize:
+#         return totalBoxes
+#
+#     k = truckSize
+#     i = 0
+#     res = 0
+#     while k > 0:
+#         if k > boxes[i]:
+#            res += (boxes[i] * unitsPerBox[i])
+#            k -= boxes[i]
+#         else:
+#            res += (k * unitsPerBox[i])
+#            return res
+#         i += 1
+#     return res
+#
+# num = 3
+# boxes = [1,2,3]
+# unitSize = 3
+# unitsPerBox = [3,2,1]
+# truckSize = 3
+# print(test(num, boxes, unitSize, unitsPerBox, truckSize))
 
-n = 7
-edges = [[0,1],[0,2],[1,4],[1,5],[2,3],[2,6]]
-hasApple = [False,False,True,False,True,True,False]
+
+# import copy
+#
+# def maxProfit(inventory, order):
+#     n = len(inventory)
+#     b = copy.deepcopy(inventory)
+#     b.sort()
+#     a = [0] * (n+1)
+#     for i in range(n):
+#         a[i] = b[i]
+#     a[n] = 0
+#     supIdx = 1
+#     maxPro = 0
+#     while order >= 0 and supIdx < len(a):
+#         while supIdx < len(a) and a[supIdx - 1] == a[supIdx]:
+#             supIdx += 1
+#             if(a[supIdx-1] == 0):
+#                 break
+#             supMulti = supIdx
+#             diff = a[supIdx - 1] - a[supIdx]
+#             localCountToOrder = diff * supMulti
+#             localCountToOrder = min(order, localCountToOrder)
+#             order -= localCountToOrder
+#             localPro = a[supIdx-1]
+#             while localCountToOrder > 0 and localPro >= a[supIdx]:
+#                 curCountToTake = min(supMulti, localCountToOrder)
+#                 maxPro += localPro * curCountToTake
+#                 localPro -= 1
+#                 localCountToOrder -= curCountToTake
+#             supIdx += 1
+#         return maxPro
 
 
-a = Solution2()
-print(a.minTime(n, edges, hasApple))
+
+
+inventory = [3, 5]
+order = 6
+print(maxProfit(inventory, order))
+
+
+
+
+
 
 

@@ -20,6 +20,18 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum
 """
 
 
+class SolutionWiddom:
+    def canJump(self, nums) -> bool:
+        far = 0
+        for i in range(len(nums)):
+            if i > far:
+                return False
+            far = max(far, i + nums[i])
+        return far >= len(nums) - 1
+
+
+
+
 class Solution:
     def canJump(self, nums) -> bool:
         maxi = 0

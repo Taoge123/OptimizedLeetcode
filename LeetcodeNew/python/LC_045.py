@@ -30,6 +30,23 @@ class Solution:
         return res
 
 
+class SolutionWisdom:
+    def jump(self, nums) -> int:
+        start, end = 0, 0
+        step = 0
+        if len(nums) == 1:
+            return 0
+
+        while start <= end:
+            newEnd = end
+            for i in range(start, end + 1):
+                newEnd = max(newEnd, i + nums[i])
+                if newEnd >= len(nums) - 1:
+                    return step + 1
+
+            step += 1
+            start = end + 1
+            end = newEnd
 
 
 nums = [2,3,1,1,4]

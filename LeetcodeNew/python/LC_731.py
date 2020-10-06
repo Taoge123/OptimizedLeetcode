@@ -40,5 +40,21 @@ class MyCalendarTwo:
         return True
 
 
+class MyCalendarTwo2:
+    def __init__(self):
+        self.calendar = []
+        self.overlap = []
 
+    def book(self, start: int, end: int) -> bool:
+
+        for event in self.overlap:
+            if event[0] < end and start < event[1]:
+                return False
+
+        for event in self.calendar:
+            if event[0] < end and start < event[1]:
+                self.overlap.append([max(start, event[0]), min(end, event[1])])
+
+        self.calendar.append([start, end])
+        return True
 

@@ -7,8 +7,8 @@ class Solution:
             #marker all candies needed to crush
             for i in range(m):
                 for j in range(n):
-                    if j >= 2 and board[i][j] and board[i][j] == board[i][ j -1] == board[i][ j -2]:
-                        crush |= {(i, j), (i, j- 1), (i, j - 2)}
+                    if j >= 2 and board[i][j] and board[i][j] == board[i][j - 1] == board[i][j - 2]:
+                        crush |= {(i, j), (i, j - 1), (i, j - 2)}
                     if i >= 2 and board[i][j] and board[i][j] == board[i - 1][j] == board[i - 2][j]:
                         crush |= {(i, j), (i - 1, j), (i - 2, j)}
 
