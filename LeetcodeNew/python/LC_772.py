@@ -23,7 +23,6 @@ class SolutionWisdom:
         return self.calc(curStr)
 
         # +5--4+3*-2-2-3-+3
-
     def calc(self, s):
         S = '+'
         for ch in s:
@@ -68,7 +67,7 @@ class SolutionWisdom:
         return sum(nums)
 
 
-class Solution1:
+class SolutionTony:
     def calculate(self, s):
         s = collections.deque(s)
         return self.helper(s)

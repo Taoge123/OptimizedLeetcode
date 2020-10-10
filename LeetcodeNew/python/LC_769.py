@@ -73,7 +73,7 @@ class SolutionTony:
 
 
 class Solution:
-    def maxChunksToSorted(self, arr: List[int]) -> int:
+    def maxChunksToSorted(self, arr) -> int:
         stack = []
         curMax = 0
         for num in arr:
@@ -87,13 +87,13 @@ class Solution:
         return len(stack)
 
 
-class Solution:
+
+class Solution3:
     def maxChunksToSorted(self, arr) -> int:
-        maxi = 0
         res = 0
-        for i, num in enumerate(arr):
-            if num > maxi:
-                maxi = num
+        maxi = 0
+        for i in range(len(arr)):
+            maxi = max(maxi, arr[i])
             if maxi == i:
                 res += 1
         return res

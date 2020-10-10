@@ -51,12 +51,14 @@ class Solution:
             node = node + str(i)
             if node in visited:
                 continue
+
             res.append(str(i))
             visited.add(node)
             if self.dfs(total, n, k, visited, res):
                 return True
             res.pop()
             visited.remove(node)
+
             node = node[:-1]
 
 
