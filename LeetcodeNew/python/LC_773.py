@@ -2,52 +2,47 @@ import collections
 
 class Solution:
     def slidingPuzzle(self, board) -> int:
+        m, n = len(board), len(board[0])
         queue = collections.deque()
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        s = []
+        start = []
         for i in range(2):
             for j in range(3):
-                s.append(board[i][j])
+                start.append(board[i][j])
 
-        if s == [1, 2, 3, 4, 5, 0]:
+        if start == [1, 2, 3, 4, 5, 0]:
             return 0
 
         #we need to use tuple becuz its immutable
-        queue.append(tuple(s))
+        queue.append(tuple(start))
         visited = set()
-        visited.add(tuple(s))
+        visited.add(tuple(start))
         step = -1
 
         while queue:
-            # print(queue)
             size = len(queue)
             step += 1
-            print(step)
             for _ in range(size):
                 node = queue.popleft()
-                for i in range(6):
-                    if node[i] == 0:
-                        pos1 = i
-                        break
-
-                i, j = pos1 // 3, pos1 % 3
+                node = list(node)
+                pos1 = node.index(0)
+                i, j = pos1 // n, pos1 % n
                 for dx, dy in self.directions:
                     x = i + dx
                     y = j + dy
-                    if x < 0 or x >= 2 or y < 0 or y >= 3:
+                    if x < 0 or x >= m or y < 0 or y >= n:
                         continue
-                    pos2 = x * 3 + y
-                    newS = list(node)
-                    newS[pos1], newS[pos2] = newS[pos2], newS[pos1]
-                    if newS == [1, 2, 3, 4, 5, 0]:
+                    pos2 = x * n + y
+                    newNode = list(node)
+                    newNode[pos1], newNode[pos2] = newNode[pos2], newNode[pos1]
+                    if newNode == [1, 2, 3, 4, 5, 0]:
                         return step + 1
 
-                    if tuple(newS) in visited:
+                    if tuple(newNode) in visited:
                         continue
-                    queue.append(tuple(newS))
-                    visited.add(tuple(newS))
+                    queue.append(tuple(newNode))
+                    visited.add(tuple(newNode))
         return -1
-
 
 
 
