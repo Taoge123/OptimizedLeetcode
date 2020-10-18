@@ -4,6 +4,36 @@ https://leetcode.com/problems/shortest-path-visiting-all-nodes/discuss/147123/Py
 
 import collections
 
+class SolutionCS:
+    def shortestPathLength(self, graph) -> int:
+        n = len(graph)
+        fullMask = (1 << n) - 1
+
+        visited = set()
+        queue = collections.deque()
+        for i in range(len(graph)):
+            node = (i, 1 << i)
+            queue.append(node)
+            visited.add(node)
+
+        res = 0
+        while queue:
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                if node[1] == fullMask:
+                    return res
+                for nei in graph[node[0]]:
+                    nxt = (nei, node[1] | (1 << nei))
+                    if tuple(nxt) not in visited:
+                        queue.append(nxt)
+                        visited.add(nxt)
+            res += 1
+        return -1
+
+
+
+
 
 class Solution:
     def shortestPathLength(self, graph) -> int:
@@ -39,6 +69,5 @@ class Solution:
                     visited.add((nextNode, nextState))
 
         return -1
-
 
 

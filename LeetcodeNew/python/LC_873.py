@@ -70,6 +70,28 @@ class Solution:
             return 0
 
 
+
+class SolutionCS:
+    def lenLongestFibSubseq(self, A) -> int:
+        visited = set()
+        for num in A:
+            visited.add(num)
+
+        res = 2
+        for i in range(len(A)):
+            for j in range(i + 1, len(A)):
+                a = A[i]
+                b = A[j]
+                size = 2
+                while a + b in visited:
+                    a, b = b, a + b
+                    size += 1
+                res = max(res, size)
+
+        return res if res > 2 else 0
+
+
+
 """
 Solution 2
 Another solution is kind of dp.

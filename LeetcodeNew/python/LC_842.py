@@ -78,5 +78,32 @@ class Solution:
         return False
 
 
+class SolutionCs:
+    def splitIntoFibonacci(self, S: str):
+        res = []
+        self.dfs(S, 0, res)
+        return res
+
+    def dfs(self, S, start, res):
+        if start == len(S) and len(res) >= 3:
+            return True
+
+        num = 0
+        for i in range(start, len(S)):
+            if S[start] == '0' and i > start:
+                break
+            num = num * 10 + int(S[i])
+            if num > 2 ** 31:
+                break
+
+            if len(res) >= 2 and res[-1] + res[-2] < num:
+                break
+
+            if len(res) <= 1 or res[-1] + res[-2] == num:
+                res.append(num)
+                if self.dfs(S, i + 1, res):
+                    return True
+                res.pop()
+        return False
 
 

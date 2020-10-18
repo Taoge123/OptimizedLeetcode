@@ -39,6 +39,39 @@ class Solution:
         return -1
 
 
+class SolutionCs:
+    def numBusesToDestination(self, routes, S: int, T: int) -> int:
+
+        if S == T:
+            return 0
+
+        table = collections.defaultdict(list)
+
+        for i in range(len(routes)):
+            for j in range(len(routes[i])):
+                buses = table[routes[i][j]]
+                buses.append(i)
+                table[routes[i][j]] = buses
+        visited = set()
+        queue = collections.deque()
+        queue.append(S)
+
+        res = 0
+        while queue:
+            res += 1
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                buses = table[node]
+                for bus in buses:
+                    if bus in visited:
+                        continue
+                    visited.add(bus)
+                    for j in range(len(routes[bus])):
+                        if routes[bus][j] == T:
+                            return res
+                        queue.append(routes[bus][j])
+        return -1
 
 
 

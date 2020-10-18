@@ -52,8 +52,34 @@ class Solution:
 
 
 
+class Solution2:
+    def canCross(self, stones) -> bool:
+        self.stoneSet = set(stones)
+        self.cantReach = set()
+        return self.dfs(stones, 0, 0)
+
+    def dfs(self, stones, pos, step):
+        if pos == stones[-1]:
+            return True
+        if pos not in self.stoneSet:
+            return False
+        if (pos, step) in self.cantReach:
+            return False
+
+        if step > 1 and self.dfs(stones, pos + step - 1, step - 1):
+            return True
+        if step > 0 and self.dfs(stones, pos + step, step):
+            return True
+        if self.dfs(stones, pos + step + 1, step + 1):
+            return True
+
+        self.cantReach.add((pos, step))
+        return False
+
+
+
 stones = [0,1,3,5,6,8,12,17]
-a = Solution()
+a = Solution2()
 print(a.canCross(stones))
 
 

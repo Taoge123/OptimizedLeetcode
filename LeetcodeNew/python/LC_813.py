@@ -36,6 +36,7 @@ class Solution:
 
         return memo[(n, k)]
 
+
 """
   
 X X X X X X X X X
@@ -67,4 +68,21 @@ class SolutionBU:
 
 
 
+class SolutionDP2:
+    def largestSumOfAverages(self, A, K):
+        prefix = [0]
+        for x in A:
+            prefix.append(prefix[-1] + x)
+
+        def average(i, j):
+            return (prefix[j] - prefix[i]) / (j - i)
+
+        n = len(A)
+        dp = [average(i, n) for i in range(n)]
+        for k in range(K - 1):
+            for i in range(n):
+                for j in range(i + 1, n):
+                    dp[i] = max(dp[i], average(i, j) + dp[j])
+
+        return dp[0]
 

@@ -125,5 +125,12 @@ class Solution:
         return (x1 < x4 and x3 < x2 and y1 < y4 and y3 < y2)
 
 
+class SolutionCs:
+    def isRectangleOverlap(self, rec1, rec2) -> bool:
+        a1, b1, c1, d1 = rec1
+        a2, b2, c2, d2 = rec2
+        return not (c1 <= a2 or d1 <= b2 or a1 >= c2 or b1 >= d2)
+
+
 
 

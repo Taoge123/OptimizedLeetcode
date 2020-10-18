@@ -65,3 +65,59 @@ class Solution2:
 
         return 0
 
+
+"""
+step 1: queue = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ....}
+step 2: queue = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ....}
+
+"""
+
+
+class SolutionWisdom:
+    def minJumps(self, arr) -> int:
+        n = len(arr)
+        if n == 1:
+            return 0
+
+        queue = collections.deque()
+        queue.append(0)
+        visited = [0] * n
+        visited[0] = 1
+
+        table = collections.defaultdict(list)
+        for i in range(n):
+            table[arr[i]].append(i)
+
+        step = 0
+        while queue:
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                if node + 1 < n and visited[node + 1] == 0:
+                    queue.append(node + 1)
+                    visited[node + 1] = 1
+
+                if node - 1 >= 0 and visited[node - 1] == 0:
+                    queue.append(node - 1)
+                    visited[node - 1] = 1
+
+                for nxt in table[arr[node]]:
+                    if visited[nxt] == 0:
+                        queue.append(nxt)
+                        visited[nxt] = 1
+
+                    # optimization
+                    if nxt in table:
+                        del table[nxt]
+
+            step += 1
+            if visited[n - 1] == 1:
+                return step
+        return -1
+
+
+
+
+
+
+

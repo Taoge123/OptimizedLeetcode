@@ -13,7 +13,7 @@
 
 import math
 
-class Solution2:
+class Solution:
     def nthMagicalNumber(self, N: int, A: int, B: int) -> int:
         mod = 10**9 + 7
 
@@ -31,6 +31,27 @@ class Solution2:
                 right = mid
 
         return left % mod
+
+
+
+class Solution2:
+    def nthMagicalNumber(self, N: int, A: int, B: int) -> int:
+        mod = 10 ** 9 + 7
+
+        LCM = A * B // math.gcd(A, B)
+
+        left = 0
+        right = N * min(A, B)
+        while left < right:
+            mid = (right - left) // 2 + left
+            if mid // A + mid // B - mid // LCM < N:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left % mod
+
+
 
 
 

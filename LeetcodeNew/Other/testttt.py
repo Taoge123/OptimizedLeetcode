@@ -435,16 +435,144 @@ import collections
 #             supIdx += 1
 #         return maxPro
 
+import copy
 
 
+# class Solution:
+#     def findLexSmallestString(self, s: str, a: int, b: int) -> str:
+#         nums = list(map(int, s))
+#         queue = collections.deque()
+#         queue.append(tuple(nums))
+#         visited = set()
+#         visited.add(tuple(nums))
+#
+#         res = [float('inf')] * len(nums)
+#         while queue:
+#             node = queue.popleft()
+#             nums = list(node)
+#             val = self.compare(res, nums)
+#             if val < 0:
+#                 res = nums
+#             temp = copy.copy(nums)
+#             nums1 = self.add(temp, a)
+#             if tuple(nums1) not in visited:
+#                 queue.append(tuple(nums1))
+#                 visited.add(tuple(nums1))
+#             temp = copy.copy(nums)
+#             nums2 = self.rotate(temp, b)
+#             if tuple(nums2) not in visited:
+#                 queue.append(tuple(nums2))
+#                 visited.add(tuple(nums2))
+#         return res
+#
+#     def compare(self, res, nums):
+#         for i in range(len(res)):
+#             if res[i] > nums[i]:
+#                 return -1
+#             elif res[i] < nums[i]:
+#                 return 1
+#         return 0
+#
+#     def add(self, nums, a):
+#         for i in range(len(nums)):
+#             if i % 2 == 1:
+#                 nums[i] += a
+#                 nums[i] %= 10
+#         return nums
+#
+#     def rotate(self, nums, k):
+#
+#         k = k % len(nums)
+#         n = len(nums)
+#         self.reverse(nums, 0, n - k - 1)
+#         self.reverse(nums, n - k, n - 1)
+#         self.reverse(nums, 0, n - 1)
+#         return nums
+#
+#     def reverse(self, nums, i, j):
+#         while i <= j:
+#             nums[i], nums[j] = nums[j], nums[i]
+#             i += 1
+#             j -= 1
+#
+#
+# s = "5525"
+# a = 9
+# b = 2
+# ob = Solution()
+# print(ob.findLexSmallestString(s, a, b))
+#
 
-inventory = [3, 5]
-order = 6
-print(maxProfit(inventory, order))
+"""
+[100, 80, 80, 50]
+  2   3   3   2
+
+50  80 80  100
+2    8  8  4
 
 
+XXXXXXXX Y XXXXXX Y
 
 
+dp[age][score]
+
+"""
+
+#
+# class Solution:
+#     def bestTeamScore(self, scores, ages) -> int:
+#         table = collections.defaultdict(int)
+#         # for score, age in zip(scores, ages):
+#         #     table[age] += score
+#         # scores = []
+#         # ages = []
+#         # for k, v in table.items():
+#         #     scores.append(v)
+#         #     ages.append(k)
+#         nums = [[score, age] for score, age in zip(scores, ages)]
+#         search = [num for _, num in nums]
+#         nums.sort(key=lambda x:x[1])
+#         scores.sort()
+#         preSum = [scores[0]]
+#         for score in scores[1:]:
+#             preSum.append(preSum[-1] + score)
+#
+#         res = 0
+#         print(preSum)
+#         print(nums)
+#         for i in range(len(nums)):
+#             idx = bisect.bisect_right(search, nums[i][1])
+#             res = max(res, res - (preSum[i] - preSum[idx]) + nums[i][0])
+#         return res
+#
+#
+#
+#
+# scores = [4,5,6,5]
+# ages = [2,1,2,1]
+# a = Solution()
+# print(a.bestTeamScore(scores, ages))
+
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        summ = sum(nums)
+        if summ % 2 != 0:
+            return False
+        nums.sort()
+        target = summ // 2
+        return self.dfs(nums, 0, 0, target)
+
+    def dfs(self, nums, idx, cur, target):
+        print(cur)
+        if cur == target:
+            return True
+            return False
+
+        for i in range(idx, len(nums)):
+            if self.dfs(nums, i, cur + nums[i], target):
+                return True
+        return False
 
 
 

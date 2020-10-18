@@ -8,6 +8,16 @@ x + x+1 + x+2 + x+3 .. x+m-1 = N
 x = 2N-m^2+m / 2m
 
 
+求和公式:
+kx + (k-1) * k // 2 = N
+
+kx = N - (k-1) * k // 2
+
+N - (k-1) * k // 2 > 0
+
+k < sqrt(2N)
+
+
 """
 
 import math

@@ -31,3 +31,24 @@ class Solution:
 
 
 
+class Solution2:
+    def customSortString(self, S: str, T: str) -> str:
+        count = collections.defaultdict(int)
+        res = []
+
+        for ch in T:
+            count[ch] += 1
+
+        for ch in S:
+            while count[ch] > 0:
+                res.append(ch)
+                count[ch] -= 1
+
+        for ch in T:
+            while count[ch] > 0:
+                res.append(ch)
+                count[ch] -= 1
+
+        return "".join(res)
+
+

@@ -59,6 +59,7 @@ class Solution:
 
         return same[-1] + diff[-1]
 
+
 class Solution1:
     def numWays(self, n: int, k: int) -> int:
         if n == 0:

@@ -52,6 +52,76 @@ class Solution:
 
 
 
+"""
+首先被代码的简洁迷惑以为是道简单题，但最后花了好多时间才搞明白。结合几个人的评论和lee的回复，说一下自己的思路，希望能帮到之后又confused的同学。有不对的地方请指正。（懒得翻译成英语了）
+首先从比较可以理解的probability方面入手。thanks to @grimreap, 这样可以建立一些信心了解问题的本质。
+Case: N=3, K=1, W=10
+i=1 (drawn card-1) : You win as you get 1(1<=N), P(i=1)=1/10=0.1
+i=2 (drawn card-2) : You win as you get 2(2<=N), P(i=2)=1/10=0.1
+i=3 (drawn card-3) : You win as you get 3(3<=N), P(i=3)=1/10=0.1
+All events are independent: Total prob = 0.1+0.1+0.1 = 0.3
+Case: N=3, K=2, W=10
+i=1 (draw 1) P(draw=1)=0.1 [call this A], Same event, we do not stop now we can draw either 1 or 2 , as i<K, for drawing 1 or 2 , P(1 or 2)=0.1+0.1=0.2 [call this B], P(complete draw) = P(A)xP(B)=0.1x0.2 = 0.02
+i=2 (drawn card-2) : You win as you get 2(2<=N) and you stop as 2>=K, P(i=2)=1/10=0.1
+i=3 (drawn card-3) : You win as you get 3(3<=N) and you stop as 2>=K, P(i=3)=1/10=0.1
+这个计算方法跟Lee的是反过来的，但是最后的结果（本质）是一样的。
+而Lee的思路是，p[i]（dp[i]） 是得到这个点的概率，比如w(范围)是[1,10]. K =3
+i=1(抽中1分的概率)就是 1/10.
+i=2: 0.1(抽中2分的概率)+0.1x0.1(两次抽中1)的概率
+i=3: 0.1 (抽中3分的概率) + 0.1x0.1(第一次抽中1，第二次抽中2) + 0.1x0.1(第一次抽中2，第二次抽中1)+0.1x0.1x0.1（三次抽中0.1）
+可以从公式里面归纳出
+i=1:
+0.1x1
+i=2:
+0.1x(1+0.1)
+i=3:
+0.1(1+0.1+0.1+0.01) = 0.1(1+0.1+0.11) 括号里是之前的p的sum，以此来推出Wsum的公式
+那为什么>k之后，几不变了呢，例如k=3
+i=4: 0.1(抽中4)+0.1x0.1(抽中1 and 3) +0.1x0.1(抽中2 and 2)+0.1x0.1x0.1(抽中2个1，一个2)
+i=5: 0.1(抽中4)+0.1x0.1(抽中1 and 4) +0.1x0.1(抽中2 and3)+0.1x0.1x0.1(抽中2个1，一个3)
+…
+可以看到，最后大于k的公式后面都是一样的。因为3（k）是一道坎，只有抽中小于3的数，后面才可能继续抽。
+
+最后。。如果i-w >0, 比如say W = 10, when we reach i = 11, dp[i] = Wsum / W = (dp[1] + .. + dp[10]) /10
+i = 11是不可能一次抽中的（大于w），所以要把一次抽中的概率减去，就是第一次。
+i = 12不可能跟2一样（抽中1一次11，再抽中1，也不可能一下抽中12）要把这次概率减去。
+
+最后这块我只能从概念上这样理解，但不能从公式上进行证明，如果可以请帮助。
+"""
+
+
+class SolutionLe:
+    def new21Game(self, N, K, W):
+        if K == 0 or N >= K + W: return 1
+        dp = [1.0] + [0.0] * N
+        Wsum = 1.0
+        for i in range(1, N + 1):
+            dp[i] = Wsum / W
+            if i < K: Wsum += dp[i]
+            if i - W >= 0: Wsum -= dp[i - W]
+        return sum(dp[K:])
+
+
+
+class SolutionTD:
+    def new21Game(self, N, K, W):
+        if K == 0 or N >= K + W - 1:
+            return 1
+
+        memo = [0] * K
+        memo[K - 1] = (N - K + 1) / W
+
+        for i in reversed(range(K - 1)):
+            memo[i] = memo[i + 1] + (memo[i + 1] - self.helper(i + W + 1, N, K, memo)) / W
+        return memo[0]
+
+    def helper(self, i, N, K, memo):
+        if i > N:
+            return 0
+        if i >= K:
+            return 1
+        return memo[i]
+
 
 
 

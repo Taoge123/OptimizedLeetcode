@@ -10,8 +10,26 @@ class Solution:
         return word + 'ma' + 'a' * (i + 1)
 
 
+class SolutionCs:
+    def toGoatLatin(self, S: str) -> str:
+        vowels = set("aeiouAEIOU")
+        # for ch in "aeioAEIOU":
+        res = []
+        count = 0
+        for word in S.split(" "):
+            count += 1
+            if count > 1:
+                res.append(" ")
+            if word[0] in vowels:
+                res.append(word)
+            else:
+                res.append(word[1:] + word[0])
 
+            res.append("ma")
+            for j in range(count):
+                res.append("a")
 
+        return "".join(res)
 
 
 
