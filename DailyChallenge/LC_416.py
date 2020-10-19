@@ -27,3 +27,42 @@ class Solution:
         memo[cur, idx] = False
         return memo[cur, idx]
 
+
+
+class SolutionWisdom:
+    def canPartition(self, nums) -> bool:
+        summ = sum(nums)
+        if summ % 2 == 1:
+            return False
+
+        target = summ // 2
+        dp = [False] * (target + 1)
+        dp[0] = True
+
+        for num in nums:
+            old_dp = copy.copy(dp)
+            for i in range(target + 1):
+                if i >= num:
+                    dp[i] = dp[i] or old_dp[i - num]
+
+        return dp[-1]
+
+
+class SolutionReversed:
+    def canPartition(self, nums) -> bool:
+        summ = sum(nums)
+        if summ % 2 == 1:
+            return False
+
+        target = summ // 2
+        dp = [False] * (target + 1)
+        dp[0] = True
+
+        for num in nums:
+            # old_dp = copy.copy(dp)
+            for i in reversed(range(target + 1)):
+                if i >= num:
+                    dp[i] = dp[i] or dp[i - num]
+
+        return dp[-1]
+

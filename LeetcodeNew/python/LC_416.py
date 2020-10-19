@@ -53,8 +53,8 @@ class SolutionTony:
         if cur == target:
             return True
 
-        # if idx == len(nums):
-        #     return False
+        if cur > target:
+            return False
 
         for i in range(idx, len(nums)):
             if self.dfs(nums, i + 1, cur + nums[i], target, memo):
@@ -112,39 +112,43 @@ for num in nums:
 
 """
 
+
 class SolutionWisdom:
     def canPartition(self, nums) -> bool:
-
         summ = sum(nums)
-        if summ % 2 != 0:
+        if summ % 2 == 1:
             return False
 
-        dp = [0] * (summ // 2 + 1)
+        target = summ // 2
+        dp = [False] * (target + 1)
         dp[0] = True
+
         for num in nums:
             old_dp = copy.copy(dp)
-            for s in range(summ // 2 + 1):
-                if s - num >= 0 and old_dp[s - num] == True:
-                    dp[s] = True
+            for i in range(target + 1):
+                if i >= num:
+                    dp[i] = dp[i] or old_dp[i - num]
 
-        return dp[summ // 2]
+        return dp[-1]
 
 
-class Solution2:
-    def canPartition(self, nums):
-
+class SolutionReversed:
+    def canPartition(self, nums) -> bool:
         summ = sum(nums)
-        if summ % 2:
+        if summ % 2 == 1:
             return False
+
         target = summ // 2
-        dp = [True] + [False] * target
+        dp = [False] * (target + 1)
+        dp[0] = True
+
         for num in nums:
-            for i in range(target, num - 1, -1):
-                print(i, i - num)
-                dp[i] = dp[i] or dp[i - num]
-        return dp[target]
+            # old_dp = copy.copy(dp)
+            for i in reversed(range(target + 1)):
+                if i >= num:
+                    dp[i] = dp[i] or dp[i - num]
 
-
+        return dp[-1]
 
 
 nums = [1, 5, 11, 5]
