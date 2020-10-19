@@ -554,25 +554,60 @@ dp[age][score]
 # print(a.bestTeamScore(scores, ages))
 
 
+# class Solution:
+#     def canPartition(self, nums: List[int]) -> bool:
+#         summ = sum(nums)
+#         if summ % 2 != 0:
+#             return False
+#         nums.sort()
+#         target = summ // 2
+#         return self.dfs(nums, 0, 0, target)
+#
+#     def dfs(self, nums, idx, cur, target):
+#         print(cur)
+#         if cur == target:
+#             return True
+#             return False
+#
+#         for i in range(idx, len(nums)):
+#             if self.dfs(nums, i, cur + nums[i], target):
+#                 return True
+#         return False
+#
+
+
+
 class Solution:
-    def canPartition(self, nums: List[int]) -> bool:
+    def makesquare(self, nums) -> bool:
         summ = sum(nums)
-        if summ % 2 != 0:
-            return False
-        nums.sort()
-        target = summ // 2
-        return self.dfs(nums, 0, 0, target)
-
-    def dfs(self, nums, idx, cur, target):
-        print(cur)
-        if cur == target:
-            return True
+        if summ % 4 != 0:
             return False
 
-        for i in range(idx, len(nums)):
-            if self.dfs(nums, i, cur + nums[i], target):
+        target = summ // 4
+        res = [0] * 4
+        return self.dfs(nums, 0, 0, target, res)
+
+    def dfs(self, nums, pos, cur, target, res):
+        print(pos, res)
+        if pos == len(nums):
+            if res[-1] == res[-2] == res[-3]:
                 return True
+            else:
+                return False
+
+        for i in range(4):
+            res[i] += nums[pos]
+            if self.dfs(nums, pos + 1, cur + nums[i], target, res):
+                return True
+            res[i] -= nums[pos]
+
         return False
+
+
+
+nums = [1,1,2,2,2]
+a = Solution()
+print(a.makesquare(nums))
 
 
 
