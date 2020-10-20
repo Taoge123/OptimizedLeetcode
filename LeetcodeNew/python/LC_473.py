@@ -92,3 +92,38 @@ class SolutionTony:
 
 
 
+class SolutionOptimized:
+    def makesquare(self, nums) -> bool:
+        if not nums:
+            return False
+        nums.sort(reverse=True)
+        summ = sum(nums)
+        if summ % 4:
+            return False
+        target = summ // 4
+        visited = [False] * len(nums)
+        return self.dfs(nums, 0, 0, 1, target, visited)
+
+    def dfs(self, nums, pos, cur, count, target, visited):
+        if count == 4:
+            return True
+        if cur == target:
+            return self.dfs(nums, 0, 0, count + 1, target, visited)
+        if cur > target:
+            return False
+
+        for i in range(pos, len(nums)):
+            if visited[i] == True:
+                continue
+            if i > 0 and nums[i] == nums[i - 1] and visited[i - 1] == False:
+                continue
+
+            visited[i] = True
+            if (self.dfs(nums, i + 1, cur + nums[i], count, target, visited)):
+                return True
+            visited[i] = False
+
+        return False
+
+
+
