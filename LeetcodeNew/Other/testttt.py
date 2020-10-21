@@ -576,33 +576,42 @@ dp[age][score]
 #
 
 
-
 class Solution:
     def makesquare(self, nums) -> bool:
+        if not nums:
+            return False
         summ = sum(nums)
-        if summ % 4 != 0:
+        if summ % 4:
+            return False
+        # nums.sort(reverse=True)
+        target = summ // 4
+        visited = [False] * len(nums)
+        return self.dfs(nums, 0, target, 0, 1, visited)
+
+    def dfs(self, nums, pos, target, cur, count, visited):
+        print(count)
+        if count == 4:
+            return True
+
+        if cur == target:
+            self.dfs(nums, 0, target, 0, count + 1, visited)
+
+        if cur > target:
             return False
 
-        target = summ // 4
-        res = [0] * 4
-        return self.dfs(nums, 0, 0, target, res)
+        for i in range(pos, len(nums)):
+            if visited[i] == True:
+                continue
 
-    def dfs(self, nums, pos, cur, target, res):
-        print(pos, res)
-        if pos == len(nums):
-            if res[-1] == res[-2] == res[-3]:
-                return True
-            else:
-                return False
+            if i > 0 and nums[i] == nums[i - 1] and visited[i - 1] == False:
+                continue
 
-        for i in range(4):
-            res[i] += nums[pos]
-            if self.dfs(nums, pos + 1, cur + nums[i], target, res):
+            visited[i] = True
+            if self.dfs(nums, i + 1, target, cur + nums[i], count, visited):
                 return True
-            res[i] -= nums[pos]
+            visited[i] = False
 
         return False
-
 
 
 nums = [1,1,2,2,2]

@@ -115,21 +115,16 @@ dfs的做法是这样：求出直接购买这些商品的价格，然后遍历�
 """
 class Solution2:
     def shoppingOffers(self, price, special, needs):
-        """
-        :type price: List[int]
-        :type special: List[List[int]]
-        :type needs: List[int]
-        :rtype: int
-        """
+
         return self.dfs(price, special, needs)
 
     def dfs(self, price, special, needs):
-        local_min = self.directPurchase(price, needs)
+        res = self.directPurchase(price, needs)
         for spec in special:
             remains = [needs[j] - spec[j] for j in range(len(needs))]
             if min(remains) >= 0:
-                local_min = min(local_min, spec[-1] + self.dfs(price, special, remains))
-        return local_min
+                local_min = min(res, spec[-1] + self.dfs(price, special, remains))
+        return res
 
     def directPurchase(self, price, needs):
         total = 0
