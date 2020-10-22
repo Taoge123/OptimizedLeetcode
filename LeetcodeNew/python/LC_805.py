@@ -111,6 +111,47 @@ class SolutionTLE2:
         return False
 
 
+
+
+class SolutionTonyTLE:
+    def splitArraySameAverage(self, A) -> bool:
+        self.summ = sum(A)
+        self.n = len(A)
+        memo = {}
+        return self.dfs(A, 0, 0, 0, memo)
+
+    def dfs(self, nums, pos, summ, count, memo):
+        # print(self.summ, self.n, summ, count)
+        print(count, summ)
+        if (pos, count, summ) in memo:
+            return memo[(pos, count, summ)]
+
+        if pos >= len(nums):
+            return False
+
+        if summ > self.summ:
+            return False
+
+        if summ and count < len(nums) and summ * self.n == self.summ * count:
+            return True
+
+        if self.dfs(nums, pos + 1, summ + nums[pos], count + 1, memo):
+            memo[(pos, count, summ)] = True
+            return memo[(pos, count, summ)]
+
+        i = pos
+        while i < len(nums) and nums[i] == nums[pos]:
+            i += 1
+
+        if self.dfs(nums, i, summ, count, memo):
+            memo[(pos, count, summ)] = True
+            return memo[(i, count, summ)]
+
+        memo[(pos, count, summ)] = False
+        return memo[(pos, count, summ)]
+
+
+
 """
 total / n == sum / num
 total * num == n * sum

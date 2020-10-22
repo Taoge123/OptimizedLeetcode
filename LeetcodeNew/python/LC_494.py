@@ -38,33 +38,25 @@ class SolutionDP:
         return dp[S]
 
 
-
-
 class Solution:
     def findTargetSumWays(self, nums, S: int) -> int:
-        cache = {}
-        return self.helper(nums, 0, S, cache)
+        memo = {}
+        return self.dfs(nums, S, 0, 0, memo)
 
-    def helper(self, nums, pos, target, cache):
-        if (pos, target) in cache:
-            return cache[(pos, target)]
+    def dfs(self, nums, target, pos, summ, memo):
+        if (pos, summ) in memo:
+            return memo[(pos, summ)]
 
-        else:
-            res = 0
-            if pos == len(nums):
-                if target == 0:
-                    res = 1
-
+        if pos == len(nums):
+            if target == summ:
+                return 1
             else:
-                add = self.helper(nums, pos + 1, target + nums[pos], cache)
-                minus = self.helper(nums, pos + 1, target - nums[pos], cache)
-                res = add + minus
-            cache[(pos, target)] = res
-        return cache[(pos, target)]
+                return 0
 
-
-
-
+        plus = self.dfs(nums, target, pos + 1, summ + nums[pos], memo)
+        minus = self.dfs(nums, target, pos + 1, summ - nums[pos], memo)
+        memo[(pos, summ)] = plus + minus
+        return memo[(pos, summ)]
 
 
 nums = [1, 1, 1, 1, 1]
