@@ -34,6 +34,7 @@ the number of coins is less than 500
 the answer is guaranteed to fit into signed 32-bit integer
 """
 
+import functools
 
 class Solution:
     def change(self, amount: int, coins) -> int:
@@ -45,6 +46,78 @@ class Solution:
                     dp[j] += dp[j - coin]
 
         return dp[amount]
+
+
+
+class SolutionTLE:
+    def change(self, amount: int, coins) -> int:
+        if amount == 0:
+            return 1
+
+        if amount < 0 or len(coins) == 0:
+            return 0
+
+        return self.change(amount - coins[0], coins) + self.change(amount, coins[1:])
+
+
+class Solutioncache:
+    def change(self, amount: int, coins) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(amount, coins):
+            if amount == 0:
+                return 1
+
+            if amount < 0 or len(coins) == 0:
+                return 0
+
+            return dfs(amount - coins[0], coins) + dfs(amount, coins[1:])
+
+        return dfs(amount, tuple(coins))
+
+
+class SolutionCache2Slow:
+    def change(self, amount: int, coins) -> int:
+        return self.dfs(amount, tuple(coins))
+
+    @functools.lru_cache(None)
+    def dfs(self, amount, coins):
+        if amount == 0:
+            return 1
+
+        if amount < 0 or len(coins) == 0:
+            return 0
+
+        return self.dfs(amount - coins[0], coins) + self.dfs(amount, coins[1:])
+
+
+
+class Solution3:
+    def change(self, amount: int, coins) -> int:
+        if not coins:
+            if amount == 0:
+                return 1
+            return 0
+
+        coins.sort()
+        return self.dfs(amount, coins, 0, {})
+
+    def dfs(self, amount, coins, idx, memo):
+        if (amount, idx) in memo:
+            return memo[(amount, idx)]
+
+        if amount == 0:
+            return 1
+
+        res = 0
+        for i in range(idx, len(coins)):
+            if amount - coins[i] < 0:
+                break
+            res += self.dfs(amount - coins[i], coins, i, memo)
+
+        memo[(amount, idx)] = res
+        return res
+
 
 
 

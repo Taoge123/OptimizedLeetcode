@@ -1,4 +1,6 @@
 
+import copy
+
 class Solution:
     def canPartition(self, nums) -> bool:
         summ = sum(nums)
