@@ -36,6 +36,64 @@ class Solution:
 
 
 
+
 """
 with cache is slower
 """
+
+"""
+A/len(A) = B/len(B) = C/len(C)
+
+A/a = C/c
+A * c = C * a
+
+cur/count = summ/n
+cur * n = summ * count
+
+
+"""
+
+
+class SolutionMemo:
+    def splitArraySameAverage(self, A) -> bool:
+        self.summ = sum(A)
+        self.n = len(A)
+        memo = {}
+        for count in range(1, len(A) // 2 + 1):
+            if self.summ * count % self.n != 0:
+                continue
+            if self.dfs(A, count, self.summ * count / self.n, 0, memo):
+                return True
+        return False
+
+    def dfs(self, nums, count, target, pos, memo):
+        if (count, target, pos) in memo:
+            return memo[(count, target, pos)]
+        if count == 0 and target == 0:
+            return True
+        if pos == len(nums):
+            return False
+        if count == 0 or target == 0:
+            return False
+        if self.dfs(nums, count - 1, target - nums[pos], pos + 1, memo):
+            memo[(count, target, pos)] = True
+            return memo[(count, target, pos)]
+        i = pos
+        while i < len(nums) and nums[i] == nums[pos]:
+            i += 1
+        if self.dfs(nums, count, target, i, memo):
+            memo[(count, target, i)] = True
+            return memo[(count, target, i)]
+        memo[(count, target, pos)] = False
+        return memo[(count, target, pos)]
+
+
+
+
+
+
+
+
+
+
+

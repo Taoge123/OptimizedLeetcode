@@ -21,11 +21,6 @@ Explanation: RBYYBBRRB -> RBYY[Y]BBRRB -> RBBBRRB -> RRRB -> B -> B[B] -> BB[B] 
 
 class Solution:
     def findMinStep(self, board, hand):
-        """
-        :type board: str
-        :type hand: str
-        :rtype: int
-        """
         self.balls = collections.Counter(hand)
         self.ans = float('inf')
         self.dfs(board, 0)
