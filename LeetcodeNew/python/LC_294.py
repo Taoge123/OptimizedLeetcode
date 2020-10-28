@@ -24,6 +24,20 @@ class Solution:
         return False
 
 
+class SolutionTony:
+    def canWin(self, s: str) -> bool:
+        memo = {}
+        return self.dfs(s, memo)
+
+    def dfs(self, s, memo):
+        for i in range(len(s) - 1):
+            if s[i:i + 2] == '++' and not self.dfs(s[:i] + "--" + s[i + 2:], memo):
+                memo[s] = True
+                return memo[s]
+
+        memo[s] = False
+        return memo[s]
+
 
 class Solution2:
     def canWin(self, s: str) -> bool:

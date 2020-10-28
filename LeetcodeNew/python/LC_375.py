@@ -1,5 +1,7 @@
 
 """
+https://leetcode.com/problems/guess-number-higher-or-lower-ii/discuss/84788/Python-solution-with-detailed-explanation
+
 We are playing the Guess Game. The game is as follows:
 
 I pick a number from 1 to n. You have to guess which number I picked.
@@ -25,7 +27,7 @@ Given a particular n ≥ 1, find out how much money you need to have to guarante
 """
 dp[i][j] = min(k + max(dp[i][k - 1], dp[k + 1][j]))
 """
-
+import functools
 
 class SolutionTony:
     def getMoneyAmount(self, n):
@@ -69,6 +71,24 @@ class Solution:
             res = min(res, max(self.helper(i, num-1, cache), self.helper(num+1, j, cache)) + num)
         cache[i][j] = res
         return res
+
+
+class Solution222:
+    def getMoneyAmount(self, n: int) -> int:
+        nums = [i for i in range(1, n + 1)]
+
+        @functools.lru_cache(None)
+        def dfs(nums, i, j):
+            if i >= j:
+                return 0
+
+            res = float('inf')
+            for k in range(i, j + 1):
+                res = min(res, max(dfs(nums, i, k - 1), dfs(nums, k + 1, j)) + nums[k])
+
+            return res
+
+        return dfs(tuple(nums), 0, len(nums) - 1)
 
 
 class Solution2:

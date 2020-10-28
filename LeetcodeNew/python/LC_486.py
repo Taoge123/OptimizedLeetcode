@@ -49,19 +49,23 @@ currently 1st with choosable i, j,
         
         since the 1st plays to maximize his score, 1st can get max(nums[i] + min(1.a, 1.b), nums[j] + min(2.a, 2.b));
 """
+
+
 class Solution:
-    def PredictTheWinner(self, nums):
-        cache = {}
-        return self.helper(nums, 0, len(nums) - 1, cache) >= 0
+    def PredictTheWinner(self, nums) -> bool:
 
-    def helper(self, nums, i, j, cache):
-        if (i, j) not in cache:
-            if i == j:
-                return nums[i]
-            cache[i, j] = max(nums[i] - self.helper(nums, i + 1, j, cache),
-                              nums[j] - self.helper(nums, i, j - 1, cache))
+        memo = {}
+        return self.dfs(nums, 0, len(nums) - 1, memo) >= 0
 
-        return cache[i, j]
+    def dfs(self, nums, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i == j:
+            return nums[i]
+
+        memo[(i, j)] = max(nums[i] - self.dfs(nums, i + 1, j, memo), nums[j] - self.dfs(nums, i, j - 1, memo))
+        return memo[(i, j)]
 
 
 class Solution2:
@@ -88,6 +92,29 @@ class Solution2:
         memo[i][j] = score
         return score
 
+
+
+
+class SolutionTony:
+    def PredictTheWinner(self, nums) -> bool:
+        memo = {}
+        score = self.dfs(nums, 0, len(nums) - 1, memo)
+        return score >= sum(nums) - score
+
+    def dfs(self, nums, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+
+        if i == j:
+            return nums[i]
+
+        left = nums[i] = min(self.dfs(nums, i + 2, j, memo), self.dfs(nums, i + 1, j - 1, memo))
+        right = nums[j] + min(self.dfs(nums, i, j - 2, memo), self.dfs(nums, i + 1, j - 1, memo))
+        memo[(i, j)] = max(left, right)
+        return memo[(i, j)]
 
 
 

@@ -1,6 +1,8 @@
 """
 https://leetcode.com/problems/tallest-billboard/discuss/219700/Python-DP-clean-solution(1D)
 https://github.com/wisdompeak/LeetCode/tree/master/Dynamic_Programming/956.Tallest-Billboard
+https://leetcode-cn.com/problems/tallest-billboard/solution/yi-quan-ji-ben-mei-shuo-ming-bai-de-zhe-pian-kan-l/
+
 
 背包解法:
 dp[left][right]
@@ -42,6 +44,62 @@ dp[diff] = max{ Left | s.t Left-Right = diff}
 from functools import lru_cache
 import collections
 
+"""
+https://leetcode.com/problems/tallest-billboard/discuss/219700/Python-DP-clean-solution(1D)
+
+It is like a knapsack problem.
+Consider this problem as:
+Given a list of numbers, multiply each number with 1 or 0 or -1, make the sum of all numbers to 0. Find a combination which has the largest sum of all positive numbers.
+
+We can consider the sum as the key and positive number sum as the value.
+We initally have dp[0] = 0
+
+We iterate through the numbers and calculate the pairs that we got. In the case that we have same sum but different postive number sum, we only keep the largest postive number sum.
+
+Let's run through a example, [1,2,3]
+First we have {0:0}.
+After 1, we have {0: 0, 1: 1, -1: 0}
+After 2, we have {0:0, 2:2, -2:0, 1:1, 3:3,-1:1, -1:0,1:2,-3:0}
+we will drop 1:1 and -1:0 since they have smaller value with the same key[1]and [-1]. That left us with {0:0, 2:2, -2:0, 3:3,-1:1,1:2,-3:0}
+Number 3 is doing pretty much the same.
+Then we will get the final result with dp[0]
+
+
+"""
+
+
+class SolutionEasy1:
+    def tallestBillboard(self, rods):
+        dp = {0: 0}
+        for i in rods:
+            old_dp = dp.copy()
+            for k in list(old_dp.keys()):
+                dp[k + i] = max(dp.get(k + i, 0), old_dp[k] + i)
+                dp[k - i] = max(dp.get(k - i, 0), old_dp[k])
+        return dp[0]
+
+
+class Solution11:
+    def tallestBillboard(self, rods) -> int:
+        table = {0: 0}
+        for rod in rods:
+            new_dp = collections.defaultdict(int)
+
+            for curSum, leftHeight in table.items():
+                # add rod to the left bucket. Sum will increase since left bucket is
+                # represented by positive numbers. Left support beam is longer now
+                new_dp[curSum + rod] = max(new_dp[curSum + rod], leftHeight + rod)
+                # add rod to the right bucket. Sum will decrease since right bucket is
+                # represented by negative numbers. Left support beam is unchanged.
+                new_dp[curSum - rod] = max(new_dp[curSum - rod], leftHeight)
+                # discard rod. Sum and left support beam is unchanged
+                new_dp[curSum] = max(new_dp[curSum], leftHeight)
+
+            table = new_dp
+
+        return table[0]
+
+
 
 class Solution:
     def tallestBillboard(self, rods) -> int:
@@ -52,22 +110,22 @@ class Solution:
                     return 0
                 else:
                     return float('-inf')
-            return max(dp(i + 1, summ), dp(i + 1, summ - rods[i]), dp(i + 1, summ + rods[i]) + rods[i])
+            return max(dp(i + 1, summ),
+                       dp(i + 1, summ - rods[i]),
+                       dp(i + 1, summ + rods[i]) + rods[i])
 
         return dp(0, 0)
 
 
 
-
 class SolutionTD:
-    memo = collections.defaultdict(int)
     def tallestBillboard(self, rods) -> int:
-        n = len(rods)
-        return self.dp(rods, 0, 5000)
+        self.memo = collections.defaultdict(int)
+        return self.dp(rods, 0, 0)
 
     def dp(self, rods, i, summ):
         if i == len(rods):
-            if summ == 5000:
+            if summ == 0:
                 return 0
             else:
                 return float('-inf')
@@ -76,9 +134,9 @@ class SolutionTD:
             return self.memo[(i, summ)]
 
         else:
-            res = self.dp(rods, i + 1, summ)
-            res = max(res, self.dp(rods, i + 1, summ - rods[i]))
-            res = max(res, rods[i] + self.dp(rods, i + 1, summ + rods[i]))
+            res = max(self.dp(rods, i + 1, summ),
+                      self.dp(rods, i + 1, summ - rods[i]),
+                      rods[i] + self.dp(rods, i + 1, summ + rods[i]))
             self.memo[(i, summ)] = res
             return res
 
