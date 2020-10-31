@@ -42,9 +42,9 @@ minimize:  max(dp[state'])
 class Solution:
     def stoneGameII(self, piles) -> int:
         self.dp = {}
-        return self.solve(0, 1, piles)
+        return self.dfs(0, 1, piles)
 
-    def solve(self, i, M, piles):
+    def dfs(self, i, M, piles):
         n = len(piles)
         if i >= n:
             return 0
@@ -61,9 +61,10 @@ class Solution:
         # explore each x
         for x in range(1, 2 * M + 1):
             # diff is the current palyers score, keep max
-            res = max(res, sum(piles[i:]) - self.solve(i + x, max(x, M), piles))
+            res = max(res, sum(piles[i:]) - self.dfs(i + x, max(x, M), piles))
         self.dp[(i, M)] = res
         return res
+
 
 
 
