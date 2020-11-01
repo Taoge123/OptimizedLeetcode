@@ -116,7 +116,6 @@ class Solution3:
                 return res
 
             visited.add((i, j))
-
             for dx, dy in directions:
                 x = i + dx
                 y = j + dy

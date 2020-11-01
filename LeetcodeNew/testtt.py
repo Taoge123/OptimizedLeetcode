@@ -434,30 +434,85 @@ ababbabbbabbab
 #                 j += m
 #         return False
 
+#
+# class Solution:
+#     def maxUniqueSplit(self, s: str) -> int:
+#         self.res = []
+#         visited = set()
+#         self.dfs(list(s), 0, [], visited)
+#         print(self.res)
+#         return self.res
+#
+#     def dfs(self, s, index, path, visited):
+#         print(s)
+#         if not s:
+#             self.res.append(path)
+#             return
+#
+#         for i in range(1, len(s)):
+#             if "".join(s[:i]) in visited:
+#                 continue
+#             visited.add("".join(s[:i]))
+#             self.dfs(s[i:], index+1, path + [s[:i]], visited)
+#
+#
+# s = "addbsd"
+# a = Solution()
+# print(a.maxUniqueSplit(s))
+
+import collections
+
 
 class Solution:
-    def maxUniqueSplit(self, s: str) -> int:
-        self.res = []
-        visited = set()
-        self.dfs(list(s), 0, [], visited)
-        print(self.res)
-        return self.res
+    def kthSmallestPath(self, destination, k: int) -> str:
 
-    def dfs(self, s, index, path, visited):
-        print(s)
-        if not s:
-            self.res.append(path)
+        V, H = destination
+        nums = []
+        for i in range(H):
+            nums.append(1)
+        for j in range(V):
+            nums.append(2)
+        res = []
+        if k == 1:
+            for i in range(len(nums)):
+                if nums[i] == 1:
+                    res.append('H')
+                else:
+                    res.append('V')
+            return "".join(res)
+        temp = []
+        for _ in range(k - 1):
+            temp = self.nextPermutation(nums)
+
+        for i in range(len(temp)):
+            if temp[i] == 1:
+                res.append('H')
+            else:
+                res.append('V')
+        return "".join(res)
+
+    def nextPermutation(self, nums):
+        small, n = -1, len(nums)
+        for i in range(n - 1, 0, -1):
+            if nums[i - 1] < nums[i]:
+                small = i - 1
+                break
+
+        if small == -1:
+            nums[:] = nums[::-1]
             return
 
-        for i in range(1, len(s)):
-            if "".join(s[:i]) in visited:
-                continue
-            visited.add("".join(s[:i]))
-            self.dfs(s[i:], index+1, path + [s[:i]], visited)
+        for i in range(n - 1, small - 1, -1):
+            if nums[i] > nums[small]:
+                nums[small], nums[i] = nums[i], nums[small]
+                break
+
+        nums[:] = nums[:small + 1] + nums[small + 1:][::-1]
+        return nums
 
 
-s = "addbsd"
+destination = [2, 3]
+k = 2
 a = Solution()
-print(a.maxUniqueSplit(s))
-
+print(a.kthSmallestPath(destination, k))
 

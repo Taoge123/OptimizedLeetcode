@@ -50,7 +50,7 @@ class Solution:
             return 0
 
         # take all if possible
-        if n - i <= 2 * M:
+        if i + 2 * M >= n:
             return sum(piles[i:])
 
         # memoization
