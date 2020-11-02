@@ -1,4 +1,6 @@
 
+import functools
+
 """
 dp[i][j]: the maximum score we can get from interval [i:j]
 
@@ -24,9 +26,9 @@ class Solution:
         for i in range(1, n + 1):
             preSum[i] = stones[i - 1] + preSum[i - 1]
         self.memo = {}
-        return self.solve(0, n - 1, preSum)
+        return self.dfs(0, n - 1, preSum)
 
-    def solve(self, i, j, preSum):
+    def dfs(self, i, j, preSum):
         if i == j:
             return 0
         if (i, j) in self.memo:
@@ -36,11 +38,11 @@ class Solution:
             left = preSum[k + 1] - preSum[i]
             right = preSum[j + 1] - preSum[k + 1]
             if left > right:
-                res = max(res, right + self.solve(k + 1, j, preSum))
+                res = max(res, right + self.dfs(k + 1, j, preSum))
             elif left < right:
-                res = max(res, left + self.solve(i, k, preSum))
+                res = max(res, left + self.dfs(i, k, preSum))
             else:
-                res = max(res, left + self.solve(i, k, preSum), right + self.solve(k + 1, j, preSum))
+                res = max(res, left + self.dfs(i, k, preSum), right + self.dfs(k + 1, j, preSum))
         self.memo[(i, j)] = res
         return res
 
