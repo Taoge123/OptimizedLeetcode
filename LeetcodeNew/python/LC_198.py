@@ -19,6 +19,48 @@ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (m
 """
 
 
+class SolutionTD:
+    def rob(self, nums) -> int:
+        if not nums:
+            return 0
+
+        memo = {}
+        return self.dfs(nums, len(nums) - 1, memo)
+
+    def dfs(self, nums, i, memo):
+        if i < 0:
+            return 0
+        if i in memo:
+            return memo[i]
+
+        res = max(self.dfs(nums, i - 1, memo), self.dfs(nums, i - 2, memo) + nums[i])
+        memo[i] = res
+        return memo[i]
+
+
+
+class SolutionTD2:
+    def rob(self, nums) -> int:
+        if not nums:
+            return 0
+        memo = {}
+        return self.dfs(nums, 0, memo)
+
+    def dfs(self, nums, pos, memo):
+        n = len(nums)
+        if pos > n:
+            return 0
+        if pos in memo:
+            return memo[pos]
+
+        res = 0
+        for i in range(pos, len(nums)):
+            res = max(res, nums[i] + self.dfs(nums, i + 2, memo))
+        memo[pos] = res
+        return res
+
+
+
 class Solution:
     def rob(self, nums) -> int:
         n = len(nums)
