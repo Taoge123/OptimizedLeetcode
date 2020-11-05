@@ -1,13 +1,14 @@
-
 class Solution:
     def minScoreTriangulation(self, A) -> int:
+
         memo = {}
-        return self.dfs(A, 0, len(A ) -1, memo)
+        return self.dfs(A, 0, len(A) - 1, memo)
 
     def dfs(self, nums, i, j, memo):
         # if i >= j:
         #     return 0
-        if j- i + 1 < 3:
+        # distance < 3 wont form a triangle
+        if j - i + 1 < 3:
             return 0
 
         if (i, j) in memo:
@@ -19,7 +20,6 @@ class Solution:
 
         memo[(i, j)] = res
         return memo[(i, j)]
-
 
 
 

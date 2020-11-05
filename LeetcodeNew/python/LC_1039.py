@@ -48,6 +48,8 @@ class SolutionTD:
     def dfs(self, nums, i, j, memo):
         # if i >= j:
         #     return 0
+
+        # distance < 3 wont form a triangle
         if j - i + 1 < 3:
             return 0
 
