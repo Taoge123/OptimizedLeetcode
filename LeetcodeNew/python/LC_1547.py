@@ -64,9 +64,16 @@ class SolutionTony:
         res = float('inf')
         for k in range(i + 1, j):
             res = min(res, self.dfs(cuts, i, k, memo) + self.dfs(cuts, k, j, memo) + (cuts[j] - cuts[i]))
-            memo[(i, j)] = res
 
+        memo[(i, j)] = res
         return memo[(i, j)]
+
+
+n = 7
+cuts = [1,3,4,5]
+
+a = SolutionTony()
+print(a.minCost(n, cuts))
 
 
 
