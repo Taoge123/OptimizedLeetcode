@@ -2,6 +2,7 @@ import collections
 
 class Solution:
     def diagonalSort(self, mat):
+
         m, n = len(mat), len(mat[0])
         table = collections.defaultdict(list)
         for i in range(m):

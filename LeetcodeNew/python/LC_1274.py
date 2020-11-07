@@ -16,7 +16,7 @@ class Point:
         self.x = x
         self.y = y
 
-class Solution(object):
+class Solution:
     def countShips(self, sea: 'Sea', P: 'Point', Q: 'Point') -> int:
         res = 0
         if P.x >= Q.x and P.y >= Q.y and sea.hasShips(P, Q):
@@ -28,6 +28,21 @@ class Solution(object):
             res += self.countShips(sea, Point(mx, my), Q)
             res += self.countShips(sea, Point(P.x, my), Point(mx + 1, Q.y))
         return res
+
+
+class Solution2:
+    def countShips(self, sea, topRight, bottomLeft):
+        x1, y1 = bottomLeft.x, bottomLeft.y
+        x2, y2 = topRight.x, topRight.y
+        if x1 > x2 or y1 > y2 or not sea.hasShips(topRight, bottomLeft):
+            return 0
+        if x1 == x2 and y1 == y2:
+            return 1
+        midx, midy = (x1 + x2) // 2, (y1 + y2) // 2
+        return self.countShips(sea, Point(midx, y2), Point(x1, midy + 1)) + \
+               self.countShips(sea, Point(x2, y2), Point(midx + 1, midy + 1)) + \
+               self.countShips(sea, Point(midx, midy), Point(x1, y1)) + \
+               self.countShips(sea, Point(x2, midy), Point(midx + 1, y1))
 
 
 
