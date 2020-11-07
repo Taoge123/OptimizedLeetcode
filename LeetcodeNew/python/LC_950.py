@@ -13,6 +13,7 @@ class Solution:
         return res
 
 
+
 class Solution2:
     def deckRevealedIncreasing(self, deck):
         n = len(deck)

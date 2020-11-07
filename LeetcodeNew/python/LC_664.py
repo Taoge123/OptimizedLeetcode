@@ -56,7 +56,7 @@ class Solution:
 
 
 
-class Solution:
+class Solution2:
     def strangePrinter(self, s):
         if not s:
             return 0
