@@ -64,6 +64,33 @@ Follow Up:
 如果用若干个一维数组代替这个N*N的二维数组，速度会有更大的提升。"""
 
 
+class SolutionTony:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        memo = {}
+        if len(s) == 1:
+            return 1
+        return self.dfs(s, 0, len(s) - 1, memo)
+
+    def dfs(self, s, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+
+        if i == j:
+            return 1
+
+        if s[i] == s[j]:
+            res = self.dfs(s, i + 1, j - 1, memo) + 2
+        else:
+            res = max(self.dfs(s, i + 1, j, memo), self.dfs(s, i, j - 1, memo))
+
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+
 class SolutionWisdom:
     def longestPalindromeSubseq(self, s: str) -> int:
         n = len(s)

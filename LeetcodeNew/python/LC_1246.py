@@ -3,17 +3,56 @@
 """
 https://www.youtube.com/watch?v=40plVtFcUSI
 https://www.geeksforgeeks.org/minimum-steps-to-delete-a-string-after-repeated-deletion-of-palindrome-substrings/
-
+https://leetcode.com/problems/palindrome-removal/discuss/555111/Python%3A-DFS-%2B-Memo-but-TLE
+https://leetcode.com/problems/palindrome-removal/discuss/745169/10-line-python-solution
 """
 
-from functools import lru_cache
+import functools
 
 
 class Solution:
+    def minimumMoves(self, arr) -> int:
+        @functools.lru_cache(None)
+        def dp(i, j):
+            if i > j:
+                return 0
+            res = 1 + dp(i + 1, j)
+            for k in range(i + 1, j + 1):
+                if arr[i] == arr[k]:
+                    res = min(res, max(1, dp(i + 1, k - 1)) + dp(k + 1, j))
+            return res
+
+        return dp(0, len(arr) - 1)
+
+
+
+class SolutionTony:
+    def minimumMoves(self, arr) -> int:
+        memo = {}
+        return self.dfs(arr, 0, len(arr) - 1, memo)
+
+    def dfs(self, arr, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+
+        res = 1 + self.dfs(arr, i + 1, j, memo)
+
+        for k in range(i + 1, j + 1):
+            if arr[i] == arr[k]:
+                res = min(res, max(1, self.dfs(arr, i + 1, k - 1, memo)) + self.dfs(arr, k + 1, j, memo))
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+
+class SolutionLee:
     def minimumMoves(self, nums):
         return self.dp(tuple(nums), 0, len(nums) - 1)
 
-    @lru_cache(None)
+    @functools.lru_cache(None)
     def dp(self, nums, i, j):
         if i > j:
             return 0
@@ -24,6 +63,30 @@ class Solution:
             if nums[j] == nums[k]:
                 res = min(res, self.dp(nums, i, k - 1) + self.dp(nums, k + 1, j - 1))
         return res
+
+
+class SolutionTony1:
+    def minimumMoves(self, arr):
+        memo = {}
+        return self.dfs(arr, 0, len(arr) - 1, memo)
+
+    def dfs(self, nums, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+        if i > j:
+            return 0
+
+        res = self.dfs(nums, i, j - 1, memo) + 1
+
+        if nums[j] == nums[j - 1]:
+            res = min(res, self.dfs(nums, i, j - 2, memo) + 1)
+
+        for k in range(i, j - 1):
+            if nums[j] == nums[k]:
+                res = min(res, self.dfs(nums, i, k - 1, memo) + self.dfs(nums, k + 1, j - 1, memo))
+
+        memo[(i, j)] = res
+        return memo[(i, j)]
 
 
 class Solution2:
