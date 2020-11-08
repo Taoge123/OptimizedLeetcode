@@ -35,3 +35,15 @@ class Solution:
 
 
 
+class Solution2:
+    def findSmallestSetOfVertices(self, n: int, edges):
+        indegree = [0] * n
+        for u, v in edges:
+            indegree[v] += 1
+        return [i for i in range(n) if indegree[i] == 0]
+
+
+
+
+
+
