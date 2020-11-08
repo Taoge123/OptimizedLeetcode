@@ -90,6 +90,8 @@ class SolutionTony1:
         return memo[(i, j)]
 
 
+
+
 class Solution2:
     def minimumMoves(self, arr) -> int:
 
