@@ -65,6 +65,7 @@ class SolutionLee:
         return res
 
 
+
 class SolutionTony1:
     def minimumMoves(self, arr):
         memo = {}
