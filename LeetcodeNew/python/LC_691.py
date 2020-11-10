@@ -25,12 +25,10 @@ class Solution:
         n = len(target)
         N = (1 << n)
         dp = [float('inf') for i in range(N)]
-
         dp[0] = 0
         for i in range(N):
             if dp[i] == float('inf'):
                 continue
-
             for word in stickers:
                 # 状态 j + word 得到状态 i
                 j = self.findNextState(i, word, target)
