@@ -1,3 +1,5 @@
+import collections
+
 class Solution:
     def minStickers(self, stickers, target: str) -> int:
         n = len(target)
@@ -26,4 +28,38 @@ class Solution:
                     state += (1 << k)
                     break
         return state
+
+
+class SolutionDFS:
+    def minStickers(self, stickers, target: str) -> int:
+
+        table = collections.Counter(target)
+        self.res = float('inf')
+        self.dfs(stickers, target, 0, 0, table)
+        return self.res if self.res < float('inf') else -1
+
+    def dfs(self, stickers, target, pos, count, table):
+        n = len(target)
+        if pos == n:
+            self.res = min(self.res, count)
+            return
+
+        if self.res == count:
+            return
+
+        if table[target[pos]] <= 0:
+            self.dfs(stickers, target, pos + 1, count, table)
+        else:
+            for stick in stickers:
+                if target[pos] in stick:
+                    for s in stick:
+                        table[s] -= 1
+                    self.dfs(stickers, target, pos + 1, count + 1, table)
+                    for s in stick:
+                        table[s] += 1
+
+
+
+
+
 

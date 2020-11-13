@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/stickers-to-spell-word/discuss/743124/DP-example-with-intuitive-figures-explanation-python-code
+
 1125
 
 691.Stickers-to-Spell-Word
@@ -19,8 +21,9 @@ i的每一个bit表示的是target对应位置的字符是否得到了满足。�
 
 """
 
+import collections
 
-class Solution:
+class SolutionDP:
     def minStickers(self, stickers, target: str) -> int:
         n = len(target)
         N = (1 << n)
@@ -29,9 +32,9 @@ class Solution:
         for i in range(N):
             if dp[i] == float('inf'):
                 continue
-            for word in stickers:
+            for sticker in stickers:
                 # 状态 j + word 得到状态 i
-                j = self.findNextState(i, word, target)
+                j = self.findNextState(i, sticker, target)
                 dp[j] = min(dp[j], dp[i] + 1)
 
         if dp[N - 1] == float('inf'):
@@ -39,13 +42,81 @@ class Solution:
         else:
             return dp[N - 1]
 
-    def findNextState(self, state, word, target):
+    def findNextState(self, state, sticker, target):
         n = len(target)
-        for char in word:
+        for s in sticker:
             for k in range(n):
                 # 如果state的第k位是空的, char可以填补上
-                if ((state >> k) & 1) == 0 and target[k] == char:
+                if ((state >> k) & 1) == 0 and target[k] == s:
                     state += (1 << k)
+                    # state |= (1 << k)
+                    break
+        return state
+
+
+
+
+
+class SolutionDFS:
+    def minStickers(self, stickers, target: str) -> int:
+
+        table = collections.Counter(target)
+        self.res = float('inf')
+        self.dfs(stickers, target, 0, 0, table)
+        return self.res if self.res < float('inf') else -1
+
+    def dfs(self, stickers, target, pos, count, table):
+        n = len(target)
+        if pos == n:
+            self.res = min(self.res, count)
+            return
+
+        if self.res == count:
+            return
+
+        if table[target[pos]] <= 0:
+            self.dfs(stickers, target, pos + 1, count, table)
+        else:
+            for stick in stickers:
+                if target[pos] in stick:
+                    for s in stick:
+                        table[s] -= 1
+                    self.dfs(stickers, target, pos + 1, count + 1, table)
+                    for s in stick:
+                        table[s] += 1
+
+
+class SolutionBFS:
+    def minStickers(self, stickers, target):
+        table = collections.defaultdict(list)
+        n = len(target)
+        for i in range(n):
+            table[target[i]].append(i)
+
+        queue = collections.deque()
+        queue.append([0, 0])
+        visited = set()
+        while queue:
+            state, step = queue.popleft()
+            if state == (1 << n) - 1:
+                return step
+            if state in visited:
+                continue
+
+            visited.add(state)
+            for sticker in stickers:
+                newState = self.apply(sticker, state, table)
+                queue.append([newState, step + 1])
+
+        return -1
+
+    def apply(self, sticker, state, table):
+        for s in sticker:
+            if s not in table:
+                continue
+            for i in table[s]:
+                if not state & (1 << i):
+                    state |= (1 << i)
                     break
         return state
 

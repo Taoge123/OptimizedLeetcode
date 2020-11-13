@@ -40,7 +40,7 @@ prevState[state] & subset == prevState[state]
 
 此外，我们可以提前处理数据，计算所有状态的prevState。这个不难做到，只要将state的每一门课程的先修课程取并集即可。
 """
-
+import functools
 
 class SolutionWisdomTLE:
     def minNumberOfSemesters(self, n: int, dependencies, k: int) -> int:
@@ -118,7 +118,7 @@ class SolutionAC:
                 dep[a] = []
             dep[a].append(b)
 
-        @lru_cache(typed=False, maxsize=128000000)
+        @functools.lru_cache(typed=False, maxsize=128000000)
         def dp(stat):
             if stat == 0:
                 return 0
