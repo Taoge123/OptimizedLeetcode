@@ -97,7 +97,6 @@ class SolutionTonyBFS:
         queue.append([0, []])
         visited = set()
         while queue:
-            nextQueue = collections.deque()
             size = len(queue)
             for _ in range(size):
                 state, path = queue.popleft()
@@ -112,6 +111,7 @@ class SolutionTonyBFS:
 
                     if nextState not in visited:
                         visited.add(nextState)
-                        nextQueue.append([nextState, path + [i]])
-            queue = nextQueue
+                        queue.append([nextState, path + [i]])
         return -1
+
+
