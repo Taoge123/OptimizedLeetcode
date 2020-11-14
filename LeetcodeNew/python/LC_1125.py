@@ -18,8 +18,9 @@ dp[skill_set] is a sufficient team to cover the skill_set.
 For each people,
 update his_skill with all current combinations of skill_set in dp.
 
-
 """
+
+import collections
 
 class Solution:
     def smallestSufficientTeam(self, target, people):
@@ -51,3 +52,66 @@ class Solution:
 
 
 
+class SolutionBFS:
+    def smallestSufficientTeam(self, req_skills, people):
+        n = len(req_skills)
+        N = (1 << n) - 1
+        table = {}
+        # map skill to binary
+        for i, skill in enumerate(req_skills):
+            table[skill] = 1 << i
+
+        queue = collections.deque()
+        queue.append([0, []])
+        visited = set()
+        while queue:
+            nextQueue = collections.deque()
+            size = len(queue)
+            for _ in range(size):
+                state, path = queue.popleft()
+                for i in range(len(people)):
+                    nextState = state
+                    for skill in people[i]:
+                        nextState |= table[skill]
+
+                    if nextState == N:
+                        return path + [i]
+
+                    if nextState not in visited:
+                        visited.add(nextState)
+                        nextQueue.append([nextState, path + [i]])
+            queue = nextQueue
+        return -1
+
+
+class SolutionTonyBFS:
+    def smallestSufficientTeam(self, req_skills, people):
+        n = len(req_skills)
+        N = (1 << n) - 1
+        table = {}
+        # map skill to binary
+        for i, skill in enumerate(req_skills):
+            table[skill] = 1 << i
+
+        queue = collections.deque()
+        queue.append([0, []])
+        visited = set()
+        while queue:
+            nextQueue = collections.deque()
+            size = len(queue)
+            for _ in range(size):
+                state, path = queue.popleft()
+
+                if state == N:
+                    return path
+
+                for i in range(len(people)):
+                    nextState = state
+                    for skill in people[i]:
+                        nextState |= table[skill]
+
+                    if nextState not in visited:
+                        visited.add(nextState)
+                        nextQueue.append([nextState, path + [i]])
+            queue = nextQueue
+        return -1

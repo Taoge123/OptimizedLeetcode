@@ -86,10 +86,11 @@ class SolutionDFS:
                         table[s] += 1
 
 
-class SolutionBFS:
-    def minStickers(self, stickers, target):
-        table = collections.defaultdict(list)
+class SolutionTonyBFS:
+    def minStickers(self, stickers, target: str) -> int:
         n = len(target)
+        N = (1 << n) - 1
+        table = collections.defaultdict(list)
         for i in range(n):
             table[target[i]].append(i)
 
@@ -98,7 +99,44 @@ class SolutionBFS:
         visited = set()
         while queue:
             state, step = queue.popleft()
-            if state == (1 << n) - 1:
+            if state == N:
+                return step
+
+            for sticker in stickers:
+                newState = state
+                for ch in sticker:
+                    if ch not in table:
+                        continue
+                    for i in table[ch]:
+                        # print(bin(newState), newState, 1<<i)
+                        if not newState & (1 << i):
+                            newState |= (1 << i)
+                            break
+                if newState in visited:
+                    continue
+                visited.add(newState)
+                queue.append([newState, step + 1])
+        return -1
+
+
+
+
+
+
+class SolutionBFS:
+    def minStickers(self, stickers, target):
+        table = collections.defaultdict(list)
+        n = len(target)
+        N = (1 << n) - 1
+        for i in range(n):
+            table[target[i]].append(i)
+
+        queue = collections.deque()
+        queue.append([0, 0])
+        visited = set()
+        while queue:
+            state, step = queue.popleft()
+            if state == N:
                 return step
             if state in visited:
                 continue
