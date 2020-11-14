@@ -11,7 +11,7 @@ dp[000...001]
 dp[000...101]
 
 preState -> state
-1. preState is a subsetr of state
+1. preState is a subset of state
 2. countOne(state) - countOne(preStatet) <= k
 3. preState must contain prerequisite of state
 
