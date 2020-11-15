@@ -113,7 +113,7 @@ class SolutionTD:
             # cur 代表当前轮到第cur顶帽子可供选择
             # state 代表当前戴帽的人有哪些，为二进制压缩状态形式
             # 首先，如果当前所有人都带上了帽，则返回1
-            if state == (1 << n) - 1:
+            if state == N:
                 return 1
 
             # 若不满足所有人都戴上了帽，且当前也没有帽子了，则返回0
@@ -141,28 +141,29 @@ class SolutionDFS:
         memo = {}
         return self.dfs(hats, 0, 0, memo)
 
-    def dfs(self, hats, cur, state, memo):
+    def dfs(self, hats, pos, state, memo):
         n = len(hats)
         N = (1 << n) - 1
         mod = 10 ** 9 + 7
 
-        if (cur, state) in memo:
-            return memo[(cur, state)]
+        if (pos, state) in memo:
+            return memo[(pos, state)]
 
-        if state == (1 << n) - 1:
+        if state == N:
             return 1
 
-        if cur > 40:
+        if pos > 40:
             return 0
 
-        res = self.dfs(hats, cur + 1, state, memo)
+        res = self.dfs(hats, pos + 1, state, memo)
 
         for i in range(n):
-            if cur in hats[i] and state & (1 << i) == 0:
-                res += self.dfs(hats, cur + 1, state + (1 << i), memo)
+            if pos in hats[i] and state & (1 << i) == 0:
+                res += self.dfs(hats, pos + 1, state + (1 << i), memo)
 
-        memo[(cur, state)] = res
+        memo[(pos, state)] = res
         return res % mod
+
 
 
 
@@ -171,18 +172,17 @@ class SolutionDFS2:
         # 构建帽子到人的对应关系，以逐顶帽子分配
         hats = [set(hat) for hat in hats]
         table = collections.defaultdict(list)
-        for i in range(1, 41):
-            for j, hat in enumerate(hats):
-                if i in hat:
-                    table[i].append(j)
-
+        for person in range(1, 41):
+            for i, hat in enumerate(hats):
+                if person in hat:
+                    table[person].append(i)
         memo = {}
-        return self.dfs(hats, 0, 1, table, memo)
+        return self.dfs(hats, 0, 0, table, memo)
 
     def dfs(self, hats, state, pos, table, memo):
-        M = (1 << len(hats)) - 1
-        MOD = 10 ** 9 + 7
-        if state == M:
+        N = (1 << len(hats)) - 1
+        mod = 10 ** 9 + 7
+        if state == N:
             return 1
         if pos > 40:
             return 0
@@ -192,13 +192,13 @@ class SolutionDFS2:
         res = 0
         # 分配第i顶帽子，遍历所有喜欢第i顶帽子的人
         for i in table[pos]:
-            # 当前的状态中，第j个人还没有戴帽子
+            # 当前的状态中，第i个人还没有戴帽子
             if (state & (1 << i)) == 0:
                 # 尝试把帽子分给第j个人，并且更新状态，问题向前推进
                 res += self.dfs(hats, state | (1 << i), pos + 1, table, memo)
         # 不分配第i顶帽子
         res += self.dfs(hats, state, pos + 1, table, memo)
-        res %= MOD
+        res %= mod
         memo[(state, pos)] = res
         return memo[(state, pos)]
 

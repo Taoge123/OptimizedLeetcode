@@ -16,7 +16,6 @@ OOXOOXOOXOOXOOXOOX
 
 class Solution:
     def minCost(self, s: str, cost) -> int:
-        stack = []
         i = 0
         res = 0
         while i < len(s):
@@ -35,7 +34,7 @@ class Solution:
 
 
 
-class SolutionGreddy2:
+class SolutionGreedy2:
     def minCost(self, s: str, cost) -> int:
         stack = []
         for i in range(len(s)):

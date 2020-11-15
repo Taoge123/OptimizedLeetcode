@@ -76,7 +76,7 @@ class Solution:
         @functools.lru_cache(None)
         def dp(i, j, k):
             # base cases
-            if i< 0 or j < 0 or k < 0:
+            if i < 0 or j < 0 or k < 0:
                 return 0
             if k == 0 and s[i] != t[j]:
                 return 0
