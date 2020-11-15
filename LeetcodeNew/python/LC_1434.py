@@ -1,5 +1,11 @@
 
 """
+https://leetcode-cn.com/problems/number-of-ways-to-wear-different-hats-to-each-other/solution/python-3xie-gei-zi-ji-de-chao-xiang-xi-zhuang-ya-d/
+https://leetcode-cn.com/problems/number-of-ways-to-wear-different-hats-to-each-other/solution/python-3xie-gei-zi-ji-de-chao-xiang-xi-zhuang-ya-d/
+https://leetcode-cn.com/problems/number-of-ways-to-wear-different-hats-to-each-other/solution/python-01bei-bao-by-dangerusswilson/
+
+
+
 state: 000101011000
 i-bit represen =t if the i-th hat has been taken
 dp[state] : the number of ways for this state
@@ -68,9 +74,8 @@ for (int h = 0; h < 40; h ++)
 最终的答案就是dp[111...111]
 """
 
-
-
 import collections
+import functools
 
 
 class Solution:
@@ -97,10 +102,105 @@ class Solution:
         return dp[(1 << n) - 1]
 
 
+class SolutionTD:
+    def numberWays(self, hats) -> int:
+        n = len(hats)
+        N = (1 << n) - 1
+        mod = 10 ** 9 + 7
+
+        @functools.lru_cache(None)
+        def dfs(cur, state):
+            # cur 代表当前轮到第cur顶帽子可供选择
+            # state 代表当前戴帽的人有哪些，为二进制压缩状态形式
+            # 首先，如果当前所有人都带上了帽，则返回1
+            if state == (1 << n) - 1:
+                return 1
+
+            # 若不满足所有人都戴上了帽，且当前也没有帽子了，则返回0
+            if cur > 40:
+                return 0
+
+            # 首先考虑不戴该顶帽子，直接考虑后一顶，则其值应为dp(cur+1, pos)
+            res = dfs(cur + 1, state)
+
+            # 考虑有人佩戴该顶帽子
+            for i in range(n):
+                # 找到喜欢该帽子的人，且这个人并没有戴其他帽子（即二进制pos中该位置为0）
+                if cur in hats[i] and state & (1 << i) == 0:
+                    res += dfs(cur + 1, state + (1 << i))
+
+            return res % mod
+
+        return dfs(0, 0)
 
 
 
 
+class SolutionDFS:
+    def numberWays(self, hats) -> int:
+        memo = {}
+        return self.dfs(hats, 0, 0, memo)
+
+    def dfs(self, hats, cur, state, memo):
+        n = len(hats)
+        N = (1 << n) - 1
+        mod = 10 ** 9 + 7
+
+        if (cur, state) in memo:
+            return memo[(cur, state)]
+
+        if state == (1 << n) - 1:
+            return 1
+
+        if cur > 40:
+            return 0
+
+        res = self.dfs(hats, cur + 1, state, memo)
+
+        for i in range(n):
+            if cur in hats[i] and state & (1 << i) == 0:
+                res += self.dfs(hats, cur + 1, state + (1 << i), memo)
+
+        memo[(cur, state)] = res
+        return res % mod
+
+
+
+class SolutionDFS2:
+    def numberWays(self, hats) -> int:
+        # 构建帽子到人的对应关系，以逐顶帽子分配
+        hats = [set(hat) for hat in hats]
+        table = collections.defaultdict(list)
+        for i in range(1, 41):
+            for j, hat in enumerate(hats):
+                if i in hat:
+                    table[i].append(j)
+
+        memo = {}
+        return self.dfs(hats, 0, 1, table, memo)
+
+    def dfs(self, hats, state, pos, table, memo):
+        M = (1 << len(hats)) - 1
+        MOD = 10 ** 9 + 7
+        if state == M:
+            return 1
+        if pos > 40:
+            return 0
+
+        if (state, pos) in memo:
+            return memo[(state, pos)]
+        res = 0
+        # 分配第i顶帽子，遍历所有喜欢第i顶帽子的人
+        for i in table[pos]:
+            # 当前的状态中，第j个人还没有戴帽子
+            if (state & (1 << i)) == 0:
+                # 尝试把帽子分给第j个人，并且更新状态，问题向前推进
+                res += self.dfs(hats, state | (1 << i), pos + 1, table, memo)
+        # 不分配第i顶帽子
+        res += self.dfs(hats, state, pos + 1, table, memo)
+        res %= MOD
+        memo[(state, pos)] = res
+        return memo[(state, pos)]
 
 
 
