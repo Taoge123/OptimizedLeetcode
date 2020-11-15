@@ -128,7 +128,7 @@ class SolutionBFS:
         # table[i] 代表要完成 第i课，一定要完成的课程
         table = collections.defaultdict(int)
         for u, v in dependencies:
-            table[u] |= (1 << v)
+            table[v] |= (1 << u)
 
         queue = collections.deque()
         queue.append([0, 0])
@@ -141,10 +141,10 @@ class SolutionBFS:
                 return step
             nextState = state
             for i in range(1, n + 1):
-                # 完成了node之后，i课程可以完成
+                # 完成了state之后，i课程可以完成
                 if state & table[i] == table[i]:
                     nextState |= (1 << i)
-            # 完成了node的课程，可以在下一天完成的课程
+            # 完成了state的课程，可以在下一天完成的课程
             diff = nextState ^ state
             # 如果下一天完成的课程<=k个，就全完成
             if bin(diff).count("1") <= k and state + diff not in visited:
