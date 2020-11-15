@@ -12,7 +12,7 @@ class SolutionDFS:
         if (cur, state) in memo:
             return memo[(cur, state)]
 
-        if state == (1 << n) - 1:
+        if state == N:
             return 1
 
         if cur > 40:
