@@ -145,19 +145,19 @@ class SolutionBFS:
                 if state & table[i] == table[i]:
                     nextState |= (1 << i)
             # 完成了state的课程，可以在下一天完成的课程
-            diff = nextState ^ state
+            subset = nextState ^ state
             # 如果下一天完成的课程<=k个，就全完成
-            if bin(diff).count("1") <= k and state + diff not in visited:
-                visited.add(state + diff)
-                queue.append((state + diff, step + 1))
+            if bin(subset).count("1") <= k and state + subset not in visited:
+                visited.add(state + subset)
+                queue.append((state + subset, step + 1))
             else:
                 # 如果多于k个，就选其中的k个来完成
-                while diff:
-                    if bin(diff).count('1') == k and state + diff not in visited:
-                        visited.add(state + diff)
-                        queue.append((state + diff, step + 1))
+                while subset:
+                    if bin(subset).count('1') == k and state + subset not in visited:
+                        visited.add(state + subset)
+                        queue.append((state + subset, step + 1))
                     # 相当于找nextState ^ state的子集
-                    diff = (diff - 1) & (nextState ^ state)
+                    subset = (subset - 1) & (nextState ^ state)
 
 
 
@@ -198,7 +198,49 @@ class SolutionTonyDP:
         return dp[-1]
 
 
-class SolutionAC:
+
+class SolutionDFSBest:
+    def minNumberOfSemesters(self, n, dependencies, k):
+        table = [0] * n
+        N = (1 << n) - 1
+
+        for u, v in dependencies:
+            table[v - 1] |= (1 << u - 1)
+
+        def dp(state):
+            if state in memo:
+                return memo[state]
+
+            if state == N:
+                memo[state] = 0
+                return 0
+
+            can_study = []
+            for i in range(n):
+                if state & (1 << i):
+                    continue  # alr learnt
+
+                # check is i's prerequisites are already taken, if so, then we can take i
+                if (table[i] & state) == table[i]:
+                    can_study.append(i)
+            # print can_study
+            res = float('inf')
+            for to_study in itertools.combinations(can_study, min(k, len(can_study))):
+                newState = state
+                for i in to_study:
+                    newState |= 1 << i
+                res = min(res, 1 + dp(newState))
+
+            memo[state] = res
+            return res
+
+        memo = {}
+        return dp(0)
+
+
+
+
+class SolutionDFS2:
     def minNumberOfSemesters(self, n: int, dependencies, k: int) -> int:
         dep = {}  # 记录依赖于某节点的节点列表
         for a, b in dependencies:
