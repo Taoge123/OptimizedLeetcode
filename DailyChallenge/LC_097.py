@@ -32,7 +32,6 @@ class SolutionDFS1:
 
 class SolutionDFS2:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        memo = {}
 
         @functools.lru_cache(None)
         def dfs(i, j, k, s1, s2, s3):
