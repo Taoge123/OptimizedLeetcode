@@ -19,6 +19,53 @@ Leetcode Link
 import functools
 
 
+class SolutionTony:
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        memo = {}
+        return self.dfs(s1, s2, 0, 0, memo)
+
+    def dfs(self, s1, s2, i, j, memo):
+        m, n = len(s1), len(s2)
+        # if i == m and j == n:
+        #     return 0
+
+        if i == m or j == n:
+            return sum([ord(i) for i in s1[i:]]) or sum([ord(i) for i in s2[j:]])
+
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        # res = float('inf')
+        if s1[i] == s2[j]:
+            res = self.dfs(s1, s2, i + 1, j + 1, memo)
+
+        else:
+            res = min(self.dfs(s1, s2, i + 1, j, memo) + ord(s1[i]), self.dfs(s1, s2, i, j + 1, memo) + ord(s2[j]))
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+
+class Solution2:
+    def minimumDeleteSum(self, s1: str, s2: str) -> int:
+        m, n = len(s1), len(s2)
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == m or j == n:
+                return sum([ord(i) for i in s1[i:]]) or sum([ord(i) for i in s2[j:]])
+
+            if s1[i] == s2[j]:
+                return dfs(i + 1, j + 1)
+
+            else:
+                return min(dfs(i + 1, j) + ord(s1[i]), dfs(i, j + 1) + ord(s2[j]))
+
+        return dfs(0, 0)
+
+
+
+
 class Solution:
     def minimumDeleteSum(self, s1, s2):
         m, n = len(s1), len(s2)
@@ -38,49 +85,6 @@ class Solution:
                     dp[i][j] = min(dp[i - 1][j] + ord(s1[i - 1]), dp[i][j - 1] + ord(s2[j - 1]))
 
         return dp[m][n]
-
-
-class SolutionTD:
-    def minimumDeleteSum(self, s1: str, s2: str) -> int:
-        @functools.lru_cache(None)
-        def dp(s1, s2):
-            if len(s1) == 0:
-                return sum((map(ord, s2)))
-            if len(s2) == 0:
-                return sum((map(ord, s1)))
-            if s1[0] == s2[0]:
-                return dp(s1[1:], s2[1:])
-            return min(ord(s1[0]) + dp(s1[1:], s2), ord(s2[0]) + dp(s1, s2[1:]))
-
-        return dp(s1, s2)
-
-
-class SolutionTD2:
-    def minimumDeleteSum(self, s1: str, s2: str) -> int:
-        m, n = len(s1), len(s2)
-        self.table = [[float('inf') for j in range(n + 1)] for i in range(m + 1)]
-        return self.dfs(s1, s2, m, n)
-
-    def dfs(self, s1, s2, i, j):
-        if i == 0 and j == 0:
-            return 0
-        if self.table[i][j] != float('inf'):
-            return self.table[i][j]
-
-        if i == 0:
-            self.table[i][j] = self.dfs(s1, s2, i, j - 1) + ord(s2[j - 1])
-            return self.table[i][j]
-
-        if j == 0:
-            self.table[i][j] = self.dfs(s1, s2, i - 1, j) + ord(s1[i - 1])
-            return self.table[i][j]
-
-        if s1[i - 1] == s2[j - 1]:
-            self.table[i][j] = self.dfs(s1, s2, i - 1, j - 1)
-            return self.table[i][j]
-
-        self.table[i][j] = min(self.dfs(s1, s2, i - 1, j) + ord(s1[i - 1]), self.dfs(s1, s2, i, j - 1) + ord(s2[j - 1]))
-        return self.table[i][j]
 
 
 
