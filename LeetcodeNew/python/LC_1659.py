@@ -50,6 +50,50 @@ for i in range(1, m+1):
                 for preState in (3^n):
                     dp[i][x][y][state] = max(dp[i][x][y][state], dp[i-1][x-a][y-b][prevState]) + addVal(preState, state)
 
+OK, tracking people in the grid is costly, and you will get TLE if you do not use memoisation.
+
+I saw several solutions that cheat on large test cases.
+
+Fortunately, to calculate the happiness balance - how placing a person subtracts or adds to the overall happiness - we only need to know last m cells we processed.
+
+We can use bit masks to track introverts and extroverts in the last m cells, and shift them as we go. Thus, we have here 5D DP:
+
+Position in the grid (p = i * m + j) -> up to 25.
+Remaining introverts -> up to 6.
+Remaining extroverts -> up to 6.
+Introverts mask -> up to 2 ^ (m + 1) - 1 = 63 combinations.
+Extroverts mask -> up to 2 ^ (m + 1) - 1 = 63 combinations.
+
+
+
+great solution. took me quite a while to understand. for those who also have trouble, there's more explanation:
+
+we search all possible placements of introvert, extrovert or empty of each cell in the grid
+we place people from top to bottom, left to right. each position can be identified by p, which is [0,24]. The row(i) and column(j) is therefore i = p / n, j = p % n
+first we consider leaving current cell empty int res = dfs(m, n, p + 1, in, ex, n_mask_in, n_mask_ex);
+3.1 if current cell is empty, then the score is simply decided by what we do in next cell
+second, we consider placing introvert at current cell if there's still introvert people left (if (in > 0) {...})
+4.1 (see below)
+last, similar to #4, we consider extrovert people (if (ex > 0) {...})
+5.1 (see below)
+in the process, we use max to keep the max happiness score
+let's discuss 4.1 (5.1 is very similar). if we place introvert people at (i, j), we get 120 but also need to subtract 30 for any people surrounding. This is what nCost does.
+
+First, mask_in is the placement of introvert people in the last m cells. For example, if we have m=3, n=3, i=1, j=0, then mask_in=101 means
+
+i 0 i
+x ? ?
+? ? ?
+x is where we're currently at.
+? is cell we haven't processed yet.
+i is we place introvert people there.
+
+so nCost is basically to check if the left or up cell of current cell is empty or not. If empty, then we d-30 if we place introvert people at current cell (need to double the penalty due to mutual repulsion).
+
+once we calculate the cost of placing, we just need to add on top of it the cost of placing for the rest cells. we just need to increment position index p+1, decrement introvert people number, and then shift the bitmask by accounting for current placement diff + dfs(m, n, p + 1, in - 1, ex, n_mask_in + 1, n_mask_ex)
+
+That's all.
+
 """
 
 import functools
