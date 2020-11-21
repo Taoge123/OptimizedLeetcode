@@ -115,8 +115,9 @@ class Solution:
             return res
 
         N = (1 << n) - 1
+
         @functools.lru_cache(None)
-        def dp(pos, in_state, ex_state, i, j):
+        def dfs(pos, i, j, in_state, ex_state):
             row = pos // n
             col = pos % n
             if row >= m:
@@ -124,16 +125,19 @@ class Solution:
 
             in_newState = (in_state << 1) & N
             ex_newState = (ex_state << 1) & N
-            res = dp(pos + 1, in_newState, ex_newState, i, j)
+            res = dfs(pos + 1, i, j, in_newState, ex_newState)
             if i < introvertsCount:
-                res = max(res, dp(pos + 1, in_newState + 1, ex_newState, i + 1, j)
+                res = max(res, dfs(pos + 1, i + 1, j, in_newState + 1, ex_newState)
                           + cost(row, col, in_state, ex_state, -30) + 120)
             if j < extrovertsCount:
-                res = max(res, dp(pos + 1, in_newState, ex_newState + 1, i, j + 1)
+                res = max(res, dfs(pos + 1, i, j + 1, in_newState, ex_newState + 1)
                           + cost(row, col, in_state, ex_state, 20) + 40)
             return res
 
-        return dp(0, 0, 0, 0, 0)
+        return dfs(0, 0, 0, 0, 0)
+
+
+
 
 
 
