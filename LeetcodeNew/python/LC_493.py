@@ -126,10 +126,46 @@ tree:
 1
 [0, 0, 2, 0, 3, 2]
 
-
-
-
 """
+
+
+class BinaryIndexTree:
+    def __init__(self, N):
+        self.BIT = [0] * (N + 1)
+
+    def _lowbit(self, i):
+        return i & -i
+
+    def update(self, i):
+        while i < len(self.BIT):
+            self.BIT[i] += 1
+            i += self._lowbit(i)
+
+    def query(self, i):
+        count = 0
+        while i > 0:
+            count += self.BIT[i]
+            i -= self._lowbit(i)
+        return count
+
+
+class SolutionBIT:
+    def reversePairs(self, nums) -> int:
+        newNums = nums + [x * 2 for x in nums]
+        sorted_set = sorted(list(set(newNums)))
+        tree = BinaryIndexTree(len(sorted_set))
+        res = 0
+        ranks = {num: i for i, num in enumerate(sorted_set)}
+
+        for num in nums[::-1]:
+            res += tree.query(ranks[num])
+            tree.update(ranks[num * 2] + 1)
+
+        return res
+
+
+
+
 class Solution11:
     def reversePairs(self, nums) -> int:
         res = 0
@@ -139,7 +175,6 @@ class Solution11:
             res += (i - index)
             bisect.insort(arr, nums[i])
         return res
-
 
 
 

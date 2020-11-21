@@ -66,9 +66,9 @@ class Solution:
         res = []
 
         for i in range(N - 1, -1, -1):
-            index = rank[nums[i]]
-            res.append(tree.query(index))
-            tree.update(index+1)
+            num = rank[nums[i]]
+            res.append(tree.query(num))
+            tree.update(num+1)
         return res[::-1]
 
 
