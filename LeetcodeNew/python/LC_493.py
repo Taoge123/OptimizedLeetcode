@@ -1,4 +1,5 @@
 """
+https://leetcode.com/problems/count-of-range-sum/discuss/776535/6-lines-python-using-SortedSet
 315. Count of Smaller Numbers After Self
 327. Count of Range Sum
 493. Reverse Pairs
@@ -69,6 +70,20 @@ update(2,1) -> BIT: 0 0 2 1 3 2
 """
 
 import bisect
+from sortedcontainers import SortedList
+
+
+class Solution:
+    def reversePairs(self, nums) -> int:
+        tree = SortedList()
+        res = 0
+
+        for i, num in enumerate(nums):
+            idx = tree.bisect_left(2 * num + 1)
+            res += i - idx
+            tree.add(num)
+        return res
+
 
 
 class BinaryIndexTree:

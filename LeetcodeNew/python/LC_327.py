@@ -24,6 +24,20 @@ sort是为了rank所有prefixsum的大小，让BIT可以知道哪些preSum应该
 
 import bisect
 import collections
+from sortedcontainers import SortedList
+
+
+class Solution:
+    def countRangeSum(self, nums, lower: int, upper: int) -> int:
+        tree = SortedList()
+        tree.add(0)
+        summ = 0
+        res = 0
+        for n in nums:
+            summ += n
+            res += tree.bisect_right(summ - lower) - tree.bisect_left(summ - upper)
+            tree.add(summ)
+        return res
 
 
 class BinaryIndexTree:

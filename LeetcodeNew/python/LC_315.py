@@ -35,6 +35,18 @@ Nums = [0, 1, 1, 0, 1] 3 => presum(num[:3]) = 2
 Nums = [0, 1, 1, 1, 1]
 """
 
+from sortedcontainers import SortedList
+
+class Solution:
+    def countSmaller(self, nums):
+        tree = SortedList()
+        res = []
+
+        for num in reversed(nums):
+            res.append(tree.bisect_left(num))
+            tree.add(num)
+        return res[::-1]
+
 
 
 class BinaryIndexTree:
