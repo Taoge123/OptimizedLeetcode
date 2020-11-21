@@ -36,6 +36,7 @@ Nums = [0, 1, 1, 1, 1]
 """
 
 
+
 class BinaryIndexTree:
     def __init__(self, N):
         self.BIT = [0] * (N + 1)
@@ -43,18 +44,17 @@ class BinaryIndexTree:
     def _lowbit(self, i):
         return i & -i
 
+    def update(self, i):
+        while i < len(self.BIT):
+            self.BIT[i] += 1
+            i += self._lowbit(i)
+
     def query(self, i):
         count = 0
         while i > 0:
             count += self.BIT[i]
             i -= self._lowbit(i)
         return count
-
-    def update(self, i):
-        i += 1
-        while i < len(self.BIT):
-            self.BIT[i] += 1
-            i += self._lowbit(i)
 
 
 class Solution:
@@ -68,7 +68,7 @@ class Solution:
         for i in range(N - 1, -1, -1):
             index = rank[nums[i]]
             res.append(tree.query(index))
-            tree.update(index)
+            tree.update(index+1)
         return res[::-1]
 
 
@@ -115,12 +115,12 @@ class SegmentTree(object):
 
 class Solution22:
     def countSmallerSegmentTree(self, nums):
-        seg_tree, res = SegmentTree(len(nums)), []
-        num_rank = {v:i for i, v in enumerate(sorted(nums))}
+        tree, res = SegmentTree(len(nums)), []
+        num_rank = {v : i for i, v in enumerate(sorted(nums))}
         for i in reversed(range(len(nums))):
-            total = seg_tree.sum(0, num_rank[nums[i]]-1)
+            total = tree.sum(0, num_rank[nums[i]]-1)
             res.append(total)
-            seg_tree.update(num_rank[nums[i]], 1)
+            tree.update(num_rank[nums[i]], 1)
         return res[::-1]
 
 
