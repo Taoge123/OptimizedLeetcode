@@ -101,6 +101,28 @@ i = 4 index = 1 // 1 = 1  -> k = 1 % 1 = 0
 """
 
 
+class SolutionWisdom:
+    def getPermutation(self, n: int, k: int) -> str:
+        digits = []
+        for i in range(1, n + 1):
+            digits.append(i)
+        fact = [1] + [0] * (n - 1)
+        for i in range(1, n):
+            fact[i] = i * fact[i - 1]
+        k -= 1
+        res = []
+        while n > 0:
+            idx = k // fact[n - 1]
+            res.append(digits[idx])
+            k -= idx * fact[n - 1]
+            n -= 1
+            digits.pop(idx)
+
+        return "".join(map(str, res))
+
+
+
+
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
 
