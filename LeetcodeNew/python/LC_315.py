@@ -69,7 +69,7 @@ class BinaryIndexTree:
         return count
 
 
-class Solution:
+class SolutionBIT:
     def countSmaller(self, nums):
         #rank will reduce num to index ex: [2, 6, 3, 7] -> [1, 3, 2, 4]
         rank = {val: i for i, val in enumerate(sorted(set(nums)))}
