@@ -41,7 +41,6 @@ import collections
 
 class Solution:
     def isBipartite(self, graph) -> bool:
-
         color = {}
         for i in range(len(graph)):
             if i not in color:
