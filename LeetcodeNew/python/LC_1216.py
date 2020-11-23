@@ -1,5 +1,23 @@
+import functools
 
-class Solution:
+class SolutionTony:
+    def isValidPalindrome(self, s: str, k: int) -> bool:
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i >= j:
+                return 0
+
+            if s[i] == s[j]:
+                return dfs(i + 1, j - 1)
+            else:
+                return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
+
+        return dfs(0, len(s) - 1) <= k
+
+
+
+
+class SolutionTony2:
     def isValidPalindrome(self, s: str, k: int) -> bool:
         memo = {}
         return self.helper(s, 0, len(s) - 1, memo) <= k
@@ -18,7 +36,6 @@ class Solution:
 
         memo[(start, end)] = result
         return result
-
 
 
 """
