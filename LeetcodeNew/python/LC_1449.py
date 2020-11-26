@@ -50,6 +50,86 @@ dp[40] = 259 (This is same as '25' + '9')
     # as we initialized dp[all numbers except 0] = -1. When it is -1, we know no subset with repetition in cost could give target.
     # So return 0, when dp is negative (as they want 0 if not possible)
 """
+import functools
+
+
+class Solution11:
+    def largestNumber(self, cost, target):
+        @functools.lru_cache(None)
+        def dfs(i, target):
+            if i == len(cost) or target < 0:
+                return float("-inf")
+
+            if target == 0:
+                return 0
+
+            return max(dfs(i, target - cost[i]) * 10 + i + 1, dfs(i + 1, target))
+
+        res = dfs(0, target)
+
+        if res > 0:
+            return str(dfs(0, target))
+        else:
+            return "0"
+
+
+
+class SolutionDFS2:
+    def largestNumber(self, cost, target):
+        memo = {}
+        res = self.dfs(cost, 0, target, memo)
+
+        if res > 0:
+            return str(res)
+        else:
+            return "0"
+
+    def dfs(self, cost, i, target, memo):
+        if (i, target) in memo:
+            return memo[(i, target)]
+
+        if i == len(cost) or target < 0:
+            return float("-inf")
+
+        if target == 0:
+            return 0
+
+        memo[(i, target)] = max(self.dfs(cost, i, target - cost[i], memo) * 10 + i + 1,
+                                self.dfs(cost, i + 1, target, memo))
+        return memo[(i, target)]
+
+
+
+
+class SolutionDFS1:
+    def largestNumber(self, cost, target):
+        @functools.lru_cache(None)
+        def dfs(i, target):  # return the maximum number built with the given target
+            # we wont count overflow
+            if i == len(cost) or target < 0:
+                return float("-inf")
+
+            if target == 0:  # reaching the target sum of cost
+                return 0
+
+            # 1 : take the current digit
+            # 2 : the other one is not taking the current digit
+            # as our i is moving from 0 to 8, the later coming digit should br greater than i,
+            # so we are sure this can build the string optimally (in descending order)
+            return max(dfs(i, target - cost[i]) * 10 + i + 1, dfs(i + 1, target))
+
+        # retrieve the result by calling the function
+        res = dfs(0, target)
+
+        if res > 0:
+            return str(dfs(0, target))
+        else:  # if the result is not valid, it will be negative infinity
+            return "0"
+
+
+
+
+
 
 
 class Solution:
