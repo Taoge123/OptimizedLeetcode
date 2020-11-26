@@ -88,17 +88,15 @@ class SolutionDFS2:
         if (i, target) in memo:
             return memo[(i, target)]
 
-        if i == len(cost) or target < 0:
-            return float("-inf")
-
         if target == 0:
             return 0
+
+        if i == len(cost) or target < 0:
+            return float("-inf")
 
         memo[(i, target)] = max(self.dfs(cost, i, target - cost[i], memo) * 10 + i + 1,
                                 self.dfs(cost, i + 1, target, memo))
         return memo[(i, target)]
-
-
 
 
 class SolutionDFS1:

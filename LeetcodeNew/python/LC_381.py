@@ -33,8 +33,39 @@ collection.getRandom();
 
 import collections, random
 
-class RandomizedCollection:
 
+class RandomizedCollection:
+    def __init__(self):
+        self.nums = []
+        self.table = collections.defaultdict(set)
+
+
+    def insert(self, val: int) -> bool:
+        self.table[val].add(len(self.nums))
+        self.nums.append(val)
+        return len(self.table[val]) == 1
+
+
+    def remove(self, val: int) -> bool:
+        if not self.table[val]:
+            return False
+        remove = self.table[val].pop()
+        last = self.nums[-1]
+        self.nums[remove] = self.nums[-1]
+        self.table[last].add(remove)
+        self.table[last].discard(len(self.nums) - 1)
+
+        self.nums.pop()
+        return True
+
+
+    def getRandom(self) -> int:
+        return random.choice(self.nums)
+
+
+
+
+class RandomizedCollection2:
     def __init__(self):
         self.nums = []
         self.index = collections.defaultdict(set)
@@ -46,8 +77,8 @@ class RandomizedCollection:
 
     def remove(self, val: int) -> bool:
         if self.index[val]:
-            idx=self.index[val].pop()
-            temp_val=self.nums[-1]
+            idx = self.index[val].pop()
+            temp_val = self.nums[-1]
             self.nums[idx]=temp_val
             self.index[temp_val].add(idx)
             self.index[temp_val].discard(len(self.nums)-1)

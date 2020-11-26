@@ -35,6 +35,36 @@ dp(i, j, k) means the number of substrings ending at a[i] and t[j] and differed 
 import functools
 
 
+class SolutionTony:
+    def countSubstrings(self, s: str, t: str) -> int:
+        m, n = len(s), len(t)
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            # base cases
+            if i >= m or j >= n or k > 1:
+                return 0
+            if k == 1 and s[i] != t[j]:
+                return 0
+
+            # dp transition
+            res = 0
+            if s[i] == t[j]:
+                if k == 1:
+                    res += dfs(i + 1, j + 1, k) + 1
+                else:
+                    res += dfs(i + 1, j + 1, k)
+
+            else:
+                res += dfs(i + 1, j + 1, k + 1) + 1
+            return res
+
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                res += dfs(i, j, 0)
+        return res
+
+
 class SolutionWisdom:
     def countSubstrings(self, s: str, t: str) -> int:
         m, n = len(s), len(t)
