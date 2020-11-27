@@ -34,3 +34,23 @@ class Solution:
         return res
 
 
+
+
+class Solution2:
+    def minimumSwap(self, s1: str, s2: str) -> int:
+        x, y = 0, 0
+        for a, b in zip(s1, s2):
+            if a != b:
+                if b == 'x':
+                    x += 1
+                else:
+                    y += 1
+
+        if (x % 2 == 0 and y % 2 == 1) or (x % 2 == 1 and y % 2 == 0):
+            return -1
+
+        return x // 2 + y // 2 + 2 * (x % 2)
+
+
+
+
