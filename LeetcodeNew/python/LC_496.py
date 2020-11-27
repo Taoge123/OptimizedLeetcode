@@ -27,6 +27,23 @@ The length of both nums1 and nums2 would not exceed 1000.
 {1: 3, 3: 4, 2: 5, 4: 5}
 """
 
+
+class SolutionTony:
+    def nextGreaterElement(self, nums1, nums2):
+        stack = []
+        table = {}
+        for i, num in enumerate(nums2):
+            while stack and stack[-1] < num:
+                table[stack.pop()] = num
+            stack.append(num)
+
+        res = []
+        for num in nums1:
+            res.append(table.get(num, -1))
+        return res
+
+
+
 class Solution:
     def nextGreaterElement(self, nums1, nums2):
 

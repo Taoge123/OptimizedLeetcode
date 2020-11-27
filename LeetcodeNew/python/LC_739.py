@@ -19,6 +19,21 @@ Everytime a higher temperature is found, we update answer of the peak one in the
 If the day with higher temperature is not found, we leave the ans to be the default 0.
 """
 
+# for each value, once num > prev, then we pop out each of their index and get the diff distance
+class SolutionTony:
+    def dailyTemperatures(self, T):
+        stack = []
+        res = [0] * len(T)
+        for i, num in enumerate(T):
+            while stack and T[stack[-1]] < num:
+                node = stack.pop()
+                res[node] = i - node
+            stack.append(i)
+        return res
+
+
+
+
 class Solution:
     def dailyTemperatures(self, T):
 

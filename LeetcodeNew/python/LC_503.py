@@ -18,11 +18,27 @@ class Solution:
         res = [-1] * len(nums)
 
         for i in list(range(len(nums))) * 2:
+            print(i)
             while stack and nums[i] > nums[stack[-1]]:
                 res[stack.pop()] = nums[i]
             stack.append(i)
         return res
 
+
+
+class SolutionTony:
+    def nextGreaterElements(self, nums):
+        n = len(nums)
+        stack = []
+        table = {}
+        res = [-1] * n
+
+        for i, num in enumerate(nums + nums):
+            i %= n
+            while stack and nums[stack[-1]] < num:
+                res[stack.pop()] = nums[i]
+            stack.append(i)
+        return res
 
 
 nums = [3,2,1,4]
