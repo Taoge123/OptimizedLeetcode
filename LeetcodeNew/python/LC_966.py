@@ -10,6 +10,8 @@ check if it's in the words set,
 check if there is a match in cap,
 check if there is a match in vowel,
 otherwise return "".
+
+
 """
 
 
@@ -42,7 +44,9 @@ class Solution:
                 return words_vow[queryLV]
             return ""
 
-        return map(solve, queries)
-
+        res = []
+        for query in queries:
+            res.append(solve(query))
+        return res
 
 
