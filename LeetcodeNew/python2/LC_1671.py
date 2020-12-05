@@ -44,6 +44,33 @@ class Solution:
 
 
 
+class SolutionLIS:
+    def minimumMountainRemovals(self, nums) -> int:
+        left = self.lis(nums)
+        right = self.lis(nums[::-1])
+
+        maxLen = 0
+        n = len(nums)
+        for i in range(n):
+            if left[i] >= 2 and right[n - 1 - i] >= 2:
+                maxLen = max(maxLen, left[i] + right[n - 1 - i] - 1)
+
+        return n - maxLen
+
+    def lis(self, arr):
+        dp = []
+        res = []
+        for i in range(len(arr)):
+            idx = bisect.bisect_left(dp, arr[i])
+            if idx >= 0 and idx < len(dp):
+                dp[idx] = arr[i]
+                res.append(idx + 1)
+            else:
+                dp.append(arr[i])
+                res.append(len(dp))
+
+        return res
+
 
 
 
