@@ -16,6 +16,44 @@
 
 import collections
 
+"""
+3 X 4 X X 5 X [6 X X 7 X 8]
+
+1 1 2 2 3 3 4
+
+"""
+
+
+class Solution:
+    def isPossible(self, nums) -> bool:
+        # {ending number : how many seqs}
+        seq = collections.Counter()
+        # {number : how many of key unchecked}
+        count = collections.Counter(nums)
+
+        for num in nums:
+            if count[num] == 0:
+                continue
+
+            # 可以抱大腿
+            if seq[num - 1] > 0:
+                # 以num-1为结尾的少一个, num结尾的多一个
+                seq[num - 1] -= 1
+                seq[num] += 1
+                count[num] -= 1
+
+            else:
+                if count[num + 1] == 0 or count[num + 2] == 0:
+                    return False
+                count[num] -= 1
+                count[num + 1] -= 1
+                count[num + 2] -= 1
+                seq[num + 2] += 1
+
+        return True
+
+
+
 
 class SolutionLee:
     def isPossible(self, nums):

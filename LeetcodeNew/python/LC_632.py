@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/discuss/104904/Python-Heap-based-solution
+
 [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
 
 4  0  5  0-5
