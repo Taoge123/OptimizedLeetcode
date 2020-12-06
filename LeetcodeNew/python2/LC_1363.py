@@ -2,6 +2,9 @@
 1262. Greatest Sum Divisible by Three
 https://leetcode.com/problems/greatest-sum-divisible-by-three/
 
+dfs + memo
+https://leetcode.com/problems/largest-multiple-of-three/discuss/517755/dfs%2Bmemo-(c%2B%2B)
+
 solution 1:
 if totalsum%3 == 0: select all digits
 if totalsum%3 == 1:
@@ -87,6 +90,33 @@ class Solution:
         if total % 3 == 2:
             return f(1) or f(1) or f(4) or f(4) or f(7) or f(7)
         return f(2) or f(2) or f(5) or f(5) or f(8) or f(8)
+
+
+
+
+class SolutionSort:
+    def largestMultipleOfThree(self, digits) -> str:
+        digits.sort(reverse=True)
+        buket = [[], [], []]
+        total = 0
+        for i in digits:
+            buket[i % 3].append(i)
+            total += i
+        remain = total % 3
+        if remain:
+            if buket[remain]:
+                buket[remain].pop()
+            elif len(buket[-remain]) > 1:
+                buket[-remain].pop()
+                buket[-remain].pop()
+        res = []
+        res += buket[0] + buket[1] + buket[2]
+        res.sort(reverse=True)
+        if len(res) == 0:
+            return ""
+        if res[0] == 0:
+            return "0"
+        return "".join(str(i) for i in res)
 
 
 
