@@ -16,7 +16,7 @@ class SolutionTony:
 
         res = []
         for k, v in stack:
-            res.append( k *v)
+            res.append(k * v)
         return "".join(res)
 
 
