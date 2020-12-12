@@ -2,6 +2,7 @@
 https://www.youtube.com/watch?v=V5eeRgQsr6o
 """
 import math
+import collections
 
 class Solution:
     def numSquarefulPerms(self, A) -> int:
@@ -39,5 +40,28 @@ class Solution:
 
 
 
+class Solution2:
+    def numSquarefulPerms(self, A):
+        n = len(A)
+        count = collections.Counter(A)
+        graph = {x: [] for x in count}
+        # print(graph)
+        for x in count:
+            for y in count:
+                if int(math.sqrt(x + y)) ** 2 == x + y:
+                    graph[x].append(y)
 
+        # print(graph)
+        # i is position where we up to
+        def dfs(node, i):
+            count[node] -= 1
+            if i == n - 1:
+                res = 1
+            else:
+                res = 0
+                for nei in graph[node]:
+                    if count[nei]:
+                        res += dfs(nei, i + 1)
+            count[node] += 1
+            return res
 
