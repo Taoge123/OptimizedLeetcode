@@ -7,6 +7,43 @@ https://leetcode.com/problems/basic-calculator-iii/discuss/113592/Development-of
 import collections
 import math
 
+
+class SolutionTony1:
+    def __init__(self):
+        self.i = 0
+
+    def calculate(self, s: str) -> int:
+        stack = []
+        op = '+'
+        num = 0
+
+        while self.i < len(s):
+            ch = s[self.i]
+            self.i += 1
+            if ch.isdigit():
+                num = num * 10 + int(ch)
+            if ch == '(':
+                num = self.calculate(s)
+            if self.i >= len(s) or ch in '+-*/':
+                if op == '+':
+                    stack.append(num)
+                elif op == '-':
+                    stack.append(-num)
+                elif op == '*':
+                    stack.append(stack.pop() * num)
+                elif op == '/':
+                    stack.append(int(stack.pop() / num))
+
+                op = ch
+                num = 0
+
+            if ch == ')':
+                break
+        return sum(map(int, stack))
+
+
+
+
 class SolutionWisdom:
     def calculate(self, s: str) -> int:
         stack = []

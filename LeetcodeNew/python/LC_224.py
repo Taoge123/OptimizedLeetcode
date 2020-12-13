@@ -79,7 +79,33 @@ class SolutionTony:
         return res
 
 
+class SolutionTony2:
+    def __init__(self):
+        self.i = 0
 
+    def calculate(self, s):
+        stack = []
+        num = 0
+        op = '+'
+
+        while self.i < len(s):
+            ch = s[self.i]
+            self.i += 1
+            if ch.isdigit():
+                num = num * 10 + int(ch)
+            if ch == '(':
+                num = self.calculate(s)
+            if self.i >= len(s) or ch == '+' or ch == '-' or ch == ')':
+                if op == '+':
+                    stack.append(num)
+                else:
+                    stack.append(-num)
+                op = ch
+                num = 0
+            if ch == ')':
+                break
+
+        return sum(map(int, stack))
 
 
 class SolutionWisdom:
