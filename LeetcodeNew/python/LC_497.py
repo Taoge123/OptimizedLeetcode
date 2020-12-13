@@ -1,75 +1,48 @@
+from sortedcontainers import SortedList, sortedset, sorteddict
 
 """
-Given a matrix of M x N elements (M rows, N columns), return all elements of the matrix in diagonal order as shown in the below image.
+rand() % M -> [0, M-1]
+
+____|   _____|    _________
+0                       M-1 
+
+l1 -> [0, 10] -> 7
 
 
 
-Example:
-
-Input:
-[
- [ 1, 2, 3 ],
- [ 4, 5, 6 ],
- [ 7, 8, 9 ]
-]
-
-Output:  [1,2,4,7,5,3,6,8,9]
-
-Explanation:
-
-
-
-Note:
-
-The total number of elements of the given matrix will not exceed 10,000.
 """
+import random
 
-import collections
 
 class Solution:
-    def findDiagonalOrder(self, matrix):
-        if not matrix:
-            return []
 
-        res = []
-        m, n = len(matrix), len(matrix[0])
-        lines = collections.defaultdict(list)
+    def __init__(self, rects):
+        self.rects = rects
+        self.table = {}
+        self.sum = 0
+        for i in range(len(rects)):
+            self.sum += (rects[i][2] - rects[i][0] + 1) * (rects[i][3] - rects[i][1] + 1)
+            self.table[self.sum] = i
 
-        for i in range(m):
-            for j in range(n):
-                lines[i+j].append(matrix[i][j])
+    def pick(self):
+        area = random.randint(1, self.sum)
+        rect = self.getRect(area)
 
-        for k in range(m + n - 1):
-            if k % 2 == 0:
-                res += lines[k][::-1]
-            else:
-                res += lines[k]
-        return res
+        # get a random point from this rectangle
+        coordinates = self.rects[rect]
+        rand_x = random.randint(coordinates[0], coordinates[2])
+        rand_y = random.randint(coordinates[1], coordinates[3])
+        return ([rand_x, rand_y])
 
+    def getRect(self, area):
+        if area in self.table:
+            return self.table[area]
 
-class Solution2:
-    def findDiagonalOrder(self, matrix):
-        if not matrix:
-            return []
-
-        res = []
-        m, n = len(matrix), len(matrix[0])
-        lines = collections.defaultdict(list)
-
-        for i in range(m):
-            for j in range(n):
-                lines[i + j].append(matrix[i][j])
-
-        for k, val in lines.items():
-            if k % 2 == 0:
-                res += val[::-1]
-            else:
-                res += val
-
-        return res
-
-
-
+        mini = []
+        for key in self.table:
+            if key > area:
+                mini.append(key)
+        return self.table[min(mini)]
 
 
 

@@ -39,6 +39,49 @@ nums用来存储数值，sign用来存储符号。这里需要有个小技巧，
 具体的算法是：遇到'('就将当前结果curResult入栈并清零。遇到')'就将当前结果与sign的栈顶元素结合形成新数（然后sign退栈），并加上nums的栈顶元素结合形成新数（然后nums退栈）。遇到符号就加入sign的栈。遇到纯数字就取出sign的栈顶元素结合
 """
 
+
+class SolutionTony:
+    def calculate(self, s):
+        stack = []
+        res = 0
+        sign = 1
+        n = len(s)
+
+        i = 0
+        while i < n:
+            ch = s[i]
+            if ch.isdigit():
+                print(ch)
+                num = 0
+                while i < n and s[i].isdigit():
+                    num = num * 10 + int(s[i])
+                    i += 1
+
+                # i++ later
+                i -= 1
+                res += sign * num
+
+            elif ch == '+':
+                sign = 1
+            elif ch == '-':
+                sign = -1
+            elif ch == '(':
+                stack.append(res)
+                stack.append(sign)
+                res = 0
+                sign = 1
+
+            elif ch == ')':
+                res *= stack.pop()
+                res += stack.pop()
+
+            i += 1
+        return res
+
+
+
+
+
 class SolutionWisdom:
     def calculate(self, s: str) -> int:
         S = "+"
@@ -181,9 +224,11 @@ class Solution2:
 
 
 
+
 # s = "(22+(10+(4+5+2)-3)+(6+8))"
-s = "-200-3-3-3"
-a = SolutionBestToBeTested()
+# s = "-200-3-3-3"
+s = "2147483647"
+a = SolutionTony()
 print(a.calculate(s))
 
 

@@ -1,3 +1,44 @@
+class SolutionTony:
+    def calculate(self, s):
+        stack = []
+        res = 0
+        sign = 1
+        n = len(s)
+
+        i = 0
+        while i < n:
+            ch = s[i]
+            if ch.isdigit():
+                print(ch)
+                num = 0
+                while i < n and s[i].isdigit():
+                    num = num * 10 + int(s[i])
+                    i += 1
+
+                # i++ later
+                i -= 1
+                res += sign * num
+
+            elif ch == '+':
+                sign = 1
+            elif ch == '-':
+                sign = -1
+            elif ch == '(':
+                stack.append(res)
+                stack.append(sign)
+                res = 0
+                sign = 1
+
+            elif ch == ')':
+                res *= stack.pop()
+                res += stack.pop()
+
+            i += 1
+        return res
+
+
+
+
 
 class Solution:
     def calculate(self, s: str) -> int:

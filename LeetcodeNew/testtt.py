@@ -1,30 +1,27 @@
-import collections
-
-
 class Solution:
-    def concatenatedBinary(self, n: int) -> int:
+    def stoneGameVII(self, stones) -> int:
+        memo = {}
+        score = self.dfs(stones, 0, len(stones) - 1, memo)
+        return score
 
-        stack = []
-        mod = 10 ** 9 + 7
-        for i in range(1, n + 1):
-            stack.append(bin(i)[2:])
-        stack = "".join(stack)
-        stack = stack[::-1]
-        # print(stack)
-        res = 0
-        count = 0
-        for i, ch in enumerate(stack):
-            # print(int(ch), i)
-            if ch == '1':
-                count += 1
-                res += pow(2, i)
-            if count > 57000:
-                break
+    def dfs(self, nums, i, j, memo):
+        # n = len(nums)
+        if i+1 == j:
+            return 0
 
-        return res % mod
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        x = sum(nums[i+1:j]) - self.dfs(nums, i + 1, j, memo)
+        y = sum(nums[i:j-1]) - self.dfs(nums, i, j - 1, memo)
+        memo[(i, j)] = max(x, y)
+        return memo[(i, j)]
 
 
-n = 8933
+
+
+stones = [7,90,5,1,100,10,10,2]
 a = Solution()
-print(a.concatenatedBinary(n))
+print(a.stoneGameVII(stones))
+
 
