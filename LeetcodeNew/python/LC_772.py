@@ -8,7 +8,7 @@ import collections
 import math
 
 
-class SolutionTony1:
+class SolutionTony:
     def __init__(self):
         self.i = 0
 
@@ -24,7 +24,7 @@ class SolutionTony1:
                 num = num * 10 + int(ch)
             if ch == '(':
                 num = self.calculate(s)
-            if self.i >= len(s) or ch in '+-*/':
+            if self.i >= len(s) or ch in '+-*/)':
                 if op == '+':
                     stack.append(num)
                 elif op == '-':
@@ -40,6 +40,7 @@ class SolutionTony1:
             if ch == ')':
                 break
         return sum(map(int, stack))
+
 
 
 
