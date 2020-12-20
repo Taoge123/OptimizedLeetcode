@@ -37,7 +37,7 @@ class Solution2:
         left = count = res = 0
 
         for right in range(len(nums)):
-            if A[right] & 1:
+            if nums[right] & 1:
                 k -= 1
                 count = 0
 

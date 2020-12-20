@@ -51,21 +51,17 @@ currently 1st with choosable i, j,
 """
 
 
-class Solution:
+class SolutionSlow:
     def PredictTheWinner(self, nums) -> bool:
-        memo = {}
-        return self.dfs(nums, 0, len(nums) - 1, memo) >= 0
+        return self.dfs(nums, 0, len(nums) - 1) >= 0
 
-    def dfs(self, nums, i, j, memo):
+    def dfs(self, nums, i, j):
         if i == j:
             return nums[i]
-        x = self.dfs(nums, i + 1, j, memo)
-        y = self.dfs(nums, i, j - 1, memo)
+        x = self.dfs(nums, i + 1, j)
+        y = self.dfs(nums, i, j - 1)
 
         return max(nums[i] - x, nums[j] - y)
-
-
-
 
 
 class Solution:

@@ -19,7 +19,7 @@ Find the longest subarray with at most K zeros.
 """
 
 
-class SolutionWisdom:
+class SolutionTony:
     def longestOnes(self, A, K: int) -> int:
         i = 0
         count = 0
