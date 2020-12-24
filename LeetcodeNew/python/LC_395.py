@@ -29,7 +29,40 @@ the sliding window must contain m different characters
 [X X X X X a a a b] X X X X
 O(26N)
 
+https://www.youtube.com/watch?v=izjPlJrZ_K0
 """
+
+
+class SolutionTonnie:
+    def longestSubstring(self, s: str, k: int) -> int:
+        res = 0
+        # each round, the amount of distinct chars
+        for i in range(1, len(set(s)) + 1):
+            table = collections.Counter()
+            # count -> how many distinct chars >= k
+            left = right = 0
+            count = 0
+            while right < len(s):
+                table[s[right]] += 1
+                if table[s[right]] == k:
+                    count += 1
+                right += 1
+
+                # move left
+                while left < right and len(table) > i:
+                    # we will decrement s[left], in turn decrement count
+                    if table[s[left]] == k:
+                        count -= 1
+                    table[s[left]] -= 1
+                    if table[s[left]] == 0:
+                        del table[s[left]]
+                    left += 1
+
+                if len(table) == i and count == i:
+                    res = max(res, right - left)
+        return res
+
+
 
 
 class SolutionTony:
