@@ -19,15 +19,39 @@ Output: false
 """
 
 
+class SolutionLIC:
+    def increasingTriplet(self, nums):
+
+        n = len(nums)
+        leftMin = [0] * n
+        rightMax = [0] * n
+
+        leftMin[0] = float('inf')
+
+        for i in range(1, n):
+            leftMin[i] = min(leftMin[i - 1], nums[i - 1])
+
+        rightMax[-1] = float('-inf')
+        for i in range(n - 2, -1, -1):
+            rightMax[i] = max(rightMax[i + 1], nums[i + 1])
+
+        for i in range(n):
+            if leftMin[i] < nums[i] and rightMax[i] > nums[i]:
+                return True
+
+        return False
+
+
+
 class Solution:
     def increasingTriplet(self, nums):
 
-        x1 = x2 = 0x7fffffff
+        first = second = float('inf')
         for num in nums:
-            if num <= x1:
-                x1 = num
-            elif num <= x2:
-                x2 = num
+            if num <= first:
+                first = num
+            elif num <= second:
+                second = num
             else:
                 return True
         return False
