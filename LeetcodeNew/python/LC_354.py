@@ -12,25 +12,34 @@ Example:
 Input: [[5,4],[6,4],[6,7],[2,3]]
 Output: 3
 Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).
+
+dp[i] : the maximum length of Russian doll sequence if i-th is the largest one
+for j in range(i):
+    if width[j] < width[i] and length[j] < length[i]:
+        dp[i] = max(dp[i], dp[j] + 1)
+
+return max(dp)
+
 """
+
 import bisect
 
 class Solution:
     def maxEnvelopes(self, envelopes):
         nums = sorted(envelopes, key=lambda x: (x[0], -x[1]))
-        print(nums)
+        # print(nums)
         nums = [y for x, y in nums]
-        print(nums)
+        # print(nums)
         return self.lis(nums)
 
     def lis(self, nums):
         dp = []
         for num in nums:
-            index = bisect.bisect_left(dp, num)
-            if index == len(dp):
+            idx = bisect.bisect_left(dp, num)
+            if idx == len(dp):
                 dp.append(num)
             else:
-                dp[index] = num
+                dp[idx] = num
         return len(dp)
 
 
