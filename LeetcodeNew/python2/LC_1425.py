@@ -1,10 +1,9 @@
 """
+huahua
+https://www.youtube.com/watch?v=B5fa989qz4U
 https://www.youtube.com/watch?v=B5fa989qz4U&t=1s
 https://www.youtube.com/watch?v=FSbFPH7ejHk
 
-"""
-
-"""
 
 dp[i] : the maximum sum of nn-empty subsequence of that array ending wth nums[i]
 
@@ -41,6 +40,7 @@ dp[i] = max{nums[i], dp[i-k] + nums[i]}, k=1,2,...,K
 """
 
 import collections
+import heapq
 
 
 class Solution:
@@ -55,10 +55,10 @@ class Solution:
                 queue.popleft()
 
             dp[i] = nums[i]
-            if len(queue) > 0:
+            if queue:
                 dp[i] = max(dp[i], dp[queue[0]] + nums[i])
 
-            while len(queue) > 0 and dp[queue[-1]] <= dp[i]:
+            while queue and dp[queue[-1]] <= dp[i]:
                 queue.pop()
 
             queue.append(i)
@@ -67,4 +67,41 @@ class Solution:
 
 
 
+class Solution2:
+    def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        dp = [nums[0]] * n
+        res = dp[0]
+        # use dequeue to calculate the max value for k items before i in O(1)
+        queue = collections.deque([0])
+        for i in range(1, n):
+            # keep the size of dequeue to be k.
+            if queue[0] < i - k:
+                queue.popleft()
+            maxi = max(dp[queue[0]], dp[queue[-1]])
+            dp[i] = max(maxi + nums[i], nums[i])
+            # discard values that are smaller than current value
+            while queue and dp[queue[-1]] < dp[i]:
+                queue.pop()
+            queue.append(i)
+            res = max(res, dp[i])
+        return res
+
+
+class SolutionHeap:
+    def constrainedSubsetSum(self, nums, k: int) -> int:
+
+        maxi = nums[0]
+        heap = [(-maxi, 0)]
+        res = maxi
+        for i in range(1, len(nums)):
+            # Ensure top of the heap is no more than k indices away
+            while heap[0][1] < i - k:
+                heapq.heappop(heap)
+
+            maxi = max(nums[i], nums[i] - heap[0][0])
+            res = max(res, maxi)
+            heapq.heappush(heap, (-maxi, i))
+
+        return res
 
