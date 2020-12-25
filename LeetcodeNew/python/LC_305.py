@@ -39,6 +39,51 @@ Can you do it in time complexity O(k log mn), where k is the length of the posit
 """
 
 
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [i for i in range(1, n + 1)]
+        self.count = 0
+
+    def find(self, x):
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, i, j):
+        x = self.find(i)
+        y = self.find(j)
+        if x == y:
+            return
+        self.parent[x] = y
+        self.count -= 1
+
+    def set_parent(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = x
+            self.count += 1
+
+
+class Solution1:
+    def numIslands2(self, m: int, n: int, positions):
+
+        uf = UnionFind(n * m)
+        res = []
+        board = [[0] * n for _ in range(m)]
+        for i, j in positions:
+            board[i][j] = 1
+            pos = i * n + j
+            uf.set_parent(pos)
+            for dx, dy in zip([0, 0, 1, -1], [-1, 1, 0, 0]):
+                x = i + dx
+                y = j + dy
+                if 0 <= x < m and 0 <= y < n and board[x][y] == 1:
+                    uf.union(pos, x * n + y)
+            res += [uf.count]
+        return res
+
+
+
+
 class Union:
     def __init__(self):
         self.parent = {}
