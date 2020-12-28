@@ -19,8 +19,11 @@ dfs(i, j, summ)
 
 import collections
 
+
 class Solution:
     def isSolvable(self, words, result) -> bool:
+        # table = [0] * 128
+        # visited = [0] * 10
         table = collections.defaultdict(lambda: -1)
         visited = collections.defaultdict(int)
         result = result[::-1]
@@ -32,8 +35,11 @@ class Solution:
 
         def dfs(i, j, summ):
             if j == len(result):
+
+                # 如果还有进位, 不行
                 if summ != 0:
                     return False
+                # result更长, 最后面还有一位, 但后面那位不是 0
                 if len(result) > 1 and table[result[-1]] == 0:
                     return False
                 return True
@@ -43,6 +49,7 @@ class Solution:
                     if table[result[j]] != summ % 10:
                         return False
                     else:
+                        # this column is good, go back to first row and start second column
                         return dfs(0, j + 1, summ // 10)
 
                 else:
@@ -79,7 +86,6 @@ class Solution:
                 return False
 
         return dfs(0, 0, 0)
-
 
 
 
