@@ -24,6 +24,12 @@ It's a new uncovered interval,
 so we increment ++res.
 
 Complexity: time O(NlogN), space O(1
+
+if start equal, then we only care about the end
+
+------
+----------
+
 """
 
 
