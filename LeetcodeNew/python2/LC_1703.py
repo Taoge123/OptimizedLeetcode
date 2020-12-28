@@ -23,7 +23,47 @@ X  X  X  O  X  X  X
 可见，我们将第一个滑窗的sum，通过四步o(1)的修正，就可以到第二个滑窗的sum。我们将滑窗走一遍，就可以得到最小的sum。注意，最后的答案是把最小的sum减去常数项 sum|i-k/2|.
 """
 
+"""
+296 best meeting points
 
+p = [0 4 7 8], k = 2
+
+
+[p1, p2, p3, p4]
+[q1, q2, q3, q4]
+
+min sum |pi - qi| for i in {0, 1, 2, ....., k-1}
+
+"""
+
+
+class Solution:
+    def minMoves(self, nums, k: int) -> int:
+
+        p = []
+        for i in range(len(nums)):
+            if nums[i] == 1:
+                p.append(i)
+
+        summ = 0
+        for i in range(k):
+            summ += abs(p[i] - p[k // 2])
+
+        res = summ
+
+        for i in range(len(p) - k):
+            mid = i + k // 2
+            summ -= abs(p[i] - p[mid])
+            summ += abs(p[mid + 1] - p[mid]) * (k // 2)
+            summ += abs(p[i + k] - p[mid + 1])
+            summ -= abs(p[mid + 1] - p[mid]) * (k - k // 2 - 1)
+            res = min(res, summ)
+
+        offset = 0
+        for i in range(k):
+            offset += abs(i - k // 2)
+
+        return res - offset
 
 
 
