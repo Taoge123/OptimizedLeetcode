@@ -1,3 +1,10 @@
+"""
+
+421. Maximum XOR of Two Numbers in an Array
+1697. Checking Existence of Edge Length Limited Paths
+
+"""
+
 
 class Trie:
     def __init__(self):
@@ -22,6 +29,7 @@ class Trie:
             if target in node:
                 node = node[target]
                 res |= (1 << i)
+                # res = res * 2
             else:
                 node = node[cur]
         return res
@@ -30,7 +38,11 @@ class Trie:
 class Solution:
     def maximizeXor(self, nums, queries):
         nums.sort()
-        queries = sorted(enumerate(queries), key=lambda x: x[1][1])
+        for i, query in enumerate(queries):
+            queries[i] = [i, query]
+
+        queries = sorted(queries, key=lambda x: x[1][1])
+        # print(queries)
         trie = Trie()
         res = [-1] * len(queries)
         j = 0
@@ -40,5 +52,6 @@ class Solution:
                 j += 1
             res[i] = trie.query(x)
         return res
+
 
 
