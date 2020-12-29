@@ -85,6 +85,25 @@ class Solution2:
         return res
 
 
+
+class SolutionTest:
+    def wordBreak(self, s: str, wordDict):
+        memo = {}
+        def dfs(st):
+            if st in memo:
+                return memo[st]
+            if not st:
+                return ['']
+            res = []
+            for word in wordDict:
+                if word == st[:len(word)]:
+                    for r in dfs(st[len(word):]):
+                        res.append(word + ('' if not r else ' '+r))
+            memo[st] = res
+            return res
+        return dfs(s)
+
+
 s = "pineapplepenapple"
 wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
 
