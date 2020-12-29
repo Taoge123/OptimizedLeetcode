@@ -1,4 +1,5 @@
 """
+857. Minimum Cost to Hire K Workers
 
 Intuition
 Doesn't efficiency and speed are the same thing?
@@ -49,6 +50,28 @@ Space O(N)
 """
 
 import heapq
+
+
+class SolutionTony:
+    def maxPerformance(self, n: int, speed, efficiency, k: int) -> int:
+
+        mod = 10 ** 9 + 7
+        res = 0
+        totalSpeed = 0
+        heap = []
+        # we wanna pick the highest efficiency
+        for e, s in sorted(zip(efficiency, speed), reverse=True):
+            heapq.heappush(heap, s)
+            totalSpeed += s
+
+            if len(heap) > k:
+                totalSpeed -= heapq.heappop(heap)
+
+            res = max(res, totalSpeed * e)
+
+        return res % mod
+
+
 
 
 class Solution:
