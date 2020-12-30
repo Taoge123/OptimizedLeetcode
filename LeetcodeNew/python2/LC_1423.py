@@ -11,6 +11,23 @@
 
 
 class Solution:
+    def maxScore(self, cardPoints, k: int) -> int:
+        # presum
+        # O(k)
+        n = len(cardPoints)
+        i = k - 1
+        cur = sum(cardPoints[:k])
+        res = cur
+
+        for j in range(k):
+            cur -= cardPoints[i - j]
+            cur += cardPoints[n - 1 - j]
+            res = max(cur, res)
+        return res
+
+
+
+class SolutionSame:
     def maxScore(self, nums, k: int) -> int:
         res = cur = sum(nums[:k])
         for i in range(k):

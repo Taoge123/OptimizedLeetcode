@@ -39,17 +39,17 @@ class SolutionTD:
             res %= self.mod
         return res
 
-    def dfs(self, N, node, table, memo):
+    def dfs(self, N, i, table, memo):
         if N == 0:
             return 1
-        if (N, node) in memo:
-            return memo[(N, node)]
+        if (i, N) in memo:
+            return memo[(N, i)]
 
         res = 0
-        for nei in table[node]:
+        for nei in table[i]:
             res = res + self.dfs(N - 1, nei, table, memo)
             res %= self.mod
-        memo[(N, node)] = res
+        memo[(i, N)] = res
         return res
 
 
