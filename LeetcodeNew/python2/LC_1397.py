@@ -1,7 +1,7 @@
 class Solution:
     def findGoodStrings(self, n: int, s1: str, s2: str, evil: str) -> int:
         self.memo = {}
-        self.lps = self.compute_LPS_arr(evil)
+        self.lps = self.LPS(evil)
         return self.dfs(n, s1, s2, evil, 0, True, True, 0)
 
     def dfs(self, n, s1, s2, evil, index, pre1, pre2, pre_evil):
@@ -48,7 +48,7 @@ class Solution:
         self.memo[(index, pre1, pre2, pre_evil)] = ans
         return ans
 
-    def compute_LPS_arr(self, pattern):
+    def LPS(self, pattern):
         M = len(pattern)
         lps = [0] * M
         i, j = 1, 0
