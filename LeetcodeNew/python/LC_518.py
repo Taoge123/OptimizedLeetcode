@@ -36,6 +36,28 @@ the answer is guaranteed to fit into signed 32-bit integer
 
 import functools
 
+
+class SolutionTony:
+    def change(self, amount: int, coins) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(amount, i):
+            if amount == 0:
+                return 1
+
+            if amount < 0 or i >= len(coins):
+                return 0
+
+            take = dfs(amount - coins[i], i)
+            no_take = dfs(amount, i + 1)
+
+            return take + no_take
+
+        return dfs(amount, 0)
+
+
+
+
 class Solution:
     def change(self, amount: int, coins) -> int:
         dp = [0] * (amount + 1)

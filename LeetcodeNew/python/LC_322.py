@@ -17,19 +17,6 @@ You may assume that you have an infinite number of each kind of coin.
 
 import functools
 
-class Solution:
-    def coinChange(self, coins, amount):
-        dp = [float('inf')] * (amount + 1)
-        dp[0] = 0
-
-        for coin in coins:
-            for i in range(coin, amount + 1):
-                if dp[i - coin] != float('inf'):
-                    dp[i] = min(dp[i], dp[i - coin] + 1)
-        return -1 if dp[amount] == float('inf') else dp[amount]
-
-
-
 
 class SolutionDFS:
     def coinChange(self, coins, amount: int) -> int:
@@ -103,11 +90,22 @@ class Solution2:
         return cache[amount]
 
 
+class Solution:
+    def coinChange(self, coins, amount):
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0
+
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                if dp[i - coin] != float('inf'):
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        return -1 if dp[amount] == float('inf') else dp[amount]
 
 
-coins = [1, 2, 5]
+
+coins = [6,12,2,5]
 amount = 11
-a = Solution()
+a = SolutionDFS2()
 print(a.coinChange(coins, amount))
 
 
