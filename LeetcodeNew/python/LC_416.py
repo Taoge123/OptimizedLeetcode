@@ -46,22 +46,22 @@ class SolutionTony:
 
         return self.dfs(nums, 0, 0, target, memo)
 
-    def dfs(self, nums, idx, cur, target, memo):
-        if (cur, idx) in memo:
-            return memo[(cur, idx)]
+    def dfs(self, nums, idx, summ, target, memo):
+        if (summ, idx) in memo:
+            return memo[(summ, idx)]
 
-        if cur == target:
+        if summ == target:
             return True
 
-        if cur > target:
+        if summ > target:
             return False
 
         for i in range(idx, len(nums)):
-            if self.dfs(nums, i + 1, cur + nums[i], target, memo):
-                memo[cur, idx] = True
-                return memo[cur, idx]
-        memo[cur, idx] = False
-        return memo[cur, idx]
+            if self.dfs(nums, i + 1, summ + nums[i], target, memo):
+                memo[summ, idx] = True
+                return memo[summ, idx]
+        memo[summ, idx] = False
+        return memo[summ, idx]
 
 
 

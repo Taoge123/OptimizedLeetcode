@@ -19,9 +19,6 @@ class Solution:
         if cur == target:
             return True
 
-        # if idx == len(nums):
-        #     return False
-
         for i in range(idx, len(nums)):
             if self.dfs(nums, i+ 1, cur + nums[i], target, memo):
                 memo[cur, idx] = True
