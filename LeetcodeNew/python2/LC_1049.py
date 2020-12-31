@@ -29,8 +29,24 @@ https://www.youtube.com/watch?v=oPgLkIwq9l0
 
 """
 
+import functools
 
 class Solution:
+    def lastStoneWeightII(self, stones) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, sum1, sum2):
+            if i >= len(stones):
+                return abs(sum1 - sum2)
+
+            left = dfs(i + 1, sum1 + stones[i], sum2)
+            right = dfs(i + 1, sum1, sum2 + stones[i])
+
+            return min(left, right)
+
+        return dfs(0, 0, 0)
+
+
+class Solution2:
     def lastStoneWeightII(self, stones) -> int:
 
         dp = {0}
