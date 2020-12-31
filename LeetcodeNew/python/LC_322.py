@@ -15,6 +15,7 @@ Note:
 You may assume that you have an infinite number of each kind of coin.
 """
 
+import functools
 
 class Solution:
     def coinChange(self, coins, amount):
@@ -30,31 +31,53 @@ class Solution:
 
 
 
-class SolutionTony:
-    def coinChange(self, coins, amount):
-        memo = {0: 0}
-        coins.sort()
-        res = self.dfs(coins, amount, memo)
-        if res == float('inf'):
-            return -1
-        return res
+class SolutionDFS:
+    def coinChange(self, coins, amount: int) -> int:
+        if amount < 1:
+            return 0
 
-    def dfs(self, coins, amount, memo):
-        if amount in memo:
-            return memo[amount]
+        @functools.lru_cache(None)
+        def dfs(remain):
+            if remain == 0:
+                return 0
+            if remain < 0:
+                return float('inf')
+
+            res = float('inf')
+            for coin in coins:
+                res = min(res, dfs(remain - coin) + 1)
+
+            return res
+
+        res = dfs(amount)
+        return res if res != float('inf') else -1
+
+
+
+class SolutionDFS2:
+    def coinChange(self, coins, amount: int) -> int:
+        if amount < 1:
+            return 0
+
+        memo = {}
+        res = self.dfs(coins, amount, memo)
+        return res if res != float('inf') else -1
+
+    def dfs(self, coins, remain, memo):
+        if remain == 0:
+            return 0
+        if remain < 0:
+            return float('inf')
+
+        if remain in memo:
+            return memo[remain]
 
         res = float('inf')
-
         for coin in coins:
-            if amount - coin < 0:
-                break
-            res = min(res, self.dfs(coins, amount - coin, memo) + 1)
+            res = min(res, self.dfs(coins, remain - coin, memo) + 1)
 
-        memo[amount] = res
+        memo[remain] = res
         return res
-
-
-
 
 
 class Solution2:

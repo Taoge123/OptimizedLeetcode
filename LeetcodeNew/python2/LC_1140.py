@@ -83,5 +83,25 @@ class SolutionLee:
 
 
 
+class Solution2:
+   def stoneGameII(self, piles) -> int:
+       """
+       TC O(N^3)
+       SC O(N^2)
+       """
+       suffixsum = [0]
+       for i in range(len(piles) - 1, -1, -1):
+           suffixsum.append(suffixsum[-1] + piles[i])
+       suffixsum = suffixsum[::-1]
 
+       @lru_cache(None)
+       def cal(idx, threshold):
+           if idx >= len(piles): return 0
+
+           if idx + 2 * threshold >= len(piles): return suffixsum[idx]
+
+           return max([suffixsum[idx] - cal(idx + i, max(threshold, i)) for i in range(1, 2 * threshold + 1)],
+                      default=0)
+
+       return cal(0, 1)
 
