@@ -72,6 +72,46 @@ class MedianFinder2:
         return self.med
 
 
+class MedianFinder3:
+    def __init__(self):
+        self.maxheap = []
+        self.minheap = []
+
+    def addNum(self, num: int) -> None:
+        minheap = self.minheap
+        maxheap = self.maxheap
+        if not minheap and not maxheap:
+            heapq.heappush(maxheap, -num)
+            return
+        if len(minheap) >= len(maxheap):
+            if num >= minheap[0]:
+                n = heapq.heappop(minheap)
+                heapq.heappush(minheap, num)
+                heapq.heappush(maxheap, -n)
+            else:
+                heapq.heappush(maxheap, -num)
+        else:
+            if num <= -maxheap[0]:
+                n = - heapq.heappop(maxheap)
+                heapq.heappush(maxheap, -num)
+                heapq.heappush(minheap, n)
+            else:
+                heapq.heappush(minheap, num)
+
+    def findMedian(self) -> float:
+        minheap = self.minheap
+        maxheap = self.maxheap
+
+        if len(minheap) == len(maxheap):
+            return (minheap[0] - maxheap[0]) / 2
+        elif len(minheap) < len(maxheap):
+            return -maxheap[0]
+        else:
+            return minheap[0]
+
+
+
+
 nums = [1,2,3,4,5]
 a = MedianFinder()
 for i in nums:
