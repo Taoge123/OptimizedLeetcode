@@ -73,7 +73,6 @@ class Solution11:
             return "0"
 
 
-
 class SolutionDFS2:
     def largestNumber(self, cost, target):
         memo = {}
@@ -94,8 +93,10 @@ class SolutionDFS2:
         if i == len(cost) or target < 0:
             return float("-inf")
 
-        memo[(i, target)] = max(self.dfs(cost, i, target - cost[i], memo) * 10 + i + 1,
-                                self.dfs(cost, i + 1, target, memo))
+        take = self.dfs(cost, i, target - cost[i], memo) * 10 + i + 1
+        no_take = self.dfs(cost, i + 1, target, memo)
+
+        memo[(i, target)] = max(take, no_take)
         return memo[(i, target)]
 
 
