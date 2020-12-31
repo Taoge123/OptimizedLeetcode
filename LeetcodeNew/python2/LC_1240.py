@@ -23,8 +23,46 @@ class SolutionSpecialCase:
         return dp[n][m]
 
 
+class SolutionSlow:
+    def tilingRectangle(self, n: int, m: int) -> int:
 
-class Solution2:
+        @functools.lru_cache(None)
+        def dfs(skyline):
+
+            left = 0
+            minHeight = float('inf')
+
+            # find the minimum height and the starting point of the minHeight
+            for i, height in enumerate(skyline):
+                if height < minHeight:
+                    minHeight = height
+                    left = i
+
+            if minHeight == n:
+                return 0
+
+            res = float('inf')
+            newSkyline = list(skyline)
+            for right in range(left, m):
+                if newSkyline[right] == minHeight:
+                    width = right - left + 1
+
+                    # check if the new tile can fit in the rectangle
+                    if width + minHeight <= n:
+                        # update the skyline
+                        newSkyline[left:right + 1] = [width + minHeight] * width
+                        res = min(res, dfs(tuple(newSkyline)) + 1)
+
+                else:
+                    # break when sees a different height
+                    break
+            return res
+
+        return dfs(tuple([0] * m))
+
+
+
+class SolutionFast:
     def tilingRectangle(self, n: int, m: int) -> int:
         self.res = n * m
 
