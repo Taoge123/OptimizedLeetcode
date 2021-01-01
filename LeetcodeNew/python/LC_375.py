@@ -29,6 +29,45 @@ dp[i][j] = min(k + max(dp[i][k - 1], dp[k + 1][j]))
 """
 import functools
 
+
+class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        cache = [[0] * (n+1) for i in range(n+1)]
+        return self.dfs(1, n, cache)
+
+    def dfs(self, i, j, cache):
+        if i >= j:
+            return 0
+        if cache[i][j] != 0:
+            return cache[i][j]
+        res = float('inf')
+        for num in range(i, j+1):
+            res = min(res, max(self.dfs(i, num-1, cache), self.dfs(num+1, j, cache)) + num)
+        cache[i][j] = res
+        return res
+
+
+
+
+class Solution222:
+    def getMoneyAmount(self, n: int) -> int:
+        nums = [i for i in range(1, n + 1)]
+
+        @functools.lru_cache(None)
+        def dfs(nums, i, j):
+            if i >= j:
+                return 0
+
+            res = float('inf')
+            for k in range(i, j + 1):
+                res = min(res, max(dfs(nums, i, k - 1), dfs(nums, k + 1, j)) + nums[k])
+
+            return res
+
+        return dfs(tuple(nums), 0, len(nums) - 1)
+
+
+
 class SolutionTony:
     def getMoneyAmount(self, n):
         dp = [[0] * (n + 1) for _ in range(n + 1)]
@@ -54,41 +93,6 @@ class SolutionGoogle:
 
                 dp[lo][hi] = minCost
         return dp[1][n]
-
-
-class Solution:
-    def getMoneyAmount(self, n: int) -> int:
-        cache = [[0] * (n+1) for i in range(n+1)]
-        return self.helper(1, n, cache)
-
-    def helper(self, i, j, cache):
-        if i >= j:
-            return 0
-        if cache[i][j] != 0:
-            return cache[i][j]
-        res = float('inf')
-        for num in range(i, j+1):
-            res = min(res, max(self.helper(i, num-1, cache), self.helper(num+1, j, cache)) + num)
-        cache[i][j] = res
-        return res
-
-
-class Solution222:
-    def getMoneyAmount(self, n: int) -> int:
-        nums = [i for i in range(1, n + 1)]
-
-        @functools.lru_cache(None)
-        def dfs(nums, i, j):
-            if i >= j:
-                return 0
-
-            res = float('inf')
-            for k in range(i, j + 1):
-                res = min(res, max(dfs(nums, i, k - 1), dfs(nums, k + 1, j)) + nums[k])
-
-            return res
-
-        return dfs(tuple(nums), 0, len(nums) - 1)
 
 
 class Solution2:

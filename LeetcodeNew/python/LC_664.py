@@ -47,6 +47,57 @@ Then, when trying to complete the printing of interval [i, k] (with S[i] == S[k]
 
 Also, we would need to complete [k+1, j]. So in total, our candidate answer is dp(i, k-1) + dp(k+1, j). Of course, when k == i, our candidate is 1 + dp(i+1, j): we paint S[i] in one turn, then paint the rest in dp(i+1, j) turns."""
 
+import functools
+
+class SolutionDFS1:
+    def strangePrinter(self, s):
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i > j:
+                return 0
+            res = dfs(i + 1, j) + 1
+            for k in range(i + 1, j + 1):
+                if s[k] == s[i]:
+                    res = min(res, dfs(i, k - 1) + dfs(k + 1, j))
+            return res
+
+        return dfs(0, len(s) - 1)
+
+
+class SolutionDFS2:
+    def strangePrinter(self, s):
+        memo = {}
+        return self.dfs(s, 0, len(s) - 1, memo)
+
+    def dfs(self, s, i, j, memo):
+
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+        res = self.dfs(s, i + 1, j, memo) + 1
+        for k in range(i + 1, j + 1):
+            if s[k] == s[i]:
+                res = min(res, self.dfs(s, i, k - 1, memo) + self.dfs(s, k + 1, j, memo))
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+class Solution:
+    def strangePrinter(self, s):
+        memo = {}
+        return self.dfs(s, 0, len(s) - 1, memo)
+
+    def dfs(self, s, i, j, memo):
+        if i > j:
+            return 0
+        res = self.dfs(s, i + 1, j, memo) + 1
+        for k in range(i + 1, j + 1):
+            if s[k] == s[i]:
+                res = min(res, self.dfs(s, i, k - 1, memo) + self.dfs(s, k + 1, j, memo))
+        return res
+
 
 class SolutionTony:
     def strangePrinter(self, s: str) -> int:
