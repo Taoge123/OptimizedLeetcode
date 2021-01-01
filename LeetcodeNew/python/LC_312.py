@@ -17,10 +17,11 @@ Explanation: nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
              coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
 """
 
+import functools
 
 
 class SolutionDFS1:
-    def maxCoins(self, nums: List[int]) -> int:
+    def maxCoins(self, nums) -> int:
 
         nums = [1] + nums + [1]
 
