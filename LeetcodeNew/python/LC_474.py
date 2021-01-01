@@ -53,6 +53,30 @@ Leetcode Link
 
 
 import copy
+import collections
+
+
+
+class SolutionTD:
+    def findMaxForm(self, strs, m, n):
+
+        N = len(strs)
+        memo = collections.defaultdict(lambda: -1)
+        count = [(s.count('0'), s.count('1')) for s in strs]
+
+        def dfs(i, m, n):
+            if m < 0 or n < 0:
+                return float('-inf')
+            if i >= N:
+                return 0
+            if memo[(i, m, n)] == -1:
+                a, b = count[i]
+                val = max(dfs(i + 1, m, n), 1 + dfs(i + 1, m - a, n - b))
+                memo[(i, m, n)] = val
+            return val
+
+        return dfs(0, m, n)
+
 
 class SolutionTLE:
     def findMaxForm(self, strs, m: int, n: int) -> int:
