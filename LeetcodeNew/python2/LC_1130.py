@@ -1,5 +1,5 @@
 
-class SolutionTony:
+class SolutionDFS:
     def mctFromLeafValues(self, arr) -> int:
         memo = {}
         return self.dfs(arr, 0, len(arr) - 1, memo)

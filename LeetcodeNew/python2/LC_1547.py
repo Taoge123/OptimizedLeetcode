@@ -6,25 +6,6 @@ dp[i][j] = min{cuts[j]-cuts[i] + dp[i][k] + dp[k][j]} for k in i+1, i+2, ...., j
 
 import functools
 
-class Solution:
-    def minCost(self, n: int, cuts) -> int:
-        cuts.sort()
-        cuts.insert(0, 0)
-        cuts.append(n)
-        m = len(cuts)
-        dp = [[float('inf') for i in range(m)] for j in range(m)]
-
-        for i in range( m -1):
-            dp[i][ i +1] = 0
-
-        for step in range(3, m+ 1):
-            for i in range(m - step + 1):
-                j = i + step - 1
-                for k in range(i + 1, j):
-                    dp[i][j] = min(dp[i][j], cuts[j] - cuts[i] + dp[i][k] + dp[k][j])
-
-        return dp[0][m - 1]
-
 
 
 class SolutionTD:
@@ -67,6 +48,29 @@ class SolutionTony:
 
         memo[(i, j)] = res
         return memo[(i, j)]
+
+
+
+
+class Solution:
+    def minCost(self, n: int, cuts) -> int:
+        cuts.sort()
+        cuts.insert(0, 0)
+        cuts.append(n)
+        m = len(cuts)
+        dp = [[float('inf') for i in range(m)] for j in range(m)]
+
+        for i in range( m -1):
+            dp[i][ i +1] = 0
+
+        for step in range(3, m+ 1):
+            for i in range(m - step + 1):
+                j = i + step - 1
+                for k in range(i + 1, j):
+                    dp[i][j] = min(dp[i][j], cuts[j] - cuts[i] + dp[i][k] + dp[k][j])
+
+        return dp[0][m - 1]
+
 
 
 n = 7

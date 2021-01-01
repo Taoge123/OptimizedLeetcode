@@ -26,7 +26,7 @@ class Solution:
 
 
 
-class SolutionTony:
+class SolutionDFS:
     def minimumMoves(self, arr) -> int:
         memo = {}
         return self.dfs(arr, 0, len(arr) - 1, memo)
