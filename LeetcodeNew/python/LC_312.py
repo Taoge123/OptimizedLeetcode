@@ -58,8 +58,8 @@ class SolutionTD:
         if (i, j) in memo:
             return memo[(i, j)]
 
-        # if i >= j:
-        #     return 0
+        if i >= j:
+            return 0
 
         res = 0
         for k in range(i + 1, j):
