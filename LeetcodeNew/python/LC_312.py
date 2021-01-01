@@ -18,6 +18,49 @@ Explanation: nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
 """
 
 
+
+class SolutionDFS1:
+    def maxCoins(self, nums: List[int]) -> int:
+
+        nums = [1] + nums + [1]
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i >= j:
+                return 0
+
+            res = 0
+            for k in range(i + 1, j):
+                res = max(res, nums[i] * nums[k] * nums[j] + dfs(i, k) + dfs(k, j))
+
+            return res
+
+        return dfs(0, len(nums) - 1)
+
+
+
+class SolutionDFS2:
+    def maxCoins(self, nums) -> int:
+        memo = {}
+        nums = [1] + nums + [1]
+        return self.dfs(nums, 0, len(nums) - 1, memo)
+
+    def dfs(self, nums, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i >= j:
+            return 0
+
+        res = 0
+        for k in range(i + 1, j):
+            res = max(res, nums[i] * nums[k] * nums[j] + self.dfs(nums, i, k, memo) + self.dfs(nums, k, j, memo))
+
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+
 class Solution:
     def maxCoins(self, nums) -> int:
 
@@ -48,25 +91,6 @@ class Solution:
 """
 
 
-class SolutionTD:
-    def maxCoins(self, nums) -> int:
-        memo = {}
-        nums = [1] + nums + [1]
-        return self.dfs(nums, 0, len(nums) - 1, memo)
-
-    def dfs(self, nums, i, j, memo):
-        if (i, j) in memo:
-            return memo[(i, j)]
-
-        if i >= j:
-            return 0
-
-        res = 0
-        for k in range(i + 1, j):
-            res = max(res, nums[i] * nums[k] * nums[j] + self.dfs(nums, i, k, memo) + self.dfs(nums, k, j, memo))
-
-        memo[(i, j)] = res
-        return memo[(i, j)]
 
 
 nums = [1,2,3,4,5,6,7]
