@@ -35,8 +35,6 @@ class SolutionDFS1:
 
     def dfs(self, s1, s2, i, j, memo):
         m, n = len(s1), len(s2)
-        # if i == m and j == n:
-        #     return 0
         if i == m:
             return len(s2) - j
 

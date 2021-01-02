@@ -65,6 +65,56 @@ dp[i-1][j-1]表示s[1:i-1]中有多少个不同的子序列等于t[1:j-1]，两�
 递推关系有了，那么边界条件呢？无非就是dp[0][j]和dp[i][0]的情况。显然，前者仍算是一种子序列，所以赋值为1，后者赋值为0.
 
 """
+import functools
+
+
+class SolutionDFS1:
+    def numDistinct(self, s: str, t: str) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if j < 0:
+                return 1
+
+            if i < 0:
+                return 0
+
+            if s[i] == t[j]:
+                return dfs(i - 1, j) + dfs(i - 1, j - 1)
+
+            return dfs(i - 1, j)
+
+        return dfs(len(s) - 1, len(t) - 1)
+
+
+
+
+class SolutionDFS:
+    def numDistinct(self, s: str, t: str) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if j < 0:
+                # if all char of t has been traversed return 1
+                return 1
+
+            if i < 0:
+                # if all char of t has not been traversed return and done with s
+                # return 0
+                return 0
+
+            if s[i] == t[j]:
+                # if characters equal take character of t or don't take it
+                # at index j and also go for next char of s
+                return dfs(i - 1, j) + dfs(i - 1, j - 1)
+
+            # if characters are not equal can't take char of t
+            # at index j search for next char of s
+            return dfs(i - 1, j)
+
+        return dfs(len(s) - 1, len(t) - 1)
+
+
 
 
 class SolutionTony:
