@@ -1,6 +1,6 @@
 import functools
 
-class SolutionTony:
+class SolutionDFS:
     def isValidPalindrome(self, s: str, k: int) -> bool:
         @functools.lru_cache(None)
         def dfs(i, j):
@@ -17,7 +17,7 @@ class SolutionTony:
 
 
 
-class SolutionTony2:
+class SolutionDFS2:
     def isValidPalindrome(self, s: str, k: int) -> bool:
         memo = {}
         return self.helper(s, 0, len(s) - 1, memo) <= k

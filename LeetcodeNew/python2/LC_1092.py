@@ -1,3 +1,64 @@
+"""
+https://leetcode.com/problems/shortest-common-supersequence/discuss/617594/Python-two-solutions%3A-from-slow-DP-to-fast-DP
+
+"""
+
+import functools
+
+class SolutionDFS1:
+    def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            print(i, j)
+            if i == len(str1):
+                return str2[j:]
+            elif j == len(str2):
+                return str1[i:]
+
+            if str1[i] == str2[j]:
+                res = str1[i] + dfs(i + 1, j + 1)
+            else:
+                ps1 = str1[i] + dfs(i + 1, j)
+                ps2 = str2[j] + dfs(i, j + 1)
+                if len(ps1) < len(ps2):
+                    res = ps1
+                else:
+                    res = ps2
+
+            return res
+
+        return dfs(0, 0)
+
+
+class SolutionDFS2:
+    def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+        memo = {}
+        return self.dfs(str1, str2, 0, 0, memo)
+
+    def dfs(self, str1, str2, i, j, memo):
+        print(i, j)
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i == len(str1):
+            return str2[j:]
+        elif j == len(str2):
+            return str1[i:]
+
+        if str1[i] == str2[j]:
+            res = str1[i] + self.dfs(str1, str2, i + 1, j + 1, memo)
+        else:
+            ps1 = str1[i] + self.dfs(str1, str2, i + 1, j, memo)
+            ps2 = str2[j] + self.dfs(str1, str2, i, j + 1, memo)
+            if len(ps1) < len(ps2):
+                res = ps1
+            else:
+                res = ps2
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
 
 class Solution:
     def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
@@ -34,5 +95,11 @@ class Solution:
         return "".join(res[::-1])
 
 
+str1 = "atdznrqfwlfbcqkezrltzyeqvqemikzgghxkzenhtapwrmrovwtpzzsyiwongllqmvptwammerobtgmkpowndejvbuwbporfyroknrjoekdgqqlgzxiisweeegxajqlradgcciavbpgqjzwtdetmtallzyukdztoxysggrqkliixnagwzmassthjecvfzmyonglocmvjnxkcwqqvgrzpsswnigjthtkuawirecfuzrbifgwolpnhcapzxwmfhvpfmqapdxgmddsdlhteugqoyepbztspgojbrmpjmwmhnldunskpvwprzrudbmtwdvgyghgprqcdgqjjbyfsujnnssfqvjhnvcotynidziswpzhkdszbblustoxwtlhkowpatbypvkmajumsxqqunlxxvfezayrolwezfzfyzmmneepwshpemynwzyunsxgjflnqmfghsvwpknqhclhrlmnrljwabwpxomwhuhffpfinhnairblcayygghzqmotwrywqayvvgohmujneqlzurxcpnwdipldofyvfdurbsoxdurlofkqnrjomszjimrxbqzyazakkizojwkuzcacnbdifesoiesmkbyffcxhqgqyhwyubtsrqarqagogrnaxuzyggknksrfdrmnoxrctntngdxxechxrsbyhtlbmzgmcqopyixdomhnmvnsafphpkdgndcscbwyhueytaeodlhlzczmpqqmnilliydwtxtpedbncvsqauopbvygqdtcwehffagxmyoalogetacehnbfxlqhklvxfzmrjqofaesvuzfczeuqegwpcmahhpzodsmpvrvkzxxtsdsxwixiraphjlqawxinlwfspdlscdswtgjpoiixbvmpzilxrnpdvigpccnngxmlzoentslzyjjpkxemyiemoluhqifyonbnizcjrlmuylezdkkztcphlmwhnkdguhelqzjgvjtrzofmtpuhifoqnokonhqtzxmimp"
+str2 = "xjtuwbmvsdeogmnzorndhmjoqnqjnhmfueifqwleggctttilmfokpgotfykyzdhfafiervrsyuiseumzmymtvsdsowmovagekhevyqhifwevpepgmyhnagjtsciaecswebcuvxoavfgejqrxuvnhvkmolclecqsnsrjmxyokbkesaugbydfsupuqanetgunlqmundxvduqmzidatemaqmzzzfjpgmhyoktbdgpgbmjkhmfjtsxjqbfspedhzrxavhngtnuykpapwluameeqlutkyzyeffmqdsjyklmrxtioawcrvmsthbebdqqrpphncthosljfaeidboyekxezqtzlizqcvvxehrcskstshupglzgmbretpyehtavxegmbtznhpbczdjlzibnouxlxkeiedzoohoxhnhzqqaxdwetyudhyqvdhrggrszqeqkqqnunxqyyagyoptfkolieayokryidtctemtesuhbzczzvhlbbhnufjjocporuzuevofbuevuxhgexmckifntngaohfwqdakyobcooubdvypxjjxeugzdmapyamuwqtnqspsznyszhwqdqjxsmhdlkwkvlkdbjngvdmhvbllqqlcemkqxxdlldcfthjdqkyjrrjqqqpnmmelrwhtyugieuppqqtwychtpjmloxsckhzyitomjzypisxzztdwxhddvtvpleqdwamfnhhkszsfgfcdvakyqmmusdvihobdktesudmgmuaoovskvcapucntotdqxkrovzrtrrfvoczkfexwxujizcfiqflpbuuoyfuoovypstrtrxjuuecpjimbutnvqtiqvesaxrvzyxcwslttrgknbdcvvtkfqfzwudspeposxrfkkeqmdvlpazzjnywxjyaquirqpinaennweuobqvxnomuejansapnsrqivcateqngychblywxtdwntancarldwnloqyywrxrganyehkglbdeyshpodpmdchbcc"
+
+
+a = SolutionDFS2()
+print(a.shortestCommonSupersequence(str1, str2))
 
 

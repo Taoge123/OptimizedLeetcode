@@ -1,19 +1,20 @@
 
-from functools import lru_cache
+import functools
+
 
 class Solution:
     def minInsertions(self, s: str) -> int:
         n = len(s)
-        @lru_cache(None)
-        def dp(i, j):
+        @functools.lru_cache(None)
+        def dfs(i, j):
             if i >= j:
                 return 0
             if s[i] == s[j]:
-                return dp(i + 1, j - 1)
+                return dfs(i + 1, j - 1)
             else:
-                return min(dp(i + 1, j), dp(i, j - 1)) + 1
+                return min(dfs(i + 1, j), dfs(i, j - 1)) + 1
 
-        return dp(0, n - 1)
+        return dfs(0, n - 1)
 
 
 

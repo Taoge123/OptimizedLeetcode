@@ -35,7 +35,6 @@ class SolutionDFS1:
             if i == m or j == n:
                 return float('-inf')
 
-            res = float('-inf')
             # pick cur and prev, pick cur and abandon prev, i move or j move
             res = max(dfs(i + 1, j + 1) + nums1[i] * nums2[j], nums1[i] * nums2[j], dfs(i + 1, j), dfs(i, j + 1))
             return res
