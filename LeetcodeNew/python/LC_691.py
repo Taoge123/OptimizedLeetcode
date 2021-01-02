@@ -23,8 +23,74 @@ i的每一个bit表示的是target对应位置的字符是否得到了满足。�
 
 import collections
 
-class SolutionDP:
+
+class SolutionDFS:
     def minStickers(self, stickers, target: str) -> int:
+
+        table = collections.Counter(target)
+        self.res = float('inf')
+        self.dfs(stickers, target, 0, 0, table)
+        return self.res if self.res < float('inf') else -1
+
+    def dfs(self, stickers, target, pos, count, table):
+        n = len(target)
+        if pos == n:
+            self.res = min(self.res, count)
+            return
+
+        if self.res == count:
+            return
+
+        if table[target[pos]] <= 0:
+            self.dfs(stickers, target, pos + 1, count, table)
+        else:
+            for stick in stickers:
+                if target[pos] in stick:
+                    for s in stick:
+                        table[s] -= 1
+                    self.dfs(stickers, target, pos + 1, count + 1, table)
+                    for s in stick:
+                        table[s] += 1
+
+
+
+#really fast
+class SolutionTonyBFS:
+    def minStickers(self, stickers, target: str) -> int:
+        n = len(target)
+        N = (1 << n) - 1
+        table = collections.defaultdict(list)
+        for i in range(n):
+            table[target[i]].append(i)
+
+        queue = collections.deque()
+        queue.append([0, 0])
+        visited = set()
+        while queue:
+            state, step = queue.popleft()
+            if state == N:
+                return step
+
+            for sticker in stickers:
+                newState = state
+                for ch in sticker:
+                    if ch not in table:
+                        continue
+                    for i in table[ch]:
+                        # print(bin(newState), newState, 1<<i)
+                        if not newState & (1 << i):
+                            newState |= (1 << i)
+                            break
+                if newState in visited:
+                    continue
+                visited.add(newState)
+                queue.append([newState, step + 1])
+        return -1
+
+
+
+class SolutionDP:
+    def minStickers(self, stickers, target):
         n = len(target)
         N = (1 << n)
         dp = [float('inf') for i in range(N)]

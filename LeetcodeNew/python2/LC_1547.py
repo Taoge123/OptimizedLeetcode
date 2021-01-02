@@ -8,7 +8,7 @@ import functools
 
 
 
-class SolutionTD:
+class SolutionDFS1:
     def minCost(self, n: int, cuts) -> int:
 
         cuts.sort()
@@ -28,7 +28,7 @@ class SolutionTD:
 
 
 
-class SolutionTony:
+class SolutionDFS2:
     def minCost(self, n: int, cuts) -> int:
         cuts.sort()
         cuts = [0] + cuts + [n]

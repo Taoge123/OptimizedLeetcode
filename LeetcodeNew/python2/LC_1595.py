@@ -26,6 +26,33 @@ After finishing with the first group, we detect elements in group 2 that are sti
 """
 from functools import lru_cache
 
+
+class SolutionTD:
+    def connectTwoGroups(self, cost) -> int:
+        m, n = len(cost), len(cost[0])
+        dp = [min([cost[i][j] for i in range(m)]) for j in range(n)]
+
+        @lru_cache(None)
+        def dfs(i: int, mask: int):
+            if i >= m:
+                res = 0
+            else:
+                res = float('inf')
+            if i >= m:
+                for j in range(n):
+                    if mask & (1 << j) == 0:
+                        res += dp[j]
+            else:
+                for j in range(n):
+                    res = min(res, cost[i][j] + dfs(i + 1, mask | (1 << j)))
+            return res
+
+        return dfs(0, 0)
+
+
+
+
+
 class SolutionTLEbutGood:
     def connectTwoGroups(self, cost) -> int:
         m, n = len(cost), len(cost[0])
@@ -62,30 +89,5 @@ class SolutionTLEbutGood:
                 dp[i][state] = min(dp[i][state], dp[i - 1][state] + minPath)
 
         return dp[m - 1][(1 << n) - 1]
-
-
-
-class SolutionTD:
-    def connectTwoGroups(self, cost) -> int:
-        m, n = len(cost), len(cost[0])
-        dp = [min([cost[i][j] for i in range(m)]) for j in range(n)]
-
-        @lru_cache(None)
-        def dfs(i: int, mask: int):
-            if i >= m:
-                res = 0
-            else:
-                res = float('inf')
-            if i >= m:
-                for j in range(n):
-                    if mask & (1 << j) == 0:
-                        res += dp[j]
-            else:
-                for j in range(n):
-                    res = min(res, cost[i][j] + dfs(i + 1, mask | (1 << j)))
-            return res
-
-        return dfs(0, 0)
-
 
 

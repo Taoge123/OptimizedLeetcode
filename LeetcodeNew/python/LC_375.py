@@ -109,8 +109,8 @@ class Solution2:
 
 
 
-n = 4
-a = SolutionTony()
+n = 2
+a = Solution()
 print(a.getMoneyAmount(n))
 
 

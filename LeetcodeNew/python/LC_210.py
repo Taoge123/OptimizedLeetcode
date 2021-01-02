@@ -42,19 +42,19 @@ class Solution:
                 return []
         return res
 
-    def dfs(self, i, graph, visited, res):
-        if visited[i] == '-1':
+    def dfs(self, node, graph, visited, res):
+        if visited[node] == '-1':
             return False
-        if visited[i] == '1':
+        if visited[node] == '1':
             return True
 
-        visited[i] = '-1'
-        for j in graph[i]:
-            if not self.dfs(j, graph, visited, res):
+        visited[node] = '-1'
+        for nei in graph[node]:
+            if not self.dfs(nei, graph, visited, res):
                 return False
-        visited[i] = '1'
+        visited[node] = '1'
         #almost just one line changed
-        res.append(i)
+        res.append(node)
         return True
 
 
