@@ -11,7 +11,7 @@ Total number of one - maxCount ==> Min. Swaps
 
 
 class Solution:
-    def minSwaps(self, data: List[int]) -> int:
+    def minSwaps(self, data) -> int:
         ones = sum(data)
         count = maxi = 0
         left = 0

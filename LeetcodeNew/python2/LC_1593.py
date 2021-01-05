@@ -17,7 +17,7 @@ class Solution:
             return
 
         for i in range(pos, n):
-            if s[pos: i+ 1] not in self.visited:
+            if s[pos: i+1] not in self.visited:
                 self.visited.add(s[pos:i + 1])
                 self.dfs(s, i + 1, count + 1)
                 self.visited.remove(s[pos:i + 1])

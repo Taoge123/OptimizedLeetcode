@@ -45,7 +45,9 @@ class Solution:
             self.res += 1
             return
         for i in range(1, N + 1):
-            if not visited[i] and (i % pos == 0 or pos % i == 0):
+            if visited[i]:
+                continue
+            if i % pos == 0 or pos % i == 0:
                 visited[i] = 1
                 self.dfs(visited, pos + 1, N)
                 visited[i] = 0
