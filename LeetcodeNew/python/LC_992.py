@@ -39,18 +39,18 @@ class Solution:
 
     def atMostK(self, A, K):
         count = collections.defaultdict(int)
-        start = 0
+        left = 0
         res = 0
-        for j in range(len(A)):
-            count[A[j]] += 1
+        for right in range(len(A)):
+            count[A[right]] += 1
             #超标了需要动
             while len(count) > K:
-                count[A[start]] -= 1
-                if count[A[start]] == 0:
-                    del count[A[start]]
-                start += 1
+                count[A[left]] -= 1
+                if count[A[left]] == 0:
+                    del count[A[left]]
+                left += 1
             #无论如何都要加
-            res += j - start + 1
+            res += right - left + 1
         return res
 
 

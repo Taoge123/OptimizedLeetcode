@@ -1,3 +1,5 @@
+import collections
+
 
 
 class Solution:
@@ -11,7 +13,6 @@ class Solution:
             while queue and queue[0] < i - k:
                 queue.popleft()
 
-            # set default value for i
             dp[i] = nums[i]
             if queue:
                 dp[i] = max(dp[i], dp[queue[0]] + nums[i])
