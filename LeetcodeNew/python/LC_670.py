@@ -12,7 +12,7 @@ class SolutionTony:
         t = s
         t = sorted(t)[::-1]
         i = 0
-        while i < len(s) and s[i]==t[i]:
+        while i < len(s) and s[i] == t[i]:
             i += 1
         if i == len(s):
             return num

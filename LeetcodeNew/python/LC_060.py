@@ -103,6 +103,24 @@ i = 4 index = 1 // 1 = 1  -> k = 1 % 1 = 0
 """
 
 
+class SolutionTest:
+   def getPermutation(self, n: int, k: int) -> str:
+       """
+       O(n^2)
+       O(n)
+       """
+       nums = list(range(1, n + 1))
+       size = n
+       res = ''
+       k -= 1
+       while size > 0:
+           size -= 1
+           index, k = divmod(k, math.factorial(size))
+           res += str(nums[index])
+           nums.remove(nums[index])
+       return res
+
+
 class SolutionWisdom:
     def getPermutation(self, n: int, k: int) -> str:
         digits = []

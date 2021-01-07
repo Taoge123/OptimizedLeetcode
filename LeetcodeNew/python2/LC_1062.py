@@ -29,6 +29,67 @@ if s1[i] == s2[j]:
 """
 
 
+class SolutionRolling:
+    def longestRepeatingSubstring(self, S: str) -> str:
+        n = len(S)
+        # convert string to array of integers
+        # to implement constant time slice
+        nums = [ord(S[i]) - ord('a') for i in range(n)]
+        # base value for the rolling hash function
+        base = 26
+        # self.mod value for the rolling hash function to avoid overflow
+        mod = 2 ** 24
+
+        # binary search, L = repeating string length
+        left, right = 1, n
+        while left < right:
+            mid = left + (right - left) // 2
+            if self.search(mid, nums, base, mod) != -1:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left - 1
+
+    def search(self, L, nums, base, mod):
+        n = len(nums)
+        h = 0
+        # init window
+        for i in range(L):
+            h = (h * base + nums[i]) % mod
+        visited = {h}
+        aL = pow(base, L) % mod
+        for start in range(1, n - L + 1):
+            # compute rolling hash
+            h = (h * base - nums[start - 1] * aL + nums[start + L - 1]) % mod
+            if h in visited:
+                return start
+            visited.add(h)
+        return -1
+
+
+class Solution:
+    def longestRepeatingSubstring(self, S):
+        lps = [0] * len(S)
+        res = max((self._kmp(S, lps, i) for i in range(len(S))))
+        return res
+
+    def _kmp(self, s, lps, start):
+        i, j, res = start, start + 1, 0
+        lps[i] = 0
+        while j < len(s):
+            if s[i] == s[j]:
+                lps[j] = i - start + 1
+                if lps[j] > res: res = lps[j]
+                i, j = i + 1, j + 1
+            elif i > lps[start] + start:
+                i = lps[i - 1] + start
+            else:
+                lps[j] = 0
+                j += 1
+        return res
+
+
 class Solution:
     def longestRepeatingSubstring(self, S: str) -> int:
         n = len(S)

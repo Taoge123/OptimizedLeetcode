@@ -1,4 +1,48 @@
-class SolutionTony:
+
+class Solution:
+    def longestPrefix(self, s: str) -> str:
+        left, right = 0, 0
+        power = 1
+        idx = 0
+        mod = 10 ** 9
+
+        i, j = 0, len(s) - 1
+        while j > 0:
+            first = ord(s[i]) - ord('a')
+            last = ord(s[j]) - ord('a')
+
+            left = (left * 26 + first) % mod
+            right = (right + power * last) % mod
+            power = power * 26 % mod
+            if left == right:
+                idx = i + 1
+
+            i += 1
+            j -= 1
+
+        return s[0:idx]
+
+
+
+class SolutionRolling2:
+    def longestPrefix(self, s):
+        res = 0
+        left, right = 0, 0
+        base = 128
+        mod = 10 ** 9 + 7
+
+        for i in range(len(s) - 1):
+            left = (left * base + ord(s[i])) % mod
+            right = (right + pow(base, i, mod) * ord(s[-i - 1])) % mod
+
+            if left == right:
+                res = i + 1
+
+        return s[:res]
+
+
+
+class SolutionKMP:
     def longestPrefix(self, s: str) -> str:
         table = self.LPS(s)
         last = table[-1]
@@ -24,20 +68,6 @@ class SolutionTony:
 
 
 
-class Solution:
-    def longestPrefix(self, s):
-        res = 0
-        left, right = 0, 0
-        mod = 10 ** 9 + 7
-
-        for i in range(len(s) - 1):
-            left = (left * 128 + ord(s[i])) % mod
-            right = (right + pow(128, i, mod) * ord(s[-i - 1])) % mod
-
-            if left == right:
-                res = i + 1
-
-        return s[:res]
 
 
 class SolutionLee:

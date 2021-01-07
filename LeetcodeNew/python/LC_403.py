@@ -32,6 +32,27 @@ Return false. There is no way to jump to the last stone as
 the gap between the 5th and 6th stone is too large.
 """
 
+import functools
+
+class SolutionTD:
+    def canCross(self, stones) -> bool:
+        target = stones[-1]
+        stones = set(stones)
+
+        @functools.lru_cache(None)
+        def dfs(i, speed):
+            if i == target:
+                return True
+            for jump in [speed + 1, speed, speed - 1]:
+                if jump != 0 and i + jump in stones:
+                    if dfs(i + jump, jump):
+                        return True
+            return False
+
+        return dfs(0, 0)
+
+
+
 
 class Solution:
     def canCross(self, stones):
@@ -50,6 +71,27 @@ class Solution:
         return len(table[stones[-1]]) > 0
 
 
+
+class SolutionBFS:
+    def canCross(self, stones) -> bool:
+        if stones[1] != 1: return False
+        if len(stones) < 3:
+            return True
+        target = stones[-1]
+        mem = set(stones)
+        q = [(1, 1)]
+        visit = {(1, 1)}
+        p = 0
+        while p < len(q):
+            i, j = q[p]
+            for dis in (j - 1, j, j + 1):
+                if dis > 0 and i + dis in mem and (i + dis, dis) not in visit:
+                    if i + dis == target:
+                        return True
+                    visit.add((i + dis, dis))
+                    q.append((i + dis, dis))
+            p += 1
+        return False
 
 
 class Solution2:

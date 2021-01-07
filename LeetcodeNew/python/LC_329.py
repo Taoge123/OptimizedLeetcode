@@ -26,6 +26,7 @@ Output: 4
 Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 """
 
+import functools
 
 class Solution:
     def longestIncreasingPath(self, matrix):
@@ -55,8 +56,23 @@ class Solution:
         return res
 
 
+class SolutionDFS2:
+    def longestIncreasingPath(self, matrix):
+        if not matrix: return 0
+        h, w = len(matrix), len(matrix[0])
 
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            cur = matrix[i][j]
+            res = 0
 
+            for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+                if 0 <= x < h and 0 <= y < w and cur < matrix[x][y]:
+                    res = max(res, dfs(x, y))
+
+            return res + 1
+
+        return max(dfs(i, j) for i in range(h) for j in range(w))
 
 
 

@@ -24,33 +24,48 @@ S consists of lowercase English letters.
 
 import collections
 
-class SolutionTLE:
-    def longestDupSubstring(self, S):
-        left, right = 0, len(S) - 1
-        res = ''
-
-        while left < right:
-            mid = (left + right) // 2
-            temp = self.check(mid, S)
-            if not temp:
-                right = mid
-            else:
-                left = mid + 1
-                res = temp
-        return res
-
-    def check(self, num, S):
-        visited = set()
-        for i in range(len(S) - num + 1):
-            if S[i:i+num] in visited:
-                return S[i: i+num]
-            visited.add(S[i: i+num])
-        return None
-
-
-
 
 class Solution:
+    def longestDupSubstring(self, S: str) -> str:
+        n = len(S)
+        base = 26
+        mod = 2 ** 63 - 1
+        nums = [ord(S[i]) - ord('a') for i in range(n)]
+
+        # bin search
+        left, right = 1, n
+        res = 0
+        while left < right:
+            mid = left + (right - left) // 2
+            start = self.search(mid, nums, base, mod)
+            if start != -1:
+                left = mid + 1
+                res = start
+            else:
+                right = mid
+        return S[res:res + left - 1]
+
+        # here L is the len of window
+
+    # a is the num of chars
+    def search(self, L, nums, base, mod):
+        n = len(nums)
+        h = 0
+        # init window
+        for i in range(L):
+            h = (h * base + nums[i]) % mod
+        visited = {h}
+        aL = pow(base, L) % mod
+        for start in range(1, n - L + 1):
+            # compute rolling hash
+            h = (h * base - nums[start - 1] * aL + nums[start + L - 1]) % mod
+            if h in visited:
+                return start
+            visited.add(h)
+        return -1
+
+
+class SolutionCheckCollision:
     def longestDupSubstring(self, s: str) -> str:
         left, right = 0, len(s)
         res = ''
@@ -119,43 +134,29 @@ xxxxxxxxxxxxxxxxxxxxxx
 """
 
 
-class SolutionOfficial:
 
-    def longestDupSubstring(self, S: str) -> str:
-        n = len(S)
-        self.nums = [ord(S[i]) - ord('a') for i in range(n)]
+class SolutionTLE:
+    def longestDupSubstring(self, S):
+        left, right = 0, len(S) - 1
+        res = ''
 
-        left, right = 1, n
-        while left <= right:
-            mid = left + (right - left) // 2
-            if self.search(S, mid) != -1:
-                left = mid + 1
+        while left < right:
+            mid = (left + right) // 2
+            temp = self.check(mid, S)
+            if not temp:
+                right = mid
             else:
-                right = mid - 1
+                left = mid + 1
+                res = temp
+        return res
 
-        start = self.search(S, left - 1)
-        return S[start: start + left - 1]
-
-    def search(self, S, len_):
-        n = len(S)
-        base = 26
-        MOD = 2 ** 32
-
-        # compute the hash of string S[:mid]
-        hash_ = 0
-        for i in range(len_):
-            hash_ = (hash_ * base + self.nums[i]) % MOD
-
-        # already visited hashes of strings of length mid
-        visited = {hash_}
-        # const value to be used often : a**mid % mod
-        for start in range(1, n - len_ + 1):
-            # compute rolling hash in O(1) time
-            hash_ = (hash_ * base - self.nums[start - 1] * pow(base, len_, MOD) + self.nums[start + len_ - 1]) % MOD
-            if hash_ in visited:
-                return start
-            visited.add(hash_)
-        return -1
+    def check(self, num, S):
+        visited = set()
+        for i in range(len(S) - num + 1):
+            if S[i:i+num] in visited:
+                return S[i: i+num]
+            visited.add(S[i: i+num])
+        return None
 
 
 S = "bababababbababababbababbanannababbab"
