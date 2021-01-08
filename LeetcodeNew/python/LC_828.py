@@ -6,11 +6,11 @@ class Solution:
 
         res = 0
         for i in range(len(s)):
-            c = ord(s[i]) - ord('A')
-            contribution[c] = i + 1 - lastPos[c]
+            num = ord(s[i]) - ord('A')
+            contribution[num] = i + 1 - lastPos[num]
             for j in range(26):
                 res += contribution[j]
-            lastPos[c] = i + 1
+            lastPos[num] = i + 1
 
         return res
 

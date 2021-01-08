@@ -21,50 +21,51 @@
 相应地j和k都是单调变动的。所以整体o(N)的复杂度就可以解决这题。
 
 
-[X X X] {[X X X] X X X} X X X
-     i       j       k
-            lower  upper bound
-
-sum[i+1:j] >= sum[0:i]
-res += k - j + 1
-
-find the largest k to satisfy below:
-sum[i+1:k] <= sum[k+1:n-1]
-presum[k] - presum[i] <= presum[n-1] - presum[k]
-presum[k] <= 0.5 * (presum[i] + presum[n-1])
-
-Tony
-sum[:i] < sum[i+1:j] -> then we can get j, which will be the lower bound
-sum[i+1:k] <= sum[k+1:] -> k will be the upper bound
-presum[n-1] - presum[k] >= presum[k] - presum[i] -> then we are looking for k
-
 """
 
 
 
 import bisect
 
+"""
+2 ** 32
+
+log 2 ** 64 = 64
+
+ 1. 3. 5  7  12 12  
+[1, 2, 2, 2, 5, 0]
+
+  left.   mid.     right
+ X X X [X X X X]  X X X X X
+ i      j     k   
+
+
+sum[j:k] <= sum[k+1:n-1]
+presum[k] - presum[j-1] <= presum[n-1] - presum[k]
+
+presum[k] <= (presum[j-1] + presum[n-1]) * 0.5
+
+"""
+
 
 class Solution:
-   def waysToSplit(self, nums) -> int:
-       """
-       O(nlogn)/O(n)
-       """
-       presum = [0]
-       for i in range(len(nums)):
-           presum.append(presum[-1] + nums[i])
-       res = 0
+    def waysToSplit(self, nums) -> int:
 
-       for i in range(1, len(nums) - 1):
-           first = presum[i]
-           if 3 * first > presum[-1]: break
+        mod = 10 ** 9 + 7
+        presum = [0]
+        res = 0
+        for i in range(len(nums)):
+            presum.append(presum[-1] + nums[i])
 
-           low = bisect.bisect_left(presum, 2 * first, i + 1, len(nums))
-           high = bisect.bisect_left(presum, (presum[-1] - first) // 2 + first + 1, low, len(nums))
-           res += high - low
-           res %= (10 ** 9 + 7)
+        for i in range(1, len(nums) - 1):
+            first = presum[i]
+            if first * 3 > presum[-1]:
+                break
 
-       return res % (10 ** 9 + 7)
+            low = bisect.bisect_left(presum, first * 2, i + 1, len(presum) - 1)
+            high = bisect.bisect_right(presum, (presum[-1] + presum[i]) // 2, low, len(presum) - 1) - 1
+            res += high - low + 1
+            res %= mod
 
-
+        return res % mod
 
