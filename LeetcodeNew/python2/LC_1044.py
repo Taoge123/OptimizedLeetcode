@@ -32,7 +32,6 @@ class Solution:
         mod = 2 ** 63 - 1
         nums = [ord(S[i]) - ord('a') for i in range(n)]
 
-        # bin search
         left, right = 1, n
         res = 0
         while left < right:
@@ -45,19 +44,14 @@ class Solution:
                 right = mid
         return S[res:res + left - 1]
 
-        # here L is the len of window
-
-    # a is the num of chars
     def search(self, L, nums, base, mod):
         n = len(nums)
         h = 0
-        # init window
         for i in range(L):
             h = (h * base + nums[i]) % mod
         visited = {h}
         aL = pow(base, L) % mod
         for start in range(1, n - L + 1):
-            # compute rolling hash
             h = (h * base - nums[start - 1] * aL + nums[start + L - 1]) % mod
             if h in visited:
                 return start

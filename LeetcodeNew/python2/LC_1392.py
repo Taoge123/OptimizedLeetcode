@@ -1,3 +1,4 @@
+
 class Solution:
     def longestPrefix(self, s: str) -> str:
         left, right = 0, 0
