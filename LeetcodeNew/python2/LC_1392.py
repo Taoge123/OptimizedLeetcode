@@ -1,18 +1,36 @@
-
 class Solution:
     def longestPrefix(self, s: str) -> str:
         left, right = 0, 0
         power = 1
         idx = 0
         mod = 10 ** 9
+        nums = [ord(s[i]) - ord('a') for i in range(len(s))]
+
+        for i in range(len(s) - 1):
+
+            left = (left * 26 + nums[i]) % mod
+            right = (right + power * nums[-i - 1]) % mod
+            power = power * 26 % mod
+            if left == right:
+                idx = i + 1
+
+        return s[0:idx]
+
+
+
+class SolutionSame:
+    def longestPrefix(self, s: str) -> str:
+        left, right = 0, 0
+        power = 1
+        idx = 0
+        mod = 10 ** 9
+        nums = [ord(s[i]) - ord('a') for i in range(len(s))]
 
         i, j = 0, len(s) - 1
         while j > 0:
-            first = ord(s[i]) - ord('a')
-            last = ord(s[j]) - ord('a')
 
-            left = (left * 26 + first) % mod
-            right = (right + power * last) % mod
+            left = (left * 26 + nums[i]) % mod
+            right = (right + power * nums[j]) % mod
             power = power * 26 % mod
             if left == right:
                 idx = i + 1

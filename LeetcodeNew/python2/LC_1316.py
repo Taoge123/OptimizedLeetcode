@@ -35,4 +35,20 @@ class Solution:
 
 
 
+class Solution2:
+    def distinctEchoSubstrings(self, text: str) -> int:
+        table = {}
+        res = set()
+        for i, v in enumerate(text):
+            if v not in table:
+                table[v] = [i]
+            else:
+                for j in table[v]:
+                    if text[j:i] == text[i:i+i-j]:
+                        res.add(text[j:i])
+                table[v].append(i)
+
+        print(res)
+        return len(res)
+
 

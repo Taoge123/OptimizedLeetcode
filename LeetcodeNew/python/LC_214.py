@@ -12,6 +12,26 @@ Input: "abcd"
 Output: "dcbabcd"
 """
 
+
+class SolutionRollingHash:
+    def shortestPalindrome(self, s: str) -> str:
+        base = 26
+        aL = 1
+        idx = 0
+        mod = 10 ** 9 + 7
+        hash1, hash2 = 0, 0
+        nums = [ord(s[i]) - ord('a') for i in range(len(s))]
+
+        for i in range(len(s)):
+            hash1 = (hash1 * base + nums[i]) % mod
+            hash2 = (hash2 + nums[i] * aL) % mod
+            if (hash1 == hash2):
+                idx = i
+            aL = aL * base % mod
+        return s[idx + 1:][::-1] + s
+
+
+
 class Solution:
     def shortestPalindrome(self, s: str) -> str:
         if not s or len(s) == 1:
