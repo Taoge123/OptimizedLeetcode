@@ -1,3 +1,15 @@
+"""
+As you can swim infinite distance in zero time, the problem actually doesn't count time, but the minimum of the largest value in any path from (0,0) to (n-1,n-1).
+ans = min(max(point for point in path))
+
+Thus, we can use something like Dijkstra to expand our path by choosing the minimal reachable node. And we can use a minimal heap to acquire that minimal reachable node.
+
+Starting from (0,0), each time we pop the smallest node from the heap and then push neighboring and unvisited nodes into the heap. Once our popped node is at (n-1,n-1),
+we finished our path. Each time we update our ans as t = max(t, node's depth).
+
+"""
+
+
 
 import heapq
 
@@ -30,7 +42,7 @@ class Solution:
 
 
 
-class SolutionBS:
+class SolutionDFS:
     def swimInWater(self, grid) -> int:
         n = len(grid)
         left = 0
@@ -38,13 +50,13 @@ class SolutionBS:
         while left < right:
             mid = (right - left) // 2 + left
             visited = [[0 for i in range(n)] for j in range(n)]
-            if self.helper(grid, visited, 0, 0, grid[n - 1][n - 1], mid):
+            if self.dfs(grid, visited, 0, 0, grid[n - 1][n - 1], mid):
                 right = mid
             else:
                 left = mid + 1
         return left
 
-    def helper(self, grid, visited, i, j, target, time):
+    def dfs(self, grid, visited, i, j, target, time):
         if i < 0 or j < 0 or i >= len(grid) or j >= len(grid[0]) or visited[i][j] or grid[i][j] > time:
             return False
         visited[i][j] = True
@@ -53,7 +65,49 @@ class SolutionBS:
         for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             x = i + dx
             y = j + dy
-            if self.helper(grid, visited, x, y, target, time):
+            if self.dfs(grid, visited, x, y, target, time):
                 return True
         return False
 
+
+
+
+class SolutionBFS:
+    def swimInWater(self, grid) -> int:
+        n = len(grid)
+        self.directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        left = 0
+        right = n * n - 1
+        while left < right:
+            mid = (right - left) // 2 + left
+            visited = set()
+            if self.bfs(grid, mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+    def bfs(self, grid, time):
+        if grid[0][0] > time:
+            return False
+
+        queue = collections.deque()
+        queue.append([0, 0])
+        visited = set()
+        visited.add((0, 0))
+
+        n = len(grid)
+
+        while queue:
+            i, j = queue.popleft()
+
+            for dx, dy in self.directions:
+                x = dx + i
+                y = dy + j
+                if 0 <= x < n and 0 <= y < n and grid[x][y] <= time and (x, y) not in visited:
+                    if x == n - 1 and y == n - 1:
+                        return True
+                    visited.add((x, y))
+                    queue.append((x, y))
+
+        return False

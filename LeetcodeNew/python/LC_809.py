@@ -1,3 +1,30 @@
+class Solution_:
+
+    def check(self, s, w):
+        # lllll
+        n, m = len(s), len(w)
+        j = 0
+        for i in range(n):
+            if j < m and s[i] == w[j]:
+                j += 1
+            elif s[i - 1:i + 2] != s[i] * 3 != s[i - 2:i + 1]:
+                return False
+
+        return j == m
+
+    def expressiveWords(self, S, words):
+        """
+        :type S: str
+        :type words: List[str]
+        :rtype: int
+        """
+
+        res = 0
+        for w in words:
+            res += self.check(S, w)
+        return res
+
+
 
 class Solution:
     def expressiveWords(self, S: str, words) -> int:

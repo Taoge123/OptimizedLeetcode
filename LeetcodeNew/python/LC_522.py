@@ -43,6 +43,31 @@ class Solution:
 
 
 
+class Solution2:
+   def is_common(self, s1, s2):
+       j = 0
+       for i in range(len(s2)):
+           if j < len(s1) and s1[j] == s2[i]: j += 1
+       if j == len(s1): return True
+       return False
+
+   def findLUSlength(self, strs) -> int:
+       """O(m*n^2)/ O(1)
+       n: len(strs)
+       m: max(len(s) for s in strs)
+       """
+       strs.sort(key=lambda x: len(x), reverse=True)
+       for i in range(len(strs)):
+           for j in range(len(strs) + 1):
+               if i == j:
+                   continue
+               if j == len(strs) or self.is_common(strs[i], strs[j]):
+                   break
+           if j == len(strs):
+               return len(strs[i])
+
+       return -1
+
 strs = ["aba", "cdc", "eae"]
 a = Solution()
 print(a.findLUSlength(strs))

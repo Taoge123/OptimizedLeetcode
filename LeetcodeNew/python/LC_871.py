@@ -117,3 +117,39 @@ class Solution1:
             if d >= target: return i # 就是返回能到达终点的最小i
         return -1
 
+
+
+class SolutionDFS:
+    def minRefuelStops(self, target: int, startFuel: int, stations) -> int:
+        if startFuel >= target:
+            return 0
+        if not stations:
+            return -1
+
+        memo = {}
+        res = self.dfs(target, stations, 0, startFuel, 0, memo)
+        if res <= len(stations):
+            return res
+        else:
+            return -1
+
+    # totalDistance = distance covered when we arrive at curStation
+    # curFuel = Fuel in the tank when we arrive at curStation
+    def dfs(self, target, stations, curStation, curFuel, totalDistance, memo):
+        if target <= totalDistance + curFuel:
+            return 0
+
+        if (curStation, curFuel, totalDistance) in memo:
+            return memo[(curStation, curFuel, totalDistance)]
+
+        res = len(stations) + 1
+        for i in range(curStation, len(stations)):
+            if curFuel + totalDistance >= stations[i][0]:
+                newFuel = curFuel + stations[i][1] - (stations[curStation][0] - totalDistance)
+                res = min(res, 1 + self.dfs(target, stations, i + 1, newFuel,
+                                            stations[curStation][0], memo))
+
+        memo[(curStation, curFuel, totalDistance)] = res
+
+        return res
+

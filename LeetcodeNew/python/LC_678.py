@@ -76,6 +76,7 @@ One pass O(N) time, Space O(1)
 
 """
 
+import functools
 
 class Solution:
     def checkValidString(self, s: str) -> bool:
@@ -99,6 +100,56 @@ class Solution:
                         count += 1
         return not stack
 
+    def checkValidString_dptopdown(self, s: str) -> bool:
+
+        @functools.lru_cache(maxsize=None)
+        def valid(i, j):
+            if i > j or (i == j and s[i] == '*'):
+                return True
+
+            if s[i] in {"(", "*"} and s[j] in {")", "*"}:
+                if valid(i + 1, j - 1):
+                    return True
+                else:
+                    for k in range(i + 1, j):
+                        if valid(i, k) and valid(k + 1, j):
+                            return True
+            return False
+
+        return valid(0, len(s) - 1)
+
+    # greedy
+    # two counter:
+    # max_open: count "*" as open
+    # max_open always remain >= 0
+    # min_open: count "*" as close
+    # min_open == 0 in the end and reset to 0 if min_open < 0 at every "*"
+    # time complexity: O(n)
+    # space complexity: O(1)
+    # improvement:
+    # for the case like (*)(, * can't be used by last (
+    # if * is set ) and min_open < 0, min_open need to be reset right away.
+    # since ) can be used for previous open (
+    # min_open = max(min_open, 0)
+    # 1. open parenthesis can only match with close parenthesis later:
+    # a. open parenthesis count always >= close parenthesis
+    # b. min_open reset 0 to avoid it be used by previous (
+    def checkValidString2(self, s: str) -> bool:
+        min_open, max_open = 0, 0
+        for ch in s:
+            # max_open: assume all "(" and "*" are open
+            max_open = max_open + 1 if ch in {'(', '*'} else max_open - 1
+            # there are open parenthesis can't be closed
+            # ensure we have enough open parenthesis
+            if max_open < 0: return False
+            # min_open: only count "(" as open
+            min_open = min_open + 1 if ch == '(' else min_open - 1
+            # for the case like (*)(, * can't be used by (.
+            # if * is set ) and min_open < 0, min_open need to be reset right away.
+            # ensure since ) can only be used for open ( before it and ensure close parenthesis enough
+            min_open = max(min_open, 0)
+
+        return min_open == 0
 
 
 class SolutionWisdom:
@@ -172,6 +223,7 @@ class SolutionLee:
             if maxi < 0:
                 return False
         return mini == 0
+
 
 class Solution:
     def checkValidString(self, s):
