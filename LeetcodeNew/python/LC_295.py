@@ -51,6 +51,33 @@ class MedianFinder:
             return self.large[0]
 
 
+class MedianFinder11:
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.small = []
+        self.big = []
+
+    def addNum(self, num):
+        """
+        :type num: int
+        :rtype: None
+        """
+        heapq.heappush(self.small, -heapq.heappushpop(self.big, num))
+        if len(self.big) < len(self.small):
+            heapq.heappush(self.big, -heappop(self.small))
+
+    def findMedian(self):
+        """
+        :rtype: float
+        """
+        # print self.small, self.big
+        if len(self.big) == len(self.small):
+            return float(self.big[0] - self.small[0]) / 2
+        else:
+            return self.big[0]
+
 class MedianFinder2:
     def __init__(self):
         self.med, self.odd, self.heaps = 0, 0, [[], []]

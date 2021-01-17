@@ -147,8 +147,9 @@ class Solution3:
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == '1':
-                    for d in directions:
-                        x, y = i + d[0], j + d[1]
+                    for dx, dy in directions:
+                        x = i + dx
+                        y = j + dy
                         if self.isValid(grid, x, y) and grid[x][y] == '1':
                             uf.union(i * n + j, x * n + y)
         return uf.count

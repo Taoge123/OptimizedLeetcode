@@ -54,28 +54,102 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
 """
 import collections, heapq
 
+
 class Solution:
     def shortestDistance(self, maze, start, destination):
-        m, n = len(maze), len(maze[0])
-        dp = collections.defaultdict(int)
-        queue = [(0, start[0], start[1])]
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-        while queue:
-            dist, i, j = heapq.heappop(queue)
+        m, n, heap, visited = len(maze), len(maze[0]), [(0, start[0], start[1])], set()
+        while heap:
+            dist, i, j = heapq.heappop(heap)
+            if (i, j) in visited:
+                continue
+            else:
+                visited.add((i, j))
             if [i, j] == destination:
                 return dist
 
-            for dir in directions:
-                step, x, y = dist, i, j
-                while 0 <= x + dir[0] < m and 0 <= y + dir[1] < n and maze[x + dir[0]][y + dir[1]] != 1:
-                    x += dir[0]
-                    y += dir[1]
-                    step += 1
-                if (x, y) not in dp.keys() or step < dp[(x, y)]:
-                    dp[(x, y)] = step
-                    heapq.heappush(queue, (step, x, y))
+            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                x, y, d = i, j, 0
+                # while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] != 1:
+                #     x += dx
+                #     y += dy
+                #     d += 1
+                while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                    x += dx
+                    y += dy
+                    d += 1
+                x -= dx
+                y -= dy
+                d -= 1
+
+                if (x, y) not in visited:
+                    heapq.heappush(heap, (dist + d, x, y))
         return -1
+
+
+class Solution2:
+    def shortestDistance(self, maze, start, destination) -> int:
+        m, n = len(maze), len(maze[0])
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        heap = [(0, start[0], start[1])]
+        distance = collections.defaultdict(int)
+
+        while heap:
+            dist, i, j = heapq.heappop(heap)
+            if [i, j] == destination:
+                return dist
+            for dx, dy in directions:
+                x, y, step = i, j, dist
+                while 0 <= x < m and 0 <= y < n and maze[x][y] == 0:
+                    x += dx
+                    y += dy
+                    step += 1
+                x -= dx
+                y -= dy
+                step -= 1
+                if (x, y) not in distance or step < distance[(x, y)]:
+                    distance[(x, y)] = step
+                    heapq.heappush(heap, (step, x, y))
+        return -1
+
+
+
+
+class Solution22:
+    def shortestDistance(self, maze, start, destination) -> int:
+        m, n = len(maze), len(maze[0])
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        heap = [(0, start[0], start[1])]
+        distance = collections.defaultdict(int)
+
+        while heap:
+            dist, i, j = heapq.heappop(heap)
+            if [i, j] == destination:
+                return dist
+            for dx, dy in directions:
+                x, y, step = i, j, dist
+                while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] != 1:
+                    x += dx
+                    y += dy
+                    step += 1
+                if (x, y) not in distance or step < distance[(x, y)]:
+                    distance[(x, y)] = step
+                    heapq.heappush(heap, (step, x, y))
+        return -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

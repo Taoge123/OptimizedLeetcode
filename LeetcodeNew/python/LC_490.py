@@ -83,28 +83,52 @@ class Solution:
 
 class Solution2:
     def hasPath(self, maze, start, destination) -> bool:
-
+        queue = collections.deque()
+        queue.append([start[0], start[1]])
         visited = set()
         visited.add((start[0], start[1]))
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        m, n = len(maze), len(maze[0])
-        queue = collections.deque([[start[0], start[1]]])
 
         while queue:
             i, j = queue.popleft()
             if [i, j] == destination:
                 return True
-            for dir in directions:
+            for dx, dy in directions:
                 x, y = i, j
                 while 0 <= x < len(maze) and 0 <= y < len(maze[0]) and maze[x][y] == 0:
-                    x += dir[0]
-                    y += dir[1]
-                x -= dir[0]
-                y -= dir[1]
+                    x += dx
+                    y += dy
+                x -= dx
+                y -= dy
 
                 if (x, y) not in visited:
                     visited.add((x, y))
                     queue.append((x, y))
+
+
+
+class Solution22:
+    def hasPath(self, maze, start, destination) -> bool:
+        queue = collections.deque()
+        queue.append([start[0], start[1]])
+        visited = set()
+        visited.add((start[0], start[1]))
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+        while queue:
+            i, j = queue.popleft()
+            if [i, j] == destination:
+                return True
+            for dx, dy in directions:
+                x, y = i, j
+                while 0 <= x + dx < len(maze) and 0 <= y + dy < len(maze[0]) and maze[x + dx][y + dy] == 0:
+                    x += dx
+                    y += dy
+
+                if (x, y) not in visited:
+                    visited.add((x, y))
+                    queue.append((x, y))
+
 
 
 

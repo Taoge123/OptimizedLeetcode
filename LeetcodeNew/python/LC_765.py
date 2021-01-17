@@ -53,7 +53,7 @@ class UnionFind:
 
     def find(self, i):
         if self.parent[i] == i:
-            return i
+            return self.parent[i]
         return self.find(self.parent[i])
 
     def union(self, i, j):
