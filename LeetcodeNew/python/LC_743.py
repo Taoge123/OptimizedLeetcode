@@ -38,23 +38,28 @@ class SolutionBellmanFord:
         return max(dp) if max(dp) < float('inf') else -1
 
 
+
 class Solution:
-    def networkDelayTime(self, times, N: int, K: int) -> int:
+    def networkDelayTime(self, times, n: int, k: int) -> int:
+
         graph = collections.defaultdict(dict)
         for u, v, w in times:
             graph[u][v] = w
 
-        heap = [(0, K)]
-        dist = {}
+        heap = []
+        heapq.heappush(heap, (0, k))
+        distance = collections.defaultdict(int)
+
         while heap:
-            time, u = heapq.heappop(heap)
-            if u not in dist:
-                dist[u] = time
-                for v in graph[u]:
-                    heapq.heappush(heap, (dist[u] + graph[u][v], v))
+            time, node = heapq.heappop(heap)
+            if node not in distance:
+                distance[node] = time
+                for nei in graph[node]:
+                    heapq.heappush(heap, (distance[node] + graph[node][nei], nei))
 
-        return max(dist.values()) if len(dist) == N else -1
-
+        if len(distance) != n:
+            return -1
+        return max(distance.values())
 
 
 class SolutionDFS:

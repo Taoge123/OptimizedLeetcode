@@ -81,18 +81,22 @@ class SolutionBFS:
 
 
 
-
-
 class SolutionTony:
     def solve(self, board) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+
         if len(board) == 0:
             return
+
         m, n = len(board), len(board[0])
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
         for i in range(m):
             if board[i][0] == 'O':
                 self.bfs(board, i, 0)
+
             if board[i][n - 1] == 'O':
                 self.bfs(board, i, n - 1)
 
@@ -101,8 +105,6 @@ class SolutionTony:
                 self.bfs(board, 0, j)
             if board[m - 1][j] == 'O':
                 self.bfs(board, m - 1, j)
-
-        print(board)
 
         for i in range(m):
             for j in range(n):
@@ -118,20 +120,17 @@ class SolutionTony:
         board[i][j] = '#'
 
         while queue:
-            node = queue.popleft()
+            i, j = queue.popleft()
             for dx, dy in self.directions:
-                x = node[0] + dx
-                y = node[1] + dy
+                x = i + dx
+                y = j + dy
                 if x < 0 or y < 0 or x >= m or y >= n:
                     continue
-
                 if board[x][y] != 'O':
                     continue
 
                 board[x][y] = '#'
                 queue.append([x, y])
-
-
 
 
 board = [["O","O","O"],["O","O","O"],["O","O","O"]]

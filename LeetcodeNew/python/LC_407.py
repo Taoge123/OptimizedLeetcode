@@ -34,7 +34,9 @@ import heapq
 
 class Solution:
     def trapRainWater(self, heightMap):
-        m, n, heap, trapped = len(heightMap), len(heightMap and heightMap[0]), [], 0
+        m, n = len(heightMap), len(heightMap[0])
+        heap = []
+        trapped = 0
         for i in range(m):
             for j in range(n):
                 if i in {0, m - 1} or j in {0, n - 1}:
@@ -55,7 +57,7 @@ class Solution:
 class SolutionTony:
     def trapRainWater(self, nums) -> int:
         m, n = len(nums), len(nums[0])
-        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         heap = []
         for i in range(m):
             for j in range(n):
@@ -66,7 +68,7 @@ class SolutionTony:
         res = 0
         while heap:
             h, i, j = heapq.heappop(heap)
-            for dx, dy in self.directions:
+            for dx, dy in directions:
                 x = i + dx
                 y = j + dy
                 if x < 0 or y < 0 or x >= m or y >= n or nums[x][y] == -1:

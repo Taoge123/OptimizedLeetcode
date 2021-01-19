@@ -14,9 +14,30 @@ of course, we should handled the different situation with the starting node
 
 import collections
 
+"""
+oxo
+xoo
+
+
+oooxooooo
+ooxoooooo
+oxooooooo
+xoooooooo
+ooooooooo
+
+200 -> 2500
+
+19900
+
+1. expand by layer
+2. 19900
+
+"""
+
 
 class Solution:
-    def isEscapePossible(self, blocked, source, target) -> bool:
+    def isEscapePossible(self, blocked: List[List[int]], source: List[int], target: List[int]) -> bool:
+
         if not blocked:
             return True
 
@@ -25,32 +46,38 @@ class Solution:
         return self.bfs(blocked, source, target) and self.bfs(blocked, target, source)
 
     def bfs(self, blocked, source, target):
-        step = 0
-        queue = collections.deque([source])
+        m = n = 10 ** 6
+        queue = collections.deque()
+        queue.append(source)
         visited = set()
+        visited.add(tuple(source))
+        step = 0
+
         while queue:
             size = len(queue)
-            for i in range(size):
+            for _ in range(size):
                 i, j = queue.popleft()
                 if [i, j] == target:
                     return True
+
                 for dx, dy in self.directions:
                     x = i + dx
                     y = j + dy
-                    if x < 0 or x >= 10 ** 6 or y < 0 or y >= 10 ** 6 or (x, y) in visited:
+                    if x < 0 or x >= m or y < 0 or y >= n or (x, y) in visited or (x, y) in blocked:
                         continue
-                    if (x, y) in blocked:
-                        continue
-                    visited.add((x, y))
                     queue.append((x, y))
+                    visited.add((x, y))
 
             step += 1
             if step == len(blocked):
-                break
+                return True
+            if len(visited) >= 20000:
+                return True
 
             if len(queue) == 0:
-                return False
-        return True
+                break
+
+        return False
 
 
 
