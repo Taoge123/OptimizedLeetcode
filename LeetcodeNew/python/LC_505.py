@@ -87,6 +87,7 @@ class Solution:
         return -1
 
 
+
 class Solution2:
     def shortestDistance(self, maze, start, destination) -> int:
         m, n = len(maze), len(maze[0])
