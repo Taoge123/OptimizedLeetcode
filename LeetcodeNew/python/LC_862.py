@@ -1,5 +1,6 @@
 
 """
+LC209 ++++++
 
 https://buptwc.com/2018/07/02/Leetcode-862-Shortest-Subarray-with-Sum-at-Least-K/
 
@@ -84,6 +85,9 @@ class Solution:
         for i, num in enumerate(A):
             summ += num
             # 思路中第2步, 满足条件下选最大index, 前面都不需要了
+            # store the index the B in the deque, so that all index in deque are min
+            # KEY 2 use B[0] to storet min value, so that B[i] can check whether it is able to find the possible answer
+            # ==>  make sure deque is increasing, then it becomes 209
             while queue and summ - queue[0][1] >= K:
                 res = min(res, i + 1 - queue.popleft()[0])
             # 思路中第3步， 保证queue是递增的, 只要前面出现>=最新summ, 都pop

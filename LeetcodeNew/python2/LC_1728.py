@@ -1,3 +1,8 @@
+"""
+https://leetcode.com/problems/cat-and-mouse-ii/discuss/1021560/Answer%3A-Why-move-68-rounds-at-most-(w-Solutions%3A-BFS-60ms-DP-3700ms-BFS%2BDP-1540-ms
+
+"""
+
 import functools
 
 class Solution:

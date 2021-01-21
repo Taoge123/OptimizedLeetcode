@@ -11,7 +11,7 @@ Empty cells are indicated by the character '.'.
 
 
 class Solution:
-    def solveSudoku(self, board: List[List[str]]) -> None:
+    def solveSudoku(self, board) -> None:
         m, n = len(board), len(board[0])
         for i in range(m):
             for j in range(n):

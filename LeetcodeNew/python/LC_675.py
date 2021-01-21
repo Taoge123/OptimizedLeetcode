@@ -2,53 +2,56 @@ import collections
 import heapq
 
 
-class Solution2:
+class SolutionHeap:
     def cutOffTree(self, forest) -> int:
-        if not forest or len(forest) == 0:
-            return 0
-        m, n = len(forest), len(forest[0])
 
+        m, n = len(forest), len(forest[0])
         heap = []
-        for i in range(len(forest)):
-            for j in range(len(forest[0])):
-                if forest[i][j] > 1:
+
+        for i in range(m):
+            for j in range(n):
+                if forest[i][j] > 0:
                     heapq.heappush(heap, (forest[i][j], i, j))
 
-        start = [0, 0]
+        i, j = 0, 0
         res = 0
         while heap:
-            dest = heapq.heappop(heap)
-            step = self.minStep(forest, start, dest, m, n)
+            num, destx, desty = heapq.heappop(heap)
+            step = self.bfs(forest, i, j, destx, desty)
+            # print(i, j, destx, desty)
             if step < 0:
                 return -1
+
             res += step
-            start[0] = dest[1]
-            start[1] = dest[2]
+            i, j = destx, desty
+
         return res
 
-    def minStep(self, forest, start, dest, m, n):
-        step = 0
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    def bfs(self, forest, i, j, destx, desty):
+        m, n = len(forest), len(forest[0])
         queue = collections.deque()
-        queue.append(start)
-        visited = [[False for i in range(n)] for j in range(m)]
-        visited[start[0]][start[1]] = True
+        queue.append([i, j])
+        visited = set()
+        visited.add((i, j))
+        step = 0
 
         while queue:
             size = len(queue)
-            for i in range(size):
-                node = queue.popleft()
-                if node[0] == dest[1] and node[1] == dest[2]:
+            for _ in range(size):
+                i, j = queue.popleft()
+                if i == destx and j == desty:
                     return step
-                for dx, dy in directions:
-                    newX = node[0] + dx
-                    newY = node[1] + dy
-                    if newX < 0 or newX >= m or newY < 0 or newY >= n or forest[newX][newY] == 0 or visited[newX][newY]:
+                for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                    x = i + dx
+                    y = j + dy
+                    if x < 0 or y < 0 or x >= m or y >= n or forest[x][y] == 0 or (x, y) in visited:
                         continue
-                    queue.append([newX, newY])
-                    visited[newX][newY] = True
+
+                    queue.append([x, y])
+                    visited.add((x, y))
             step += 1
         return -1
+
 
 
 

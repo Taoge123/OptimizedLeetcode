@@ -35,7 +35,6 @@ class SolutionBFS:
 
 
 
-
 class Solution:
     def flip(self, mat, i, j):
         m, n = len(mat), len(mat[0])
@@ -48,25 +47,29 @@ class Solution:
                 res[x][y] ^= 1
         return res
 
-
     def minFlips(self, mat):
         m, n = len(mat), len(mat[0])
 
+        queue = collections.deque()
+        queue.append(mat)
         visited = set()
-        queue = collections.deque([[mat, 0]])
+
+        step = 0
         while queue:
-            for _ in range(len(queue)):
-                node, step = queue.popleft()
+            size = len(queue)
+            for _ in range(size):
+                node = queue.popleft()
                 if sum(map(sum, node)) == 0:
                     return step
                 for i in range(m):
                     for j in range(n):
                         newNode = self.flip(node, i, j)
-                        cur = tuple(map(tuple, newNode))
-                        if cur in visited:
+                        hash_node = tuple(map(tuple, newNode))
+                        if hash_node in visited:
                             continue
-                        queue.append([newNode, step + 1])
-                        visited.add(cur)
+                        queue.append(newNode)
+                        visited.add(hash_node)
+            step += 1
         return -1
 
 

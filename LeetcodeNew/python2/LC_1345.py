@@ -3,7 +3,7 @@ import collections
 
 
 class Solution:
-    def minJumps(self, arr: List[int]) -> int:
+    def minJumps(self, arr) -> int:
 
         table = collections.defaultdict(list)
         n = len(arr)

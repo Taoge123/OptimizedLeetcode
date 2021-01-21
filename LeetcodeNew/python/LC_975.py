@@ -1,4 +1,5 @@
 """
+https://leetcode.com/problems/odd-even-jump/discuss/562946/Solution-Python-With-SortedDict-from-sortedcontainers-library-(default-included-in-leetcode)
 
 We need to jump higher and lower alternately to the end.
 
@@ -46,9 +47,67 @@ Space O(N)
             map.put(A[i], i);
         }
         return res;
+
+    private int sln2(int[] A){
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        int n = A.length;
+        boolean[][] dp = new boolean[2][n];
+        dp[0][n-1] = true;
+        dp[1][n-1] = true;
+        map.put(A[n-1], n-1);
+        int res = 1;
+        for(int i = n-2;i>=0;i--){
+            Integer floorKey = map.floorKey(A[i]);
+            Integer ceilingKey = map.ceilingKey(A[i]);
+            
+            if(ceilingKey!=null){
+                dp[0][i] = dp[1][map.get(ceilingKey)];
+            }
+            if(floorKey!=null){
+                dp[1][i] = dp[0][map.get(floorKey)];
+            }
+            
+            res += dp[0][i]? 1: 0;
+            map.put(A[i], i);
+        }
+        return res;
+    }
+    
 """
 
+from sortedcontainers import SortedDict
 
+
+class SolutionTree:
+    def oddEvenJumps(self, nums) -> int:
+        if len(nums) == 0:
+            return 0
+        if len(nums) == 1:
+            return 1
+
+        n = len(nums)
+        isOkEven = [False] * len(nums)
+        isOkOdd = [False] * len(nums)
+        isOkEven[n - 1] = True
+        isOkOdd[n - 1] = True
+        tree = SortedDict()
+        tree[nums[n - 1]] = n - 1
+        for i in range(n - 2, -1, -1):
+            val = nums[i]
+            if val in tree:
+                isOkEven[i] = isOkOdd[tree[val]]
+                isOkOdd[i] = isOkEven[tree[val]]
+            else:
+                smallestP = tree.bisect_left(val)
+                largestP = tree.bisect_left(val) - 1
+                isOkOdd[i] = True if smallestP != len(tree) and isOkEven[tree.peekitem(smallestP)[1]] else False
+                isOkEven[i] = True if largestP != -1 and isOkOdd[tree.peekitem(largestP)[1]] else False
+            tree[val] = i
+        res = 0
+        for e in isOkOdd:
+            if e:
+                res += 1
+        return res
 
 
 class Solution:
