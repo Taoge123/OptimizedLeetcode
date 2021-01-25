@@ -51,6 +51,14 @@ Since x ≤ y, there is no way [y:] can hold more intervals then [x:]. Thus, the
 
 Therefore, we can sort interval by ending time and key track of current earliest end time.
 Once next interval's start time is earlier than current end time, then we have to remove one interval. Otherwise, we update earliest end time.
+
+-----------
+   -----------
+     -------------
+                    ------
+                            -----
+                              --------
+
 """
 
 
@@ -72,3 +80,21 @@ intervals = [[1,2],[2,3],[3,4],[1,3]]
 
 a = Solution()
 print(a.eraseOverlapIntervals(intervals))
+
+
+"""
+
+------|
+  ----|--
+ -----|---
+      | ---------   
+      
+
+-------
+  ------
+    ------
+            --------
+            
+"""
+
+

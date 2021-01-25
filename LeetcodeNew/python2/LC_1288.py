@@ -32,12 +32,23 @@ if start equal, then we only care about the end
 
 """
 
+"""
+
+---------------
+  -----------
+     -------------     
+        ----            
+                       -------
+
+
+"""
+
 
 class Solution:
     def removeCoveredIntervals(self, intervals) -> int:
-        intervals.sort(key = lambda x : (x[0], -x[1]))
-
+        intervals.sort(key=lambda x: (x[0], -x[1]))
         res = 0
+
         prev_end = 0
         for start, end in intervals:
 
@@ -46,6 +57,8 @@ class Solution:
                 prev_end = end
 
         return res
+
+
 
 
 

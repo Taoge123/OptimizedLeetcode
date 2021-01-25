@@ -1,6 +1,6 @@
 
 class Solution:
-    def intersectionSizeTwo(self, intervals: List[List[int]]) -> int:
+    def intersectionSizeTwo(self, intervals) -> int:
         # intervals.sort(key = lambda (s, e) : (s, -e))
         intervals.sort(key = lambda x : (x[1], -x[0]))
 

@@ -11,6 +11,11 @@ Input: [[7,10],[2,4]]
 Output: true
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 
+-------
+    -------
+      --------
+             ------
+                     -----------
 """
 
 
@@ -19,7 +24,7 @@ class Solution:
     def canAttendMeetings(self, intervals) -> bool:
         intervals = sorted(intervals)
         for i in range(1, len(intervals)):
-            if intervals[i -1][1] > intervals[i][0]:
+            if intervals[i-1][1] > intervals[i][0]:
                 return False
         return True
 

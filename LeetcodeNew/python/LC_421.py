@@ -85,21 +85,82 @@ cheat solution
 因此有答案直接对此做了特殊处理，然后使用暴力解
 """
 
+"""
 
-class TrieNode():
+10101010101
+10101000000
+10101111111
+
+10100101010
+
+
+
+"""
+
+
+class TrieNode:
     def __init__(self):
-        self.one = None
         self.zero = None
+        self.one = None
+
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, num):
+        node = self.root
+        for i in range(31, -1, -1):
+            if num & 1 << i:
+                if not node.one:
+                    node.one = TrieNode()
+                node = node.one
+            else:
+                if not node.zero:
+                    node.zero = TrieNode()
+                node = node.zero
+
+    def query(self, num):
+        node = self.root
+        maxi = 0
+        for i in range(31, -1, -1):
+            isNum = num & 1 << i
+            if node.one and not isNum:
+                node = node.one
+                maxi += 1 << i
+            elif node.zero and isNum:
+                node = node.zero
+                maxi += 1 << i
+            else:
+                node = node.one or node.zero
+        return maxi
+
+
+class SolutionTony:
+    def findMaximumXOR(self, nums) -> int:
+        trie = Trie()
+
+        for num in nums:
+            trie.insert(num)
+
+        res = 0
+        for num in nums:
+            maxi = trie.query(num)
+            res = max(res, maxi)
+
+        return res
+
+
+
 
 
 class SolutionTrie:
-    def findMaximumXOR(self, nums):
+    def findMaximumXOR(self, nums) -> int:
         root = TrieNode()
         for num in nums:
             node = root
-            for j in range(31, -1, -1):
-                tmp = num & 1 << j
-                if tmp:
+            for i in range(31, -1, -1):
+                if num & 1 << i:
                     if not node.one:
                         node.one = TrieNode()
                     node = node.one
@@ -111,20 +172,25 @@ class SolutionTrie:
         res = 0
         for num in nums:
             node = root
-            temp = 0
-            for j in range(31, -1, -1):
-                tmp = num & 1 << j
-                if node.one and not tmp:  # add when we have 1 ^ 0
+            maxi = 0
+            for i in range(31, -1, -1):
+                isNum = num & 1 << i
+                # add when we have 1 ^ 0
+                if node.one and not isNum:
                     node = node.one
-                    temp += 1 << j
-                elif node.zero and tmp:  # add when we have 0 ^ 1
+                    maxi += 1 << i
+                # add when we have 0 ^ 1
+                elif node.zero and isNum:
                     node = node.zero
-                    temp += 1 << j
+                    maxi += 1 << i
                 else:
                     node = node.one or node.zero
-            res = max(res, temp)
+            res = max(res, maxi)
 
         return res
+
+
+
 
 
 

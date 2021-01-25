@@ -17,7 +17,7 @@ class Solution:
     def countOfAtoms(self, formula: str) -> str:
         formula = formula + ' '
         table = {}
-        m = [1]
+        stack = [1]
         digit = ''
         lower = ''
 
@@ -30,13 +30,13 @@ class Solution:
                 lower = element + lower
                 continue
             elif element == ')':
-                m.append(m[-1] * int(digit))
+                stack.append(stack[-1] * int(digit))
                 digit = ''
                 continue
             elif element == '(':
-                m.pop()
+                stack.pop()
                 continue
-            table[element] = table.get(element, 0) + m[-1] * int(digit or 1)
+            table[element] = table.get(element, 0) + stack[-1] * int(digit or 1)
             digit = ''
             lower = ''
 
@@ -46,7 +46,6 @@ class Solution:
                 value = ''
             res = res + key + str(value)
         return res
-
 
 
 

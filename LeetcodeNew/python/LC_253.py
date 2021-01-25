@@ -10,6 +10,15 @@ Example 2:
 Input: [[7,10],[2,4]]
 Output: 1
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
+
+-------
+    -------
+      --------
+             ------
+                     -----------
+
+i   i i      i       i
+       j   j  j   j            j
 """
 
 import heapq
@@ -28,6 +37,13 @@ class Solution:
         return res
 
 
+"""
+-------
+    -------
+      --------
+             ------
+                     -----------
+"""
 
 class Solution2:
     def minMeetingRooms(self, intervals):

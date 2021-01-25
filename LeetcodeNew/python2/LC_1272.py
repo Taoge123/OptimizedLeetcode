@@ -1,3 +1,13 @@
+"""
+-----------
+   -----------
+     -------------
+                    ------
+                            -----
+                              --------
+
+"""
+
 class Solution:
     def removeInterval(self, intervals, toBeRemoved):
 

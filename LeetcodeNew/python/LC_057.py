@@ -14,11 +14,41 @@ Output: [[1,2],[3,10],[12,16]]
 Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 
+-----------
+   -----------
+     -------------
+                    ------
+                            -----
+                              --------
+
 """
 
 
-
 class Solution:
+    def insert(self, intervals, newInterval):
+        s, e = newInterval[0], newInterval[1]
+        left, right = [], []
+
+        for interval in intervals:
+            if interval[1] < s:
+                # current interval is on the left-hand side of newInterval
+                left += [interval]
+
+            elif interval[0] > e:
+                # current interval is on the right-hand side of newInterval
+                right += [interval]
+
+            else:
+                # current interval has overlap with newInterval
+                # merge and update boundary
+                s = min(s, interval[0])
+                e = max(e, interval[1])
+
+        return left + [[s, e]] + right
+
+
+
+class Solution2:
     def insert(self, intervals, newInterval):
 
         intervals.append(newInterval)
