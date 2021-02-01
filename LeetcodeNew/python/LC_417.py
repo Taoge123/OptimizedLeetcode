@@ -28,6 +28,8 @@ Return:
 [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
 """
 
+import collections
+
 
 class Solution:
     def pacificAtlantic(self, matrix):
@@ -58,4 +60,25 @@ class Solution:
                 continue
             self.dfs(matrix, x, y, cache, m, n)
 
+
+class SolutionBFS:
+    def pacificAtlantic(self, matrix):
+        if not matrix:
+            return []
+        m, n = len(matrix), len(matrix[0])
+
+        def bfs(ocean):
+            queue = collections.deque(ocean)
+            while queue:
+                (i, j) = queue.popleft()
+                for (di, dj) in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                    if 0 <= di + i < m and 0 <= dj + j < n and (di + i, dj + j) not in ocean \
+                            and matrix[di + i][dj + j] >= matrix[i][j]:
+                        queue.append((di + i, dj + j))
+                        ocean.add((di + i, dj + j))
+            return ocean
+
+        pacific = set([(i, 0) for i in range(m)] + [(0, j) for j in range(1, n)])
+        atlantic = set([(i, n - 1) for i in range(m)] + [(m - 1, j) for j in range(n - 1)])
+        return list(bfs(pacific) & bfs(atlantic))
 

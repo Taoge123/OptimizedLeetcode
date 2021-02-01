@@ -11,14 +11,14 @@ import collections
 class SolutionDJ:
     def minCost(self, grid):
         m, n = len(grid), len(grid[0])
-        path = []
+        heap = []
         directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        heapq.heappush(path, (0, 0, 0))
+        heapq.heappush(heap, (0, 0, 0))
 
         visited = set()
 
-        while True:
-            cost, i, j = heapq.heappop(path)
+        while heap:
+            cost, i, j = heapq.heappop(heap)
             if (i, j) in visited:
                 continue
             visited.add((i, j))
@@ -30,9 +30,9 @@ class SolutionDJ:
                 if x >= 0 and x < m and y >= 0 and y < n and (x, y) not in visited:
 
                     if grid[i][j] == (num + 1):
-                        heapq.heappush(path, (cost, x, y))
+                        heapq.heappush(heap, (cost, x, y))
                     else:
-                        heapq.heappush(path, (cost + 1, x, y))
+                        heapq.heappush(heap, (cost + 1, x, y))
 
 
 

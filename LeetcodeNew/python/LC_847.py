@@ -4,6 +4,41 @@ https://leetcode.com/problems/shortest-path-visiting-all-nodes/discuss/147123/Py
 
 import collections
 
+class Solution:
+    def shortestPathLength(self, graph) -> int:
+        n = len(graph)
+        finalState = (1 << n) - 1
+        print(bin(finalState), finalState)
+        queue = collections.deque()
+        visited = set()
+
+        for node in range(n):
+            queue.append([node, 1 << node])
+            visited.add((node, 1 << node))
+
+        step = 0
+        while queue:
+            size = len(queue)
+            for _ in range(size):
+                node, state = queue.popleft()
+                if state == finalState:
+                    return step
+
+                for nei in graph[node]:
+                    nextState = state | (1 << nei)
+
+                    if (nei, nextState) in visited:
+                        continue
+
+                    queue.append([nei, nextState])
+                    visited.add((nei, nextState))
+            step += 1
+
+        return -1
+
+
+
+
 class SolutionCS:
     def shortestPathLength(self, graph) -> int:
         n = len(graph)
@@ -30,44 +65,4 @@ class SolutionCS:
                         visited.add(nxt)
             res += 1
         return -1
-
-
-
-
-
-class Solution:
-    def shortestPathLength(self, graph) -> int:
-        if not graph or not graph[0]:
-            return 0
-
-        n = len(graph)
-        # {node, state}
-        finalState = 0
-        for i in range(n):
-            finalState |= (1 << i)
-
-        queue = collections.deque()
-        visited = set()
-        for i in range(n):
-            queue.append([i, 1 << i])
-            visited.add((i, 1 << i))
-
-        step = -1
-        while queue:
-            step += 1
-            size = len(queue)
-            for i in range(size):
-                node, state = queue.popleft()
-                for nextNode in graph[node]:
-                    nextState = state | (1 << nextNode)
-                    if nextState == finalState:
-                        return step + 1
-
-                    if (nextNode, nextState) in visited:
-                        continue
-                    queue.append([nextNode, nextState])
-                    visited.add((nextNode, nextState))
-
-        return -1
-
 
