@@ -1,4 +1,7 @@
 """
+https://www.youtube.com/watch?v=mJb7LESm3A8
+
+
 Given a collection of integers that might contain duplicates, nums,
 return all possible subsets (the power set).
 
@@ -23,19 +26,23 @@ class Solution:
     def subsetsWithDup(self, nums):
         res = []
         nums.sort()
-        self.backtrack(nums, 0, [], res)
+        self.dfs(nums, 0, [], res)
         return res
 
-    def backtrack(self, nums, index, path, res):
+    def dfs(self, nums, pos, path, res):
+        res.append(path[:])
 
-        res.append(path)
-
-        for i in range(index, len(nums)):
-
-            if i > index and nums[i -1] == nums[i]:
+        for i in range(pos, len(nums)):
+            if i > pos and nums[i - 1] == nums[i]:
                 continue
-            self.backtrack(nums, i + 1, path + [nums[i]], res)
+
+            path.append(nums[i])
+            self.dfs(nums, i + 1, path, res)
+            path.pop()
 
 
 
+nums = [1, 2, 2]
+a = Solution()
+print(a.subsetsWithDup(nums))
 

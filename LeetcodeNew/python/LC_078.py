@@ -22,16 +22,15 @@ Output:
 
 class Solution:
     def subsets(self, nums):
-
         res = []
-        nums.sort()
-        self.backtrack(nums, 0, [], res)
+        self.dfs(nums, 0, [], res)
         return res
 
-    def backtrack(self, nums, index, path, res):
+    def dfs(self, nums, pos, path, res):
+        n = len(nums)
         res.append(path)
 
-        for i in range(index, len(nums)):
-            self.backtrack(nums, i + 1, path + [nums[i]], res)
+        for i in range(pos, n):
+            self.dfs(nums, i + 1, path + [nums[i]], res)
 
 
