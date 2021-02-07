@@ -64,6 +64,7 @@ class Solution2:
         self.dfs(nums, pos + 1, path, res)
 
 
+
 nums = [1, 2, 2, 2, 2]
 a = Solution2()
 print(a.subsetsWithDup(nums))

@@ -39,6 +39,26 @@ class Solution1:
 
 
 
+
+class Solution11:
+    def permute(self, nums):
+
+        res = []
+        self.dfs(nums, 0, res)
+        return res
+
+    def dfs(self, nums, pos, res):
+        if pos == len(nums):
+            res.append(nums[:])
+
+        for i in range(pos, len(nums)):
+            nums[pos], nums[i] = nums[i], nums[pos]
+            self.dfs(nums, pos + 1, res)
+            nums[pos], nums[i] = nums[i], nums[pos]
+
+
+
+
 class Solution:
     def permute(self, nums):
 
@@ -54,8 +74,9 @@ class Solution:
             self.backtrack(nums[:i] + nums[i+1:], path + [nums[i]], res)
 
 
-nums = [1,4,3,5,6,1,4,3,5]
-a = Solution()
+
+nums = [1,2,3,4]
+a = Solution11()
 print(a.permute(nums))
 
 
