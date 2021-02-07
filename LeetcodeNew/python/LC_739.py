@@ -20,6 +20,7 @@ If the day with higher temperature is not found, we leave the ans to be the defa
 """
 
 # for each value, once num > prev, then we pop out each of their index and get the diff distance
+
 class SolutionTony:
     def dailyTemperatures(self, T):
         stack = []
