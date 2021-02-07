@@ -41,7 +41,8 @@ class Solution:
             path.pop()
 
 
-class Solution:
+
+class Solution2:
     def subsetsWithDup(self, nums):
 
         nums.sort()
@@ -50,13 +51,12 @@ class Solution:
         return res
 
     def dfs(self, nums, pos, path, res):
+
         if pos == len(nums):
-            res.append(path[:])
+            res.append(path)
             return res
 
-        path.append(nums[pos])
-        self.dfs(nums, pos + 1, path, res)
-        path.pop()
+        self.dfs(nums, pos + 1, path + [nums[pos]], res)
 
         if path and path[-1] == nums[pos]:
             return
@@ -64,9 +64,7 @@ class Solution:
         self.dfs(nums, pos + 1, path, res)
 
 
-
-
-nums = [1, 2, 2]
-a = Solution()
+nums = [1, 2, 2, 2, 2]
+a = Solution2()
 print(a.subsetsWithDup(nums))
 
