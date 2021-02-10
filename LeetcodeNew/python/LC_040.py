@@ -28,25 +28,34 @@ A solution set is:
 
 """
 
+
 class Solution:
-    def combinationSum2(self, candidates, target):
+    def combinationSum2(self, nums, target):
+
         res = []
-        candidates.sort()
-        self.backtrack(candidates, 0, target, [], res)
+        nums.sort()
+        self.dfs(nums, target, 0, [], res)
         return res
 
-    def backtrack(self, nums, index, target, path, res):
+    def dfs(self, nums, target, pos, path, res):
         if target < 0:
             return
+
         if target == 0:
             res.append(path)
             return
 
-        for i in range(index, len(nums)):
-            if i > index and nums[i] == nums[i - 1]:
+        for i in range(pos, len(nums)):
+            if i > pos and nums[i - 1] == nums[i]:
                 continue
             if nums[i] > target:
                 break
-            self.backtrack(nums, i + 1, target - nums[i], path + [nums[i]], res)
+
+            self.dfs(nums, target - nums[i], i + 1, path + [nums[i]], res)
+
+
+
+
+
 
 
