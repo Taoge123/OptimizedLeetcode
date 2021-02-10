@@ -30,7 +30,7 @@ class SolutionTony:
         for i in range(index, n + 1):
             self.dfs(n, k, i + 1, path + [i], res)
 
-        return res
+
 
 
 class Solution:
