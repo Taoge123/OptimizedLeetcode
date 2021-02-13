@@ -9,7 +9,7 @@ class Solution:
         return self.res
 
     def dfs(self, nums, pos):
-        if index == len(nums):
+        if pos == len(nums):
             self.res += 1
             return
 
