@@ -18,7 +18,7 @@ class Solution:
         return res
 
 
-
+# not recommended since the input is already sorted
 class Solution2:
     def intervalIntersection(self, firstList, secondList):
 
@@ -37,8 +37,10 @@ class Solution2:
         res = []
         for time, c in queue:
             count += c
+            # seeing the second starting point, then it's a starting point
             if c == 1 and count == 2:
                 start = time
+            # seeing the first ending point, then it's a ending point
             elif c == -1 and count == 1:
                 end = time
                 res.append([start, end])

@@ -41,6 +41,21 @@ if start equal, then we only care about the end
                        -------
 
 
+-------------              ok
+  ---------                no
+    -----                  no
+      -------------        ok
+       --                  no   
+        ---                no
+         ------            no
+
+1. ----                ok
+2. ---------           no
+
+we need to sorted by decreasing order -> we need to include 2 and not include 1 since 1 is covered by 2
+
+
+
 """
 
 

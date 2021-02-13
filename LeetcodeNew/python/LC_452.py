@@ -1,4 +1,9 @@
 """
+sort by starting point: the minimum number of intervals to cover the whole range
+sort by ending point: the maximum number of non-overlapping intervals
+----  ----- ----- ----- ----- ----- -----
+
+
 There are a number of spherical balloons spread in two-dimensional space. For each balloon,
 provided input is the start and end coordinates of the horizontal diameter.
 Since it's horizontal, y-coordinates don't matter and hence the x-coordinates of start and end of the diameter suffice.
@@ -47,19 +52,20 @@ class Solution:
         return res
 
 
-
 class Solution2:
     def findMinArrowShots(self, points) -> int:
 
-        points = sorted(points, key = lambda x: x[1])
-        res, end = 0, -float('inf')
-        for interval in points:
-            if interval[0] > end:
+        points.sort(key=lambda x: x[1])
+
+        res = 0
+        end = float('-inf')
+        for s, e in points:
+            # we only need to update the count when new start > prev_end, otherwise, one arrow can burst all connected balloons
+            if s > end:
                 res += 1
-                end = interval[1]
-            else:
-                end = min(end, interval[1])
+                end = e
         return res
+
 
 
 
