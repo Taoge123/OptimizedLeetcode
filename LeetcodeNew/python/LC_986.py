@@ -19,6 +19,31 @@ class Solution:
 
 
 
+class Solution2:
+    def intervalIntersection(self, firstList, secondList):
+
+        queue = []
+        for s, e in firstList:
+            queue.append([s, 1])
+            queue.append([e, -1])
+
+        for s, e in secondList:
+            queue.append([s, 1])
+            queue.append([e, -1])
+
+        queue.sort(key=lambda x: (x[0], -x[1]))
+        start, end = 0, 0
+        count = 0
+        res = []
+        for time, c in queue:
+            count += c
+            if c == 1 and count == 2:
+                start = time
+            elif c == -1 and count == 1:
+                end = time
+                res.append([start, end])
+        return res
+
 
 
 
