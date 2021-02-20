@@ -1,10 +1,5 @@
 
 """
-P  = 100 80 60 70 60 75 85
-dp =  1  1  1  2  1  4  6
-
-"""
-"""
 Explanation
 You can refer to the same problem 739. Daily Temperatures.
 
@@ -15,6 +10,8 @@ One price will be pushed once and popped once.
 So 2 * N times stack operations and N times calls.
 I'll say time complexity is amortized O(1)
 
+P  = 100 80 60 70 60 75 85
+dp =  1  1  1  2  1  4  6
 
 100 1
 100 1, 80 1

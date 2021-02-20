@@ -1,4 +1,10 @@
 
+"""
+[1,2,1]
+[2,-1,2]
+
+"""
+
 class Solution:
     def nextGreaterElements(self, nums):
         stack = []

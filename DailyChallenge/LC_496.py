@@ -1,5 +1,11 @@
+"""
+4 1 2
+1 3 4 2
 
-class SolutionTony:
+"""
+
+
+class Solution:
     def nextGreaterElement(self, nums1, nums2):
         stack = []
         table = {}
