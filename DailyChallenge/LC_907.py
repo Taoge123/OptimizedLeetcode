@@ -30,3 +30,20 @@ class Solution:
 
 
 
+class Solution2:
+    def sumSubarrayMins(self, arr) -> int:
+        # find vally pattern (k --- j --- i)
+        res, s = 0, []
+        arr = [0] + arr + [0]
+        print(arr)
+        for i, a in enumerate(arr):
+            while s and arr[s[-1]] > a:
+                j = s.pop()
+                k = s[-1]
+                print(s)
+                print(k, j, i, arr[k], arr[j], arr[i])
+                res += arr[j] * (i - j) * (j - k)
+            s.append(i)
+        return res % (10**9 + 7)
+
+
