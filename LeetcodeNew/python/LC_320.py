@@ -15,6 +15,27 @@ Output:
 
 
 class Solution:
+    def generateAbbreviations(self, word: str):
+        n = len(word)
+        res = []
+
+        def dfs(path, pos, count):
+            if pos == n:
+                # if we still have count (like wo2)
+                path = path + (str(count) if count else "")
+                res.append(path)
+                return
+
+            # to accumulate count / count + str
+            # count reset to 0
+            dfs(path + (str(count) if count else "") + word[pos], pos + 1, 0)
+            dfs(path, pos + 1, count + 1)
+
+        dfs("", 0, 0)
+        return res
+
+
+class Solution2:
     def generateAbbreviations(self, word):
 
         res = []
