@@ -47,7 +47,7 @@ class Solution:
 
         for i in range(len(nums)):
             # checking front
-            if queue and queue[0] < i - k + 1:
+            if queue and i - queue[0] > k - 1:
                 queue.popleft()
             # checking back
             while queue and nums[i] > nums[queue[-1]]:
@@ -61,3 +61,8 @@ class Solution:
         return res
 
 
+
+nums = [1,3,-1,-3,5,3,6,7]
+k = 3
+a = Solution()
+print(a.maxSlidingWindow(nums, k))

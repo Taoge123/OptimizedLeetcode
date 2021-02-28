@@ -21,7 +21,7 @@ we can use priority queue or stack.
 import collections
 import heapq
 
-class SolutionWisdom:
+class Solution_:
     def findMaxValueOfEquation(self, points, k: int) -> int:
         queue = collections.deque()
         res = -float('inf')

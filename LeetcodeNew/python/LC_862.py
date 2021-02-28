@@ -83,6 +83,7 @@ class Solution:
         res = float('inf')
         summ = 0
         for i, num in enumerate(A):
+            print(queue)
             summ += num
             # 思路中第2步, 满足条件下选最大index, 前面都不需要了
             # store the index the B in the deque, so that all index in deque are min
@@ -97,7 +98,10 @@ class Solution:
         return res if res < float('inf') else -1
 
 
-
+A = [2, -1, 1, 2, 3, 1, 2, 3]
+K = 4
+a = Solution()
+print(a.shortestSubarray(A, K))
 
 
 
