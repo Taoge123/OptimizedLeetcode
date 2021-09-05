@@ -21,6 +21,22 @@ dp[n] = min(dp[n - x^2]) for all x
 """
 
 import collections, math
+import functools
+
+class SolutionTD:
+    @functools.lru_cache(None)
+    def numSquares(self, n: int) -> int:
+        if n == 0:
+            return 0
+        if math.sqrt(n) % 2 == 0:
+            return 1
+
+        m = int(math.sqrt(n))
+        res = float('inf')
+        for i in range(m, 0, -1):
+            res = min(res, self.numSquares(n - i * i) + 1)
+        return res
+
 
 class Solution:
     def numSquares(self, n):
