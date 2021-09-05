@@ -67,5 +67,12 @@ class Solution2:
 
 
 
+names = ('time', 'dsds', 'dcfef', 'vfv', 'rgb')
+grades = (1, 2, 3, 4, 5)
 
+res = []
+for name, grade in zip(names, grades):
+    res.append((name, grade))
+
+print(res)
 

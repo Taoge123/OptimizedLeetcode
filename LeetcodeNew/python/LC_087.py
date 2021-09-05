@@ -64,6 +64,7 @@ class Solution:
         for i in range(1, len(s1)):
             if (self.isScramble(s1[:i], s2[:i]) and self.isScramble(s1[i:], s2[i:]) or
                     self.isScramble(s1[:i], s2[-i:]) and self.isScramble(s1[i:], s2[:-i])):
+                memo[(s1, s2)] = True
                 return True
         self.dic[(s1, s2)] = False
         return False

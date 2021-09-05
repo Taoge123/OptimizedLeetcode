@@ -83,22 +83,24 @@ class Solution:
         res = float('inf')
         summ = 0
         for i, num in enumerate(A):
-            print(queue)
             summ += num
             # 思路中第2步, 满足条件下选最大index, 前面都不需要了
             # store the index the B in the deque, so that all index in deque are min
             # KEY 2 use B[0] to storet min value, so that B[i] can check whether it is able to find the possible answer
             # ==>  make sure deque is increasing, then it becomes 209
             while queue and summ - queue[0][1] >= K:
-                res = min(res, i + 1 - queue.popleft()[0])
+                res = min(res, i - queue[0][0] + 1)
+                queue.popleft()
             # 思路中第3步， 保证queue是递增的, 只要前面出现>=最新summ, 都pop
+            # negative number shouldn't become starting point
             while queue and summ <= queue[-1][1]:
                 queue.pop()
             queue.append([i + 1, summ])
         return res if res < float('inf') else -1
 
 
-A = [2, -1, 1, 2, 3, 1, 2, 3]
+
+A = [1, 2, 1, -2, 1, -1, 1, 2, 3, -1, -2, 5, 6]
 K = 4
 a = Solution()
 print(a.shortestSubarray(A, K))

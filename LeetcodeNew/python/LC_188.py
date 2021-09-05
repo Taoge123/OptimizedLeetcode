@@ -59,6 +59,28 @@ return dp[n-1][no];
 122. Best Time to Buy and Sell Stock II 里面的技巧来解，时间复杂度反而从o(n*k)降到了o(n).
 """
 
+import functools
+
+class SolutionTD:
+    def maxProfit(self, k: int, prices) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(pos, k, has_stock):
+            if pos == len(prices):
+                return 0
+            #no action
+            no_action = dfs(pos + 1, k, has_stock)
+            if has_stock:
+                action = dfs(pos + 1, k, False) + prices[pos]
+            else:
+                if k > 0:
+                    action = dfs(pos+1, k-1, True) - prices[pos]
+                else:
+                    action = 0
+            return max(no_action, action)
+
+        return dfs(0, k, 0)
+
 class SolutionWisdom:
     def maxProfit(self, k, prices):
         n = len(prices)

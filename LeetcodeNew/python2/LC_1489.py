@@ -1,3 +1,12 @@
+"""
+https://leetcode-cn.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/solution/python3-kruskalbing-cha-ji-by-smiletm-jt9y/
+https://leetcode-cn.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/solution/python-zui-xiao-sheng-cheng-shu-bing-cha-4zrw/
+https://leetcode-cn.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/solution/yi-xu-xi-nan-yu-shang-qing-tian-by-lu-sh-ncft/
+
+
+
+"""
+
 class Solution:
     def findCriticalAndPseudoCriticalEdges(self, n: int, edges: List[List[int]]) -> List[List[int]]:
         def find(parent, x):
@@ -47,32 +56,29 @@ class Solution:
         return [criticalList, noncritical]
 
 
-
 class UnionFind:
-    def __init__(self, N: int):
-        # initially, every node forms a partition of size 1
-        self.parent = list(range(N))  # the partition to which every node belongs
-        self.size = [1] * N           # the size of ...
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [1] * n
 
-    def find(self, x: int) -> int:
-        if self.parent[x] != x:
-            self.parent[x] = self.find(self.parent[x])
-        return self.parent[x]
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
 
-    def union(self, i: int, j: int) -> bool:
+    def union(self, i, j):
         x = self.find(i)
         y = self.find(j)
         if x == y:
             return False
-        if self.size[x] < self.size[y]:
-            x, y = y, x
-        self.parent[y] = x
-        self.size[x] += self.size[y]
-        self.size[y] = self.size[x]
+        if self.rank[x] < self.rank[y]:
+            self.parent[x] = y
+        elif self.rank[x] > self.rank[y]:
+            self.parent[y] = x
+        else:
+            self.parent[y] = x
+            self.rank[x] += 1
         return True
-
-    def size(self, x: int) -> int:
-        return self.size[self.find(x)]
 
 
 class Solution2:

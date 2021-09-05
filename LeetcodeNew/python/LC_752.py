@@ -69,7 +69,7 @@ class Solution2:
 
 deadends = ["0201","0101","0102","1212","2002"]
 target = "0202"
-a = SolutionTest()
+a = Solution()
 print(a.openLock(deadends, target))
 
 
