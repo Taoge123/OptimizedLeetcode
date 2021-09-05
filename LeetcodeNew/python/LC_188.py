@@ -68,10 +68,13 @@ class SolutionTD:
         def dfs(pos, k, has_stock):
             if pos == len(prices):
                 return 0
-            #no action
+            # no action
             no_action = dfs(pos + 1, k, has_stock)
+
+            # sell stock if we has_stock
             if has_stock:
                 action = dfs(pos + 1, k, False) + prices[pos]
+            # by stock if k > 0 else do nothing
             else:
                 if k > 0:
                     action = dfs(pos+1, k-1, True) - prices[pos]
@@ -80,6 +83,7 @@ class SolutionTD:
             return max(no_action, action)
 
         return dfs(0, k, 0)
+
 
 class SolutionWisdom:
     def maxProfit(self, k, prices):
