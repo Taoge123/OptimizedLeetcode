@@ -38,6 +38,22 @@ class SolutionTD:
         return res
 
 
+class SolutionTony:
+    @functools.lru_cache(None)
+    def numSquares(self, n: int) -> int:
+        if n == 0:
+            return 0
+
+        if type(math.sqrt(n)) == int:
+            return 1
+
+        m = int(math.sqrt(n))
+        res = float('inf')
+        for i in range(m, 0, -1):
+            res = min(res, self.numSquares(n - i * i) + 1)
+        return res
+
+
 class Solution:
     def numSquares(self, n):
         dp = [n] *(n+1)
@@ -73,9 +89,32 @@ class Solution2:
                         queue.append(j)
 
 
+class SolutionTest:
+    def numSquares(self, n: int) -> int:
 
-n = 13
-a = Solution()
+        memo = {}
+        return self.dfs(n, memo)
+
+    def dfs(self, n, memo):
+        if n in memo:
+            return memo[n]
+
+        if n == 0:
+            return 0
+
+        if n == 1:
+            return 1
+
+        res = float('inf')
+        for i in range(int(math.sqrt(n)), 0, -1):
+            res = min(res, self.dfs(n - i * i, memo) + 1)
+
+        memo[n] = res
+        return memo[n]
+
+
+n = 12
+a = SolutionTest()
 print(a.numSquares(n))
 
 

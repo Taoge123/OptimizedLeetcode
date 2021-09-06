@@ -1,66 +1,63 @@
-import bisect
+# """
+# s sssss
+#
+# """
+#
+# #
+# # class Solution:
+# #
+# #     def pal(self, s):
+# #         memo = {}
+# #         return self.dfs(s, 0, len(s)-1, memo)
+# #
+# #     def dfs(self, s, i, j, memo):
+# #         if i == j:
+# #             memo[(i, j)] = True
+# #             return True
+# #
+# #         for k in range(i+1, j):
+# #             if s[i] == s[j] and self.dfs(s, i+1, j-1, memo):
+# #                 memo[(i, j)] = True
+# #                 return True
+# #
+# #         memo[(i, j)] = False
+# #         return False
+#
 #
 # class Solution:
-#     def test(self, nums):
-#         nums.sort()
-#         nums2 = [[j, i] for i, j in nums]
-#         nums2.sort()
+#     def pal(self, s):
+#         n = len(s)
+#         dp = [[False] * n for _ in range(n)]
 #
-#         res = 0
-#         n = len(nums)
-#         for i, j in nums:
-#             left = bisect.bisect_left(nums, [i + 1, 0])
-#             if left == n:
-#                 continue
-#             temp = nums2[left:]
-#             nn = len(temp)
-#             print([j+1, 0])
-#             right = bisect.bisect_left(temp, [j + 1, 0])
-#             if right == nn:
-#                 continue
-#             res += 1
+#         for i in range(n):
+#             for j in range(n):
+#                 if i == j:
+#                     dp[i][j] = True
 #
-#         return res
+#         for k in range(1, len(s)):
+#             for i in range(len(s)-k):
+#                 j = i + k - 1
+#                 if s[i] == s[j] and dp[i+1][j-1]:
+#                     dp[i][j] = True
 #
-# # nums = [[2,2], [3,3]]
-# # 1
-# nums = [[5,5], [6,3], [3,6]]
-# # 0
-# # nums = [[1,5], [10, 4], [4,3]]
-# # 2
-# # nums = [[7,7],[1,2],[9,7],[7,3],[3,10],[9,8],[8,10],[4,3],[1,5],[1,5]]
-# # nums = [[7,9],[10,7],[6,9],[10,4],[7,5],[7,10]]
-# # nums = [[4,10],[2,2],[8,8],[10,2],[5,5],[9,10],[2,6]]
+#         return dp[0][-1]
 #
+# s = "aabbaa"
 # a = Solution()
-# print(a.test(nums))
+# print(a.pal(s))
 #
-import collections
+#
+#
+def test(s):
+    n = len(s)
+    dp = [[False for _ in range(n)] for _ in range(n)]
 
+    for j in range(n):
+        for i in range(j+1):
+            if s[i] == s[j] and (j - i < 2 or dp[i + 1][j - 1]):
+                dp[i][j] = True
+    return dp
 
-class Solution:
-    def test(self, nums):
-        table = collections.defaultdict(int)
-        days = collections.defaultdict(list)
-        pos = 0
-        day = 0
-        visited = set()
-        while True:
-            print(pos)
-            table[pos] += 1
-            visited.add(pos)
-            if table[pos] % 2 == 1:
-                days[pos].append(day)
-                pos = nums[pos]
-            else:
-                days[pos].append(day)
-                pos += 1
-            if len(visited) == len(nums):
-                return day
+s = "efe"
+print(test(s))
 
-            res += 1
-            res %= (10**9 + 7)
-
-nums = [0,0,0,0,0,0,0,0,0,0,0]
-a = Solution()
-print(a.test(nums))

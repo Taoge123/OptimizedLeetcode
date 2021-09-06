@@ -10,7 +10,32 @@ Output: 1
 Explanation: The palindrome partitioning ["aa","b"] could be produced using 1 cut.
 
 """
+import functools
 
+
+class SolutionTD:
+    def minCut(self, s: str) -> int:
+        n = len(s)
+
+        @functools.lru_cache(None)
+        def isPal(l, r):  # l, r inclusive
+            if l >= r:
+                return True
+            if s[l] != s[r]:
+                return False
+            return isPal(l + 1, r - 1)
+
+        @functools.lru_cache(None)
+        def dfs(i):  # s[i..n-1]
+            if i == n:
+                return 0
+            res = float('inf')
+            for j in range(i, n):
+                if (isPal(i, j)):
+                    res = min(res, dfs(j + 1) + 1)
+            return res
+
+        return dfs(0) - 1
 
 class Solution:
     def minCut(self, s: str) -> int:
