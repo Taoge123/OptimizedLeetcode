@@ -106,7 +106,8 @@ Shortest in Python I've seen so far for this problem, but may be wrong.
 
 class Solution1:
     def isInterleave(self, s1, s2, s3, memo={}):
-        if len(s1) + len(s2) != len(s3): return False
+        if len(s1) + len(s2) != len(s3):
+            return False
         if not s1 and not s2 and not s3: return True
         if (s1, s2, s3) in memo:         return memo[s1, s2, s3]
         memo[s1, s2, s3] = \
