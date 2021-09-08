@@ -48,16 +48,47 @@
 #
 #
 #
-def test(s):
-    n = len(s)
-    dp = [[False for _ in range(n)] for _ in range(n)]
+# def test(s):
+#     n = len(s)
+#     dp = [[False for _ in range(n)] for _ in range(n)]
+#
+#     for j in range(n):
+#         for i in range(j+1):
+#             if s[i] == s[j] and (j - i < 2 or dp[i + 1][j - 1]):
+#                 dp[i][j] = True
+#     return dp
+#
+# s = "efe"
+# print(test(s))
 
-    for j in range(n):
-        for i in range(j+1):
-            if s[i] == s[j] and (j - i < 2 or dp[i + 1][j - 1]):
-                dp[i][j] = True
-    return dp
+class Solution:
+    def backPackII(self, m, A, V):
+        memo = {}
+        return self.dfs(A, V, 0, m, memo)
 
-s = "efe"
-print(test(s))
+    def dfs(self, A, V, pos, weight, memo):
+        if (pos, weight) in memo:
+            return memo[(pos, weight)]
+        if pos >= len(A):
+            return 0
+        if weight == 0:
+            return 0
+
+        if weight < 0:
+            return -V[pos-1]
+
+        take = self.dfs(A, V, pos+1, weight-A[pos], memo) + V[pos]
+        no_take = self.dfs(A, V, pos+1, weight, memo)
+
+        memo[(pos, weight)] = max(take, no_take)
+        return memo[(pos, weight)]
+
+
+
+m = 1
+A = [2,3,5,7]
+V = [1,5,2,4]
+a = Solution()
+print(a.backPackII(m, A, V))
+
 

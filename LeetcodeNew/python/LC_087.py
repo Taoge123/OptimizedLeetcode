@@ -48,26 +48,35 @@ Output: false
 
 
 class Solution:
-    def __init__(self):
-        self.dic = {}
-
-    def isScramble(self, s1: str, s2: str) -> bool:
-        if (s1, s2) in self.dic:
-            return self.dic[(s1, s2)]
-        if sorted(s1) != sorted(s2) or len(s1) != len(s2):
-            self.dic[(s1, s2)] = False
+    def isScramble(self, s1, s2):
+        if len(s1) != len(s2):
             return False
+        memo = {}
+        return self.dfs(s1, s2, memo)
+
+    def dfs(self, s1, s2, memo):
+        if (s1, s2) in memo:
+            return memo[(s1, s2)]
+
+        if sorted(s1) != sorted(s2) or len(s1) != len(s2):
+            return False
+
         if s1 == s2:
-            self.dic[(s1, s2)] = True
+            memo[(s1, s2)] = True
+            return True
+
+        if not s1 and not s2:
             return True
 
         for i in range(1, len(s1)):
-            if (self.isScramble(s1[:i], s2[:i]) and self.isScramble(s1[i:], s2[i:]) or
-                    self.isScramble(s1[:i], s2[-i:]) and self.isScramble(s1[i:], s2[:-i])):
+            if (self.dfs(s1[:i], s2[:i], memo) and self.dfs(s1[i:], s2[i:], memo)) or (
+                    self.dfs(s1[:i], s2[-i:], memo) and self.dfs(s1[i:], s2[:-i], memo)):
                 memo[(s1, s2)] = True
                 return True
-        self.dic[(s1, s2)] = False
+        memo[(s1, s2)] = False
         return False
+
+
 
 
 
