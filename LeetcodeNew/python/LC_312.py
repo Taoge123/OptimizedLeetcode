@@ -50,12 +50,11 @@ class SolutionDFS2:
         if (i, j) in memo:
             return memo[(i, j)]
 
-        if i > j:
-            return 0
-
-        # still works without == check
-        if i == j:
-            return nums[i]
+        # still works without == check, i will not surpass k -> i<j hold true
+        # if i > j:
+        #     return 0
+        # if i == j:
+        #     return nums[i]
 
         res = 0
         for k in range(i + 1, j):

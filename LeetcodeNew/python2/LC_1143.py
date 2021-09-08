@@ -16,8 +16,7 @@ class SolutionDFS1:
         return self.dfs(text1, text2, 0, 0, memo)
 
     def dfs(self, s1, s2, i, j, memo):
-        m, n = len(s1), len(s2)
-        if i == m or j == n:
+        if i == len(s1) or j == len(s2):
             return 0
 
         if (i, j) in memo:
