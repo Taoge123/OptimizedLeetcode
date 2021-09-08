@@ -39,27 +39,29 @@ class SolutionDFS1:
         return dfs(0, len(nums) - 1)
 
 
-
 class SolutionDFS2:
-    def maxCoins(self, nums) -> int:
+    def maxCoins(self, nums):
         memo = {}
         nums = [1] + nums + [1]
         return self.dfs(nums, 0, len(nums) - 1, memo)
 
     def dfs(self, nums, i, j, memo):
+
         if (i, j) in memo:
             return memo[(i, j)]
 
-        if i >= j:
+        if i > j:
             return 0
+
+        # still works without == check
+        if i == j:
+            return nums[i]
 
         res = 0
         for k in range(i + 1, j):
-            res = max(res, nums[i] * nums[k] * nums[j] + self.dfs(nums, i, k, memo) + self.dfs(nums, k, j, memo))
-
+            res = max(res, self.dfs(nums, i, k, memo) + self.dfs(nums, k, j, memo) + nums[i] * nums[k] * nums[j])
         memo[(i, j)] = res
         return memo[(i, j)]
-
 
 
 class Solution:
