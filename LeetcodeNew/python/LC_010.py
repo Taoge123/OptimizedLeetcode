@@ -46,6 +46,72 @@ Output: false
 
 """
 
+"""
+jhbdsjhcds
+          a*
+"""
+
+
+class SolutionTD:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        return self.dfs(s, p, 0, 0, memo)
+
+    def match(self, s, p, i, j):
+        if i == len(s) or j == len(p):
+            return False
+
+        return s[i] == p[j] or p[j] == '.'
+
+    def dfs(self, s, p, i, j, memo):
+
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        m, n = len(s), len(p)
+        if i == m and j == n:
+            return True
+
+        if j < n - 1 and p[j + 1] == '*':
+            if (self.match(s, p, i, j) and self.dfs(s, p, i + 1, j, memo)) or self.dfs(s, p, i, j + 2, memo):
+                memo[(i, j)] = True
+                return True
+
+        if self.match(s, p, i, j):
+            if self.dfs(s, p, i + 1, j + 1, memo):
+                memo[(i, j)] = True
+                return True
+
+        memo[(i, j)] = False
+        return False
+
+
+
+class SolutionTD2:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        return self.dfs(s, p, 0, 0, memo)
+
+    def dfs(self, s, p, i, j, memo):
+        m, n = len(s), len(p)
+        if j == n:
+            return i == m
+
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        first_match = i != m and (s[i] == p[j] or p[j] == '.')
+        res = False
+        if j < n - 1 and p[j + 1] == '*':
+            res = (first_match and self.dfs(s, p, i + 1, j, memo)) or self.dfs(s, p, i, j + 2, memo)
+        else:
+            res = first_match and self.dfs(s, p, i + 1, j + 1, memo)
+
+        memo[(i, j)] = res
+        return res
+
+
+
 class Solution:
     def isMatch(self, s, p):
         n = len(s)
@@ -96,8 +162,8 @@ class Solution:
         return M[n][m]
 
 
-s = "aab"
-p = "c*a*b"
-a = Solution()
+s = "aa"
+p = "a*"
+a = SolutionTD()
 print(a.isMatch(s, p))
 
