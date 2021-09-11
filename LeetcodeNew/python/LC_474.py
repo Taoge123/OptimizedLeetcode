@@ -54,6 +54,55 @@ Leetcode Link
 
 import copy
 import collections
+import functools
+
+
+
+class SolutionTonyTD:
+    def findMaxForm(self, strs, m: int, n: int) -> int:
+        counts = []
+        for s in strs:
+            c = collections.Counter(s)
+            counts.append((c['0'], c['1']))
+
+        memo = {}
+        return self.dfs(counts, 0, m, n, memo)
+
+    def dfs(self, counts, i, z, o, memo):
+        if (i, z, o) in memo:
+            return memo[(i, z, o)]
+        if z == o == 0 or i >= len(counts):
+            return 0
+        zeros, ones = counts[i]
+        take = 0
+        if z >= zeros and o >= ones:
+            take = 1 + self.dfs(counts, i + 1, z - zeros, o - ones, memo)
+        no_take = self.dfs(counts, i + 1, z, o, memo)
+        memo[(i, z, o)] = max(no_take, take)
+        return memo[(i, z, o)]
+
+
+
+class SolutionTDShort:
+    def findMaxForm(self, strs, m: int, n: int) -> int:
+        counts = []
+        for s in strs:
+            c = collections.Counter(s)
+            counts.append((c['0'], c['1']))
+
+        @functools.lru_cache(None)
+        def dfs(i, z, o):
+            if z == o == 0 or i >= len(counts):
+                return 0
+            zeros, ones = counts[i]
+            take = 0
+            if z >= zeros and o >= ones:
+                take = 1 + dfs(i + 1, z - zeros, o - ones)
+            no_take = dfs(i + 1, z, o)
+            res = max(no_take, take)
+            return res
+
+        return dfs(0, m, n)
 
 
 

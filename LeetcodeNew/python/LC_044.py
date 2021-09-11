@@ -149,11 +149,42 @@ class Solution2:
         return dp[-1][-1]
 
 
+class SolutionTest:
+    def isMatch(self, s: str, p: str) -> bool:
+
+        memo = {}
+        return self.dfs(s, p, 0, 0, memo)
+
+    def dfs(self, s, p, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        m, n = len(s), len(p)
+        if i == m and j == n:
+            return True
+        if i < m and j == n:
+            return False
+        if i == m and j < n:
+            if self.dfs(s, p, i, j + 1, memo):
+                memo[(i, j)] = True
+                return True
+
+        res = False
+        if j < n and p[j] == '*':
+            if self.dfs(s, p, i + 1, j, memo) or self.dfs(s, p, i, j + 1, memo):
+                res = True
+
+        if i < m and j < n and (p[j] == '?' or s[i] == p[j]):
+            if self.dfs(s, p, i + 1, j + 1, memo):
+                res = True
+
+        memo[(i, j)] = res
+        return res
 
 
-s = "aa"
-p = "*"
-a = SolutionTonyTD()
+s = "cdcb"
+p = "*c?b"
+a = SolutionTest()
 print(a.isMatch(s, p))
 
 
