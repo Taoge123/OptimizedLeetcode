@@ -57,7 +57,6 @@ import collections
 import functools
 
 
-
 class SolutionTonyTD:
     def findMaxForm(self, strs, m: int, n: int) -> int:
         counts = []
@@ -68,18 +67,20 @@ class SolutionTonyTD:
         memo = {}
         return self.dfs(counts, 0, m, n, memo)
 
-    def dfs(self, counts, i, z, o, memo):
-        if (i, z, o) in memo:
-            return memo[(i, z, o)]
-        if z == o == 0 or i >= len(counts):
+    def dfs(self, counts, pos, m, n, memo):
+        if (pos, m, n) in memo:
+            return memo[(pos, m, n)]
+
+        if (m <= 0 and n <= 0) or pos >= len(counts):
             return 0
-        zeros, ones = counts[i]
+        zeros, ones = counts[pos]
         take = 0
-        if z >= zeros and o >= ones:
-            take = 1 + self.dfs(counts, i + 1, z - zeros, o - ones, memo)
-        no_take = self.dfs(counts, i + 1, z, o, memo)
-        memo[(i, z, o)] = max(no_take, take)
-        return memo[(i, z, o)]
+        if m >= zeros and n >= ones:
+            take = 1 + self.dfs(counts, pos + 1, m - zeros, n - ones, memo)
+        no_take = self.dfs(counts, pos + 1, m, n, memo)
+        memo[(pos, m, n)] = max(no_take, take)
+        return memo[(pos, m, n)]
+
 
 
 
