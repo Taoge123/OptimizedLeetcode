@@ -65,6 +65,39 @@ Star = 2
 Match = 1
 
 """
+
+
+class SolutionTonyTD:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        return self.dfs(s, p, 0, 0, memo)
+
+    def dfs(self, s, p, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        m, n = len(s), len(p)
+        if i > m:
+            return False
+        if i == m and j == n:
+            return True
+        if i < m and j == n:
+            return False
+
+        first_match = i < m and j < n and (s[i] == p[j] or p[j] == '?')
+
+        res = False
+        if j < n and p[j] == '*':
+            res = self.dfs(s, p, i + 1, j, memo) or self.dfs(s, p, i, j + 1, memo)
+
+        if first_match:
+            res = self.dfs(s, p, i + 1, j + 1, memo)
+
+        memo[(i, j)] = res
+        return res
+
+
+
 class Solution:
     def isMatch(self, s, p):
         i = 0
@@ -116,9 +149,11 @@ class Solution2:
         return dp[-1][-1]
 
 
-s = "bbarcc"
-p = "*c"
-a = Solution()
+
+
+s = "aa"
+p = "*"
+a = SolutionTonyTD()
 print(a.isMatch(s, p))
 
 
