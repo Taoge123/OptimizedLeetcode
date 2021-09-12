@@ -15,6 +15,51 @@ Follow up: Could you improve it to O(n log n) time complexity?
 """
 
 import bisect
+import functools
+
+
+class Solution:
+    def longestIncreasingSubsequence(self, nums):
+        res = 0
+        for i in range(len(nums)):
+            memo = {}
+            res = max(res, 1+self.dfs(nums, i, memo))
+        return res
+
+    def dfs(self, nums, i, memo):
+        n = len(nums)
+        if i == n:
+            return 0
+        if i in memo:
+            return memo[i]
+        res = 0
+        for j in range(i+1, n):
+            if nums[j] > nums[i]:
+                res = max(res, self.dfs(nums, j, memo) + 1)
+        memo[i] = res
+        return res
+
+
+
+class SolutionTD:
+    def longestIncreasingSubsequence(self, nums):
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+            res = 0
+            for j in range(i + 1, n):
+                if nums[j] > nums[i]:
+                    res = max(res, dfs(j) + 1)
+            return res
+
+        res = 0
+        for i in range(len(nums)):
+            res = max(res, dfs(i) + 1)
+        return res
+
 
 class Solution:
     def lengthOfLIS(self, nums):

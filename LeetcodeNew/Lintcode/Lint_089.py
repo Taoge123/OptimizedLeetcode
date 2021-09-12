@@ -1,4 +1,3 @@
-
 class Solution:
     def kSum(self, A, k, target):
         memo = {}
@@ -8,17 +7,18 @@ class Solution:
         if (pos, k, target) in memo:
             return memo[(pos, k, target)]
 
-        if pos == len(A):
+        if target == 0 and k == 0:
+            return 1
+        if pos >= len(A):
             return 0
 
-        if k == 0 and target == 0:
-            return 1
-
-        take = self.dfs(A, pos + 1, k - 1, target - A[pos], memo)
-        no_take = self.dfs(A, pos + 1, k, target, memo)
-
+        no_take = self.dfs(A, pos+1, k, target, memo)
+        take = 0
+        if k > 0 and target - A[pos] >= 0:
+            take = self.dfs(A, pos+1, k-1, target - A[pos], memo)
         memo[(pos, k, target)] = take + no_take
         return memo[(pos, k, target)]
+
 
 
 A = [1,2,3,4]
