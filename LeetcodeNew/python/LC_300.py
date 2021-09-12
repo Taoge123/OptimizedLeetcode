@@ -41,7 +41,7 @@ class Solution:
 
 
 
-class SolutionTD:
+class SolutionTony:
     def longestIncreasingSubsequence(self, nums):
         n = len(nums)
 
@@ -59,6 +59,30 @@ class SolutionTD:
         for i in range(len(nums)):
             res = max(res, dfs(i) + 1)
         return res
+
+
+import functools
+
+
+class SolutionRika:
+    def longestIncreasingSubsequence(self, nums):
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+            res = 0
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    res = max(res, dfs(j) + 1)
+            return res
+
+        res = 0
+        for i in range(len(nums)):
+            res = max(res, dfs(i) + 1)
+        return res
+
 
 
 class Solution:
