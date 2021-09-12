@@ -34,6 +34,32 @@ the gap between the 5th and 6th stone is too large.
 
 import functools
 
+
+class SolutionTonyTD:
+    def canCross(self, stones):
+
+        target = stones[-1]
+        stones = set(stones)
+        memo = {}
+        return self.dfs(stones, target, 0, 0, memo)
+
+    def dfs(self, nums, target, pos, speed, memo):
+        if (pos, speed) in memo:
+            return memo[(pos, speed)]
+
+        if pos == target:
+            return True
+
+        for jump in [speed - 1, speed, speed + 1]:
+            if jump != 0 and pos + jump in nums:
+                if self.dfs(nums, target, pos + jump, jump, memo):
+                    memo[(pos, speed)] = True
+                    return True
+        memo[(pos, speed)] = False
+        return False
+
+
+
 class SolutionTD:
     def canCross(self, stones) -> bool:
         target = stones[-1]

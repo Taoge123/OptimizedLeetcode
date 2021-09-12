@@ -104,6 +104,9 @@ class Solution:
 
 
 
-
+s1 = "abcd"
+s2 = "ac"
+a = SolutionDFS1()
+print(a.minDistance(s1, s2))
 
 
