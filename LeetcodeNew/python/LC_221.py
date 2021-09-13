@@ -35,7 +35,8 @@ class SolutionTD:
             return 0
 
         if matrix[i][j] == '1':
-            memo[(i, j)] = 1 + min(self.dfs(matrix, i + 1, j, memo), self.dfs(matrix, i, j + 1, memo),
+            memo[(i, j)] = 1 + min(self.dfs(matrix, i + 1, j, memo),
+                                   self.dfs(matrix, i, j + 1, memo),
                                    self.dfs(matrix, i + 1, j + 1, memo))
             return memo[(i, j)]
         return 0

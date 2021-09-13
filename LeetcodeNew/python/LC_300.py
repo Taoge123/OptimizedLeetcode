@@ -21,8 +21,8 @@ import functools
 class Solution:
     def longestIncreasingSubsequence(self, nums):
         res = 0
+        memo = {}
         for i in range(len(nums)):
-            memo = {}
             res = max(res, 1+self.dfs(nums, i, memo))
         return res
 
