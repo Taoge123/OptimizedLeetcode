@@ -19,9 +19,54 @@ XXX [j XXX i] +> min{dp[j-1][k-1] + cost(s[j:i])} for j in 1, 2, 3, ..., i
 
 
 """
+import functools
 
 
 class SolutionTony:
+    def palindromePartition(self, s: str, k: int) -> int:
+        # cost
+        dp = {}
+
+        # the minimal number of characters that you need to change to divide the string
+        self.cost(s, 0, len(s) - 1, dp)
+        memo = {}
+        return self.dfs(s, 0, k, dp, memo)
+
+    def dfs(self, s, i, k, dp, memo):
+        if (i, k) in memo:
+            return memo[(i, k)]
+        n = len(s)
+        if i == n and k == 0:
+            return 0
+        if i == n or k == 0:
+            return float('inf')
+
+        res = float('inf')
+        for j in range(i, n):
+            res = min(res, self.dfs(s, j + 1, k - 1, dp, memo) + self.cost(s, i, j, dp))
+
+        memo[(i, k)] = res
+        return res
+
+    def cost(self, s, i, j, dp):
+        if (i, j) in dp:
+            return dp[(i, j)]
+
+        if i >= j:
+            return 0
+
+        res = 0
+        if s[i] == s[j]:
+            res = self.cost(s, i + 1, j - 1, dp)
+        else:
+            res = self.cost(s, i + 1, j - 1, dp) + 1
+
+        dp[(i, j)] = res
+        return res
+
+
+
+class Solution:
     def palindromePartition(self, s: str, k: int) -> int:
         n = len(s)
 
@@ -34,43 +79,20 @@ class SolutionTony:
             else:
                 return cost(i + 1, j - 1) + 1
 
-        @lru_cache(None)
-        def dp(i, k):
-            if i == n:
+        @functools.lru_cache(None)
+        def dfs(i, k):
+            if i == n and k == 0:
                 return 0
-            if k == 0:
+            if i == n or k == 0:
                 return float('inf')
-            ret = float('inf')
+
+            res = float('inf')
             for j in range(i, n):
-                ret = min(ret,
-                          dp(j + 1, k - 1) + cost(i, j))
-            return ret
+                res = min(res, cost(i, j) + dfs(j + 1, k - 1))
 
-        return dp(0, k)
+            return res
 
-
-class SolutionPython:
-    def palindromePartition(self, s: str, k: int) -> int:
-        @lru_cache(None)
-        def cost(i, j):
-            if i >= j:
-                return 0
-            if s[i] == s[j]:
-                return cost(i + 1, j - 1)
-            else:
-                return cost(i + 1, j - 1) + 1
-
-        @lru_cache(None)
-        def dp(i, k):
-            if k == 1:
-                return cost(0, i)
-            if k == i + 1:
-                return 0
-            if k > i + 1:
-                return float('inf')
-            return min([dp(j, k - 1) + cost(j + 1, i) for j in range(i)])
-
-        return dp(len(s) - 1, k)
+        return dfs(0, k)
 
 
 class Solution:

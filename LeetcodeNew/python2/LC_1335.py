@@ -30,6 +30,36 @@ for i in range(1, n+1):
 """
 
 
+class SolutionTony:
+    def minDifficulty(self, nums, k):
+        if k > len(nums):
+            return -1
+        memo = {}
+        return self.dfs(nums, 0, k, memo)
+
+    def dfs(self, nums, i, k, memo):
+        n = len(nums)
+
+        if (i, k) in memo:
+            return memo[(i, k)]
+
+        if i == n and k == 0:
+            return 0
+
+        if i == n or k == 0:
+            return float('inf')
+
+        maxi = 0
+        res = float('inf')
+        for j in range(i, n):
+            maxi = max(maxi, nums[j])
+            res = min(res, self.dfs(nums, j + 1, k - 1, memo) + maxi)
+
+        memo[(i, k)] = res
+        return res
+
+
+
 class Solution:
     def minDifficulty(self, nums, d: int) -> int:
         n = len(nums)
