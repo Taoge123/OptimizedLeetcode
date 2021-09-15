@@ -22,6 +22,73 @@ minimize sum|xi-p| -> p = the median {xi}
 
 """
 
+"""
+
+4 5684653145431
+45 684653145431
+
+4 56 84653145431
+45 6 84653145431
+
+456 84653145431
+4568 4653145431
+45684 653145431
+456846 53145431
+
+4568465314543 1
+
+1 4 6 7
+
+3 0 2 3
+
+
+"""
+
+
+class SolutionTony:
+    def minDistance(self, houses, k: int) -> int:
+
+        memo = {}
+        houses.sort()
+        return self.dfs(houses, 0, k, memo)
+
+    def dfs(self, nums, i, k, memo):
+        # @cache
+        # def cost(i, j):
+        #     avg = nums[(i + j) // 2]
+        #     res = 0
+        #     for k in range(i, j + 1):
+        #         res += abs(nums[k] - avg)
+        #     return res
+
+        if (i, k) in memo:
+            return memo[(i, k)]
+
+        n = len(nums)
+        if i >= n and k == 0:
+            return 0
+        if i >= n or k == 0:
+            return float('inf')
+
+        res = float('inf')
+        summ = 0
+        size = 0
+        for j in range(i, n):
+            summ += nums[j]
+            size += 1
+            avg = summ // size
+            # cost = cost(i, j)
+            res = min(res, self.dfs(nums, j + 1, k - 1, memo) + self.cost(nums, i, j))
+
+        memo[(i, k)] = res
+        return res
+
+    def cost(self, nums, i, j):
+        avg = nums[(i + j) // 2]
+        res = 0
+        for k in range(i, j + 1):
+            res += abs(nums[k] - avg)
+        return res
 
 
 class Solution:
