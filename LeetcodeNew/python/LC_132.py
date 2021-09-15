@@ -13,6 +13,42 @@ Explanation: The palindrome partitioning ["aa","b"] could be produced using 1 cu
 import functools
 
 
+class SolutionTonyTD:
+    def minCut(self, s: str) -> int:
+        dp = {}
+        self.isPal(s, 0, len(s) - 1, dp)
+        memo = {}
+        return self.dfs(s, 0, dp, memo) - 1
+
+
+    def isPal(self, s, i, j, dp):  # l, r inclusive
+        if (i, j) in dp:
+            return dp[(i, j)]
+        if i >= j:
+            return True
+        if s[i] != s[j]:
+            return False
+        if self.isPal(s, i + 1, j - 1, dp):
+            dp[(i, j)] = True
+            return True
+        dp[(i, j)] = False
+        return False
+
+    def dfs(self, s, i, dp, memo):  # s[i..n-1]
+        if i in memo:
+            return memo[i]
+        n = len(s)
+        if i == n:
+            return 0
+        res = float('inf')
+        for j in range(i, n):
+            if (self.isPal(s, i, j, dp)):
+                res = min(res, self.dfs(s, j + 1, dp, memo) + 1)
+        memo[i] = res
+        return res
+
+
+
 class SolutionTD:
     def minCut(self, s: str) -> int:
         n = len(s)
