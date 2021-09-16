@@ -48,6 +48,35 @@ Explanation: "abbbabbbc" occurs twice, but "abbbabbbc" can also be encoded to "2
 """
 
 
+class SolutionOMG:
+    def encode(self, s: str) -> str:
+        memo = dict()
+
+        def collapse(i, j):
+            temp = s[i:j + 1]
+            pos = (temp + temp).find(temp, 1)
+            if pos >= len(temp):
+                return temp
+            return f'{len(temp) // pos}[{dfs(i, i + pos - 1)}]'
+
+        def dfs(i, j):
+            if i == j:
+                return s[i]
+
+            if (i, j) in memo:
+                return memo[(i, j)]
+
+            arr = []
+            for k in range(i, j):
+                arr.append(dfs(i, k) + dfs(k + 1, j))
+
+            res = min(arr, key=lambda x: len(x))
+            memo[i, j] = min(res, collapse(i, j), key=lambda x: len(x))
+            return memo[i, j]
+
+        return dfs(0, len(s) - 1)
+
+
 class Solution:
     def collapse(self, dp, s, i, j):
         temp = s[i:j + 1]
