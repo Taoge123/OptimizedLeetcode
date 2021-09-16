@@ -49,6 +49,56 @@ Also, we would need to complete [k+1, j]. So in total, our candidate answer is d
 
 import functools
 
+"""
+aaabbb
+aaabbb
+
+
+aaaaaa
+   bbb
+
+aba
+a b a
+aaa
+ b
+
+b c  fdjkxbn
+option 1: 1 + dfs(i+1, j)
+
+
+aa bncfebnfcu aa ifcernaa
+  i          k         j
+
+"""
+
+
+class SolutionTony:
+    def strangePrinter(self, s: str) -> int:
+
+        memo = {}
+        return self.dfs(s, 0, len(s) - 1, memo)
+
+    def dfs(self, s, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+
+        if i == j:
+            return 1
+
+        # option 1
+        res = 1 + self.dfs(s, i + 1, j, memo)
+
+        # option 2
+        for k in range(i + 1, j + 1):
+            if s[i] == s[k]:
+                res = min(res, self.dfs(s, i, k - 1, memo) + self.dfs(s, k + 1, j, memo))
+        memo[(i, j)] = res
+        return res
+
+
 class SolutionDFS1:
     def strangePrinter(self, s):
         @functools.lru_cache(None)

@@ -3,6 +3,26 @@ https://www.youtube.com/watch?v=UjiFFYU3EKM
 really hard
 """
 
+import functools
+
+
+class SolutionTD:
+    def countPalindromicSubsequences(self, S):
+        @functools.lru_cache(None)
+        def dfs(s):
+            res = 0
+            for ch in set(s):
+                left = s.find(ch)
+                right = s.rfind(ch)
+                if left == right:
+                    res += 1
+                else:
+                    res += dfs(s[left + 1:right]) + 2
+            return res
+
+        return dfs(S) % 1000000007
+
+
 
 class Solution:
     def countPalindromicSubsequences(self, S: str) -> int:
