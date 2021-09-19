@@ -36,6 +36,33 @@ Output:
 []
 """
 
+
+class SolutionTony:
+    def wordBreak(self, s: str, wordDict):
+
+        memo = {}
+
+        res = self.dfs(s, set(wordDict), 0, memo)
+        return [" ".join(words) for words in res]
+
+    def dfs(self, s, wordDict, i, memo):
+        if i in memo:
+            return memo[i]
+
+        n = len(s)
+        if i == n:
+            return [[]]
+
+        res = []
+        for j in range(i + 1, n + 1):
+            if s[i:j] in wordDict:
+                for sub in self.dfs(s, wordDict, j, memo):
+                    res.append([s[i:j]] + sub)
+
+        memo[i] = res
+        return res
+
+
 class Solution:
     def wordBreak(self, s: str, wordDict):
         return self.helper(s, wordDict, {})

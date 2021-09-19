@@ -85,16 +85,16 @@ class SolutionRika:
 
 
 
-class Solution:
+class SolutionOp:
     def lengthOfLIS(self, nums):
 
         dp = []
         for num in nums:
-            index = bisect.bisect_left(dp, num)
-            if index == len(dp):
+            i = bisect.bisect_left(dp, num)
+            if i == len(dp):
                 dp.append(num)
             else:
-                dp[index] = num
+                dp[i] = num
         return len(dp)
 
 

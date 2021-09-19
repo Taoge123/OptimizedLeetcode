@@ -14,6 +14,61 @@ Output: 0
 Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
 """
 
+import functools
+
+
+class Solution0:
+    def maxProduct(self, nums) -> int:
+        def dfs(i, val):
+            if i == len(nums):
+                return val
+            # 3 choices, Include the current number in the product, start a new product, or end the product
+            res = max(val, dfs(i + 1, val * nums[i]), dfs(i + 1, nums[i]))
+            return res
+
+        return dfs(1, nums[0])
+
+
+
+class Solution00:
+    def maxProduct(self, nums) -> int:
+
+        memo = {}
+        return self.dfs(nums, 1, nums[0], memo)
+
+    def dfs(self, nums, i, val, memo):
+        if (i, val) in memo:
+            return memo[(i, val)]
+
+        if i == len(nums):
+            return val
+
+        res = max(val, self.dfs(nums, i + 1, val * nums[i], memo), self.dfs(nums, i + 1, nums[i], memo))
+        memo[(i, val)] = res
+        return res
+
+
+class Solution:
+    def maxProduct(self, nums) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            # if i == len(nums):
+            #     return 1, 1
+
+            if i == len(nums):
+                return [0, 0]
+
+            x = nums[i]
+            y = nums[i] * min(dfs(i + 1))
+            z = nums[i] * max(dfs(i + 1))
+            return max(x, y, z), min(x, y, z)
+
+        res = float('-inf')
+        for i in range(len(nums)):
+            res = max(res, dfs(i)[0])
+        return res
+
 
 class SolutionTony:
     def maxProduct(self, nums) -> int:
@@ -42,3 +97,27 @@ class Solution:
 
 
 
+class SolutionTest:
+    def maxProduct(self, nums) -> int:
+
+        memo = {}
+        print(self.dfs(nums, 0, memo))
+
+    def dfs(self, nums, i, memo):
+        if i in memo:
+            return memo[i]
+
+        if i == len(nums):
+            return [1, 1]
+
+        x = nums[i]
+        y = nums[i] * min(self.dfs(nums, i + 1, memo))
+        z = nums[i] * max(self.dfs(nums, i + 1, memo))
+
+        res = [max(x, y, z), min(x, y, z)]
+        memo[i] = res
+        return res
+
+nums = [0,2]
+a = SolutionTest()
+print(a.maxProduct(nums))

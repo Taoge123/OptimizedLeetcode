@@ -86,7 +86,7 @@ class SolutionTony:
             return 0
 
         if i == j:
-            return 1
+            return 166
 
         # option 1
         res = 1 + self.dfs(s, i + 1, j, memo)

@@ -1,5 +1,6 @@
 """
 https://leetcode.com/problems/count-different-palindromic-subsequences/discuss/109510/Python-DP%2BDFS-O(n2)-with-Explanations
+https://leetcode.com/problems/count-different-palindromic-subsequences/discuss/272297/DP-C%2B%2B-Clear-solution-explained
 
 https://www.youtube.com/watch?v=UjiFFYU3EKM
 really hard
@@ -12,6 +13,59 @@ The worst case time complexity is O(n^2). The best case time complexity is O(n).
 """
 
 import functools
+
+"""
+
+c - 1
+cc - 2
+
+c ********* c
+
+********* - n 
+c cc - 2
+c ********* c - n
+2 * n + 2
+
+
+b cc b -> 6
+cc - 2
+bb - 2
+b cc b - 2
+
+bccb - 6
+a bccb a
+aa - 2
+a bccb a - 6
+
+"""
+
+
+class Solution00:
+    def countPalindromicSubsequences(self, s: str) -> int:
+
+        mod = 10 ** 9 + 7
+        memo = {}
+        return self.dfs(s, 0, len(s) - 1, memo) % mod
+
+    def dfs(self, s, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+        if i == j:
+            return 1
+
+        res = 0
+        for ch in set(s[i:j + 1]):
+            left = s.find(ch, i, j + 1)
+            right = s.rfind(ch, i, j + 1)
+            if left == right:
+                res += 1
+            else:
+                res += self.dfs(s, left + 1, right - 1, memo) + 2
+        memo[(i, j)] = res
+        return res
 
 
 class Solution0:
@@ -137,7 +191,8 @@ class Solution:
         return count(S, 0, n - 1)
 
 
-
-
+s = "abccba"
+a = Solution00()
+print(a.countPalindromicSubsequences(s))
 
 

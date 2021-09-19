@@ -68,6 +68,80 @@ class Solution:
         return dp[0][n - 1][1]
 
 
+"""
+N
+N - (K-1)
+N - (K-1)*2
+N - (K-1)*3
+...
+K
+1
+
+
+"""
+
+
+class SolutionTD:
+    def mergeStones(self, nums, K):
+        # p = functools.reduce(lambda s,x: s+[s[-1]+x],nums,[0])
+        presum = [0]
+        for num in nums:
+            presum.append(presum[-1] + num)
+
+        @functools.lru_cache(None)
+        def dfs(i, j, m):
+            # if (j-i+1-m) % (K-1):
+            #     return float('inf')
+            if i == j:
+                if m == 1:
+                    return 0
+                else:
+                    return float('inf')
+            if m == 1:
+                return dfs(i, j, K) + presum[j + 1] - presum[i]
+
+            res = float('inf')
+            for k in range(i, j):
+                res = min(res, dfs(i, k, 1) + dfs(k + 1, j, m - 1))
+            return res
+
+        res = dfs(0, len(nums) - 1, 1)
+        return res if res != float('inf') else -1
+
+
+
+class SolutionTD2:
+    def mergeStones(self, nums, K: int) -> int:
+        self.K = K
+        self.presum = [0]
+        for num in nums:
+            self.presum.append(self.presum[-1] + num)
+
+        memo = {}
+        res = self.dfs(0, len(nums) - 1, 1, memo)
+        return res if res != float('inf') else -1
+
+    def dfs(self, i, j, m, memo):
+        if (i, j, m) in memo:
+            return memo[(i, j, m)]
+
+        if (j - i + 1 - m) % (self.K - 1):
+            return float('inf')
+        if i == j:
+            if m == 1:
+                return 0
+            else:
+                return float('inf')
+
+        if m == 1:
+            return self.dfs(i, j, self.K, memo) + self.presum[j + 1] - self.presum[i]
+
+        res = float('inf')
+        for k in range(i, j):
+            res = min(res, self.dfs(i, k, 1, memo) + self.dfs(k + 1, j, m - 1, memo))
+        memo[(i, j, m)] = res
+        return res
+
 
 
 class SolutionTopDown:
@@ -99,8 +173,10 @@ class SolutionTopDown:
 
 
 
-
-
+nums = [3,2,4,1]
+K = 2
+a = SolutionTD2()
+print(a.mergeStones(nums, K))
 
 
 

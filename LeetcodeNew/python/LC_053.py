@@ -12,6 +12,32 @@ Follow up:
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 """
 
+
+
+
+class SolutionTD:
+    def maxSubArray(self, nums) -> int:
+        memo = {}
+        self.dfs(nums, 0, memo)
+        return max(memo.values())
+
+    def dfs(self, nums, i, memo):
+        if i in memo:
+            return memo[i]
+
+        if i == len(nums):
+            return 0
+
+        # if i == len(nums)-1:
+        #     memo[i] = nums[i]
+        #     return nums[i]
+
+        res = max(nums[i], nums[i] + self.dfs(nums, i + 1, memo))
+        memo[i] = res
+        return res
+
+
+
 class Solution:
     def maxSubArray(self, nums):
         dp = [0] * len(nums)

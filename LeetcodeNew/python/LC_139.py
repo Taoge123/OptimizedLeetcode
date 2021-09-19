@@ -23,6 +23,26 @@ Output: false
 """
 
 
+class SolutionTD:
+    def wordBreak(self, s: str, wordDict) -> bool:
+        memo = {}
+        return self.dfs(s, set(wordDict), 0, memo)
+
+    def dfs(self, s, words, i, memo):
+        if i in memo:
+            return memo[i]
+        n = len(s)
+        if i == n:
+            return True
+
+        for j in range(i + 1, n + 1):
+            if s[i:j] in words and self.dfs(s, words, j, memo):
+                memo[i] = True
+                return True
+        memo[i] = False
+        return False
+
+
 class Solution:
     def wordBreak(self, s: str, wordDict) -> bool:
         wordDict = set(wordDict)
