@@ -33,6 +33,38 @@ Explanation: The array cannot be partitioned into equal sum subsets.
 https://github.com/wisdompeak/LeetCode/tree/master/DFS/698.Partition-to-K-Equal-Sum-Subsets
 """
 import copy
+import functools
+
+
+class SolutionTonnie:
+    def canPartition(self, nums) -> bool:
+
+        summ = sum(nums)
+        if summ % 2 != 0:
+            return False
+        target = summ // 2
+        memo = {}
+        return self.dfs(nums, 0, target, memo)
+
+    def dfs(self, nums, i, target, memo):
+        if (i, target) in memo:
+            return memo[(i, target)]
+
+        n = len(nums)
+        if target == 0:
+            return True
+
+        if target < 0 or i >= n:
+            return False
+
+        for j in range(i, n):
+            if self.dfs(nums, j + 1, target - nums[j], memo):
+                memo[(i, target)] = True
+                return True
+        memo[(i, target)] = False
+        return False
+
+
 
 
 class SolutionTony:

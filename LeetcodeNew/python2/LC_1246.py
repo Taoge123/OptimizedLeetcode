@@ -10,7 +10,7 @@ https://leetcode.com/problems/palindrome-removal/discuss/745169/10-line-python-s
 import functools
 
 
-class Solution:
+class Solution00:
     def minimumMoves(self, arr) -> int:
         @functools.lru_cache(None)
         def dp(i, j):
@@ -24,6 +24,23 @@ class Solution:
 
         return dp(0, len(arr) - 1)
 
+
+class Solution01:
+    def minimumMoves(self, A):
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i > j:
+                return 1
+            if A[i] == A[j]:
+                return dfs(i + 1, j - 1)
+            else:
+                res = float('inf')
+                for k in range(i, j):
+                    res = min(res, dfs(i, k) + dfs(k + 1, j))
+                return res
+
+        return dfs(0, len(A) - 1)
 
 
 class SolutionDFS:
@@ -139,5 +156,33 @@ class SolutionERROR:
                 dp[i][j] = dp[i + 1][j - 1] if arr[i] == arr[j] else min(dp[i][k] + dp[k + 1][j] for k in range(i, j))
 
         return dp[0][-1] - 1
+
+
+
+class SolutionTest:
+    def minimumMoves(self, arr) -> int:
+        memo = {}
+        return self.dfs(arr, 0, len(arr) - 1, memo)
+
+    def dfs(self, arr, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i > j:
+            return 0
+
+        res = 1 + self.dfs(arr, i + 1, j, memo)
+        for k in range(i + 1, j + 1):
+            if arr[i] == arr[k]:
+                left = self.dfs(arr, i + 1, k - 1, memo)
+                right = self.dfs(arr, k + 1, j, memo)
+                res = min(res, max(1, left) + right)
+        memo[(i, j)] = res
+        return memo[(i, j)]
+
+
+nums = [1,4,4,1]
+a = SolutionTest()
+print(a.minimumMoves(nums))
 
 

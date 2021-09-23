@@ -56,6 +56,27 @@ class SolutionTony:
         return dfs(amount, 0)
 
 
+class SolutionTonnie:
+    def change(self, amount: int, coins) -> int:
+
+        memo = {}
+        return self.dfs(coins, 0, amount, memo)
+
+    def dfs(self, nums, i, target, memo):
+        if (i, target) in memo:
+            return memo[(i, target)]
+
+        n = len(nums)
+        if target == 0:
+            return 1
+        if target < 0 or i >= n:
+            return 0
+
+        take = self.dfs(nums, i, target - nums[i], memo)
+        no_take = self.dfs(nums, i + 1, target, memo)
+
+        memo[(i, target)] = take + no_take
+        return memo[(i, target)]
 
 
 class Solution:
