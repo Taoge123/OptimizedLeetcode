@@ -15,7 +15,39 @@ https://github.com/wisdompeak/LeetCode/tree/master/Dynamic_Programming/805.Split
 total // n == sum // num
 """
 
-class SolutionTD:
+
+class SolutionTony:
+    def splitArraySameAverage(self, nums):
+        total, n = sum(nums), len(nums)
+        memo = {}
+        # as least one of the set have less than half of elements
+        for k in range(1, len(nums) // 2 + 1):
+            if total * k % n != 0:
+                continue
+            if self.dfs(nums, 0, total * k / n, k, memo):
+                return True
+        return False
+
+    def dfs(self, nums, i, target, count, memo):
+
+        if (i, count, target) in memo:
+            return memo[(i, count, target)]
+
+        if count == 0 and target == 0:
+            return True
+        if count == 0 and target == 0:
+            return False
+        if i >= len(nums):
+            return False
+
+        take = self.dfs(nums, i + 1, target - nums[i], count - 1, memo)
+        no_take = self.dfs(nums, i + 1, target, count, memo)
+
+        memo[(i, count, target)] = take or no_take
+        return memo[(i, count, target)]
+
+
+class SolutionTDTLEnow:
     def splitArraySameAverage(self, A) -> bool:
         total = sum(A)
         n = len(A)
@@ -50,30 +82,34 @@ class SolutionTD:
         return False
 
 
-
-
-
 class SolutionTLE:
-    def splitArraySameAverage(self, A) -> bool:
-        self.n = len(A)
-        self.total = sum(A)
-        A.sort()
-        return self.dfs(A, 0, 0, 0)
+    def splitArraySameAverage(self, nums) -> bool:
 
-    def dfs(self, A, curSum, curNum, index):
-        if curNum > 0 and curNum < len(A) and self.total * curNum == self.n * curSum:
+        self.n = len(nums)
+        self.total = sum(nums)
+        # nums.sort()
+        memo = {}
+        return self.dfs(nums, 0, 0, 0, memo)
+
+    def dfs(self, nums, i, curNum, curSum, memo):
+        if (i, curNum, curSum) in memo:
+            return memo[(i, curNum, curSum)]
+
+        n = len(nums)
+        if curNum > 0 and curNum < n and self.total * curNum == self.n * curSum:
             return True
 
-        if index == len(A):
+        if i >= n:
             return False
 
-        # Choose
-        if self.dfs(A, curSum + A[index], curNum + 1, index + 1):
+        if self.dfs(nums, i + 1, curNum + 1, curSum + nums[i], memo):
+            memo[(i, curNum, curSum)] = True
             return True
 
-        if self.dfs(A, curSum, curNum, index + 1):
+        if self.dfs(nums, i + 1, curNum, curSum, memo):
+            memo[(i, curNum, curSum)] = True
             return True
-
+        memo[(i, curNum, curSum)] = False
         return False
 
 

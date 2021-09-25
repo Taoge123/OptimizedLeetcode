@@ -19,6 +19,44 @@ Output: "bb"
 """
 
 
+class Solution2:
+    def longestPalindrome(self, s):
+        res = ""
+        for i in range(len(s)):
+            res = max(self.helper(s, i, i), self.helper(s, i, i + 1), res, key=len)
+
+        return res
+
+    def helper(self, s, l, r):
+        while 0 <= l and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l + 1:r]
+
+
+
+class Solution22:
+    def longestPalindrome(self, s: str) -> str:
+        if not s or len(s) < 1:
+            return ""
+        res = ""
+        for i in range(len(s)):
+            tmp = self.helper(s, i, i)
+            if len(tmp) > len(res):
+                res = tmp
+            tmp = self.helper(s, i, i + 1)
+            if len(tmp) > len(res):
+                res = tmp
+        return res
+
+    def helper(self, s, l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l + 1:r]
+
+
+
 class Solution:
     # Manacher algorithm
     # http://en.wikipedia.org/wiki/Longest_palindromic_substring
@@ -75,38 +113,7 @@ class Solution1:
 
 
 
-class Solution2:
-    def longestPalindrome(self, s):
-        res = ""
-        for i in range(len(s)):
-            res = max(self.helper(s, i, i), self.helper(s, i, i + 1), res, key=len)
 
-        return res
-
-    def helper(self, s, l, r):
-        while 0 <= l and r < len(s) and s[l] == s[r]:
-            l -= 1
-            r += 1
-        return s[l + 1:r]
-
-
-class Solution22:
-    def longestPalindrome(self, s: str) -> str:
-        if not s or len(s) < 1:
-            return ""
-        res = ""
-        for i in range(len(s)):
-            tmp = self.helper(s, i, i)
-            res = tmp if len(tmp) > len(res) else res
-            tmp = self.helper(s, i, i + 1)
-            res = tmp if len(tmp) > len(res) else res
-        return res
-
-    def helper(self, s, l, r):
-        while l >= 0 and r < len(s) and s[l] == s[r]:
-            l -= 1
-            r += 1
-        return s[l + 1:r]
 
 
 

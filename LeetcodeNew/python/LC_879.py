@@ -20,26 +20,51 @@ dp[k][i][j] = dp[k - 1][i][j] + dp[k - 1][i - current group][Math.max(0, j - cur
 This is 3d original solution:
 """
 
-from functools import lru_cache
+import functools
 
 
-class SolutionTD:
-    def profitableSchemes(self, G: int, P: int, group, profit) -> int:
-        @lru_cache(None)
-        def dp(i, total_profit, members_left):
-            if i == len(profit):
-                return 0
+class Solution:
+    def profitableSchemes(self, n, minProfit, group, profit):
 
+        @functools.lru_cache(None)
+        def dfs(i, g, p):
+            if i >= len(group):
+                return p >= minProfit
+
+            # 不犯这个罪
+            no_take = dfs(i + 1, g, p)
             take = 0
-            we_can_take = members_left - group[i] >= 0
-            if we_can_take:
-                profit_here = 1 if total_profit + profit[i] >= P else 0
-                take = profit_here + dp(i + 1, min(P, total_profit + profit[i]), max(0, members_left - group[i]))
-            skip = dp(i + 1, total_profit, members_left)
+            # 如果人数够，考虑犯这个罪
+            if g >= group[i]:
+                # min(P,p+profit[i]) 如果超过P,统一计为P,降低复杂度
+                take = dfs(i + 1, g - group[i], min(minProfit, p + profit[i]))
+            return take + no_take
 
-            return take + skip
+        # res = dfs(0, n, 0) % (10**9+7)
+        # dfs.cache_clear()
+        return dfs(0, n, 0) % (10 ** 9 + 7)
 
-        return dp(0, 0, G) % (10 ** 9 + 7)
+
+
+class SolutionTLE:
+    def profitableSchemes(self, n: int, minProfit: int, group, profit) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, g, p):
+            print(i, g, p)
+            if i >= len(group):
+                return p >= minProfit
+
+            no_take = dfs(i + 1, g, p)
+            take = 0
+            if g >= group[i]:
+                take = dfs(i + 1, g - group[i], p + profit[i])
+            return take + no_take
+
+        # res = dfs(0, n, 0) % (10**9+7)
+        # dfs.cache_clear()
+        return dfs(0, n, 0) % (10 ** 9 + 7)
+
 
 
 
