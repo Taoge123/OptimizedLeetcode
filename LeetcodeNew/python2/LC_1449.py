@@ -1,5 +1,6 @@
 
 """
+https://leetcode.com/problems/form-largest-integer-with-digits-that-add-up-to-target/discuss/635262/Python-Knapsack-%2B-Greedy-O(target)-clean-solution
 https://www.youtube.com/watch?v=I0Ttr25Nio4
 背包问题
 Solution 2
@@ -90,7 +91,10 @@ class SolutionDFS2:
         if target == 0:
             return 0
 
-        if i == len(cost) or target < 0:
+        if i == len(cost):
+            return float("-inf")
+
+        if target < 0:
             return float("-inf")
 
         take = self.dfs(cost, i, target - cost[i], memo) * 10 + i + 1
@@ -152,5 +156,11 @@ class Solution2:
                     dp[i] = max(dp[i], dp[i - num] * 10 + idx + 1)
         return str(max(dp[i], 0))
 
+
+
+cost = [4,3,2,5,6,7,2,5,5]
+target = 9
+a = SolutionDFS2()
+print(a.largestNumber(cost, target))
 
 

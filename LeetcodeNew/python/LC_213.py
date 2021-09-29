@@ -19,6 +19,30 @@ Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
 """
 
 
+class SolutionTony:
+    def rob(self, nums) -> int:
+        n = len(nums)
+        if n == 0:
+            return 0
+        if n == 1:
+            return nums[0]
+        return max(self.dfs(nums[1:], 0, {}), self.dfs(nums[:-1], 0, {}))
+
+    def dfs(self, nums, i, memo):
+        if i in memo:
+            return memo[i]
+
+        if i >= len(nums):
+            return 0
+
+        rob = self.dfs(nums, i + 2, memo) + nums[i]
+        no_rob = self.dfs(nums, i + 1, memo)
+
+        memo[i] = max(rob, no_rob)
+        return memo[i]
+
+
+
 class Solution:
     def rob(self, nums):
         n = len(nums)

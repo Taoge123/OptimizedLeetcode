@@ -21,6 +21,96 @@ update his_skill with all current combinations of skill_set in dp.
 """
 
 import collections
+import functools
+
+
+"""
+[ - 001111 - 11011
+2
+3
+4
+5]
+
+[00101, 0100101, 0101001, 01001]
+
+[00111][11011][]]
+
+
+"""
+
+class SolutionTony:
+    def smallestSufficientTeam(self, req_skills, people):
+
+        m, n = len(req_skills), len(people)
+
+        table = {v: i for i, v in enumerate(req_skills)}
+
+        people2skills = [0] * n
+
+        for i, p in enumerate(people):
+            for skill in p:
+                if skill in table:
+                    people2skills[i] |= (1 << table[skill])
+
+        full_mask = (1 << m) - 1
+
+        @functools.lru_cache(None)
+        def dfs(i, mask):
+            if i >= n:
+                if mask == full_mask:
+                    return []
+                else:
+                    return [0] * (n + 1)
+            res = [0] * (n + 1)
+            take = dfs(i+1, mask | people2skills[i]) + [i]
+            no_take = dfs(i+1, mask)
+            res = min(res, take, no_take, key=len)
+            return res
+
+        return dfs(0, 0)
+
+
+
+class Solution:
+    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
+
+        m, n = len(req_skills), len(people)
+
+        table = {v: i for i, v in enumerate(req_skills)}
+
+        people2skills = [0] * n
+
+        for i, p in enumerate(people):
+            for skill in p:
+                if skill in table:
+                    people2skills[i] |= (1 << table[skill])
+
+        full_mask = (1 << m) - 1
+
+        @functools.lru_cache(None)
+        def dfs(mask):
+            if mask == full_mask:
+                return []
+
+            res = [0] * (n + 1)
+            for i, skill_mask in enumerate(people2skills):
+                nxt_mask = mask | skill_mask
+                if nxt_mask != mask:
+                    if len(dfs(nxt_mask)) < len(res):
+                        res = [i] + dfs(nxt_mask)
+                    else:
+                        return res
+                    # res = min(res, [i] + dfs(nxt_mask), key = len)
+            return res
+
+        return dfs(0)
+
+        """
+        00100
+        00110
+        """
+
+
 
 class Solution:
     def smallestSufficientTeam(self, target, people):

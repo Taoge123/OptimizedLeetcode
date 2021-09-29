@@ -46,6 +46,23 @@ class Solution:
         return dfs(0, 0, 0)
 
 
+
+class Solution2D:
+    def lastStoneWeightII(self, stones):
+        @functools.lru_cache(None)
+        def dfs(i, s):  # arguments are stone index and current sum
+            if i == len(stones):  # end of array, return the current sum (abs)
+                return abs(s)
+
+            # try summing or subtracting each stone value
+            add = dfs(i + 1, s + stones[i])
+            minus = dfs(i + 1, s - stones[i])
+
+            return min(add, minus)
+
+        return dfs(0, 0)
+
+
 class Solution2:
     def lastStoneWeightII(self, stones) -> int:
 

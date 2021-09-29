@@ -45,7 +45,9 @@ from functools import lru_cache
 import collections
 
 """
+https://leetcode.com/problems/tallest-billboard/discuss/278332/Concise-Python-DFS-%2B-Memo
 https://leetcode.com/problems/tallest-billboard/discuss/219700/Python-DP-clean-solution(1D)
+https://leetcode.com/problems/tallest-billboard/discuss/203181/JavaC%2B%2BPython-DP-min(O(SN2)-O(3N2-*-N)
 
 It is like a knapsack problem.
 Consider this problem as:
@@ -66,6 +68,48 @@ Then we will get the final result with dp[0]
 
 
 """
+
+import functools
+
+
+class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, diff):
+            if i >= len(rods):
+                if diff:
+                    return float('-inf')
+                return 0
+
+            long = dfs(i + 1, diff + rods[i])
+
+            # short=dfs(i+1,abs(rods[i]-diff))+min(rods[i],diff)
+            short = 0
+            if rods[i] > diff:
+                short = dfs(i + 1, rods[i] - diff) + diff
+            else:
+                short = dfs(i + 1, diff - rods[i]) + rods[i]
+            skip = dfs(i + 1, diff)
+
+            return max(long, short, skip)
+
+        return dfs(0, 0)
+
+
+class SolutionTLE:
+    def tallestBillboard(self, rods) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, s1, s2):
+            if i >= len(rods):
+                if s1 == s2:
+                    return s1
+                else:
+                    return 0
+
+            return max(dfs(i + 1, s1, s2), dfs(i + 1, s1 + rods[i], s2), dfs(i + 1, s1, s2 + rods[i]))
+
+        return dfs(0, 0, 0)
 
 
 class SolutionEasy1:

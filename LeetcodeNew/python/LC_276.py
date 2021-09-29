@@ -27,6 +27,8 @@ Explanation: Take c1 as color 1, c2 as color 2. All possible ways are:
 """
 
 """
+https://leetcode.com/problems/paint-fence/solution/
+
 276.Paint-Fence
 这种排列组合的题，可能会想到是否有数学的解析方法．但解析方法往往也是由递归得到．所以不妨我们直接考虑递归或者ＤＰ的方法．
 
@@ -40,6 +42,26 @@ Explanation: Take c1 as color 1, c2 as color 2. All possible ways are:
 
 上述的递归公式显示，我们只要不断更新两个状态变量same和diff即可．最后的答案就是两者之和．
 """
+
+
+class SolutionTony:
+    def numWays(self, n: int, k: int) -> int:
+        memo = {}
+        return self.dfs(n, k, memo)
+
+    def dfs(self, n, k, memo):
+        if n in memo:
+            return memo[n]
+
+        if n == 1:
+            return k
+        if n == 2:
+            return k * k
+
+        memo[n] = (k - 1) * (self.dfs(n - 1, k, memo) + self.dfs(n - 2, k, memo))
+        return memo[n]
+
+
 
 
 class Solution:

@@ -1,9 +1,65 @@
 """
 house robber II with constraint n // 3
 
+https://leetcode-cn.com/problems/pizza-with-3n-slices/solution/py3-by-mao1112-15/
+https://leetcode-cn.com/problems/pizza-with-3n-slices/solution/python-dong-tai-gui-hua-by-hao-shou-bu-juan-21/
+
+
 """
 
 import functools
+
+
+class SolutionTony1:
+    def maxSizeSlices(self, nums) -> int:
+        k = len(nums) // 3
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            # the bottom case will be we only have two slice pizza left.
+            # if k==0: good, we alreay have enough pizza, return 0
+            # if k==1: good, return the maximum pizza
+            # if k==2: impossible.
+            if j - i + 1 <= 2:
+                if k == 0:
+                    return 0
+                elif k == 1:
+                    return max(nums[i:j + 1])
+                else:
+                    return float('-inf')
+
+            return max(dfs(i + 2, j, k - 1) + nums[i], dfs(i + 1, j, k))
+
+        return max(dfs(0, n - 2, k), dfs(1, n - 1, k))
+
+
+class SolutionTony2:
+    def maxSizeSlices(self, nums) -> int:
+        k = len(nums) // 3
+        n = len(nums)
+        memo = {}
+        return max(self.dfs(nums, 0, n - 2, k, memo), self.dfs(nums, 1, n - 1, k, memo))
+
+    def dfs(self, nums, i, j, k, memo):
+        # the bottom case will be we only have two slice pizza left.
+        # if k==0: good, we alreay have enough pizza, return 0
+        # if k==1: good, return the maximum pizza
+        # if k==2: impossible.
+        if (i, j, k) in memo:
+            return memo[(i, j, k)]
+
+        n = len(nums)
+        if j - i + 1 <= 2:
+            if k == 0:
+                return 0
+            elif k == 1:
+                return max(nums[i:j + 1])
+            else:
+                return float('-inf')
+
+        memo[(i, j, k)] = max(self.dfs(nums, i + 2, j, k - 1, memo) + nums[i], self.dfs(nums, i + 1, j, k, memo))
+        return memo[(i, j, k)]
 
 
 class Solution:
