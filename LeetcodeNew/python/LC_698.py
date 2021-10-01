@@ -3,6 +3,7 @@
 698. Partition to K Equal Sum Subsets - identical - 473. Matchsticks to Square
 996. Number of Squareful Arrays
 
+can be solved by using bitmask
 """
 
 
