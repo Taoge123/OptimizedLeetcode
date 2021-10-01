@@ -25,7 +25,34 @@ Input: [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/discuss/1285198/Why-doesnt-this-work-Python-or-Recursion-with-memoization
+
 """
+
+
+class SolutionTony:
+    def maxProfit(self, prices) -> int:
+        memo = {}
+        return self.dfs(prices, 0, 2, False, memo)
+
+    def dfs(self, nums, i, k, hold, memo):
+        if (i, k, hold) in memo:
+            return memo[(i, k, hold)]
+
+        if k == 0:
+            return 0
+        if i == len(nums):
+            return 0
+
+        res = self.dfs(nums, i + 1, k, hold, memo)
+        if not hold:
+            res = max(res, self.dfs(nums, i + 1, k, True, memo) - nums[i])
+        else:
+            res = max(res, self.dfs(nums, i + 1, k - 1, False, memo) + nums[i])
+
+        memo[(i, k, hold)] = res
+        return res
+
 
 class Solution:
     def maxProfit(self, prices):

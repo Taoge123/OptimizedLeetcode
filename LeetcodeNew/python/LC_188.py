@@ -61,6 +61,34 @@ return dp[n-1][no];
 
 import functools
 
+
+class SolutionTony:
+    def maxProfit(self, k: int, prices) -> int:
+        memo = {}
+        return self.dfs(prices, 0, k, False, memo)
+
+    def dfs(self, nums, i, k, hold, memo):
+        if (i, k, hold) in memo:
+            return memo[(i, k, hold)]
+
+        if i >= len(nums):
+            return 0
+
+        if k <= 0:
+            return 0
+
+        res = self.dfs(nums, i + 1, k, hold, memo)
+        if not hold:
+            res = max(res, self.dfs(nums, i + 1, k, True, memo) - nums[i])
+
+        else:
+            res = max(res, self.dfs(nums, i + 1, k - 1, False, memo) + nums[i])
+
+        memo[(i, k, hold)] = res
+        return res
+
+
+
 class SolutionTD:
     def maxProfit(self, k: int, prices) -> int:
 

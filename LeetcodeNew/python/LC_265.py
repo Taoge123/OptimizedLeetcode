@@ -21,6 +21,29 @@ Could you solve it in O(nk) runtime?
 """
 
 
+class SolutionTony:
+    def minCostII(self, costs) -> int:
+
+        memo = {}
+        return self.dfs(costs, 0, -1, memo)
+
+    def dfs(self, nums, i, color, memo):
+
+        if (i, color) in memo:
+            return memo[(i, color)]
+
+        if i >= len(nums):
+            return 0
+
+        res = float('inf')
+        for j in range(len(nums[i])):
+            if j != color:
+                res = min(res, self.dfs(nums, i + 1, j, memo) + nums[i][j])
+
+        memo[(i, color)] = res
+        return res
+
+
 class Solution:
     def minCostII(self, costs) -> int:
 

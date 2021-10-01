@@ -29,6 +29,8 @@ Explanation: Take c1 as color 1, c2 as color 2. All possible ways are:
 """
 https://leetcode.com/problems/paint-fence/discuss/178010/The-only-solution-you-need-to-read
 https://leetcode.com/problems/paint-fence/solution/
+https://leetcode.com/problems/paint-fence/discuss/629093/Java-Easy-Intuitive-Recursive-Solution-w-Mem-(Beats-100)
+
 
 If you are painting the ith post, you have two options:
 
@@ -89,6 +91,51 @@ Once you have this, the code is trivial (but overall, this problem is not an eas
 """
 
 
+"""
+num_ways(i) = num_ways_diff(i) + num_ways_same(i)
+
+num_ways(i) = num_ways(i-1) * (k-1) + num_ways_same(i)
+
+num_ways(i) = num_ways(i-1) * (k-1) + num_ways_diff(i-1) * 1
+
+num_ways(i) = num_ways(i-1) * (k-1) + num_ways(i-2)) * (k-1)
+
+Tony version
+f(i) = diff(i) + same(i)
+diff(i) = (k-1) * f(i-1)
+same(i) = diff(i-1) = f(i-2) * (k-1)
+
+
+"""
+
+
+class SolutionTony11:
+    def numWays(self, n: int, k: int) -> int:
+
+        if n == 0 or k == 0:
+            return 0
+
+        memo = {}
+        return self.dfs(n, k, -1, False, memo)
+
+    def dfs(self, n, k, prev, lastTwoSame, memo):
+        if (n, lastTwoSame) in memo:
+            return memo[(n, lastTwoSame)]
+
+        if n == 0:
+            return 1
+
+        res = 0
+        for color in range(k):
+            if prev == color and lastTwoSame:
+                continue
+            res += self.dfs(n - 1, k, color, prev == color, memo)
+
+        memo[(n, lastTwoSame)] = res
+        return res
+
+
+
 class SolutionTony:
     def numWays(self, n: int, k: int) -> int:
         memo = {}
@@ -105,6 +152,26 @@ class SolutionTony:
 
         memo[n] = (k - 1) * (self.dfs(n - 1, k, memo) + self.dfs(n - 2, k, memo))
         return memo[n]
+
+
+class SolutionNoConstraint:
+    def numWays(self, n: int, k: int) -> int:
+
+        if n == 0 or k == 0:
+            return 0
+
+        return self.dfs(n, k)
+
+    def dfs(self, n, k):
+        if n == 0:
+            return 1
+
+        res = 0
+        for c in range(k):
+            res += self.dfs(n - 1, k)
+
+        return res
+
 
 
 

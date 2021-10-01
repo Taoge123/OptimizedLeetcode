@@ -22,6 +22,102 @@ Output: 2
 Follow up:
 Can you do it in O(n) time?
 """
+"""
+https://leetcode.com/problems/wiggle-subsequence/discuss/473844/Python-Memoization
+
+
+"""
+
+
+import functools
+
+class Solution:
+    def wiggleMaxLength(self, nums):
+        @functools.lru_cache(None)
+        def dfs(i, increase):
+            if i >= len(nums):
+                return 1  # Found End
+
+            # Search positive, negative, and skip edge cases. On the first iteration, the edge can be neg or pos --> None is valid
+            up, down = 0, 0
+            if (nums[i] > nums[i - 1] and (increase == False or increase == None)):
+                up = 1 + dfs(i + 1, True)
+            if (nums[i] < nums[i - 1] and (increase == True or increase == None)):
+                down = 1 + dfs(i + 1, False)
+            no_change = dfs(i + 1, increase)
+
+            return max(up, down, no_change)
+
+        return dfs(1, None)  # Problem constrains to at least 1
+
+
+class SolutionTony00:
+    def wiggleMaxLength(self, nums):
+
+        memo = {}
+        return self.dfs(nums, 1, None, nums[0], memo)
+
+    def dfs(self, nums, i, increase, last, memo):
+        if (i, increase) in memo:
+            return memo[(i, increase)]
+
+        if i >= len(nums):
+            return 1
+
+        up, down = 0, 0
+        if (nums[i] > nums[i - 1] and (increase == False or increase == None)):
+            up = self.dfs(nums, i + 1, True, nums[i], memo) + 1
+        if (nums[i] < nums[i - 1] and (increase == True or increase == None)):
+            down = self.dfs(nums, i + 1, False, nums[i], memo) + 1
+        no_change = self.dfs(nums, i + 1, increase, last, memo)
+
+        memo[(i, increase)] = max(up, down, no_change)
+        return memo[(i, increase)]
+
+
+
+class Solution00:
+    def wiggleMaxLength(self, nums):
+
+        memo = {}
+        return self.dfs(nums, 1, None, memo)
+
+    def dfs(self, nums, i, increase, memo):
+        if (i, increase) in memo:
+            return memo[(i, increase)]
+
+        if i >= len(nums):
+            return 1
+
+        up, down = 0, 0
+        if (nums[i] > nums[i - 1] and (increase == False or increase == None)):
+            up = self.dfs(nums, i + 1, True, memo) + 1
+        if (nums[i] < nums[i - 1] and (increase == True or increase == None)):
+            down = self.dfs(nums, i + 1, False, memo) + 1
+        no_change = self.dfs(nums, i + 1, increase, memo)
+
+        memo[(i, increase)] = max(up, down, no_change)
+        return memo[(i, increase)]
+
+
+class SolutionTony2:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, last, increase):
+            if i >= len(nums):
+                return 1  # Found End
+
+            # Search positive, negative, and skip edge cases. On the first iteration, the edge can be neg or pos --> None is valid
+            up, down = 0, 0
+            if (nums[i] > last and (increase == False or increase == None)):
+                up = 1 + dfs(i + 1, nums[i], True)
+            if (nums[i] < last and (increase == True or increase == None)):
+                down = 1 + dfs(i + 1, nums[i], False)
+            no_change = dfs(i + 1, last, increase)
+
+            return max(up, down, no_change)
+
+        return dfs(1, nums[0], None)  # Problem constrains to at least 1
 
 
 class Solution:
