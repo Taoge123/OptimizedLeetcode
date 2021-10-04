@@ -34,6 +34,69 @@ It's guaranteed that string key could always be spelled by rotating the string r
 import collections
 
 
+class SolutionTonyBest:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+
+        table = collections.defaultdict(list)
+
+        for i, ch in enumerate(ring):
+            table[ch].append(i)
+
+        memo = {}
+        return self.dfs(ring, key, 0, 0, table, memo)
+
+    def dfs(self, ring, key, i, k, table, memo):
+        if (i, k) in memo:
+            return memo[(i, k)]
+
+        n = len(ring)
+
+        if k >= len(key):
+            return 0
+
+        res = float('inf')
+        for j in table[key[k]]:
+            cost = min(abs(j - i), n - abs(j - i))
+            res = min(res, self.dfs(ring, key, j, k + 1, table, memo) + cost + 1)
+
+        memo[(i, k)] = res
+        return res
+
+
+
+
+
+class SolutionTony:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+
+        table = collections.defaultdict(list)
+
+        for i, ch in enumerate(ring):
+            table[ch].append(i)
+
+        memo = {}
+        return self.dfs(ring, key, 0, table, memo)
+
+    def dfs(self, ring, key, i, table, memo):
+        if (i, key) in memo:
+            return memo[(i, key)]
+
+        n = len(ring)
+
+        if not key:
+            return 0
+
+        res = float('inf')
+        for j in table[key[0]]:
+            cost = min(abs(j - i), n - abs(j - i))
+            res = min(res, self.dfs(ring, key[1:], j, table, memo) + cost + 1)
+
+        memo[(i, key)] = res
+        return res
+
+
+
+
 class SolutionTLE:
     def findRotateSteps(self, ring: str, key: str) -> int:
         n, m = len(ring), len(key)

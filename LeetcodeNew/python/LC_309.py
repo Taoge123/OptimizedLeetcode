@@ -1,5 +1,8 @@
-00000000
 """
+
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/discuss/973735/Python-intuitive-memorization
+
+
 Say you have an array for which the ith element is the price of a given stock on day i.
 
 Design an algorithm to find the maximum profit. You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) with the following restrictions:
@@ -31,6 +34,96 @@ sell[i] = max(buy[i-1] + price, sell[i-1])
 rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
 
 """
+
+
+class SolutionTony2D:
+    def maxProfit(self, prices) -> int:
+
+        memo = {}
+        return self.dfs(prices, 0, True, memo)
+
+    def dfs(self, nums, i, can_buy, memo):
+        if (i, can_buy) in memo:
+            return memo[(i, can_buy)]
+
+        if i >= len(nums):
+            return 0
+
+        # do nothing
+        res = self.dfs(nums, i + 1, can_buy, memo)
+        if can_buy:
+            # buy
+            res = max(res, self.dfs(nums, i + 1, False, memo) - nums[i])
+        else:
+            # sell
+            res = max(res, self.dfs(nums, i + 2, True, memo) + nums[i])
+
+        memo[(i, can_buy)] = res
+        return res
+
+
+
+class SolutionTony2:
+    def maxProfit(self, prices) -> int:
+
+        memo = {}
+        return self.dfs(prices, 0, False, False, memo)
+
+    def dfs(self, nums, i, has_stock, just_sold, memo):
+
+        if (i, has_stock, just_sold) in memo:
+            return memo[(i, has_stock, just_sold)]
+
+        if i >= len(nums):
+            return 0
+
+        res = self.dfs(nums, i + 1, has_stock, just_sold, memo)
+        if not has_stock:
+            if just_sold:
+                res = max(res, self.dfs(nums, i + 1, has_stock, False, memo))
+            else:
+                res = max(res, self.dfs(nums, i + 1, True, False, memo) - nums[i])
+
+        else:
+            res = max(res, self.dfs(nums, i + 1, False, True, memo) + nums[i])
+
+        memo[(i, has_stock, just_sold)] = res
+        return res
+
+
+
+class SolutionTonyInitial:
+    def maxProfit(self, prices) -> int:
+
+        memo = {}
+        return self.dfs(prices, 0, False, False, memo)
+
+    def dfs(self, nums, i, has_stock, just_sold, memo):
+
+        if (i, has_stock, just_sold) in memo:
+            return memo[(i, has_stock, just_sold)]
+
+        if i >= len(nums):
+            return 0
+
+        res = 0
+        if not has_stock:
+            if just_sold:
+                res = max(res, self.dfs(nums, i + 1, has_stock, False, memo))
+            else:
+                res = max(res, max(self.dfs(nums, i + 1, has_stock, False, memo),
+                                   self.dfs(nums, i + 1, True, False, memo) - nums[i]))
+
+        else:
+            res = max(res, max(self.dfs(nums, i + 1, False, True, memo) + nums[i],
+                               self.dfs(nums, i + 1, has_stock, False, memo)))
+
+        memo[(i, has_stock, just_sold)] = res
+        return res
+
+
+
+
 
 class Solution:
     def maxProfit(self, prices):

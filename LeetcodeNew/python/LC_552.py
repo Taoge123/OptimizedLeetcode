@@ -1,6 +1,6 @@
 
 """
-
+https://leetcode.com/problems/student-attendance-record-ii/discuss/1290973/Python3-top-down-dp
 https://www.youtube.com/watch?v=zd20HrEb5dg&feature=youtu.be
 
 
@@ -55,6 +55,60 @@ dp10[i]  =  dp10[i-1]+dp11[i-1]+dp12[i-1]+dp00[i-1]+dp01[i-1]+dp02[i-1] // 前�
 
 另外，唯一需要需要注意的边界条件是dp00[0]=1
 """
+
+import functools
+
+
+
+
+class SolutionTony:
+    def checkRecord(self, n: int) -> int:
+        @functools.lru_cache(100)
+        def dfs(i, A, L):
+            if A >= 2 or L >= 3:
+                return 0
+
+            if i == n:
+                return 1
+
+            res = dfs(i + 1, A, 0) % (10 ** 9 + 7)
+            if A == 0:
+                res += dfs(i + 1, 1, 0)
+            if L < 2:
+                res += dfs(i + 1, A, L + 1)
+            # L = dfs(i+1, A, L+1) % (10 ** 9 + 7)
+            # A = dfs(i+1, A+1, 0) % (10 ** 9 + 7)
+
+            return res % (10 ** 9 + 7)
+
+        return dfs(0, 0, 0)
+
+
+
+class SolutionTonyTLE:
+    def checkRecord(self, n: int) -> int:
+
+        self.memo = {}
+        return self.dfs(n, 0, 0, 0, {})
+
+    def dfs(self, n, i, A, L, memo):
+        # print(n, i, A, L)
+        if A >= 2 or L >= 3:
+            return 0
+
+        if i >= n:
+            return 1
+
+        if (i, A, L) in self.memo:
+            return self.memo[(i, A, L)]
+
+        present = self.dfs(n, i + 1, A, 0, memo) % (10 ** 9 + 7)
+        late = self.dfs(n, i + 1, A, L + 1, memo) % (10 ** 9 + 7)
+        absent = self.dfs(n, i + 1, A + 1, 0, memo) % (10 ** 9 + 7)
+
+        self.memo[(i, A, L)] = present + late + absent
+        self.memo[(i, A, L)] %= (10 ** 9 + 7)
+        return self.memo[(i, A, L)]
 
 
 

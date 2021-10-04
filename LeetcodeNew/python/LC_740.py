@@ -1,5 +1,8 @@
 
 """
+https://leetcode.com/problems/delete-and-earn/discuss/1173247/Python-DP-Similar-to-House-Robber
+https://leetcode.com/problems/delete-and-earn/discuss/1491241/Simplest-dp(recusion-%2B-memoization)-solution
+https://leetcode.com/problems/delete-and-earn/discuss/1056337/clean-memo
 https://github.com/wisdompeak/LeetCode/tree/master/Dynamic_Programming/740.Delete-and-Earn
 
 p : the max profit if we rob this

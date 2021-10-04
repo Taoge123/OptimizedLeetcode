@@ -13,6 +13,31 @@
 """
 
 import math
+import functools
+
+
+class SolutionTony:
+    def minSwap(self, nums1, nums2) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(i, prev1, prev2, swap):
+            if i >= len(nums1):
+                return 0
+
+            to_swap, no_swap = float('inf'), float('inf')
+
+            if nums2[i] > prev1 and nums1[i] > prev2:
+                to_swap = dfs(i + 1, nums2[i], nums1[i], True) + 1
+
+            if nums1[i] > prev1 and nums2[i] > prev2:
+                no_swap = dfs(i + 1, nums1[i], nums2[i], False)
+
+            return min(to_swap, no_swap)
+
+        return dfs(0, -1, -1, False)
+
+
+
 
 # DP - O(n)
 class Solution:
