@@ -63,7 +63,6 @@ class SolutionTonyTD:
         return dfs(0, -1, 0) % mod
 
 
-
 class SolutionTonyTD2:
     def dieSimulator(self, n: int, rollMax) -> int:
 
