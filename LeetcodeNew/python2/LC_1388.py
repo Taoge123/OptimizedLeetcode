@@ -10,6 +10,31 @@ https://leetcode-cn.com/problems/pizza-with-3n-slices/solution/python-dong-tai-g
 import functools
 
 
+class SolutionRika:
+    def maxSizeSlices(self, slices) -> int:
+        n = len(slices)
+        k = n // 3
+        return max(self.dfs(slices[:-1], 0, k, {}), self.dfs(slices[1:], 0, k, {}))
+
+    def dfs(self, nums, i, k, memo):
+        if (i, k) in memo:
+            return memo[(i, k)]
+
+        if k == 0:
+            return 0
+
+        if i >= len(nums):
+            return 0
+
+        not_pick = self.dfs(nums, i + 1, k, memo)
+        pick = self.dfs(nums, i + 2, k - 1, memo) + nums[i]
+
+        memo[(i, k)] = max(not_pick, pick)
+        return memo[(i, k)]
+
+
+
+
 class SolutionTony1:
     def maxSizeSlices(self, nums) -> int:
         k = len(nums) // 3

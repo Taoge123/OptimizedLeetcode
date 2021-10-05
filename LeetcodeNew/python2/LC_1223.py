@@ -37,6 +37,59 @@ k>1，说明第i-1轮的时候必须任然是j的状态，且第三个下标只�
 最终的结果就是dp[n][j][k]对于任意j和k的情况的总和。
 """
 
+import functools
+
+
+class SolutionTonyTD:
+    def dieSimulator(self, n: int, rollMax) -> int:
+        mod = 10 ** 9 + 7
+
+        @functools.lru_cache(None)
+        def dfs(i, last, count):
+            if i == n:
+                return 1
+
+            res = 0
+            for num in range(6):
+                # include this time, it will overflow
+                if num == last:
+                    if count + 1 > rollMax[num]:
+                        continue
+                    res += dfs(i + 1, num, count + 1)
+                else:
+                    res += dfs(i + 1, num, 1)
+            return res % mod
+
+        return dfs(0, -1, 0) % mod
+
+
+
+class SolutionTonyTD2:
+    def dieSimulator(self, n: int, rollMax) -> int:
+
+        memo = {}
+        return self.dfs(n, rollMax, 0, -1, 0, memo)
+
+    def dfs(self, n, rollMax, i, last, count, memo):
+
+        if (i, last, count) in memo:
+            return memo[(i, last, count)]
+
+        if i >= n:
+            return 1
+
+        res = 0
+        for num in range(6):
+            if num == last:
+                if count + 1 > rollMax[num]:
+                    continue
+                res += self.dfs(n, rollMax, i + 1, num, count + 1, memo)
+            else:
+                res += self.dfs(n, rollMax, i + 1, num, 1, memo)
+
+        memo[(i, last, count)] = res % (10 ** 9 + 7)
+        return memo[(i, last, count)]
+
 
 class SolutionTony:
     def dieSimulator(self, n, rollMax):

@@ -52,6 +52,32 @@ if total % 3 == 2:
 
 import functools
 
+
+class SolutionTony:
+    def maxSumDivThree(self, nums) -> int:
+
+        memo = {}
+        return self.dfs(nums, 0, 0, memo)
+
+    def dfs(self, nums, i, remain, memo):
+        if (i, remain) in memo:
+            return memo[(i, remain)]
+
+        n = len(nums)
+        if i >= n:
+            if remain == 0:
+                return 0
+            else:
+                return float('-inf')
+
+        new_remain = (remain + nums[i]) % 3
+        pick = self.dfs(nums, i + 1, new_remain, memo) + nums[i]
+        no_pick = self.dfs(nums, i + 1, remain, memo)
+        memo[(i, remain)] = max(pick, no_pick)
+        return memo[(i, remain)]
+
+
+
 class Solution:
     def maxSumDivThree(self, nums) -> int:
         n = len(nums)
@@ -69,26 +95,4 @@ class Solution:
 
         return dfs(0, 0)
 
-
-
-
-class Solution2:
-    def maxSumDivThree(self, nums) -> int:
-        memo = {}
-        return self.dfs(nums, 0, 0, memo)
-
-    def dfs(self, nums, i, remain, memo):
-        if (i, remain) in memo:
-            return memo[(i, remain)]
-
-        n = len(nums)
-        if i == n:
-            if remain == 0:
-                return 0
-            else:
-                return -float("inf")
-
-        new_remain = (remain + nums[i] % 3) % 3
-        memo[(i, remain)] = max(self.dfs(nums, i + 1, remain, memo), self.dfs(nums, i + 1, new_remain, memo) + nums[i])
-        return memo[(i, remain)]
 
