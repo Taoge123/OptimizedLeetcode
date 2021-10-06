@@ -36,6 +36,56 @@ x-W-1>=0
 """
 
 
+class SolutionTony1:
+    def new21Game(self, N, K, W):
+        return self.dfs(N, K, W, 0, {})
+
+    def dfs(self, N, K, W, i, memo):
+
+        if i == K - 1:
+            return min(N - K + 1, W) / W
+        if i > N:
+            return 0
+        elif i >= K:
+            return 1.0
+
+        if i in memo:
+            return memo[i]
+
+        prob = self.dfs(N, K, W, i + 1, memo) - (
+                    self.dfs(N, K, W, i + 1 + W, memo) - self.dfs(N, K, W, i + 1, memo)) / W
+
+        memo[i] = prob
+
+        return prob
+
+
+class SolutionTLE:
+    def new21Game(self, N, K, W):
+        return self.dfs(N, K, W, 0, {})
+
+    def dfs(self, N, K, W, i, memo):
+
+        if i >= K:
+            return 1.0 if i <= N else 0
+
+        if i in memo:
+            return memo[i]
+
+        prob = 0
+
+        for i in range(1, W + 1):
+            prob += self.dfs(N, K, W, i + i, memo)
+
+        prob /= W
+
+        memo[i] = prob
+
+        return prob
+
+
+
+
 class Solution:
     def new21Game(self, N: int, K: int, W: int) -> float:
         dp = [0] * (K + W)
