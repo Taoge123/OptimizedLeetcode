@@ -20,11 +20,11 @@ class SolutionTony1:
             # dist = 1 if names[node] != targetPath[i] else 0
             for nei in graph[node]:
                 dist, path = dfs(i + 1, nei)
-                if (names[node] != targetPath[i]) + dist < res:
-                    final_path = path
+                if res > (names[node] != targetPath[i]) + dist:
+                    final_path = path + [node]
                     res = (names[node] != targetPath[i]) + dist
 
-            return (res, [node] + final_path)
+            return (res, final_path)
 
         res = float('inf')
         final_path = []
