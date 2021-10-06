@@ -2,6 +2,75 @@ import collections
 import functools
 
 
+class SolutionTonnie1:
+    def mostSimilar(self, n: int, roads, names, targetPath):
+
+        graph = collections.defaultdict(list)
+        cities = set()
+        for u, v in roads:
+            graph[u].append(v)
+            graph[v].append(u)
+            cities.add(u)
+            cities.add(v)
+        graph[-1].extend(cities)
+
+        @functools.lru_cache(None)
+        def dfs(i, node):
+
+            if i >= len(targetPath):
+                return [0, []]
+
+            res = float('inf')
+            final_path = []
+            for nei in graph[node]:
+                dist, path = dfs(i + 1, nei)
+                if dist + (targetPath[i] != names[nei]) < res:
+                    res = dist + (targetPath[i] != names[nei])
+                    final_path = [nei] + path
+
+            return [res, final_path]
+
+        return dfs(0, -1)[1]
+
+
+class SolutionTonnie2:
+    def mostSimilar(self, n: int, roads, names, targetPath):
+
+        graph = collections.defaultdict(list)
+        cities = set()
+        for u, v in roads:
+            graph[u].append(v)
+            graph[v].append(u)
+            cities.add(u)
+            cities.add(v)
+
+        @functools.lru_cache(None)
+        def dfs(i, node):
+
+            if i >= len(targetPath):
+                return [0, []]
+
+            res = float('inf')
+            final_path = []
+            for nei in graph[node]:
+                dist, path = dfs(i + 1, nei)
+                if dist + (targetPath[i] != names[node]) < res:
+                    final_path = [node] + path
+                    res = dist + (targetPath[i] != names[node])
+            return [res, final_path]
+
+        res = float('inf')
+        final_path = []
+        for node in graph:
+            dist, path = dfs(0, node)
+            if dist < res:
+                res = dist
+                final_path = path
+
+        return final_path
+
+
+
 class SolutionTony1:
     def mostSimilar(self, n: int, roads, names, targetPath):
         graph = collections.defaultdict(list)
