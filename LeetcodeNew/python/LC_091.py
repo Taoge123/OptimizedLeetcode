@@ -19,6 +19,36 @@ Output: 3
 Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 """
 
+import functools
+
+
+class SolutionTony:
+    def numDecodings(self, s: str) -> int:
+
+        n = len(s)
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i < n and s[i] == '0':
+                return 0
+
+            if i == n:
+                return 1
+
+            if i > n:
+                return 0
+
+            one = dfs(i + 1)
+            code = int(s[i:i + 2])
+            two = 0
+            if code >= 1 and code <= 26:
+                two = dfs(i + 2)
+
+            return one + two
+
+        return dfs(0)
+
+
+
 
 class Solution:
     def numDecodings(self, s: str) -> int:
