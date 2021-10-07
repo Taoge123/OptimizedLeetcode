@@ -1,5 +1,8 @@
 
 """
+https://leetcode.com/problems/decode-ways-ii/discuss/1000370/Python-Clean-Memoization-w-%40lru_cache
+https://leetcode.com/problems/decode-ways-ii/discuss/782718/python-dp-memo
+
 https://leetcode.com/problems/decode-ways-ii/discuss/231723/Python-Clean-code-solution
 https://leetcode.com/problems/decode-ways-ii/discuss/105291/Python-DP-with-table-look-up
 https://leetcode-cn.com/problems/decode-ways-ii/solution/jie-ma-fang-fa-2-by-leetcode/
@@ -26,15 +29,17 @@ dp[i] += dp[i-2] * 15
 import functools
 
 
-class SolutionTD:
+class SolutionTony:
     def numDecodings(self, s: str) -> int:
+
         nums = ('1', '2', '3', '4', '5', '6', '7', '8', '9')
         mod = 10 ** 9 + 7
 
         @functools.lru_cache(None)
         def dfs(i):
+            n = len(s)
             # if its the end, it means that was just one way to do it
-            if i == len(s):
+            if i >= n:
                 return 1
 
             # if we got a zero, there is no way we can go this way
@@ -48,7 +53,7 @@ class SolutionTD:
                 res *= 9
 
             # processing the second character, if we have it
-            if i + 2 <= len(s):
+            if i + 2 <= n:
                 tmp = dfs(i + 2)
 
                 first = nums if s[i] == '*' else (s[i])
@@ -62,6 +67,7 @@ class SolutionTD:
             return res % mod
 
         return dfs(0)
+
 
 
 class Solution:
