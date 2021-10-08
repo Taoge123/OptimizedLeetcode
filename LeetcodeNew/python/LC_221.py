@@ -14,7 +14,7 @@ Output: 4
 """
 
 
-class SolutionTD:
+class Solution:
     def maximalSquare(self, matrix) -> int:
         if not matrix:
             return 0
@@ -34,13 +34,42 @@ class SolutionTD:
         if i < 0 or i >= len(matrix) or j < 0 or j >= len(matrix[0]):
             return 0
 
+        res = 0
         if matrix[i][j] == '1':
-            memo[(i, j)] = 1 + min(self.dfs(matrix, i + 1, j, memo),
-                                   self.dfs(matrix, i, j + 1, memo),
-                                   self.dfs(matrix, i + 1, j + 1, memo))
-            return memo[(i, j)]
-        return 0
+            res = 1 + min(self.dfs(matrix, i + 1, j, memo),
+                          self.dfs(matrix, i, j + 1, memo),
+                          self.dfs(matrix, i + 1, j + 1, memo))
+        memo[(i, j)] = res
+        return memo[(i, j)]
 
+
+class SolutionTony:
+    def maximalSquare(self, matrix) -> int:
+        if not matrix:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        res = 0
+        memo = {}
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == '1':
+                    res = max(res, self.dfs(matrix, i, j, memo))
+        return res ** 2
+
+    def dfs(self, matrix, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i < 0 or i >= len(matrix) or j < 0 or j >= len(matrix[0]):
+            return 0
+
+        res = 0
+        if matrix[i][j] == '1':
+            res = 1 + min(self.dfs(matrix, i + 1, j, memo),
+                          self.dfs(matrix, i, j + 1, memo),
+                          self.dfs(matrix, i + 1, j + 1, memo))
+        memo[(i, j)] = res
+        return memo[(i, j)]
 
 
 class Solution:
