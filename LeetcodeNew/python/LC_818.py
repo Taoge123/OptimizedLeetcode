@@ -18,7 +18,6 @@ import functools
 
 
 class SolutionTony:
-    @functools.lru_cache(None)
     def racecar(self, target: int) -> int:
 
         memo = {}
@@ -79,3 +78,6 @@ class Solution:
         return -1
 
 
+target = 6
+a = SolutionTony()
+a.racecar(target)

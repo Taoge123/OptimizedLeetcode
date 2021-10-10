@@ -52,8 +52,7 @@ class SolutionTony1:
         if i in memo:
             return memo[i]
 
-        prob = self.dfs(N, K, W, i + 1, memo) - (
-                    self.dfs(N, K, W, i + 1 + W, memo) - self.dfs(N, K, W, i + 1, memo)) / W
+        prob = self.dfs(N, K, W, i + 1, memo) - (self.dfs(N, K, W, i + 1 + W, memo) - self.dfs(N, K, W, i + 1, memo)) / W
 
         memo[i] = prob
 
@@ -67,7 +66,11 @@ class SolutionTLE:
     def dfs(self, N, K, W, i, memo):
 
         if i >= K:
-            return 1.0 if i <= N else 0
+            if i <= N:
+                return 1.0
+            else:
+                return 0
+            # return 1.0 if i <= N else 0
 
         if i in memo:
             return memo[i]

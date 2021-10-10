@@ -29,7 +29,7 @@ What limitation we need to add to the question to allow negative numbers?
 
 
 class Solution:
-    def combinationSum4(self, nums: List[int], target: int) -> int:
+    def combinationSum4(self, nums, target: int) -> int:
         if not nums or not target:
             return 0
         nums.sort()
@@ -49,8 +49,9 @@ class Solution:
         return res
 
 
-class Solution:
-    def combinationSum4(self, nums: List[int], target: int) -> int:
+
+class Solution2:
+    def combinationSum4(self, nums, target: int) -> int:
         memo = {}
         return self.dfs(nums, target, memo)
 
@@ -85,7 +86,7 @@ class SolutionTony:
 
 
 
-class Solution:
+class Solution4:
     def combinationSum4(self, nums, target: int) -> int:
 
         n = len(nums)
