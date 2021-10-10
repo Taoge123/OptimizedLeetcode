@@ -20,6 +20,44 @@ Note: 1 <= n <= 109
 """
 
 
+class SolutionTony:
+    def findIntegers(self, n: int) -> int:
+
+        nums = bin(n)[2:]
+        memo = {}
+
+        return self.dfs(nums, 0, True, 0, memo)
+
+    def dfs(self, nums, i, has_cap, prev, memo):
+        if (i, has_cap, prev) in memo:
+            return memo[(i, has_cap, prev)]
+
+        n = len(nums)
+
+        if i >= n:
+            return 1
+
+        if has_cap:
+            limit = int(nums[i])
+        else:
+            limit = 1
+
+        res = 0
+        for num in range(limit + 1):
+            if prev == 1 and num == 1:
+                continue
+
+            if num < limit:
+                res += self.dfs(nums, i + 1, False, num, memo)
+            else:
+                res += self.dfs(nums, i + 1, has_cap, num, memo)
+
+        memo[(i, has_cap, prev)] = res
+        return res
+
+
+
+
 class SolutionTLE:
     def findIntegers(self, num: int) -> int:
         table = []

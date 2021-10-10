@@ -28,10 +28,6 @@ class SolutionTD:
         if i == len(nums):
             return 0
 
-        # if i == len(nums)-1:
-        #     memo[i] = nums[i]
-        #     return nums[i]
-
         res = max(nums[i], nums[i] + self.dfs(nums, i + 1, memo))
         memo[i] = res
         return res

@@ -24,27 +24,26 @@ class SolutionTony:
         return res
 
     def dfs(self, matrix, i, j, memo):
-        # if (i, j) in memo:
-        #     return memo[(i, j)]
+        if (i, j) in memo:
+            return memo[(i, j)]
 
         m, n = len(matrix), len(matrix[0])
         # print(i, j)
-        if i < 0 or i >= m or j < n or j >= n:
+        if i < 0 or i >= m or j < 0 or j >= n:
             return 0
 
         if matrix[i][j] == 0:
             return 0
 
         down = self.dfs(matrix, i + 1, j, memo)
-        if down == 0:
-            return 1
         right = self.dfs(matrix, i, j + 1, memo)
-        if right == 0:
-            return 1
         dia = self.dfs(matrix, i + 1, j + 1, memo)
-        if dia == 0:
-            return 1
-        return min([down, right, dia]) + 1
+
+        memo[(i, j)] = min([down, right, dia]) + 1
+        return memo[(i, j)]
+
+
+
 
 
 class Solution:
