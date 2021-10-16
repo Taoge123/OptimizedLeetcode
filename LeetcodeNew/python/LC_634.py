@@ -1,3 +1,4 @@
+import sys
 
 class Solution:
     def findDerangement(self, n: int) -> int:
@@ -15,6 +16,8 @@ class Solution:
 
 class SolutionStackOverflow:
     def findDerangement(self, n):
+
+        sys.setrecursionlimit(15000000)
         memo = {}
         self.mod = 1000000007
         return self.dfs(n, memo)

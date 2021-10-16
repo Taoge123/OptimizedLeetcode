@@ -59,6 +59,32 @@ class SolutionTony1:
         return prob
 
 
+class SolutionTony:
+    def new21Game(self, n: int, k: int, maxPts: int) -> float:
+
+        memo = {}
+        return self.dfs(n, k, maxPts, 0, memo)
+
+    def dfs(self, n, k, maxPts, i, memo):
+
+        if i in memo:
+            return memo[i]
+
+        if i == k - 1:
+            return min((n - k + 1) / maxPts, 1)
+
+        if i > n:
+            return 0
+        elif i >= k:
+            return 1
+
+        prob = self.dfs(n, k, maxPts, i + 1, memo) - (
+                    self.dfs(n, k, maxPts, i + maxPts + 1, memo) - self.dfs(n, k, maxPts, i + 1, memo)) / maxPts
+
+        memo[i] = prob
+        return prob
+
+
 class SolutionTLE:
     def new21Game(self, N, K, W):
         return self.dfs(N, K, W, 0, {})
