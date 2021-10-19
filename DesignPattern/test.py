@@ -1,4 +1,5 @@
 
+""
 def teamFormation(score, team, m):
     # Write your code here
     left = 0
