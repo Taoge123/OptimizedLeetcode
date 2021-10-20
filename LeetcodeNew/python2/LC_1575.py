@@ -93,6 +93,34 @@ return sum{dp[f][finish][0]} for all f
 
 """
 
+import functools
+
+
+class Solution:
+    def countRoutes(self, nums, start: int, finish: int, fuel: int) -> int:
+
+        n = len(nums)
+        mod = 10 ** 9 + 7
+
+        @functools.lru_cache(None)
+        def dfs(node, k):
+            if k < 0:
+                return 0
+
+            res = 0
+            if node == finish:
+                res += 1
+
+            for nei in range(n):
+                if nei == node:
+                    continue
+                res += dfs(nei, k - abs(nums[nei] - nums[node]))
+
+            return res % mod
+
+        return dfs(start, fuel)
+
+
 
 class Solution:
     def countRoutes(self, locations, start: int, finish: int, fuel: int) -> int:
