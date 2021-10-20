@@ -17,7 +17,14 @@ class Solution:
             if k < 0:
                 return 0
 
+            # if k == 0 and node == finish:
+            #     return 1
+            #
+            # if k == 0 and node != finish:
+            #     return 0
+
             res = 0
+            # do not end the dfs as fuel is still greater than zero.
             if node == finish:
                 res += 1
 

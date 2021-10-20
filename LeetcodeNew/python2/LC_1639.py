@@ -45,13 +45,38 @@ Memoization with the help of lru_cache.
 Positions store number of occurences of a character c at position k in all of the words of the list.
 
 """
+
+
+class SolutionTony:
+    def numWays(self, words, target: str) -> int:
+        mod = int(10 ** 9 + 7)
+        m = len(words[0])
+        table = [collections.defaultdict(int) for _ in range(m)]
+        for i in range(len(words)):
+            for j in range(m):
+                table[j][words[i][j]] += 1
+
+        @functools.lru_cache(None)
+        def dfs(i, t):
+            if t >= len(target):
+                return 1
+            if i >= m:
+                return 0
+            res = 0
+            res += dfs(i + 1, t + 1) * table[i][target[t]]
+            res += dfs(i + 1, t)
+            return res
+
+        return dfs(0, 0) % mod
+
+
+
 class Solution:
     def numWays(self, words, target: str) -> int:
         mod = 10 ** 9 + 7
         n = len(words[0])
         m = len(target)
         table = collections.defaultdict(collections.Counter)
-        # table2 = [Counter([words[i][j] for i in range(len(words))]) for j in range(m)]
         for i in range(len(words)):
             for j in range(n):
                 table[j][words[i][j]] += 1
