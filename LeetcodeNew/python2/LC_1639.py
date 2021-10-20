@@ -47,6 +47,44 @@ Positions store number of occurences of a character c at position k in all of th
 """
 
 
+class Solution:
+    def numWays(self, words: List[str], target: str) -> int:
+
+        m, n = len(words), len(words[0])
+
+        table = collections.defaultdict(collections.Counter)
+
+        for i in range(m):
+            for j in range(n):
+                table[j][words[i][j]] += 1
+
+        memo = {}
+        return self.dfs(table, target, 0, 0, memo)
+
+    def dfs(self, table, target, i, k, memo):
+        if (i, k) in memo:
+            return memo[(i, k)]
+
+        if i == len(target):
+            return 1
+
+        if k == len(table):
+            return 0
+
+        mod = 10 ** 9 + 7
+
+        pick = 0
+        # pick
+        if table[k][target[i]]:
+            pick = self.dfs(table, target, i + 1, k + 1, memo) * table[k][target[i]]
+
+        # not pick
+        not_pick = self.dfs(table, target, i, k + 1, memo)
+
+        memo[(i, k)] = (not_pick + pick) % mod
+        return memo[(i, k)]
+
+
 class SolutionTony:
     def numWays(self, words, target: str) -> int:
         mod = int(10 ** 9 + 7)
