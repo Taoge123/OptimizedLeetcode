@@ -1,0 +1,45 @@
+
+"""
+https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solution/python-tan-xin-mei-ju-by-qubenhao-0g9f/
+https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solution/xsschao-de-ti-jie-jian-dan-yu-chu-li-xia-roqp/
+https://leetcode.com/problems/make-the-xor-of-all-segments-equal-to-zero/discuss/1097796/Python-3-Another-short-dp-7-lines-explained
+
+"""
+
+import functools
+import collections
+
+class Solution:
+    def minChanges(self, nums, k: int) -> int:
+        n = len(nums)
+        count = collections.defaultdict(collections.Counter)
+        for i in range(k):
+            for j in range(i, n, k):
+                count[i][nums[j]] += 1
+
+        # 每组数的众数
+        msv = [count[i].most_common(1)[0][1] for i in range(k)]
+        # 每组全部变为同样的数的最小代价
+        ans = n - sum(msv)
+
+        # 每组数都是众数，要满足异或为0，需要统计每组数选哪个数达到最优解，或者牺牲哪组数
+        @functools.lru_cache(None)
+        def dfs(i, curr):
+            if i == k and curr == 0:
+                return 0
+            elif i == k:
+                return float("inf")
+            # 牺牲这组数的额外代价,所有数都换为某个数，使得异或为0
+            res = msv[i]
+            # 变为这组数中的某个数
+            for key in count[i].keys():
+                res = min(res, dfs(i + 1, curr ^ key) - count[i][key] + msv[i])
+            return res
+
+        return ans + dfs(0, 0)
+
+
+
+
+
+

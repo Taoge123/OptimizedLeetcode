@@ -150,8 +150,8 @@ Iterate trough A and for each number A[i], get the diff with all the previous nu
 class Solution6:
     def numberOfArithmeticSlices(self, A):
         result, dp = 0, [{} for _ in A]
-        for i in xrange(len(A)):
-            for j in xrange(i):
+        for i in range(len(A)):
+            for j in range(i):
                 diff = A[i] - A[j]
                 dp[i][diff] = dp[i].get(diff, 0) + 1
                 if diff in dp[j]:
