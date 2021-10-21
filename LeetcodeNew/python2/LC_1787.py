@@ -4,6 +4,18 @@ https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solu
 https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solution/xsschao-de-ti-jie-jian-dan-yu-chu-li-xia-roqp/
 https://leetcode.com/problems/make-the-xor-of-all-segments-equal-to-zero/discuss/1097796/Python-3-Another-short-dp-7-lines-explained
 
+[(x x i) x x]
+set(i) = {A[i], A[i+k], A[i+2k], A[i+3k]....}
+
+set(0) = {......}
+set(1) = {......}
+set(2) = {......}
+
+O(k * 1024)
+
+dp[i][d] : the minimum cost if uou make the XOR-sum of first i elements equal to d
+
+
 
 """
 
@@ -41,6 +53,10 @@ class Solution:
 
 
 
+nums = [3,4,5,2,1,7,3,4,7]
+k = 3
+a = Solution()
+print(a.minChanges(nums, k))
 
 
 
