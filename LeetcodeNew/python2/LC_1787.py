@@ -4,6 +4,7 @@ https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solu
 https://leetcode-cn.com/problems/make-the-xor-of-all-segments-equal-to-zero/solution/xsschao-de-ti-jie-jian-dan-yu-chu-li-xia-roqp/
 https://leetcode.com/problems/make-the-xor-of-all-segments-equal-to-zero/discuss/1097796/Python-3-Another-short-dp-7-lines-explained
 
+
 """
 
 import functools
