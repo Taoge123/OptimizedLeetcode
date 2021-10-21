@@ -15,7 +15,12 @@ O(k * 1024)
 
 dp[i][d] : the minimum cost if uou make the XOR-sum of first i elements equal to d
 
+for i in range(k):
+    for d in range(1024):
+        for v in range(1024):
+            dp[i][d] = min(dp[i][d], dp[i-1][v^d] * cost(makes set(i) all v))
 
+totalCount - count[i][v] = cost(makes set(i) all v)
 
 """
 
