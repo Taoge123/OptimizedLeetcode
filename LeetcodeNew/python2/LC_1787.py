@@ -58,7 +58,9 @@ class Solution:
 
 
 
-nums = [3,4,5,2,1,7,3,4,7]
+# nums = [3,4,5,2,1,7,3,4,7]
+# k = 3
+nums = [1,2,4,1,2,5,1,2,6]
 k = 3
 a = Solution()
 print(a.minChanges(nums, k))
