@@ -74,4 +74,24 @@ class SolutionCheng:
         return dfs(tuple(range(1, n + 1)))
 
 
+class Solution:
+    def countSpecialSubsequences(self, nums: List[int]) -> int:
+        n = len(nums)
+
+        def dfs(i, prev):
+            if i >= n:
+                if prev == 2:
+                    return 1
+                else:
+                    return 0
+
+            res = 0
+            if (nums[i] == prev + 1) or (nums[i] == prev):
+                res += dfs(i + 1, nums[i])
+
+            res += dfs(i + 1, prev)
+
+        return dfs(0, -1)
+
+
 
