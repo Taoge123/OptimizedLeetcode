@@ -1,5 +1,7 @@
 
 """
+https://leetcode-cn.com/problems/largest-divisible-subset/solution/jian-yi-ban-ji-yi-hua-dfs-by-luo-bi-da-q-cyxd/
+
 Given a set of distinct positive integers, find the largest subset such that every pair (Si, Sj) of elements in this subset satisfies:
 
 Si % Sj = 0 or Sj % Si = 0.
@@ -25,6 +27,46 @@ if nums[i] % nums[j] == 0:
     parent[i] = j
 
 """
+
+import functools
+
+
+class SolutionTony2:
+    def largestDivisibleSubset(self, nums):
+        n = len(nums)
+        nums = sorted(nums) + [1]
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return []
+            res = []
+            for j in range(i + 1, n):
+                if nums[j] % nums[i] == 0:
+                    tmp = [nums[j]] + dfs(j)
+                    if len(tmp) > len(res):
+                        res = tmp
+            return res
+
+        return dfs(-1)
+
+
+class SolutionTony1:
+    def largestDivisibleSubset(self, nums):
+        n = len(nums)
+        nums = sorted(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, num):
+            res = []
+            for j in range(i, n):
+                if nums[j] % num == 0:
+                    tmp = [nums[j]] + dfs(j + 1, nums[j])
+                    if len(tmp) > len(res):
+                        res = tmp
+            return res
+
+        return dfs(0, 1)
 
 
 class SolutionWisdom:
