@@ -1,6 +1,8 @@
 
 
 """
+https://leetcode.com/problems/delete-columns-to-make-sorted-iii/discuss/205697/easy-python-solution-with-memoization
+
 dp[i] := max length of increasing sub-sequence (of all strings) ends with i-th letter.
 dp[i] = max(dp[j] + 1) if all A[*][j] <= A[*][i], j < i
 
