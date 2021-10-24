@@ -21,6 +21,45 @@ dp[i] = max{ dp[j-1], Max_element over A[j,..i] * (i-j+1)},   for j=i, i-1, ... 
 
 """
 
+import functools
+
+
+class SolutionTony:
+    def maxSumAfterPartitioning(self, A, k):
+
+        n = len(A)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+
+            maxi, res = 0, 0
+            for j in range(i, min(n, i + k)):
+                maxi = max(maxi, A[j])
+                res = max(res, (j - i + 1) * maxi + dfs(j + 1))
+            return res
+
+        return dfs(0)
+
+
+
+class SolutionTony1:
+    def maxSumAfterPartitioning(self, A, K: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            # The dfs finds the max result of the range [i, j)
+            if j - i <= K:
+                return (j - i) * max(A[i:j])
+
+            res = 0
+            for k in range(i + 1, i + 1 + K):
+                res = max(res, dfs(i, k) + dfs(k, j))
+            return res
+
+        return dfs(0, len(A))
+
+
 
 class Solution:
     def maxSumAfterPartitioning(self, A, K) -> int:
