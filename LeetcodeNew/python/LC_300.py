@@ -18,6 +18,49 @@ import bisect
 import functools
 
 
+class SolutionTD1:
+    def lengthOfLIS(self, nums) -> int:
+
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 0
+            res = 0
+            for j in range(i + 1, n):
+                if nums[j] > nums[i]:
+                    res = max(res, dfs(j) + 1)
+
+            return res
+
+        res = 0
+        for i in range(n):
+            res = max(res, dfs(i) + 1)
+
+        return res
+
+
+
+class SolutionMLE:
+    def lengthOfLIS(self, nums) -> int:
+
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(prev, i):
+            if i >= n:
+                return 0
+
+            take, no_take = 0, 0
+            if prev < 0 or nums[prev] < nums[i]:
+                take = dfs(i, i + 1) + 1
+            no_take = dfs(prev, i + 1)
+
+            return max(take, no_take)
+
+        return dfs(-1, 0)
+
+
 class Solution:
     def longestIncreasingSubsequence(self, nums):
         res = 0

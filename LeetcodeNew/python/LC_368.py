@@ -38,8 +38,6 @@ class SolutionTony2:
 
         @functools.lru_cache(None)
         def dfs(i):
-            if i >= n:
-                return []
             res = []
             for j in range(i + 1, n):
                 if nums[j] % nums[i] == 0:
