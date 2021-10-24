@@ -11,6 +11,40 @@ num[i] = sum (num[j]) for 0<=j<i && len[j]+1=len[i]
 
 import collections
 import bisect
+import functools
+
+
+class SolutionTony:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        @functools.lru_cache(None)
+        def dfs(i):
+            max_length = 1
+            count = 1
+
+            for j in range(i + 1, n):
+                if nums[j] > nums[i]:
+
+                    max_length_j, count_j = dfs(j)
+                    if max_length == 1 + max_length_j:
+                        count += count_j
+
+                    elif 1 + max_length_j > max_length:
+                        count = count_j
+                        max_length = 1 + max_length_j
+
+            return (max_length, count)
+
+        n = len(nums)
+        max_len, count = 0, 0
+        for i in range(n):
+            curr_max, curr_count = dfs(i)
+            if curr_max == max_len:
+                count += curr_count
+            elif curr_max > max_len:
+                max_len = curr_max
+                count = curr_count
+        return count
+
 
 
 class Solution:

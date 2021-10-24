@@ -32,6 +32,58 @@ For all j < i, if A[][j] < A[][i], then dp[j] = max(dp[j], dp[i] + 1)
 
 """
 
+import functools
+
+
+
+class SolutionTony1:
+    def minDeletionSize(self, A):
+        m, n = len(A), len(A[0])
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 1
+
+            res = 0
+            for j in range(i+1, n):
+                check = True
+                for k in range(m):
+                    if A[k][j] < A[k][i]:
+                        check = False
+                if check:
+                    res = max(res, dfs(j))
+            return res + 1
+
+        return n - max(dfs(i) for i in range(n))
+
+
+
+
+
+
+class SolutionTony2:
+    def minDeletionSize(self, A):
+        m, n = len(A), len(A[0])
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 1
+
+            res = 0
+            for j in range(i+1, n):
+                if all(A[k][j] >= A[k][i] for k in range(m)):
+                    res = max(res, dfs(j))
+            return res + 1
+
+        return n - max(dfs(i) for i in range(n))
+
+
+
+
+
+
 class SolutionLee:
     def minDeletionSize(self, A):
         n = len(A[0])
