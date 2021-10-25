@@ -4,6 +4,28 @@ https://www.youtube.com/watch?v=a7TLEVdqg0Q
 https://www.youtube.com/watch?v=qkgpaVprCZ8
 """
 
+import functools
+
+
+class SolutionTony:
+    def minHeightShelves(self, books, shelf_width):
+        n = len(books)
+
+        @functools.lru_cache(None)
+        def dfs(i, h, w):
+            if w < 0:
+                return float('inf')
+            if i >= n:
+                return h
+
+            w1, h1 = books[i]
+            add_curr = dfs(i + 1, max(h1, h), w - w1)
+            add_new = dfs(i + 1, h1, shelf_width - w1) + h
+            return min(add_curr, add_new)
+
+        return dfs(0, 0, shelf_width)
+
+
 
 class Solution:
     def minHeightShelves(self, books, shelf_width: int) -> int:

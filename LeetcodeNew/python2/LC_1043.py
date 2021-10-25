@@ -28,7 +28,6 @@ class SolutionTony:
     def maxSumAfterPartitioning(self, A, k):
 
         n = len(A)
-
         @functools.lru_cache(None)
         def dfs(i):
             if i == n:
