@@ -8,26 +8,32 @@ import functools
 
 class Solution:
     def numberOfArrays(self, s: str, k: int) -> int:
-
+        n = len(s)
         mod = 10 ** 9 + 7
 
         @functools.lru_cache(None)
         def dfs(i):
-            if i == len(s):
+            if i >= n:
                 return 1
             if s[i] == '0':
                 return 0
+
             res = 0
             num = 0
-            for i in range(i, len(s)):
-                num = num * 10 + int(s[i])
+            for j in range(i, n):
+                num = 10 * num + int(s[j])
+                # num = int(s[i:j+1])
                 if num > k:
                     break
-                res += dfs( i +1)
-                res %= mod
+                if 1 <= num <= k:
+                    res += dfs(j + 1)
             return res
 
-        return dfs(0)
+        res = dfs(0) % mod
+        dfs.cache_clear()
+        return res
+
+
 
 
 
