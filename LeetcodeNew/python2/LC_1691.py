@@ -35,23 +35,24 @@ c3: base (M,S), height (L)
 import functools
 
 
-class Solution:
+class SolutionTony:
     def maxHeight(self, cuboids) -> int:
-        cuboids = sorted((sorted(x, reverse=True) for x in cuboids), reverse=True)
 
-        # print(cuboids)
+        nums = sorted(map(sorted, cuboids), reverse=True)
+        # cuboids = sorted((sorted(x, reverse=True) for x in cuboids), reverse=True)
+        n = len(nums)
         @functools.lru_cache(None)
-        def dfs(i, h, l, w):
-            """Return max heights of stacking cuboids[i:]."""
-            if i == len(cuboids):
-                return 0  # no cuboids left
-            hi, li, wi = cuboids[i]
-            if hi <= h and li <= l and wi <= w:
-                return max(hi + dfs(i + 1, hi, li, wi), dfs(i + 1, h, l, w))
-            else:
-                return dfs(i + 1, h, l, w)
+        def dfs(pos, i, j, k):
+            if pos >= n:
+                return 0
+
+            res = dfs(pos + 1, i, j, k)
+            x, y, z = nums[pos]
+            if x <= i and y <= j and z <= k:
+                res = max(res, dfs(pos + 1, x, y, z) + z)
+
+            return res
 
         return dfs(0, float('inf'), float('inf'), float('inf'))
-
 
 

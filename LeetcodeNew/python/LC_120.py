@@ -16,6 +16,24 @@ Note:
 Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
 """
 
+import functools
+
+
+class Solutiontony:
+    def minimumTotal(self, triangle) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == len(triangle):
+                return 0
+
+            left = triangle[i][j] + dfs(i + 1, j)
+            right = triangle[i][j] + dfs(i + 1, j + 1)
+            return min(left, right)
+
+        return dfs(0, 0)
+
+
+
 
 class Solution:
     def minimumTotal(self, triangle):

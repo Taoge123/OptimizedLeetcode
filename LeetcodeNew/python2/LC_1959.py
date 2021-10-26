@@ -28,8 +28,8 @@ class Solution:
             for j in range(i, n):
                 maxi = max(maxi, nums[j])
                 summ += nums[j]
-                cpst = maxi * (j - i + 1) - summ
-                res = min(res, dfs(j + 1, k - 1) + cpst)
+                cost = maxi * (j - i + 1) - summ
+                res = min(res, dfs(j + 1, k - 1) + cost)
             return res
 
         return dfs(0, k)
