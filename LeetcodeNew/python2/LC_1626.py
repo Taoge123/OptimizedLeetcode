@@ -9,19 +9,20 @@ class SolutionTD:
         n = len(nums)
 
         @functools.lru_cache(None)
-        def dfs(i, max_score, max_age):
-            # i represent index of nums, max_score represent max score till i-1 index in nums and max_age represent max age till i-1 index
+        def dfs(i, max_age, max_score):
+            # i represent index of nums, max_score represent max score until i-1 index in nums
+            # and max_age represent max age until i-1 index
             if i == n:
                 return 0
 
             res = 0
             for j in range(i, n):
-                if nums[j][1] > max_score or (nums[j][1] == max_score and max_age <= nums[j][0]):
-                    res = max(res, nums[j][1] + dfs(j + 1, nums[j][1], nums[j][0]))
+                cur_age, cur_score = nums[j]
+                if cur_score > max_score or (cur_score == max_score and max_age <= cur_age):
+                    res = max(res, cur_score + dfs(j + 1, cur_age, cur_score))
             return res
 
         return dfs(0, 0, 0)
-
 
 
 class SolutionTD1:
