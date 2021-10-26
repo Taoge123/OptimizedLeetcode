@@ -17,6 +17,38 @@ else
 """
 
 
+class SolutionTony:
+    def cherryPickup(self, grid):
+        memo = {}
+        return max(0, self.dfs(grid, 0, 0, 0, 0, memo))
+
+    def dfs(self, grid, x1, y1, x2, y2, memo):
+        if (x1, y1, x2) in memo:
+            return memo[(x1, y1, x2)]
+
+        m, n = len(grid), len(grid[0])
+        if (x1 >= m) or (x2 >= m) or (y1 >= n) or (y2 >= n) or \
+                grid[x1][y1] == -1 or grid[x2][y2] == -1:
+            return float('-inf')
+
+        res = 0
+        if grid[x1][y1] == 1:
+            res += 1
+
+        if grid[x2][y2] == 1 and x1 != x2:
+            res += 1
+
+        if x1 == m - 1 and y1 == n - 1:
+            return res
+
+        res += max(
+            self.dfs(grid, x1 + 1, y1, x2 + 1, y2, memo),
+            self.dfs(grid, x1 + 1, y1, x2, y2 + 1, memo),
+            self.dfs(grid, x1, y1 + 1, x2 + 1, y2, memo),
+            self.dfs(grid, x1, y1 + 1, x2, y2 + 1, memo),
+        )
+        memo[(x1, y1, x2)] = res
+        return res
 
 
 class SolutionWisdom:

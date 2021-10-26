@@ -9,9 +9,10 @@ https://leetcode.com/problems/dungeon-game/discuss/426346/python-dp
 import functools
 
 
-class SolutionTD0:
+class Solution:
     def calculateMinimumHP(self, dungeon) -> int:
         m, n = len(dungeon), len(dungeon[0])
+
         @functools.lru_cache(None)
         def dfs(i, j):
             if i == m - 1 and j == n - 1:
@@ -24,10 +25,8 @@ class SolutionTD0:
                 return float("inf")
 
             res = min(dfs(i + 1, j), dfs(i, j + 1)) - dungeon[i][j]
-            if res <= 0:
-                return 1
-            else:
-                return res
+            res = max(1, res)
+            return res
 
         return dfs(0, 0)
 
@@ -39,7 +38,7 @@ class SolutionTD1:
         @functools.lru_cache(None)
         def dp(i, j):
             if i == m - 1 and j == n - 1:
-                return max(1, -grid[m - 1][n - 1] + 1)
+                return max(1, 1 - grid[m - 1][n - 1])
 
             if i >= m or j >= n:
                 return float('inf')
