@@ -1,5 +1,8 @@
 
 """
+https://leetcode.com/problems/maximum-number-of-non-overlapping-subarrays-with-sum-equals-target/discuss/786169/Java-Recursive-greater-Memoization-greater-DP-Approach
+https://leetcode.com/problems/maximum-number-of-non-overlapping-subarrays-with-sum-equals-target/discuss/1188324/67-%3A%3A-Python-(Explained)
+
 X [X X X] X [X X] X X X
 
 dp[i]: for the first i elements, the maximum of non-empty non-overlapping subarrays such that the sum of values in each subarray is equal to target
@@ -13,6 +16,29 @@ dp[i] = max{dp[j+1]} for j st. taget = presum[i] - presum[j]
 dp[n-1]
 
 """
+
+import functools
+
+
+class SolutionTDTLE:
+    def maxNonOverlapping(self, nums, target: int) -> int:
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 0
+            res = 0
+            summ = 0
+            for j in range(i, n):
+                summ += nums[j]
+                if summ == target:
+                    res = max(res, dfs(j + 1) + 1)
+                else:
+                    res = max(res, dfs(j + 1))
+
+            return res
+        return dfs(0)
+
 
 
 class Solution1:
