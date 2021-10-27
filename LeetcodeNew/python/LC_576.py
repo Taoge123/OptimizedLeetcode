@@ -26,6 +26,34 @@ N is in range [0,50].
 """
 
 import collections
+import functools
+
+class SolutionTony:
+    def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
+
+        mod = 10 ** 9 + 7
+        @functools.lru_cache(None)
+        def dfs(i, j, steps):
+            # Reach the target
+            if i < 0 or j < 0 or i >= m or j >= n:
+                return 1
+
+                # No step left
+            if steps == 0:
+                return 0
+
+            # Heuristic: Not enough steps left to go out of any boundary
+            # if (m-i > steps and n-sj > steps and i+1 > steps and sj+1 > steps):
+            #     return 0
+            res = 0
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                x, y = i + dx, j + dy
+                res += dfs(x, y, steps - 1)
+            return res
+
+        return dfs(i, j, N) % mod
+
+
 
 class SolutionTLE:
     def findPaths(self, m: int, n: int, N: int, i: int, j: int) -> int:
