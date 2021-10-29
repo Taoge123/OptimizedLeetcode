@@ -19,6 +19,24 @@ dp[i][j] = Min + arr[i][j]
 """
 
 import heapq
+import functools
+
+class SolutionTony:
+    def minFallingPathSum(self, grid) -> int:
+        m, n = len(grid), len(grid[0])
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == m:
+                return 0
+            res = float('inf')
+            for k in range(n):
+                if k == j:
+                    continue
+                res = min(res, grid[i][k] + dfs(i + 1, k))
+            return res
+
+        return dfs(0, n)
+
 
 
 class Solution:

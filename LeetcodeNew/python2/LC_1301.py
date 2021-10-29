@@ -1,20 +1,45 @@
 """
+https://leetcode-cn.com/problems/number-of-paths-with-max-score/solution/jian-dan-ji-yi-hua-di-gui-jin-xing-dong-tai-gui-hu/
+
 https://www.youtube.com/watch?v=WwdjLkWmDPs
 
-1301.Number-of-Paths-with-Max-Score
-此题仍然是经典的走迷宫的DP套路。只不过嵌套了两个DP小问题。第一个问题比较简单，设计状态变量dp[i][j]表示从右下角走到(i,j)位置的最大权重路径的权值和。大致的状态转移方程是
-
-dp[i][j] = max(dp[i+1][j], dp[i][j+1], dp[i+1][j+1]) + board[i][j]-'0'
-当然coding的过程中要查验这三个前驱状态是否都存在，也就是处理好边界的情况。
-
-第二个问题和第一个问题息息相关。我们知道dp[i][j]代表了从右下角走到(i,j)位置的最大权重路径，
-其本质是在三个前驱状态dp[i+1],dp[i][j+1],dp[i+1][j+1]中取最大的那一个。假设这三个前驱状态中dp[i+1][j]最大，
-说明(i,j)要取得最大权值路径，必须要先使得(i+1,j)取得最大权值路径。
-因此，从右下角到(i+1,j)的最大权重路径的条数paths[i+1][j]，就对应了有相同多数目的从右下角到(i,j)的最大权重路径，也就是paths[i][j]。
-
-特别的，如果三个前驱状态中有若干个并列最大的，
-那么paths[i][j]就是这些前驱状态paths[i+1],paths[i][j+1],paths[i+1][j+1]的加和。
 """
+
+import functools
+
+class SolutionTD:
+    def pathsWithMaxScore(self, board):
+        mod = 10 ** 9 + 7
+        m, n = len(board), len(board[0])
+
+        @functools.lru_cache(None)
+        def dfs(i, j, count):
+            if i == 0 and j == 0:
+                return [0, 1]
+
+            if i < 0 or j < 0 or board[i][j] == "X":
+                return [-float("inf"), -float("inf")]
+
+            count = 0
+            if board[i][j] != "S":
+                val = int(board[i][j])
+            else:
+                val = 0
+
+            m1, c1 = dfs(i - 1, j, count + 1)
+            m2, c2 = dfs(i, j - 1, count + 1)
+            m3, c3 = dfs(i - 1, j - 1, count + 1)
+            max_length = max(m1, m2, m3)
+
+            for m, c in ((m1, c1), (m2, c2), (m3, c3)):
+                if m == max_length:
+                    count += c
+
+            return [max_length + val, count]
+
+        a, b = dfs(m - 1, n - 1, 0)
+        return [a % mod, b % mod] if a != -float("inf") or b != -float("inf") else [0, 0]
+
 
 
 class Solution:
