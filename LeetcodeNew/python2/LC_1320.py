@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/minimum-distance-to-type-a-word-using-two-fingers/discuss/1057802/Python-oror-Very-Easy-Solution-oror-Simple-Memoization
+
 https://leetcode.com/problems/minimum-distance-to-type-a-word-using-two-fingers/discuss/477659/4%2B-DP-Solutions
 We have two choices - type the next character using either left or right index finger.
 So, we run DFS to find the minimum cost. Without memoisation, the runtime complexity is O(2 ^ n).
@@ -41,28 +43,54 @@ So, we run DFS to find the minimum cost. Without memoisation, the runtime comple
 """
 
 import collections
+import functools
 
 class Solution:
     def minimumDistance(self, word: str) -> int:
         n = len(word)
         self.dp = collections.defaultdict(int)
-        return self.helper(word, 0, 26, 26)
+        return self.dfs(word, 0, 26, 26)
 
     def cost(self, c1, c2):
         if c1 == 26:
             return 0
         return abs(c1 // 6 - c2 // 6) + abs(c1 % 6 - c2 % 6)
 
-    def helper(self, word, pos, left, right):
-        if pos >= len(word):
+    def dfs(self, word, i, left, right):
+        if i >= len(word):
             return 0
-        if self.dp[(pos, left, right)] == 0:
-            to = ord(word[pos]) - ord('A')
-            self.dp[(pos, left, right)] = min(self.cost(left, to) + self.helper(word, pos + 1, to, right),
-                                              self.cost(right, to) + self.helper(word, pos + 1, left, to)) + 1
-        return self.dp[(pos, left, right)] - 1
+        if self.dp[(i, left, right)] == 0:
+            to = ord(word[i]) - ord('A')
+            self.dp[(i, left, right)] = min(self.cost(left, to) + self.dfs(word, i + 1, to, right),
+                                              self.cost(right, to) + self.dfs(word, i + 1, left, to)) + 1
+        return self.dp[(i, left, right)] - 1
 
 
+class SolutionTD:
+    def minimumDistance(self, word: str) -> int:
+        table = collections.defaultdict(tuple)
+        for i in range(26):
+            ch = chr(ord('A') + i)
+            row, col = divmod(i, 6)
+            table[ch] = (row, col)
 
+        n = len(word)
+        def cost(ch1, ch2):
+            if ch1 == '#' or ch2 == '#':
+                return 0
+            r1, c1 = table[ch1]
+            r2, c2 = table[ch2]
+            return abs(r1 - r2) + abs(c1 - c2)
+
+        @functools.lru_cache(None)
+        def dfs(i, f1, f2):
+            if i == n:
+                return 0
+            ch = word[i]
+            dist1 = cost(ch, f1)
+            dist2 = cost(ch, f2)
+            return min(dist1 + dfs(i + 1, ch, f2), dist2 + dfs(i + 1, f1, ch))
+
+        return dfs(0, '#', '#')
 
 

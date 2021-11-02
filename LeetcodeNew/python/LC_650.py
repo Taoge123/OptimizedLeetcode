@@ -39,7 +39,47 @@ AAA AAA
 
 当然，如果采用贪心的策略可以优化上面的解。例如，我们要得到6个A，直觉上通过3个A翻一番的方法，要比通过2个A翻两番的方法更高效，更是会比通过1个A拷贝粘贴翻五番更高效。
 所以我们将j从小往大尝试，一旦遇到n/j整除的情况，就不再考虑其他j的可能性，取那样的j就能得到计算dp[n]的最优方案
+
+https://leetcode-cn.com/problems/2-keys-keyboard/solution/cong-di-gui-dao-su-shu-fen-jie-by-fuxuemingzhu/
+
 """
+
+import functools
+
+"""
+aaaaaa
+"""
+
+class Solution:
+    def minSteps(self, n):
+        @functools.lru_cache(None)
+        def dfs(i, copied):
+            if i == n:  # found a solution
+                return 0
+            if i > n or i + copied > n:  # won't lead to a solution, so we stop.
+                return float('inf')
+
+            # try pasting, if we have something to paste
+            paste = 1 + dfs(i + copied, copied) if copied > 0 else float('inf')
+
+            # try copying, if what we have on the board is > what we have copied
+            copy_all = 1 + dfs(i, i) if i > copied else float('inf')
+
+            return min(paste, copy_all)
+
+        # start with 1 A on the board and 0 copied
+        return dfs(1, 0)
+
+
+class Solutionfuxuemingzhu:
+    def minSteps(self, n: int) -> int:
+        if n == 1:
+            return 0
+        for i in range(2, n):
+            if n % i == 0:
+                return self.minSteps(n // i) + i
+        return n
+
 
 
 class SolutionDP:
