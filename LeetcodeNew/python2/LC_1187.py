@@ -34,6 +34,30 @@ class SolutionTony:
         return res if res != float('inf') else -1
 
 
+
+class SolutionTony2:
+    def makeArrayIncreasing(self, A, B):
+        n = len(A)
+        B = sorted(set(B))
+        m = len(B)
+
+        @functools.lru_cache(None)
+        def dfs(i, prev):
+            if i == n:
+                return 0
+
+            j = bisect.bisect_right(B, prev)
+
+            swap = 1 + dfs(i + 1, B[j]) if j < m else float('inf')
+            no_swap = dfs(i + 1, A[i]) if prev < A[i] else float('inf')
+
+            return min(no_swap, swap)
+
+        res = dfs(0, -float('inf'))
+        return -1 if res == float('inf') else res
+
+
+
 class Solution22:
     def makeArrayIncreasing(self, arr1, arr2) -> int:
         nums = sorted(set(arr2))

@@ -23,7 +23,7 @@ class Solution:
 
 
 
-class Solution:
+class SolutionBU:
     def maxA(self, N: int) -> int:
         dp = [0] * (N + 1)
         for i in range(N + 1):
