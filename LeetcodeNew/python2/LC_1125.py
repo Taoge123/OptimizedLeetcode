@@ -38,13 +38,51 @@ import functools
 
 """
 
+
+class SolutionTony2:
+    def smallestSufficientTeam(self, req_skills, people):
+        # convert req_skills to bit mask --> record the position of each skill
+        req = {}
+        for i, skill in enumerate(req_skills):
+            req[skill] = i
+
+        # convert skills of each people to bit mask, save it in a list
+        m, n = len(req_skills), len(people)
+        people2skills = [0] * n
+
+        for i, p in enumerate(people):
+            for skill in p:
+                if skill in req:
+                    people2skills[i] = people2skills[i] | (1 << req[skill])
+
+        # convert results that fullfill all req_skills to bit mask
+        fullmask = (1 << m) - 1
+
+        @functools.lru_cache(None)
+        def dfs(mask):
+            # base case
+            if mask == fullmask:
+                return []
+            # for loop the list to see if nextskill(with this person's skills) has new skills, if has --> add this person
+            # res => a list of people
+            res = [0] * (len(people2skills) + 1)
+            for i, skill_mask in enumerate(people2skills):
+                nxt_mask = skill_mask | mask
+                if nxt_mask != mask:
+                    # 比人数少
+                    if len(res) > len(dfs(nxt_mask)):
+                        res = dfs(nxt_mask) + [i]
+                    # 或者 res = min(res, dfs(nxtmask) + [i], key=len)
+            return res
+        return dfs(0)
+
+
+
 class SolutionTony:
     def smallestSufficientTeam(self, req_skills, people):
 
         m, n = len(req_skills), len(people)
-
         table = {v: i for i, v in enumerate(req_skills)}
-
         people2skills = [0] * n
 
         for i, p in enumerate(people):
@@ -53,7 +91,6 @@ class SolutionTony:
                     people2skills[i] |= (1 << table[skill])
 
         full_mask = (1 << m) - 1
-
         @functools.lru_cache(None)
         def dfs(i, mask):
             if i >= n:
@@ -72,7 +109,7 @@ class SolutionTony:
 
 
 class Solution:
-    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
+    def smallestSufficientTeam(self, req_skills, people):
 
         m, n = len(req_skills), len(people)
 
@@ -105,10 +142,6 @@ class Solution:
 
         return dfs(0)
 
-        """
-        00100
-        00110
-        """
 
 
 

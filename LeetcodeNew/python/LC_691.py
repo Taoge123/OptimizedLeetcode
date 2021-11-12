@@ -24,6 +24,37 @@ i的每一个bit表示的是target对应位置的字符是否得到了满足。�
 import collections
 
 
+class SolutionDFSShort:
+    def minStickers(self, stickers, target: str) -> int:
+
+        table = collections.Counter(target)
+        self.res = float('inf')
+
+        def dfs(target, i, count):
+            n = len(target)
+            if i == n:
+                self.res = min(self.res, count)
+                return
+
+            if self.res == count:
+                return
+
+            if table[target[i]] <= 0:
+                dfs(target, i + 1, count)
+            else:
+                for stick in stickers:
+                    if target[i] in stick:
+                        for s in stick:
+                            table[s] -= 1
+                        dfs(target, i + 1, count + 1)
+                        for s in stick:
+                            table[s] += 1
+
+        dfs(target, 0, 0)
+        return self.res if self.res < float('inf') else -1
+
+
+
 class SolutionDFS:
     def minStickers(self, stickers, target: str) -> int:
 

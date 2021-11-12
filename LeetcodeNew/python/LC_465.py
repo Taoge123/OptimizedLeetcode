@@ -58,22 +58,22 @@ class Solution:
             if val != 0:
                 debt.append(val)
 
-        self.helper(debt, 0, 0)
+        self.dfs(debt, 0, 0)
         return self.res
 
-    def helper(self, debt, start, count):
-        while start < len(debt) and debt[start] == 0:
-            start += 1
+    def dfs(self, nums, i, count):
+        while i < len(nums) and nums[i] == 0:
+            i += 1
 
-        if start == len(debt):
+        if i == len(nums):
             self.res = min(self.res, count)
             return
 
-        for i in range(start + 1, len(debt)):
-            if ((debt[start] < 0 and debt[i] > 0) or (debt[start] > 0 and debt[i] < 0)):
-                debt[i] = debt[i] + debt[start]
-                self.helper(debt, start + 1, count + 1)
-                debt[i] = debt[i] - debt[start]
+        for j in range(i + 1, len(nums)):
+            if ((nums[i] < 0 and nums[j] > 0) or (nums[i] > 0 and nums[j] < 0)):
+                nums[j] = nums[j] + nums[i]
+                self.dfs(nums, i + 1, count + 1)
+                nums[j] = nums[j] - nums[i]
 
 
 

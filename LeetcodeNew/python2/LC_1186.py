@@ -24,11 +24,34 @@ dp[i][1] : max sum for non-empty subarray ending at i, with one deletion
 
 import functools
 
+import functools
+
+
+class SolutionTD1:
+    def maximumSum(self, arr) -> int:
+        memo = {}
+        n = len(arr)
+        # return max(self.dfs(arr, i, True, memo) for i in range(n))
+        self.dfs(arr, 0, True, memo)
+        return max(memo.values())
+
+    def dfs(self, arr, i, canDelete, memo):
+
+        if (i, canDelete) in memo:
+            return memo[(i, canDelete)]
+        n = len(arr)
+        if i >= n:
+            return float('-inf')
+        delete = self.dfs(arr, i + 1, False, memo) if canDelete else float('-inf')
+        no_delete = self.dfs(arr, i + 1, canDelete, memo) + arr[i]
+        memo[(i, canDelete)] = max(delete, no_delete, arr[i])
+        return memo[(i, canDelete)]
+
+
 
 class SolutionTD:
     def maximumSum(self, arr) -> int:
         n = len(arr)
-
         @functools.lru_cache(None)
         def dfs(i, canDelete):
             if i >= n:
