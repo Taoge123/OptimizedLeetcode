@@ -21,6 +21,44 @@ dp[i][j]表示第i行第j个状态下的最大学生数目,在该状态j满足�
     2. cnt1[i]=cnt1[i>>1]+(i&1); 当前1的个数=除去最后一位(右移1)的1的个数+最后一位是否为1
 """
 
+import functools
+
+class SolutionTony:
+    def maxStudents(self, seats) -> int:
+        m, n = len(seats), len(seats[0])
+        valid_seat = [0] * m
+        for i in range(m):
+            for j in range(n):
+                if seats[i][j] == '.':
+                    valid_seat[i] |= (1 << j)
+
+        @functools.lru_cache(None)
+        def dfs(state, i):
+            m, n = len(seats), len(seats[0])
+            if i == m:
+                return 0
+
+            res = 0
+            for newState in range(1 << n):
+                # 如果 cur座位 & valid座位 == cur座位， 说明都为1，都是valid座位，可以坐
+                # 如果 cur座位 & cur座位左移一位 == 0， 说明cur座位没有相邻的
+                # 如果 pre座位 & cur座位左移一位 == 0， pre座位 & cur座位右移一位 == 0 ， 说明cur没有和prev对角座位
+                # check if there is no adjancent students in the row
+                if (newState & valid_seat[i]) == newState and newState & (newState << 1) == 0:
+                    # no students in the upper left positions and upper right positions
+                    if (state << 1) & newState == 0 and (newState << 1) & state == 0:
+                        res = max(res, self.count(newState) + dfs(newState, i + 1))
+            return res
+
+        return dfs(0, 0)
+
+    def count(self, n):
+        count = 0
+        while n:
+            n &= n - 1
+            count += 1
+        return count
+
 
 class Solution:
     def maxStudents(self, seats) -> int:
