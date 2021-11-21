@@ -76,26 +76,6 @@ right = 34
 
 import functools
 
-class Solution:
-    def splitArray(self, nums, m):
-        presum = [0]
-        for num in nums:
-            presum.append(presum[-1] + num)
-
-        @functools.lru_cache(None)
-        def dfs(pos, m):
-            if pos == len(nums):
-                return 0 if m == 0 else float('inf')
-
-            res = float('inf')
-            # total = 0
-            for i in range(pos, len(nums)):
-                total = presum[i + 1] - presum[pos]
-                res = min(res, max(total, dfs(i + 1, m - 1)))
-            return res
-
-        return dfs(0, m)
-
 
 class SolutionTony:
     def splitArray(self, nums, m):
@@ -117,6 +97,28 @@ class SolutionTony:
                 summ = 0
             summ += num
         return cuts + 1
+
+
+class Solution:
+    def splitArray(self, nums, m):
+        presum = [0]
+        for num in nums:
+            presum.append(presum[-1] + num)
+
+        @functools.lru_cache(None)
+        def dfs(pos, m):
+            if pos == len(nums):
+                return 0 if m == 0 else float('inf')
+
+            res = float('inf')
+            # total = 0
+            for i in range(pos, len(nums)):
+                total = presum[i + 1] - presum[pos]
+                res = min(res, max(total, dfs(i + 1, m - 1)))
+            return res
+
+        return dfs(0, m)
+
 
 
 class Solution:

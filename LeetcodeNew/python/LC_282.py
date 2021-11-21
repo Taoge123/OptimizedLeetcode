@@ -56,7 +56,6 @@ class Solution1:
 
 
 class Solution:
-
     def __init__(self):
         self.res = []
         self.nums = None
