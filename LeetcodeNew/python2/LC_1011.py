@@ -1,27 +1,45 @@
 """
 
-Explanation
-Given the number of bags,
-return the minimum capacity of each bag,
-so that we can put items one by one into all bags.
+1.
 
-We binary search the final result.
-The left bound is max(A),
-The right bound is sum(A).
+left = max(nums)
+right = sum(nums)
+
+if count(mid) > days:
+    left = mid + 1
+else:
+    right = mid
+return left
 
 
-More Good Binary Search Problems
-Here are some similar binary search problems.
-Also find more explanations.
-Good luck and have fun.
+2. count(nums, target):
 
-Find the Smallest Divisor Given a Threshold
-Divide Chocolate
-Capacity To Ship Packages In N Days
-Koko Eating Bananas
-Minimize Max Distance to Gas Station
-Split Array Largest Sum
+3. equal
+
 """
+
+class SolutionTony:
+    def shipWithinDays(self, weights, days: int) -> int:
+
+        left, right = max(weights), sum(weights)
+        while left <= right:
+            mid = (left+right)//2
+            if self.count(weights, mid) > days:
+                left = mid+1
+            else:
+                right = mid-1
+        return left
+
+    def count(self, nums, target):
+        count = 0
+        summ = 0
+        for w in nums:
+            if summ+w > target:
+                count += 1
+                summ = 0
+            summ += w
+        return count + 1
+
 
 
 class Solution:

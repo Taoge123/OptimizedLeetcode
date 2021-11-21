@@ -1,25 +1,67 @@
 
 """
-Given an array which consists of non-negative integers and an integer m, you can split the array into m non-empty continuous subarrays. Write an algorithm to minimize the largest sum among these m subarrays.
 
-Note:
-If n is the length of array, assume the following constraints are satisfied:
+1000000000000000
 
-1 ≤ n ≤ 1000
-1 ≤ m ≤ min(50, n)
-Examples:
+10
 
-Input:
-nums = [7,2,5,10,8]
-m = 2
 
-Output:
-18
 
-Explanation:
-There are four ways to split nums into two subarrays.
-The best way is to split it into [7,2,5] and [10,8],
-where the largest sum among the two subarrays is only 18.
+left = max(nums)
+right = sum(nums)
+
+if count() > m:
+    left = mid + 1
+else:
+    right = mid
+return left
+
+2.
+count()
+
+
+k
+m
+
+1536 113 5136 155 361
+9.   11.  15.  11. 10
+-> 15
+
+m = 5
+1536 113513 615 5361 ->
+
+actual -> chunks < k
+
+guess: 15 -> need it to be smaller
+
+
+if count(mid) < m:
+    left = mid + 1
+else:
+    right = mid
+return left
+
+
+n * log(n)
+
+
+
+153 6113 536 -> m = 3
+
+
+
+left = 6
+
+153611 3536 m = 2
+
+right = 34
+
+6 + 34 / 2 -> 20
+
+20 ->
+
+
+1,2,3   4,5 -> 9
 
 """
 
@@ -46,7 +88,7 @@ class Solution:
                 return 0 if m == 0 else float('inf')
 
             res = float('inf')
-            total = 0
+            # total = 0
             for i in range(pos, len(nums)):
                 total = presum[i + 1] - presum[pos]
                 res = min(res, max(total, dfs(i + 1, m - 1)))
@@ -56,27 +98,25 @@ class Solution:
 
 
 class SolutionTony:
-    def splitArray(self, nums, m: int) -> int:
-        left, right = max(nums), sum(nums) + 1
-        while left < right:
-            mid = left + (right - left) // 2
-            if self.search(nums, mid) <= m:
-                right = mid
-            else:
+    def splitArray(self, nums, m):
+        left, right = max(nums), sum(nums)
+        while left <= right:
+            mid = (left + right) // 2
+            if self.count(nums, mid) > m:
                 left = mid + 1
+            else:
+                right = mid - 1
         return left
 
-    def search(self, nums, mid):
-        count = 1
-        curSum = 0
+    def count(self, nums, target):
+        summ = 0
+        cuts = 0
         for num in nums:
-            curSum += num
-            if curSum > mid:
-                count += 1
-                curSum = num
-        return count
-
-
+            if num + summ > target:
+                cuts += 1
+                summ = 0
+            summ += num
+        return cuts + 1
 
 
 class Solution:

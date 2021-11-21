@@ -1,6 +1,53 @@
 """
 https://www.youtube.com/watch?v=ZBOGrSS_xiM
+
+
+[1,2,5,9]  threshold = 6
+
+1,2,5,9   threshold = 6
+
+
+
+/ divisor -> big -> small
+
+1.
+left = 1
+right = max(nums)
+
+if summ(mid) >= threshold:
+    left = mid + 1
+else:
+    right = mid
+return left
+
+2. helper()
+
+3. equal
+
 """
+
+import math
+
+
+class SolutionTony:
+    def smallestDivisor(self, nums, threshold: int) -> int:
+
+        left, right = 1, max(nums)
+
+        while left <= right:
+
+            mid = (left + right) // 2
+            if self.count(nums, mid) <= threshold:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return left
+
+    def count(self, nums, target):
+        return sum(math.ceil(num / target) for num in nums)
+
+
 
 
 class Solution:

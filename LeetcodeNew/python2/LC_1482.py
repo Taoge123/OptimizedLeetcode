@@ -1,35 +1,73 @@
+"""
+X, _, _, _, _
+X, _, _, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, _, X, _, X
+X, X, X, X, X
 
+m = 3
+k = 2
+
+xx xx xx
+
+n < m * k : return -1
+
+day ->
+
+left = 1
+right = max()
+
+if count(mid) > m:
+    right = mid
+else:
+    left = mid + 1
+return left
+
+2. count()
+
+3.
+
+"""
 
 class Solution:
     def minDays(self, bloomDay, m: int, k: int) -> int:
-        left = 1
-        right = max(bloomDay)
+
         n = len(bloomDay)
 
         # total is less then m * k flowers
         if n < m * k:
             return -1
 
+        left, right = 1, max(bloomDay)
         while left < right:
-            mid = left + (right - left) // 2
-            if self.check(mid, bloomDay, m, k):
+            mid = (left + right) // 2
+            if self.count(bloomDay, mid, k) >= m:
                 right = mid
             else:
                 left = mid + 1
         return left
 
-    def check(self, day, bloomDay, m, k):
-        consecutive = 0  # count
-        bouquets = 0  # res
-        for i in range(len(bloomDay)):
-            if bloomDay[i] > day:
-                consecutive = 0
+    def count(self, nums, day, k):
+        count = 0
+        summ = 0
+        for num in nums:
+            if num > day:
+                summ = 0
             else:
-                consecutive += 1
-                if consecutive == k:
-                    bouquets += 1
-                    consecutive = 0
+                summ += 1
+                if summ == k:
+                    count += 1
+                    summ = 0
+        return count
 
-        return bouquets >= m
+
+
+
+
 
 

@@ -1,47 +1,67 @@
 """
-On a horizontal number line, we have gas stations at positions stations[0], stations[1], ..., stations[N-1], where N = stations.length.
 
-Now, we add K more gas stations so that D, the maximum distance between adjacent gas stations, is minimized.
+0    |   |   |    10
 
-Return the smallest possible value of D.
+mid = 3
 
-Example:
 
-Input: stations = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], K = 9
-Output: 0.500000
-Note:
+x.  x.        x.                x            x
 
-stations.length will be an integer in range [10, 2000].
-stations[i] will be an integer in range [0, 10^8].
-K will be an integer in range [1, 10^6].
-Answers within 10^-6 of the true value will be accepted as correct.
+
+
+1 2 7 9 15  -> 3
+
+dist - 3
+
+
+left = 0
+right = stations[-1] - stations[0]
+
+mid - big   -  less
+      small -  more
+
+if count(mid) >= k:
+    left = mid + 1
+else:
+    right = mid
+return left
+
+x                x
+1                100
+
+2. count(mid)
+
+
+0 | | | 10
+ceil()
+
+
+
+3. equal
+
 """
-"""
-Approach #4: Binary Search [Accepted]
-Intuition
 
-Let's ask possible(D): with K (or less) gas stations, can we make every adjacent distance between gas stations at most D? 
-This function is monotone, so we can apply a binary search to find:
-"""
-
+import math
 
 class Solution:
-    def minmaxGasDist(self, nums, K):
-        left, right = 1e-6, nums[-1] - nums[0]
-        while left + 1e-6 < right:
-            mid = (left + right) / 2
-            count = 0
-
-            for a, b in zip(nums, nums[1:]):
-                count += int((b - a) / mid)
-
-            if count > K:
+    def minmaxGasDist(self, stations, k: int) -> float:
+        left, right = 1e-9, stations[-1] - stations[0]
+        while right - left > 1e-6:
+            mid = (right - left) / 2 + left
+            if self.count(stations, mid) > k:
                 left = mid
             else:
                 right = mid
-        return right
 
+        return left
 
+    def count(self, nums, mid):
+
+        count = 0
+
+        for a, b in zip(nums, nums[1:]):
+            count += math.ceil((b - a) / mid) - 1
+        return count
 
 
 class Solution2:
@@ -56,7 +76,7 @@ class Solution2:
         return lo
 
     def possible(self, nums, mid, K):
-        return sum(int((nums[i +1] - nums[i]) / mid) for i in range(len(nums) - 1)) <= K
+        return sum(int((nums[i+1] - nums[i]) / mid) for i in range(len(nums)-1)) <= K
 
 
 

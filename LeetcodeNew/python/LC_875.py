@@ -1,4 +1,22 @@
 """
+1.
+left = 1
+right = max(nums)
+
+guess -> how many we can eat per hour
+
+if count(guess) > h:
+    left = mid + 1
+else:
+    right = mid
+return left
+
+
+2. count(nums, target)
+
+3. equal
+
+
 分析：
 
 去找一个值满足某种条件，这种题见得太多了，显然是二分法，之后我整理一下所有的这种题目做一个合辑。
@@ -13,6 +31,22 @@
 """
 
 import math
+
+class Solution2:
+    def minEatingSpeed(self, piles, H: int) -> int:
+
+        left = 1
+        right = max(piles)
+        while left < right:
+            mid = (left + right) // 2
+            time = sum([math.ceil(pile / mid) for pile in piles])
+            if time > H:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+
+
 
 
 class Solution:
@@ -34,19 +68,6 @@ class Solution:
 
 
 
-class Solution2:
-    def minEatingSpeed(self, piles, H: int) -> int:
-
-        left = 1
-        right = max(piles)
-        while left < right:
-            mid = (left + right) // 2
-            time = sum([math.ceil(i / mid) for i in piles])
-            if time > H:
-                left = mid + 1
-            else:
-                right = mid
-        return left
 
 
 
