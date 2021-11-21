@@ -28,16 +28,17 @@ https://www.youtube.com/watch?v=AtewfTorv0g
 """
 
 
-class SolutionIncorrectNeedToCheck:
+class SolutionTony1:
     def maximizeSweetness(self, sweetness, K: int) -> int:
-        left, right = min(sweetness), sum(sweetness) // (K + 1)
-        while left <= right:
+        left, right = min(sweetness), sum(sweetness)
+
+        while left < right:
             # check right instead of left (3 + 4) // 2 -> 4 instead of 3
             mid = (left + right + 1) // 2
             if self.count(sweetness, mid) >= K + 1:
                 left = mid + 1
             else:
-                right = mid - 1
+                right = mid
         return left
 
     def count(self, sweetness, mid):
@@ -49,7 +50,6 @@ class SolutionIncorrectNeedToCheck:
                 count += 1
                 summ = 0
         return count
-
 
 
 class SolutionTonnie:

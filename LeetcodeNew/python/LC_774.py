@@ -43,6 +43,26 @@ ceil()
 
 import math
 
+
+class SolutionTony:
+    def minmaxGasDist(self, stations, k: int) -> float:
+        left, right = 0, stations[-1] - stations[0]
+        while right - left > 1e-6:
+            mid = (left + right) / 2
+            if self.count(stations, mid) <= k:
+                right = mid
+            else:
+                left = mid
+        return left
+
+    def count(slef, nums, dist):
+        count = 0
+        for a, b in zip(nums, nums[1:]):
+            count += math.ceil((b - a) / dist) - 1
+        return count
+
+
+
 class Solution:
     def minmaxGasDist(self, stations, k: int) -> float:
         left, right = 1e-9, stations[-1] - stations[0]

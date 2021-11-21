@@ -78,25 +78,25 @@ import functools
 
 
 class SolutionTony:
-    def splitArray(self, nums, m):
+    def splitArray(self, nums, m: int) -> int:
         left, right = max(nums), sum(nums)
-        while left <= right:
+        while left < right:
             mid = (left + right) // 2
             if self.count(nums, mid) > m:
                 left = mid + 1
             else:
-                right = mid - 1
+                right = mid
         return left
 
     def count(self, nums, target):
         summ = 0
-        cuts = 0
+        count = 0
         for num in nums:
-            if num + summ > target:
-                cuts += 1
+            if num + summ >= target:
+                count += 1
                 summ = 0
             summ += num
-        return cuts + 1
+        return count + 1
 
 
 class Solution:

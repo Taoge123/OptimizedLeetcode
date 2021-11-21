@@ -33,21 +33,16 @@ class SolutionTony:
     def smallestDivisor(self, nums, threshold: int) -> int:
 
         left, right = 1, max(nums)
-
-        while left <= right:
-
+        while left < right:
             mid = (left + right) // 2
             if self.count(nums, mid) <= threshold:
-                right = mid - 1
+                right = mid
             else:
                 left = mid + 1
-
         return left
 
-    def count(self, nums, target):
-        return sum(math.ceil(num / target) for num in nums)
-
-
+    def count(self, nums, divisor):
+        return sum([math.ceil(num / divisor) for num in nums])
 
 
 class Solution:
