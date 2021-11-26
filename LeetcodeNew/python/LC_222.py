@@ -32,9 +32,18 @@ class Solution:
         right = self.helper(root, False)
         if left == right:
             return (1 << left) - 1
-
         else:
             return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+
+    def helper(self, root, isLeft):
+        if not root:
+            return 0
+        if isLeft:
+            return self.helper(root.left, isLeft) + 1
+        else:
+            return self.helper(root.right, isLeft) + 1
+
+
 
     # def leftDepth(self, root):
     #     res = 0
@@ -49,13 +58,6 @@ class Solution:
     #         res += 1
     #         root = root.right
     #     return res
-
-    def helper(self, root, isLeft):
-        if not root:
-            return 0
-        return self.helper(root.left, isLeft) + 1 if isLeft else self.helper(root.right, isLeft) + 1
-
-
 
 
 """

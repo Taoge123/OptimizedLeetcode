@@ -57,17 +57,17 @@ class Codec:
         nodes = data.split(",")
         root = TreeNode(int(nodes[0]))
         queue = collections.deque([root])
-        index = 1
+        i = 1
         while queue:
             node = queue.popleft()
-            if nodes[index] is not "#":
-                node.left = TreeNode(int(nodes[index]))
+            if nodes[i] is not "#":
+                node.left = TreeNode(int(nodes[i]))
                 queue.append(node.left)
-            index += 1
-            if nodes[index] is not "#":
-                node.right = TreeNode(int(nodes[index]))
+            i += 1
+            if nodes[i] is not "#":
+                node.right = TreeNode(int(nodes[i]))
                 queue.append(node.right)
-            index += 1
+            i += 1
         return root
 
 

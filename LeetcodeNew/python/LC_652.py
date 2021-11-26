@@ -10,7 +10,12 @@ class Solution:
     def findDuplicateSubtrees(self, root: TreeNode):
         table = collections.defaultdict(list)
         self.dfs(root, table)
-        return [table[val][0] for val in table if len(table[val]) > 1]
+        res = []
+        for val in table:
+            if len(table[val]) > 1:
+                res.append(table[val][0])
+        return res
+        # return [table[val][0] for val in table if len(table[val]) > 1]
 
     def dfs(self, root, table):
         if not root:
