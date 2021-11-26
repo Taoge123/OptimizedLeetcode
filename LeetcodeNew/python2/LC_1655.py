@@ -73,6 +73,38 @@ class SolutionTony:
 
 
 
+class SolutionTLE:
+    def canDistribute(self, nums: List[int], quantity) -> bool:
+
+        count = collections.Counter(nums)
+        arr = list(count.values())
+
+        n, m = len(arr), len(quantity)
+        full_mask = (1 << m) - 1
+
+        @functools.lru_cache(None)
+        def dfs(i, mask):
+            if mask == full_mask:
+                return True
+            if i == n:
+                return False
+
+            for new_mask in range(1 << m):
+                if (new_mask & mask) != mask:
+                    continue
+                cost = 0
+                for j in range(m):
+                    if not mask & (1 << j) and new_mask & (1 << j):
+                        # if (mask >> j) & 1 == 0 and (new_mask >> j) & 1 == 1:
+                        cost += quantity[j]
+                if cost <= arr[i] and dfs(i + 1, new_mask):
+                    return True
+            return dfs(i + 1, mask)
+
+        return dfs(0, 0)
+
+
+
 class Solution:
     def canDistribute(self, nums, quantity) -> bool:
         count = collections.Counter(nums)
