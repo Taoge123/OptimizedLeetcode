@@ -25,6 +25,53 @@ count[i] >= quantity[subset_1] + quantity[subset_2] + .....
 import collections
 import functools
 
+"""
+
+1 1 2
+
+
+11 -> 4
+10 -> 2
+01 -> 2
+00 -> 0
+
+"""
+
+
+class SolutionTony:
+    def canDistribute(self, nums, quantity) -> bool:
+        count = collections.Counter(nums)
+        arr = list(count.values())
+
+        n, m = len(arr), len(quantity)
+        make_sum = collections.defaultdict(int)
+
+        for mask in range(1 << m):
+            for i in range(m):
+                if mask & (1 << i):
+                    make_sum[mask] += quantity[i]
+
+        @functools.lru_cache(None)
+        def dfs(i, mask):
+            if mask == 0:
+                return True
+            if i >= n:
+                return False
+
+            if dfs(i + 1, mask):
+                return True
+
+            submask = mask
+            while submask:
+                if make_sum[submask] <= arr[i] and dfs(i + 1, submask ^ mask):
+                    return True
+                submask = (submask - 1) & mask
+
+            return False
+        return dfs(0, (1 << m) - 1)
+
+
+
 
 class Solution:
     def canDistribute(self, nums, quantity) -> bool:
