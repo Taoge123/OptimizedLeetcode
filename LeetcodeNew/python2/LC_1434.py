@@ -78,6 +78,40 @@ import collections
 import functools
 
 
+class SolutionTony:
+    def numberWays(self, hats) -> int:
+        mod = 10 ** 9 + 7
+        n = len(hats)
+        h2p = collections.defaultdict(list)
+
+        for p, hs in enumerate(hats):
+            for h in hs:
+                h2p[h].append(p)
+
+        full_mask = (1 << n) - 1
+
+        @functools.lru_cache(None)
+        def dfs(i, mask):
+
+            if mask == full_mask:
+                return 1
+
+            if i >= 41:
+                return 0
+
+            res = dfs(i + 1, mask)
+
+            for p in h2p[i]:
+                if mask & (1 << p):
+                    continue
+
+                res += dfs(i + 1, mask | (1 << p))
+            return res
+
+        return dfs(0, 0) % mod
+
+
+
 class Solution:
     def numberWays(self, hats) -> int:
         n = len(hats)

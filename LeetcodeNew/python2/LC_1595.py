@@ -27,6 +27,33 @@ After finishing with the first group, we detect elements in group 2 that are sti
 from functools import lru_cache
 
 
+class SolutionTony:
+    def connectTwoGroups(self, cost) -> int:
+        m, n = len(cost), len(cost[0])
+        min_cost = [float('inf')] * n
+        for j in range(n):
+            for i in range(m):
+                min_cost[j] = min(min_cost[j], cost[i][j])
+
+        @lru_cache(None)
+        def dfs(i, mask):
+            if i >= m:
+                res = 0
+                for j in range(n):
+                    if not mask & (1 << j):
+                        res += min_cost[j]
+                return res
+
+            res = float('inf')
+            for j in range(n):
+                res = min(res, dfs(i + 1, mask | (1 << j)) + cost[i][j])
+            return res
+
+        return dfs(0, 0)
+
+
+
+
 class SolutionTD:
     def connectTwoGroups(self, cost) -> int:
         m, n = len(cost), len(cost[0])
