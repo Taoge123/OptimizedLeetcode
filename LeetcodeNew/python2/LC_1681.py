@@ -1,3 +1,9 @@
+"""
+https://leetcode.com/problems/minimum-incompatibility/discuss/962339/Python-or-2-solutions-or-1-Brute-force-or-1-Memoization-(AC)
+https://www.youtube.com/watch?v=aqlZOAt6d80
+"""
+
+
 import itertools
 import functools
 
@@ -36,7 +42,7 @@ class SolutionBIT:
         n = len(nums)
 
         @functools.lru_cache(None)
-        def helper(state):  # return minimal sum of incompatibilities achievable with unselected indices.
+        def dfs(state):  # return minimal sum of incompatibilities achievable with unselected indices.
             if state == 0:
                 return 0
             else:
@@ -51,7 +57,7 @@ class SolutionBIT:
                         newState = state
                         for i in idx:
                             newState ^= (1 << i)
-                        res = min(res, max(group) - min(group) + helper(newState))
+                        res = min(res, max(group) - min(group) + dfs(newState))
 
                 return res
 
