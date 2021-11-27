@@ -1,5 +1,9 @@
 """
+
+https://leetcode.com/problems/maximize-grid-happiness/discuss/937036/Python-Top-Down-DP-beats-83
+https://leetcode.com/problems/maximize-grid-happiness/discuss/936467/Python-Short-and-clean-dp-with-diagram-expained
 https://leetcode.com/problems/maximize-grid-happiness/discuss/936081/C%2B%2B-5D-DP
+https://leetcode-cn.com/problems/maximize-grid-happiness/solution/python-ji-yi-hua-dfs-by-qubenhao-zj28/
 
 
 1659.Maximize-Grid-Happiness
@@ -114,31 +118,62 @@ class Solution:
                 res += val + 20
             return res
 
-        N = (1 << n) - 1
-
+        full_mask = (1 << n) - 1
         @functools.lru_cache(None)
         def dfs(pos, i, j, in_state, ex_state):
-            row = pos // n
-            col = pos % n
+            row, col = pos // n, pos % n
             if row >= m:
                 return 0
 
-            in_newState = (in_state << 1) & N
-            ex_newState = (ex_state << 1) & N
+            in_newState = (in_state << 1) & full_mask
+            ex_newState = (ex_state << 1) & full_mask
+
             res = dfs(pos + 1, i, j, in_newState, ex_newState)
             if i < introvertsCount:
-                res = max(res, dfs(pos + 1, i + 1, j, in_newState + 1, ex_newState)
-                          + cost(row, col, in_state, ex_state, -30) + 120)
+                res = max(res, dfs(pos + 1, i + 1, j, in_newState + 1, ex_newState) + cost(row, col, in_state, ex_state, -30) + 120)
             if j < extrovertsCount:
-                res = max(res, dfs(pos + 1, i, j + 1, in_newState, ex_newState + 1)
-                          + cost(row, col, in_state, ex_state, 20) + 40)
+                res = max(res, dfs(pos + 1, i, j + 1, in_newState, ex_newState + 1) + cost(row, col, in_state, ex_state, 20) + 40)
             return res
 
         return dfs(0, 0, 0, 0, 0)
 
 
+class SolutionTony:
+    def getMaxGridHappiness(self, m: int, n: int, introvertsCount: int, extrovertsCount: int) -> int:
+        def cost(row, col, in_state, ex_state, val):
+            res = 0
+            up = 1 << (n - 1)
+            if col > 0 and (in_state & 1):
+                res += val - 30
+            if row > 0 and (in_state & up):
+                res += val - 30
+            if col > 0 and (ex_state & 1):
+                res += val + 20
+            if row > 0 and (ex_state & up):
+                res += val + 20
+            return res
 
+        full_mask = (1 << n) - 1
 
+        @functools.lru_cache(None)
+        def dfs(pos, in_count, ex_count, in_state, ex_state):
+            i, j = pos // n, pos % n
+            if i >= m:
+                return 0
+
+            in_newState = (in_state << 1) & full_mask
+            ex_newState = (ex_state << 1) & full_mask
+
+            res = dfs(pos + 1, in_count, ex_count, in_newState, ex_newState)
+            if in_count > 0:
+                res = max(res, dfs(pos + 1, in_count - 1, ex_count, in_newState + 1, ex_newState)
+                          + cost(i, j, in_state, ex_state, -30) + 120)
+            if ex_count > 0:
+                res = max(res, dfs(pos + 1, in_count, ex_count - 1, in_newState, ex_newState + 1)
+                          + cost(i, j, in_state, ex_state, 20) + 40)
+            return res
+
+        return dfs(0, introvertsCount, extrovertsCount, 0, 0)
 
 
 

@@ -74,7 +74,7 @@ class SolutionTony:
 
 
 class SolutionTLE:
-    def canDistribute(self, nums: List[int], quantity) -> bool:
+    def canDistribute(self, nums, quantity) -> bool:
 
         count = collections.Counter(nums)
         arr = list(count.values())
