@@ -20,9 +20,9 @@ class Solution:
             res = float('inf')
             # choose a as a partition
             for comb in itertools.combinations(set(nums), size):
-                # check for duplicates
-                if len(set(comb)) < size:
-                    continue
+                # check for duplicates, no need if we pass set(nums) on above
+                # if len(set(comb)) < size:
+                #     continue
                 # numbers left after removing partition a
                 remain = list(nums)
                 for num in comb:
@@ -61,7 +61,7 @@ class SolutionBIT:
 
                 return res
 
-        res = helper(2 ** n - 1)
+        res = dfs(2 ** n - 1)
         if res == float('inf'):
             return -1
         else:
