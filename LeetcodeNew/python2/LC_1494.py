@@ -1,5 +1,8 @@
 """
+https://leetcode-cn.com/problems/parallel-courses-ii/solution/dfszhuang-tai-ya-suo-dp-pythonxie-fa-by-bian-di-pa/
+https://leetcode-cn.com/problems/parallel-courses-ii/solution/dong-tai-gui-hua-ya-suo-dpjie-yong-mei-ju-zi-ji-ch/
 https://leetcode-cn.com/problems/parallel-courses-ii/solution/bfsxian-guo-by-sun-man-man/
+https://leetcode.com/problems/parallel-courses-ii/discuss/922756/python-top-down
 
 每个阶段k门课, 几个阶段修完
 1->2
@@ -46,6 +49,41 @@ import functools
 import itertools
 
 import collections
+
+
+class SolutionTonyMask:
+    def minNumberOfSemesters(self, n, dependencies, k):
+        table = collections.defaultdict(int)
+        full_mask = (1 << n) - 1
+
+        for u, v in dependencies:
+            table[v - 1] |= (1 << u - 1)
+
+        @functools.lru_cache(None)
+        def dfs(mask):
+            if mask == full_mask:
+                return 0
+
+            can_study = []
+            for i in range(n):
+                if mask & (1 << i):
+                    continue  # alr learnt
+
+                # check is i's prerequisites are already taken, if so, then we can take i
+                if (table[i] & mask) == table[i]:
+                    can_study.append(i)
+            # print can_study
+            res = float('inf')
+            for to_study in itertools.combinations(can_study, min(k, len(can_study))):
+                new_mask = mask
+                for i in to_study:
+                    new_mask |= 1 << i
+                res = min(res, 1 + dfs(new_mask))
+
+            return res
+
+        return dfs(0)
+
 
 
 
