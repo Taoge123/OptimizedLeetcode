@@ -1,6 +1,6 @@
 """
 https://leetcode-cn.com/problems/number-of-ways-to-paint-n-x-3-grid/solution/gei-n-x-3-wang-ge-tu-tu-se-de-fang-an-shu-by-leetc/
-
+https://leetcode-cn.com/problems/number-of-ways-to-paint-n-3-grid/solution/py3-bao-li-dfs-by-wzhaooooo-2/
 
 解题思路
 本题一看答案很大要取余，再加上发现第i行的涂色方案实际上只受第i-1行的限制，因此想到可以用dp
@@ -27,6 +27,75 @@ sum[i] = a[i] + b[i];
 注意要用int64，要不会越界。
 
 """
+
+import functools
+
+
+"""
+pprev, prev, cur
+nxt          -> nxt dont have to compare with cur
+     pprev, prev
+cur, nxt
+          pprev
+prev, cur, nxt
+
+
+110
+000 -> 11
+
+001
+100
+
+000
+011
+
+01
+10
+11
+
+
+"""
+
+
+class SolutionDFS:
+    def numOfWays(self, n: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(n, pprev, prev, cur):
+            if n == 0:
+                return 1
+
+            mod = 10 ** 9 + 7
+            res = 0
+            for nxt in (1, 2, 3):
+                # check with up and check with left and (n % 3 means we havc nex on the right hand side,
+                # then we dont need to compare with left)
+                if (nxt != pprev and (nxt != cur or n % 3 == 0)):
+                    res += dfs(n - 1, prev, cur, nxt)
+
+            return res % mod
+
+        return dfs(n * 3, 0, 0, 0)
+
+
+class SolutionBM:  # bitmask - unknown
+    def numOfWays(self, n: int) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(n, state):
+            if n == 0:
+                return 1
+
+            mod = 10 ** 9 + 7
+            res = 0
+            pprev, prev, cur = state & 48, state & 12, state & 3
+
+            for nxt in (1, 2, 3):
+                if (nxt != pprev >> 4 and (nxt != cur or n % 3 == 0)):
+                    res += dfs(n - 1, (prev | cur) << 2 | nxt)
+
+            return res % mod
+
+        return dfs(n * 3, 0)
 
 
 class Solution:

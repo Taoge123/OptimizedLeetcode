@@ -13,30 +13,33 @@ dp[i][state] = min{max(dp[i-1][state-subset], time[subset])} for all subsets.
 
 import functools
 
-
 class Solution:
     def minimumTimeRequired(self, jobs, k):
         n = len(jobs)
-        cost = [0] * (1 << n)
-        for mask in range(1 << n):
+        cost = [0] * (1 << (n))
+        for state in range(1 << (n)):
             for j in range(n):
-                cost[mask] += jobs[j] * ((mask >> j) & 1)
+                if state & (1 << j):
+                    cost[state] += jobs[j]
 
         @functools.lru_cache(None)
         def dfs(mask, k):
-            if k == 1:
-                return cost[mask]
+            if mask == 0:
+                return 0
 
-            res = cost[mask]
+            if k == 0:
+                return float('inf')
+
+            res = float('inf')
             submask = mask
-            while (submask - 1) & mask:
+            while submask:
+                if cost[submask] < res:
+                    res = min(res, max(cost[submask], dfs(mask ^ submask, k - 1)))
                 submask = (submask - 1) & mask
-                if cost[submask] >= res:
-                    continue
-                res = min(res, max(cost[submask], dfs(mask ^ submask, k - 1)))
             return res
 
         return dfs((1 << n) - 1, k)
+
 
 
 
@@ -49,26 +52,28 @@ class SolutionTLE:
         # make sure no intersection with already selected
         n = len(jobs)
 
-        subset_sums = [0] * (1 << (n + 1))
-        for mask in range(1 << (n + 1)):
+        subset_sums = [0] * (1 << n)
+        for mask in range(1 << (n)):
             for job in range(n):
                 if (mask >> job) & 1:
                     subset_sums[mask] += jobs[job]
 
         @functools.lru_cache(None)
-        def dfs(picked, k):
+        def dfs(mask, k):
             n = len(jobs)
             # return 0 if No job remaining AND No person remaining
-            if k == 0 and picked + 1 == 1 << (n + 1):
+            if k == 0 and mask + 1 == 1 << n:
                 return 0
-            elif k == 0 or picked + 1 == 1 << (n + 1):
+            elif k == 0 or mask + 1 == 1 << n:
                 return float('inf')
 
             res = float('inf')
-            for pick in range(1 << (n + 1)):
-                if pick & picked == 0:  # no intersection(picked again)
+            for new_masK in range(1 << n):
+                if new_masK & mask == 0:  # no intersection(mask again)
                     # now assign remaining workers
-                    res = min(res, max(subset_sums[pick], dfs(picked | pick, k - 1)))
+                    res = min(res, max(subset_sums[new_masK], dfs(mask | new_masK, k - 1)))
             return res
+
         return dfs(0, k)
+
 
