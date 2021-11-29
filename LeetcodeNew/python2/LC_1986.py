@@ -63,7 +63,6 @@ class SolutionTony2:
 
 class SolutionSlow:
     def minSessions(self, tasks, sessionTime):
-
         n = len(tasks)
         full_mask = (1 << n) - 1
 
@@ -85,9 +84,32 @@ class SolutionSlow:
         return dfs(0, 0)
 
 
+class SolutionSlow2TonyVersion:
+    def minSessions(self, tasks, sessionTime):
+        n = len(tasks)
+        full_mask = (1 << n) - 1
+
+        @functools.lru_cache(None)
+        def dfs(mask, remainTime):
+            if mask == full_mask:
+                return 0
+
+            res = float('inf')
+            for i in range(n):
+                if mask & (1 << i) == 0:
+                    if tasks[i] <= remainTime:
+                        res = min(res, dfs(mask | (1 << i), remainTime - tasks[i]))
+                    else:
+                        res = min(res, 1 + dfs(mask | (1 << i), sessionTime - tasks[i]))
+
+            return res
+
+        # need to plus 1 because we start with one session
+        return dfs(0, sessionTime) + 1
+
 
 class Solution1:  # 11111 ---> 00000, subset
-    def minSessions(self, tasks: List[int], sessionTime: int) -> int:
+    def minSessions(self, tasks, sessionTime):
         # pre-processing: for loop each state to get the hours needed for finishing tasks under the state -- > timeNeed
         # for loop each state to see if timeNeed < sessionTime, res +1, get min res
 
@@ -120,7 +142,7 @@ class Solution1:  # 11111 ---> 00000, subset
 
 
 class Solution2:  # TLE  0000 --> 111
-    def minSessions(self, tasks: List[int], sessionTime: int) -> int:
+    def minSessions(self, tasks, sessionTime):
         if sum(tasks) <= sessionTime:
             return 1
         n = len(tasks)
