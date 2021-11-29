@@ -4,6 +4,8 @@ https://www.youtube.com/watch?v=uySUx0FFly0
 
 """
 
+import functools
+import math
 
 class SolutionTony:
     def maxScore(self, nums) -> int:
@@ -28,7 +30,7 @@ class SolutionTony:
                 if mask & (1 << i) == 0:
                     for j in range(i + 1, n):
                         if mask & (1 << j) == 0:
-                            res = max(res, step * gcd(nums[i], nums[j]) + dfs(step + 1, mask | (1 << i) | (1 << j)))
+                            res = max(res, step * math.gcd(nums[i], nums[j]) + dfs(step + 1, mask | (1 << i) | (1 << j)))
             return res
 
         return dfs(1, 0)
