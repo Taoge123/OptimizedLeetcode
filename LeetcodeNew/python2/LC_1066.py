@@ -13,7 +13,7 @@ class Solution:
 
             res = float('inf')
             for j in range(len(bikes)):
-                if not state & 1 << j:
+                if not state & (1 << j):
                     res = min(res, dist(workers[i], bikes[j]) + dfs(state | 1 << j, i + 1))
             return res
 
