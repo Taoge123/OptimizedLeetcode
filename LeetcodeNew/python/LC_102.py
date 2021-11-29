@@ -33,7 +33,6 @@ class Solution:
         queue = collections.deque([root])
         res = []
         while queue:
-
             size, cur_level = len(queue), []
             for i in range(size):
                 node = queue.popleft()

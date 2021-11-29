@@ -91,7 +91,7 @@ class Solution:
             res[pos].append(node.val)
             queue.append((node.left, pos - 1))
             queue.append((node.right, pos + 1))
-        s = sorted(res)
+        # s = sorted(res)
         return [res[i] for i in sorted(res)]
 
 
