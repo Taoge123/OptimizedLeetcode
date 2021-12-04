@@ -89,10 +89,8 @@ class SolutionTony:
                 h2p[h].append(p)
 
         full_mask = (1 << n) - 1
-
         @functools.lru_cache(None)
         def dfs(i, mask):
-
             if mask == full_mask:
                 return 1
 
@@ -100,14 +98,12 @@ class SolutionTony:
                 return 0
 
             res = dfs(i + 1, mask)
-
             for p in h2p[i]:
                 if mask & (1 << p):
                     continue
 
                 res += dfs(i + 1, mask | (1 << p))
             return res
-
         return dfs(0, 0) % mod
 
 
