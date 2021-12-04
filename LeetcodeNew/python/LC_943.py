@@ -37,12 +37,6 @@ repeat_len表示目前重复部分的长度。
 
 例如path = [2,1,3,0,4]，那么构造函数如下：
 
-"""
-
-
-import collections
-
-"""
 https://github.com/wisdompeak/LeetCode/tree/master/Dynamic_Programming/943.Find-the-Shortest-Superstring
 
 943.Find-the-Shortest-Superstring
@@ -92,6 +86,95 @@ for (int mask=0; mask<2^N; mask++)
 
 """
 
+import functools
+import collections
+
+
+class SolutionTony:
+    def shortestSuperstring(self, words):
+        n = len(words)
+        # table = [[0 for _ in range(n)] for _ in range(n)]
+        # for i in range(n):
+        #     for j in range(n):
+        #         if i == j:
+        #             continue
+        #         x, y = words[i], words[j]
+        #         size = len(x)
+        #         for k in range(1, size):
+        #             if y.startswith(x[k:]):
+        #                 table[i][j] = size - k
+        #                 break
+        table = [[0 for i in range(n)] for j in range(n)]
+        for i, word1 in enumerate(words):
+            for j, word2 in enumerate(words):
+                if i == j:
+                    continue
+                for k in range(min(len(word1), len(word2)))[::-1]:
+                    # print(word1, word2, k, word1[-k:], word2[:k])
+                    if word1[-k:] == word2[:k]:
+                        table[i][j] = k
+                        break
+
+        full_mask = (1 << n) - 1
+
+        @functools.lru_cache(None)
+        def dfs(i, mask):
+            if mask == full_mask:
+                return words[i]
+
+            res = '#' * 10000
+            for j in range(n):
+                if mask & (1 << j) == 0:
+                    k = table[i][j]
+                    string = dfs(j, mask | (1 << j))
+                    res = min(res, words[i] + string[k:], key=len)
+            return res
+
+        res = '#' * 10000
+        for i in range(n):
+            res = min(res, dfs(i, 1 << i), key=len)
+        return res
+
+
+
+
+class Solution:
+    def shortestSuperstring(self, words):
+        n = len(words)
+        graph = [[0 for i in range(n)] for j in range(n)]
+        for i, word1 in enumerate(words):
+            for j, word2 in enumerate(words):
+                if i == j:
+                    continue
+                for k in range(min(len(word1), len(word2)))[::-1]:
+                    # print(word1, word2, k, word1[-k:], word2[:k])
+                    if word1[-k:] == word2[:k]:
+                        graph[i][j] = k
+                        break
+
+        @functools.lru_cache(None)
+        def dfs(mask, i):
+            if not (mask & (1 << i)):
+                return ''
+
+            if mask == (1 << i):
+                return words[i]
+
+            res = ''
+            for j in range(n):
+                if j != i and mask & (1 << j):
+                    cand = dfs(mask ^ (1 << i), j) + words[i][graph[j][i]:]
+                    if res == '' or len(cand) < len(res):
+                        res = cand
+            return res
+
+        res = ''
+        for i in range(n):
+            cand = dfs((1 << n) - 1, i)
+            if res == '' or len(cand) < len(res):
+                res = cand
+        return res
+
 
 
 class SolutionDFS:
@@ -103,7 +186,7 @@ class SolutionDFS:
                 if i == j:
                     continue
                 for k in range(min(len(word1), len(word2)))[::-1]:
-                    # print(word1, word2, k, word1[-k:], word2[:k])
+                    print(word1, word2, k, word1[-k:], word2[:k])
                     if word1[-k:] == word2[:k]:
                         graph[i][j] = k
                         break
@@ -284,7 +367,7 @@ class SolutionTony:
 
 
 A = ["catg","ctaagt","gcta","ttca","atgcatc"]
-a = SolutionTony()
+a = SolutionDFS()
 print(a.shortestSuperstring(A))
 
 

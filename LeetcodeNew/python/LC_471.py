@@ -48,33 +48,62 @@ Explanation: "abbbabbbc" occurs twice, but "abbbabbbc" can also be encoded to "2
 """
 
 
+import functools
+
+class Solution:
+    def encode(self, s: str) -> str:
+        def compress(i, j):
+            pattern = s[i:j + 1]
+            pos = (pattern + pattern).find(pattern, 1)
+            if pos >= len(pattern):
+                return pattern
+            return str(len(pattern) // pos) + '[' + str(dfs(i, i + pos - 1)) + ']'
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i == j:
+                return s[i]
+
+            res = compress(i, j)
+            for k in range(i, j):
+                res = min(res, dfs(i, k) + dfs(k + 1, j), key=len)
+            return res
+
+        return dfs(0, len(s) - 1)
+
+
+
+
 class SolutionOMG:
     def encode(self, s: str) -> str:
         memo = dict()
 
         def collapse(i, j):
-            temp = s[i:j + 1]
-            pos = (temp + temp).find(temp, 1)
-            if pos >= len(temp):
-                return temp
-            return f'{len(temp) // pos}[{dfs(i, i + pos - 1)}]'
+            pattern = s[i:j + 1]
+            pos = (pattern + pattern).find(pattern, 1)
+            if pos >= len(pattern):
+                return pattern
+            # print(s, i, j+1, pattern, pos, len(pattern) // pos, ' -- ', i, i+pos-1, ' -- ', dfs(i, i + pos - 1), f'{len(pattern) // pos}[{dfs(i, i + pos - 1)}]')
+            return f'{len(pattern) // pos}[{dfs(i, i + pos - 1)}]'
 
         def dfs(i, j):
-            if i == j:
-                return s[i]
-
             if (i, j) in memo:
                 return memo[(i, j)]
+
+            if i == j:
+                return s[i]
 
             arr = []
             for k in range(i, j):
                 arr.append(dfs(i, k) + dfs(k + 1, j))
-
+            # print(arr)
             res = min(arr, key=lambda x: len(x))
             memo[i, j] = min(res, collapse(i, j), key=lambda x: len(x))
             return memo[i, j]
 
         return dfs(0, len(s) - 1)
+
+
 
 
 class Solution:
@@ -107,5 +136,8 @@ class Solution:
 
 
 
-
+# s = "aaaaaaaaaa"
+s = "aabcaabcd"
+a = SolutionOMG()
+print(a.encode(s))
 
