@@ -49,7 +49,6 @@ class SolutionTony:
                     if (state << 1) & newState == 0 and (newState << 1) & state == 0:
                         res = max(res, self.count(newState) + dfs(newState, i + 1))
             return res
-
         return dfs(0, 0)
 
     def count(self, n):

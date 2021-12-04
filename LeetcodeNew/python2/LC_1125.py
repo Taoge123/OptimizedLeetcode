@@ -70,9 +70,9 @@ class SolutionTony2:
                 nxt_mask = skill_mask | mask
                 if nxt_mask != mask:
                     # 比人数少
-                    if len(res) > len(dfs(nxt_mask)):
-                        res = dfs(nxt_mask) + [i]
-                    # 或者 res = min(res, dfs(nxtmask) + [i], key=len)
+                    # if len(res) > len(dfs(nxt_mask)):
+                    #     res = dfs(nxt_mask) + [i]
+                    res = min(res, dfs(nxt_mask) + [i], key=len)
             return res
         return dfs(0)
 
@@ -83,12 +83,12 @@ class SolutionTony:
 
         m, n = len(req_skills), len(people)
         table = {v: i for i, v in enumerate(req_skills)}
-        people2skills = [0] * n
+        p2s = [0] * n
 
         for i, p in enumerate(people):
             for skill in p:
                 if skill in table:
-                    people2skills[i] |= (1 << table[skill])
+                    p2s[i] |= (1 << table[skill])
 
         full_mask = (1 << m) - 1
         @functools.lru_cache(None)
@@ -99,7 +99,7 @@ class SolutionTony:
                 else:
                     return [0] * (n + 1)
             res = [0] * (n + 1)
-            take = dfs(i+1, mask | people2skills[i]) + [i]
+            take = dfs(i+1, mask | p2s[i]) + [i]
             no_take = dfs(i+1, mask)
             res = min(res, take, no_take, key=len)
             return res

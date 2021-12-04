@@ -54,17 +54,64 @@ prev, cur, nxt
 11
 
 
+000
+110
+000
+
+
 """
+
+
+class SolutionHappiness:  # similar to happiness
+    def numOfWays(self, n: int) -> int:
+
+        def valid(row, col, state):
+            up = 1 << (3 - 1)
+            if col == 0 and row == 0:
+                return True
+
+            if col > 0 and state & 1:  # has neighbor
+                return False
+
+            if row > 0 and state & up:  # has neighbor
+                return False
+            return True
+
+        mod = 10 ** 9 + 7
+        fullmask = (1 << 3) - 1
+        @functools.lru_cache(None)
+        def dfs(pos, red, yellow, green):
+            if pos == n:
+                return 1
+
+            row, col = pos // 3, pos % 3
+            nxt_red = (red << 1) & fullmask
+            nxt_yellow = (yellow << 1) & fullmask
+            nxt_green = (green << 1) & fullmask
+
+            res = 0
+            if valid(row, col, red):
+                res += dfs(pos + 1, nxt_red + 1, nxt_yellow, nxt_green)
+            if valid(row, col, yellow):
+                res += dfs(pos + 1, nxt_red, nxt_yellow + 1, nxt_green)
+            if valid(row, col, green):
+                res += dfs(pos + 1, nxt_red, nxt_yellow, nxt_green + 1)
+
+            return res % mod
+
+        n *= 3
+        return dfs(0, 0, 0, 0)
+
 
 
 class SolutionDFS:
     def numOfWays(self, n: int) -> int:
+        mod = 10 ** 9 + 7
         @functools.lru_cache(None)
         def dfs(n, pprev, prev, cur):
             if n == 0:
                 return 1
 
-            mod = 10 ** 9 + 7
             res = 0
             for nxt in (1, 2, 3):
                 # check with up and check with left and (n % 3 means we havc nex on the right hand side,
@@ -75,6 +122,8 @@ class SolutionDFS:
             return res % mod
 
         return dfs(n * 3, 0, 0, 0)
+
+
 
 
 class SolutionBM:  # bitmask - unknown
