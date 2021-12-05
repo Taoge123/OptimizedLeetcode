@@ -63,8 +63,8 @@ class SolutionBS1:
             res = float('inf')
             while left < right:
                 mid = (left + right) // 2
-                down = dfs(k - 1, mid - 1)
-                up = dfs(k, n - mid)
+                down = dfs(k - 1, mid - 1) # 碎了
+                up = dfs(k, n - mid) # 没碎
                 maxi = max(down, up) + 1
                 if down < up:
                     left = mid + 1

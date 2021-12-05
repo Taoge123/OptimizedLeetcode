@@ -1,7 +1,5 @@
 
 """
-
-
 len, count
 
 option 1: pick one of the already used song
