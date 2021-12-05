@@ -15,10 +15,36 @@ Follow up:
 What if the input numbers come in one by one as an infinite stream?
 In other words, you can't store all numbers coming from the stream as it's too large to hold in memory. Could you solve it efficiently?
 
-
 """
 
+
 import collections
+import functools
+
+
+class SolutionMemo:
+    def findMaxConsecutiveOnes(self, nums):
+
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, k, count):
+            if i >= n:
+                return count
+
+            if nums[i] == 0 and k <= 0:
+                return count
+
+            if nums[i] == 0:
+                use = dfs(i + 1, k - 1, count + 1)
+                no_use = dfs(i + 1, k, 0)
+            else:
+                use = dfs(i + 1, k, count + 1)
+                no_use = dfs(i + 1, k, count + 1)
+            return max(use, no_use)
+
+        return dfs(0, 1, 0)
+
+
 
 class Solution:
     def findMaxConsecutiveOnes(self, nums) -> int:
