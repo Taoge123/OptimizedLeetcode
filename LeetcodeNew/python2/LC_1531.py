@@ -58,50 +58,49 @@ return dp[n][K][?][?]
 
 """
 
-from functools import lru_cache
+import functools
 
 class Solution:
     def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
-        # this decorator automatically use memo with key = (start, last, last_count, left)
-        @lru_cache(None)
-        def dp(start, last, last_count, left):  # count the cost of compressing from the start
-            if left < 0:
+        @functools.lru_cache(None)
+        def dfs(i, last, last_count, k):  # count the cost of compressing from the start
+            if k < 0:
                 return float('inf')  # this is impossible
-            if start >= len(s):
+            if i >= len(s):
                 return 0
-            if s[start] == last:
+            if s[i] == last:
                 # we have a stretch of the last_count of the same chars, what is the cost of adding one more?
                 add = 1 if last_count == 1 or last_count == 9 or last_count == 99 else 0
                 # no need to delete here, if we have a stretch of chars like 'aaaaa' - we delete it from the beginning in the else delete section
-                return add + dp(start + 1, last, last_count + 1, left)  # we keep this char for compression
+                return add + dfs(i + 1, last, last_count + 1, k)  # we keep this char for compression
             else:
                 # keep this char for compression - it will increase the result length by 1 plus the cost of compressing the rest of the string
-                keep = 1 + dp(start + 1, s[start], 1, left)
+                keep = 1 + dfs(i + 1, s[i], 1, k)
                 # delete this char
-                delete = dp(start + 1, last, last_count, left - 1)
+                delete = dfs(i + 1, last, last_count, k - 1)
                 return min(keep, delete)
-        return dp(0, "", 0, k)
+        return dfs(0, "", 0, k)
 
 
 
 
 class Solution0:
     def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
-        @lru_cache(None)
-        def dp(i, last, last_count, left):  # count the cost of compressing from the start
+        @functools.lru_cache(None)
+        def dfs(i, last, last_count, left):  # count the cost of compressing from the start
             if left < 0:
                 return float('inf')  # this is impossible
             if i >= len(s):
                 return 0
             if s[i] == last:
                 add = 1 if last_count == 1 or last_count == 9 or last_count == 99 else 0
-                return add + dp(i + 1, last, last_count + 1, left)  # we keep this char for compression
+                return add + dfs(i + 1, last, last_count + 1, left)  # we keep this char for compression
             else:
-                keep = 1 + dp(i + 1, s[i], 1, left)
-                delete = dp(i + 1, last, last_count, left - 1)
+                keep = 1 + dfs(i + 1, s[i], 1, left)
+                delete = dfs(i + 1, last, last_count, left - 1)
                 return min(keep, delete)
 
-        return dp(0, "", 0, k)
+        return dfs(0, "", 0, k)
 
 
 """

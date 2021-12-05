@@ -23,7 +23,6 @@ class SolutionTony:
         return self.dfs(s, 0, [], res)
 
     def dfs(self, s, i, path, res):
-
         @functools.lru_cache(None)
         def isPal(i, j):
             if i >= j:

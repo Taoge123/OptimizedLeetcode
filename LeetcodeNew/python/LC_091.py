@@ -38,9 +38,9 @@ class SolutionTony:
                 return 0
 
             one = dfs(i + 1)
-            code = int(s[i:i + 2])
+            num = int(s[i:i + 2])
             two = 0
-            if code >= 1 and code <= 26:
+            if num >= 1 and num <= 26:
                 two = dfs(i + 2)
 
             return one + two

@@ -1,5 +1,26 @@
 import sys
 
+class SolutionStackOverflow:
+    def findDerangement(self, n):
+        sys.setrecursionlimit(15000000)
+        memo = {}
+        self.mod = 1000000007
+        return self.dfs(n, memo)
+
+    def dfs(self, n, memo):
+        if n in memo:
+            return memo[n]
+
+        if n == 0:
+            return 1
+
+        if n == 1:
+            return 0
+
+        memo[n] = (n - 1) * (self.dfs(n - 1, memo) + self.dfs(n - 2, memo)) % self.mod
+        return memo[n]
+
+
 class Solution:
     def findDerangement(self, n: int) -> int:
         mod = 10 ** 9 + 7
@@ -12,28 +33,6 @@ class Solution:
 
         return dp[-1]
 
-
-
-class SolutionStackOverflow:
-    def findDerangement(self, n):
-
-        sys.setrecursionlimit(15000000)
-        memo = {}
-        self.mod = 1000000007
-        return self.dfs(n, memo)
-
-    def dfs(self, n, memo):
-        # print(n)
-        if n == 0:
-            return 1
-        if n == 1:
-            return 0
-
-        if n in memo:
-            return memo[n]
-
-        memo[n] = (n - 1) * (self.dfs(n - 1, memo) + self.dfs(n - 2, memo)) % self.mod
-        return memo[n]
 
 
 n = 990
