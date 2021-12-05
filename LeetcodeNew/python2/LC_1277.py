@@ -11,6 +11,31 @@
 注意第一行和第一列需要单独处理dp值。并且(0,0)元素不要重复计算。
 """
 
+import functools
+
+class SolutionMemo:
+    def countSquares(self, matrix) -> int:
+
+        m, n = len(matrix), len(matrix[0])
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            # print(i, j)
+            if i < 0 or i >= m or j < 0 or j >= n:
+                return 0
+
+            if matrix[i][j] == 0:
+                return 0
+
+            res = min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1)) + 1
+            return res
+
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                res += dfs(i, j)
+        return res
+
+
 
 class SolutionTony:
     def countSquares(self, matrix) -> int:

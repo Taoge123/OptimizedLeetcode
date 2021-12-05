@@ -14,7 +14,37 @@ Output: 4
 """
 
 
+import functools
+
+
 class Solution:
+    def maximalSquare(self, matrix) -> int:
+        if not matrix:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        res = 0
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i < 0 or i >= m or j < 0 or j >= n:
+                return 0
+
+            if matrix[i][j] == '0':
+                return 0
+
+            # if matrix[i][j] == '1':
+            res = 1 + min(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1))
+            return res
+
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == '1':
+                    res = max(res, dfs(i, j))
+        return res ** 2
+
+
+
+class Solution1:
     def maximalSquare(self, matrix) -> int:
         if not matrix:
             return 0
