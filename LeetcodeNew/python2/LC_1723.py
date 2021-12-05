@@ -43,7 +43,6 @@ class Solution:
 
 
 
-
 class SolutionTLE:
     def minimumTimeRequired(self, jobs, k):
         # each worker gets a subset of tasks
@@ -51,7 +50,6 @@ class SolutionTLE:
         # enumerate all subsets for each worker ;)
         # make sure no intersection with already selected
         n = len(jobs)
-
         subset_sums = [0] * (1 << n)
         for mask in range(1 << (n)):
             for job in range(n):
