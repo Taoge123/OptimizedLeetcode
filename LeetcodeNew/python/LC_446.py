@@ -50,6 +50,53 @@ j=2指向数字6，那么二者差值为2，此时先在dp[3]建立 2->1 的映�
 """
 
 import collections
+import functools
+
+
+class SolutionMemo:
+    def numberOfArithmeticSlices(self, nums) -> int:
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, diff):
+            res = 0
+            for j in table[i][diff]:
+                res += 1 + dfs(j, diff)
+            return res
+
+        table = [collections.defaultdict(list) for i in range(n)]
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                table[i][nums[j] - nums[i]].append(j)
+
+        res = 0
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                res += dfs(j, nums[j] - nums[i])
+        return res
+
+
+class SolutionMemoTLE:
+    def numberOfArithmeticSlices(self, nums) -> int:
+
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, diff):
+            if i >= n - 1:
+                return 0
+            nes = 0
+            for j in range(i + 1, n):
+                next_diff = nums[j] - nums[i]
+                if diff == next_diff:
+                    nes += 1 + dfs(j, next_diff)
+            return nes
+
+        res = 0
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                res += dfs(j, nums[j] - nums[i])
+        return res
+
 
 class Solution:
     def numberOfArithmeticSlices(self, A) -> int:
