@@ -76,6 +76,7 @@ class SolutionMemo:
         return res
 
 
+
 class SolutionMemoTLE:
     def numberOfArithmeticSlices(self, nums) -> int:
 
