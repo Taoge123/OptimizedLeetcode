@@ -32,8 +32,48 @@ f(x) = f(x-1)/W + f(x-2)/W +...+ f(x-W)/W
 x-1<K
 x-W-1>=0
 
-
 """
+
+
+import functools
+
+
+class SolutionMemo:
+    def new21Game(self, N, K, W):
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == K - 1:
+                return min(N - K + 1, W) / W
+            if i > N:
+                return 0
+            elif i >= K:
+                return 1.0
+
+            prob = dfs(i + 1) - (dfs(i + 1 + W) - dfs(i + 1)) / W
+            return prob
+
+        return dfs(0)
+
+
+
+class SolutionMemoTLE:
+    def new21Game(self, N, K, W):
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= K:
+                if i <= N:
+                    return 1
+                else:
+                    return 0
+
+            prob = 0
+            for num in range(1, W + 1):
+                prob += dfs(i + num)
+
+            prob /= W
+            return prob
+
+        return dfs(0)
 
 
 class SolutionTony1:
@@ -41,6 +81,8 @@ class SolutionTony1:
         return self.dfs(N, K, W, 0, {})
 
     def dfs(self, N, K, W, i, memo):
+        if i in memo:
+            return memo[i]
 
         if i == K - 1:
             return min(N - K + 1, W) / W
@@ -48,9 +90,6 @@ class SolutionTony1:
             return 0
         elif i >= K:
             return 1.0
-
-        if i in memo:
-            return memo[i]
 
         prob = self.dfs(N, K, W, i + 1, memo) - (self.dfs(N, K, W, i + 1 + W, memo) - self.dfs(N, K, W, i + 1, memo)) / W
 
@@ -103,8 +142,8 @@ class SolutionTLE:
 
         prob = 0
 
-        for i in range(1, W + 1):
-            prob += self.dfs(N, K, W, i + i, memo)
+        for num in range(1, W + 1):
+            prob += self.dfs(N, K, W, i + num, memo)
 
         prob /= W
 
