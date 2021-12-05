@@ -14,7 +14,7 @@ If you have figured out the O(n) solution, try coding another solution using the
 
 
 
-
+# can't use inner function since we need memo.values()
 class SolutionTD:
     def maxSubArray(self, nums) -> int:
         memo = {}
