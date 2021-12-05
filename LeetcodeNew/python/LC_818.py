@@ -17,6 +17,28 @@ import collections
 import functools
 
 
+class SolutioMemo:
+    def racecar(self, target: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(target):
+            stepsOver = target.bit_length()
+            pos1 = (1 << stepsOver) - 1
+            if pos1 == target:
+                return stepsOver
+
+            # went over and + 1 (turn back)
+            res = dfs(pos1 - target) + stepsOver + 1
+
+            stepsBehind = stepsOver - 1
+            pos2 = (1 << stepsBehind) - 1
+            for backSteps in range(stepsBehind):
+                backDist = (1 << backSteps) - 1
+                res = min(res, dfs(target - pos2 + backDist) + backSteps + stepsBehind + 2)
+            return res
+
+        return dfs(target)
+
+
 class SolutionTony:
     def racecar(self, target: int) -> int:
 
@@ -45,7 +67,7 @@ class SolutionTony:
 
 
 
-class Solution:
+class SolutionBFS:
     def racecar(self, target: int) -> int:
         queue = collections.deque()
         queue.append([0, 1])

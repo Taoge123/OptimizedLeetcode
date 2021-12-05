@@ -1,4 +1,41 @@
 
+import functools
+
+class Solution:
+    def cheapestJump(self, A, B: int):
+        n = len(A)
+        next_pos = [-1] * n
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n - 1 and A[i] >= 0:
+                return A[i]
+
+            res = float('inf')
+            for j in range(i + 1, min(i + B, n - 1) + 1):
+                if A[j] >= 0:
+                    cost = A[i] + dfs(j)
+                    if cost < res:
+                        res = cost
+                        next_pos[i] = j
+            return res
+
+        dfs(0)
+        i = 0
+        res = []
+        while i < n and next_pos[i] > 0:
+            res.append(i + 1)
+            i = next_pos[i]
+        if i == n - 1 and A[i] >= 0:
+            res.append(n)
+        else:
+            return []
+        return res
+
+
+
+
+
 class SolutionDFS:
     def cheapestJump(self, A, B: int):
         n = len(A)
