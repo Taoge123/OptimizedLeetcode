@@ -22,7 +22,7 @@ class Solution0:
         def dfs(i, val):
             if i == len(nums):
                 return val
-            # 3 choices, Include the current number in the product, start a new product, or end the product
+            # 3 choices, (1) end the product (2)  (3) start a new product
             res = max(val, dfs(i + 1, val * nums[i]), dfs(i + 1, nums[i]))
             return res
 

@@ -39,6 +39,7 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 if matrix[i][j] == '1':
+                    # (i, j) is the top left corner, how many squares can we get == the min length of its edge
                     res = max(res, dfs(i, j))
         return res ** 2
 
