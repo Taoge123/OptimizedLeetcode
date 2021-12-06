@@ -1,6 +1,62 @@
 
 import collections
 import heapq
+import functools
+
+
+
+
+class SolutionMemo:
+    def findCheapestPrice(self, n, flights, src, dst, k):
+        graph = collections.defaultdict(dict)
+        for u, v, w in flights:
+            graph[u][v] = w
+
+        @functools.lru_cache(maxsize=None)
+        def dfs(node, k):
+            if node == dst:
+                return 0
+            if k <= 0:
+                return float("inf")
+
+            res = float("inf")
+            for nei in graph[node]:
+                res = min(res, graph[node][nei] + dfs(nei, k - 1))
+            return res
+
+        res = dfs(src, k + 1)
+        return res if res != float("inf") else -1
+
+
+
+
+class Solution:
+    def findCheapestPrice(self, n, flights, src, dst, k):
+        graph = collections.defaultdict(dict)
+        for u, v, w in flights:
+            graph[u][v] = w
+
+        memo = {}
+        res = self.dfs(graph, src, dst, k + 1, memo)
+        return res if res != float("inf") else -1
+
+    def dfs(self, graph, node, dest, k, memo):
+
+        if (node, k) in memo:
+            return memo[(node, k)]
+
+        if node == dest:
+            return 0
+        if k <= 0:
+            return float("inf")
+
+        res = float("inf")
+        for nei in graph[node]:
+            res = min(res, graph[node][nei] + self.dfs(graph, nei, dest, k - 1, memo))
+
+        memo[(node, k)] = res
+        return res
+
 
 class Solution:
     def findCheapestPrice(self, n, flights, src, dst, k):

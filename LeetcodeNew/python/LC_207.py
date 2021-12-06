@@ -53,6 +53,7 @@ class Solution:
         return True
 
 
+
 class Solution1:
     def canFinish(self, numCourses, prerequisites):
         graph = collections.defaultdict(list)

@@ -79,11 +79,10 @@ class Solution:
                     queue.append((x, y))
 
 
-
 class Solution2:
     def hasPath(self, maze, start, destination) -> bool:
         m, n = len(maze), len(maze[0])
-        self.directions = [(-1, 0),(1, 0),(0, -1),(0, 1)]
+        self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         return self.dfs(maze, start[0], start[1], destination, set(), m, n)
 
     def dfs(self, maze, i, j, destination, visited, m, n):
@@ -93,20 +92,16 @@ class Solution2:
         if [i, j] == destination:
             return True
         visited.add((i, j))
-        for dire in self.directions:
+        for dx, dy in self.directions:
             x, y = i, j
-            while 0<=x+dire[0]<m and 0<=y+dire[1]<n and maze[x+dire[0]][y+dire[1]] != 1:
-
-                x += dire[0]
-                y += dire[1]
+            while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] != 1:
+                x += dx
+                y += dy
 
             if self.dfs(maze, x, y, destination, visited, m, n):
                 return True
 
         return False
-
-
-
 
 
 class Solution22:
