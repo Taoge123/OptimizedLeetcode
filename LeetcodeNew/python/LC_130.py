@@ -49,9 +49,9 @@ class Solution:
         if i < 0 or i >= m or j < 0 or j >= n or board[i][j] != 'O':
             return
         board[i][j] = '#'
-        for direction in self.directions:
-            x = i + direction[0]
-            y = j + direction[1]
+        for dx, dy in self.directions:
+            x = i + dx
+            y = j + dy
             self.dfs(board, x, y, m, n)
 
 
