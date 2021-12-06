@@ -44,7 +44,7 @@ class Solution:
         res = 0
         for i in range(m):
             for j in range(n):
-                if grid[r][c] == '1' and not visited[r][c]:
+                if grid[i][j] == '1' and not visited[i][j]:
                     self.dfs(i, j, grid, m, n, visited)
                     res += 1
 
