@@ -36,14 +36,13 @@ class Solution:
             graph[i].append(j)
 
         res = []
-        self.helper(graph, kill, res)
+        self.dfs(graph, kill, res)
         return res
 
-    def helper(self, graph, kill, res):
-        res.append(kill)
-        for i in graph[kill]:
-            self.helper(graph, i, res)
-
+    def dfs(self, graph, node, res):
+        res.append(node)
+        for nei in graph[node]:
+            self.dfs(graph, nei, res)
 
 
 

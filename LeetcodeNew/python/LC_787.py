@@ -41,7 +41,6 @@ class Solution:
         return res if res != float("inf") else -1
 
     def dfs(self, graph, node, dest, k, memo):
-
         if (node, k) in memo:
             return memo[(node, k)]
 
