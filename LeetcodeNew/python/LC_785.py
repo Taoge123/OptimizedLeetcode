@@ -39,6 +39,7 @@ The graph is undirected: if any element j is in graph[i], then i will be in grap
 
 import collections
 
+
 class Solution:
     def isBipartite(self, graph) -> bool:
         color = {}
@@ -50,18 +51,17 @@ class Solution:
 
         return True
 
-    def dfs(self, graph, color, pos):
-        for i in graph[pos]:
-            if i in color:
-                if color[i] == color[pos]:
+    def dfs(self, graph, color, i):
+        for j in graph[i]:
+            if j in color:
+                if color[j] == color[i]:
                     return False
             else:
-                color[i] = 1 - color[pos]
-                if not self.dfs(graph, color, i):
+                color[j] = 1 - color[i]
+                if not self.dfs(graph, color, j):
                     return False
 
         return True
-
 
 
 class SolutionBFS:
