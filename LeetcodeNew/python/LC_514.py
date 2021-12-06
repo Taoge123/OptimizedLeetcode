@@ -70,7 +70,6 @@ class SolutionTony:
     def findRotateSteps(self, ring: str, key: str) -> int:
 
         table = collections.defaultdict(list)
-
         for i, ch in enumerate(ring):
             table[ch].append(i)
 

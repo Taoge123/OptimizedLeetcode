@@ -30,6 +30,35 @@ The input is always valid. You may assume that evaluating the queries will resul
 import collections
 
 
+class SolutionTonnie:
+    def calcEquation(self, equations, values, queries):
+            graph = collections.defaultdict(dict)
+            for (x, y), val in zip(equations, values):
+                graph[x][y] = val
+                graph[y][x] = 1 / val
+
+            res = []
+            for i, j in queries:
+                visited = set()
+                res.append(self.dfs(graph, i, j, 1.0, visited))
+            return res
+
+    def dfs(self, graph, node, target, path, visited):
+            # node in graph -> counter example -> query = (x, x)
+            if node == target and node in graph:
+                return path
+            if node in visited:
+                return -1.0
+
+            visited.add(node)
+            for nei in graph[node]:
+                res = self.dfs(graph, nei, target, path * graph[node][nei], visited)
+                if res != -1:
+                    return res
+            return -1.0
+
+
+
 class Solution:
     def calcEquation(self, equations, values, queries):
         graph = collections.defaultdict(dict)
@@ -47,7 +76,6 @@ class Solution:
         return res
 
     def dfs(self, graph, i, j, visited):
-
         if i == j:
             return 1
 

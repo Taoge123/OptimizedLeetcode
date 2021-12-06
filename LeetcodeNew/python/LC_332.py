@@ -24,7 +24,6 @@ class Solution:
     def findItinerary(self, tickets):
 
         graph = collections.defaultdict(list)
-
         for u, v in tickets:
             heapq.heappush(graph[u], v)
         start = 'JFK'

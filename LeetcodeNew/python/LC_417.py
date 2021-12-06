@@ -52,13 +52,13 @@ class Solution:
                     res.append([i, j])
         return res
 
-    def dfs(self, matrix, i, j, cache, m, n):
-        cache[i][j] = True
-        for direction in self.directions:
-            x, y = i + direction[0], j + direction[1]
-            if x < 0 or y < 0 or x >= m or y >= n or cache[x][y] or matrix[x][y] < matrix[i][j]:
+    def dfs(self, matrix, i, j, visited, m, n):
+        visited[i][j] = True
+        for dx, dy in self.directions:
+            x, y = i + dx, j + dy
+            if x < 0 or y < 0 or x >= m or y >= n or visited[x][y] or matrix[x][y] < matrix[i][j]:
                 continue
-            self.dfs(matrix, x, y, cache, m, n)
+            self.dfs(matrix, x, y, visited, m, n)
 
 
 class SolutionBFS:

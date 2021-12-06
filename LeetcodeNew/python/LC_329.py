@@ -28,32 +28,36 @@ Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is n
 
 import functools
 
+
 class Solution:
     def longestIncreasingPath(self, matrix):
         if not matrix:
             return 0
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         m, n = len(matrix), len(matrix[0])
-        cache = [[-1 for i in range(n)] for j in range(m)]
+        memo = {}
         res = 0
         for i in range(m):
             for j in range(n):
-                curLen = self.dfs(matrix, i, j, cache, m, n)
+                curLen = self.dfs(matrix, i, j, memo, m, n)
                 res = max(res, curLen)
         return res
 
-    def dfs(self, matrix, i, j, cache, m, n):
-        if cache[i][j] != -1:
-            return cache[i][j]
+    def dfs(self, matrix, i, j, memo, m, n):
+        if (i, j) in memo:
+            return memo[(i, j)]
         res = 1
-        for direction in self.directions:
-            x, y = i + direction[0], j + direction[1]
+        for dx, dy in self.directions:
+            x, y = i + dx, j + dy
             if x < 0 or y < 0 or x >= m or y >= n or matrix[x][y] <= matrix[i][j]:
                 continue
-            length = 1 + self.dfs(matrix, x, y, cache, m, n)
+            length = 1 + self.dfs(matrix, x, y, memo, m, n)
             res = max(res, length)
-        cache[i][j] = res
+        memo[(i, j)] = res
         return res
+
+
+
 
 
 class SolutionDFS2:

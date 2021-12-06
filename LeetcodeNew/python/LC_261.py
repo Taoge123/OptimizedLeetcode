@@ -17,25 +17,23 @@ Since all edges are undirected, [0,1] is the same as [1,0] and thus will not app
 
 import collections
 
+
 class Solution:
     def validTree(self, n: int, edges) -> bool:
         graph = collections.defaultdict(list)
-        visited = set()
+        visited = collections.defaultdict(int)
         for u, v in edges:
             graph[u].append(v)
             graph[v].append(u)
-
         return not self.hasCycle(graph, visited, 0, -1) and n == len(visited)
 
     def hasCycle(self, graph, visited, node, parent):
-        visited.add(node)
-        for i in graph[node]:
-            if i != parent:
-                if i in visited or self.hasCycle(graph, visited, i, node):
+        visited[node] = -1
+        for nei in graph[node]:
+            if nei != parent:
+                if visited[nei] == -1 or self.hasCycle(graph, visited, nei, node):
                     return True
         return False
-
-
 
 
 class Solution2:
