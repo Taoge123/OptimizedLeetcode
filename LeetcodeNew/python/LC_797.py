@@ -4,12 +4,12 @@ class SolutionLee:
         self.dfs(graph, 0, [0], res)
         return res
 
-    def dfs(self, graph, i, path, res):
-        if i == len(graph) - 1:
+    def dfs(self, graph, node, path, res):
+        if node == len(graph) - 1:
             res.append(path)
             return
 
-        for nei in graph[i]:
+        for nei in graph[node]:
             self.dfs(graph, nei, path + [nei], res)
 
 

@@ -44,8 +44,8 @@ class SolutionTony1:
 
         @functools.lru_cache(None)
         def dfs(i):
-            if i >= n:
-                return 1
+            # if i >= n:
+            #     return 0
 
             res = 0
             for j in range(i+1, n):
@@ -80,6 +80,33 @@ class SolutionTony2:
             return res + 1
 
         return n - max(dfs(i) for i in range(n))
+
+
+
+
+
+class Solution:
+    def minDeletionSize(self, strs):
+        memo = {}
+        strs = [' ' + s for s in strs]
+        m, n = len(strs), len(strs[0])
+
+        def is_valid(i, j):
+            for k in range(m):
+                if strs[k][i] < strs[k][j]:
+                    return False
+            return True
+
+        @functools.lru_cache(None)
+        def dfs(i, prev):
+            if i == n:
+                return 0
+            res = 1 + dfs(i + 1, prev)
+            if is_valid(i, prev):
+                res = min(res, dfs(i + 1, i))
+            return res
+
+        return dfs(1, 0)
 
 
 

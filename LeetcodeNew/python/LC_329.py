@@ -26,6 +26,18 @@ Output: 4
 Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 """
 
+"""
+3 -> 4 -> 5 -> 6 -> depth
+4    3    2    1
+
+{6 : 1}
+{5 : 2}
+{4 : 3}
+
+"""
+
+
+
 import functools
 
 

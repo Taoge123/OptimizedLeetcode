@@ -20,6 +20,7 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 """
 import collections, heapq
 
+
 class Solution:
     def findItinerary(self, tickets):
 
