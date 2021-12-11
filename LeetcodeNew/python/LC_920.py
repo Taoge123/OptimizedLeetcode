@@ -36,7 +36,6 @@ class SolutionMemo:  # super fast
                 else:
                     return 0
 
-
             add_new = dfs(count + 1, unique + 1) * (n - unique)
 
             add_repeat = 0

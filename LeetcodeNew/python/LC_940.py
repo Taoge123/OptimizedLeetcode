@@ -50,6 +50,32 @@ dp[i] = dp[i-1]*2 - dp[j-1]
 
 """
 
+import functools
+
+
+class SolutionMemo:
+    def distinctSubseqII(self, s: str) -> int:
+        mod = 10 ** 9 + 7
+        n = len(s)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+
+            visited = set()
+            res = 0
+            for j in range(i, n):
+                if s[j] in visited:
+                    continue
+                visited.add(s[j])
+                res = res + 1 + dfs(j + 1)
+                res %= mod
+
+            return res
+
+        return dfs(0)
+
 
 
 class Solution:
