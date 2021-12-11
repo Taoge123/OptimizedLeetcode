@@ -36,6 +36,86 @@ For all j < i, if A[][j] < A[][i], then dp[j] = max(dp[j], dp[i] + 1)
 
 import functools
 
+"""
+babca
+bbazb
+i j   
+
+
+lic
+
+
+
+
+0123456
+i i  ij
+
+
+"""
+
+
+class Solution:  # top down dp
+    def minDeletionSize(self, s):
+        # 求最少要删掉多少列 使得每行s都是sorted
+        # 最少要删掉多少列 ===> 整个长度 - 最长不连续递增子序列
+        m, n = len(s), len(s[0])
+        res = 0
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+
+            res = 0
+            for j in range(i + 1, n):
+                order = True
+                for row in range(m):
+                    if s[row][j] < s[row][i]:
+                        order = False
+                        break
+                # 只有当每一行都按顺序时， 最长序列 + 1
+                if order:
+                    res = max(res, dfs(j) + 1)
+
+            return res
+
+        for i in range(n):
+            res = max(res, dfs(i) + 1)
+        return n - res
+
+
+
+class SolutionTDRika:  # top down dp
+    def minDeletionSize(self, strs):
+        # 求最少要删掉多少列 使得每行strs都是sorted
+        # 最少要删掉多少列 ===> 整个长度 - 最长不连续递增子序列
+
+        n = len(strs[0])
+        memo = {}
+        res = 0
+        for i in range(n):
+            res = max(res, self.dfs(strs, i, memo) + 1)
+        return n - res
+
+    def dfs(self, strs, pos, memo):
+        if pos in memo:
+            return memo[pos]
+
+        if pos == len(strs[0]):
+            return 0
+
+        res = 0
+        for k in range(pos + 1, len(strs[0])):
+            order = True
+            for row in range(len(strs)):
+                if strs[row][k] < strs[row][pos]:
+                    order = False
+                    break
+            # 只有当每一行都按顺序时， 最长序列 + 1
+            if order:
+                res = max(res, self.dfs(strs, k, memo) + 1)
+
+        memo[pos] = res
+        return memo[pos]
 
 
 class SolutionTony1:
