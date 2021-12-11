@@ -78,6 +78,34 @@ class SolutionMemo:
 
 
 
+class SolutionMemo2:
+    def distinctSubseqII(self, s: str) -> int:
+        memo = {}
+        return self.dfs(s, 0, memo)
+
+    def dfs(self, s, i, memo):
+        if i in memo:
+            return memo[i]
+
+        mod = 10 ** 9 + 7
+        n = len(s)
+        if i == n:
+            return 0
+
+        visited = set()
+        res = 0
+        for j in range(i, n):
+            if s[j] in visited:
+                continue
+            visited.add(s[j])
+            res = res + self.dfs(s, j + 1, memo) + 1
+            res %= mod
+
+        memo[i] = res
+        return res
+
+
+
 class Solution:
     def distinctSubseqII(self, S: str) -> int:
         n = len(S)
@@ -95,4 +123,7 @@ class Solution:
         return dp[n] - 1
 
 
+s = "aabc"
+a = SolutionMemo2()
+print(a.distinctSubseqII(s))
 
