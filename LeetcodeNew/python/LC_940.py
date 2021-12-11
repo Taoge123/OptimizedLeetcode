@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/distinct-subsequences-ii/discuss/777819/Python-Recursive-Soln-DP
+
 940.Distinct-Subsequences-II
 尝试构造状态dp[i]，表示截止第i个字符为止，我们能够创建的distinct子序列有多少．对于第i个字符ch，我们尝试思考它本身是否参与到子序列的构建中来．
 
@@ -53,11 +55,34 @@ dp[i] = dp[i-1]*2 - dp[j-1]
 import functools
 
 
+class SolutionTD:
+    def distinctSubseqII(self, s: str) -> int:
+        memo = {}
+        mod = 10 ** 9 + 7
+        n = len(s)
+
+        def dfs(i):
+            if i == n:
+                return 1
+
+            val = dfs(i + 1)
+
+            if s[i] not in memo:
+                memo[s[i]] = val % mod
+                return val * 2
+            else:
+                res = (val * 2 - memo[s[i]])
+                memo[s[i]] = val
+                return res % mod
+
+        return dfs(0) - 1
+
+
+
 class SolutionMemo:
     def distinctSubseqII(self, s: str) -> int:
         mod = 10 ** 9 + 7
         n = len(s)
-
         @functools.lru_cache(None)
         def dfs(i):
             if i == n:
@@ -73,7 +98,6 @@ class SolutionMemo:
                 res %= mod
 
             return res
-
         return dfs(0)
 
 
@@ -123,7 +147,7 @@ class Solution:
         return dp[n] - 1
 
 
-s = "aabc"
+s = "aaa"
 a = SolutionMemo2()
 print(a.distinctSubseqII(s))
 
