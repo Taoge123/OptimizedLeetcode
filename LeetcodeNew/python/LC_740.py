@@ -36,6 +36,44 @@ dp[k] = max(dp[k-2]+gain[k], dp[k-1])
 """
 
 import collections
+import functools
+
+
+class SolutionMemo:
+    def deleteAndEarn(self, nums):
+        arr = [0] * (max(nums) + 1)
+        for num in nums:
+            arr[num] += num
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= len(arr):
+                return 0
+            return max(dfs(i + 2) + arr[i], dfs(i + 1))
+
+        return dfs(0)
+
+
+class Solution:
+    def deleteAndEarn(self, nums) -> int:
+
+        arr = [0] * (max(nums) + 1)
+        for num in nums:
+            arr[num] += num
+
+        memo = {}
+        return self.dfs(arr, 0, memo)
+
+    def dfs(self, arr, i, memo):
+        if i in memo:
+            return memo[i]
+
+        if i >= len(arr):
+            return 0
+
+        memo[i] = max(self.dfs(arr, i + 2, memo) + arr[i], self.dfs(arr, i + 1, memo))
+        return memo[i]
+
 
 
 class Solution:

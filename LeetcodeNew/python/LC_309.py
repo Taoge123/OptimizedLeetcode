@@ -35,6 +35,31 @@ rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
 
 """
 
+import functools
+
+
+class SolutionMemo:
+    def maxProfit(self, nums) -> int:
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, can_buy):
+            if i >= n:
+                return 0
+
+            # do nothing
+            res = dfs(i + 1, can_buy)
+            if can_buy:
+                # buy
+                res = max(res, dfs(i + 1, False) - nums[i])
+            else:
+                # sell
+                res = max(res, dfs(i + 2, True) + nums[i])
+
+            return res
+
+        return dfs(0, True)
+
+
 
 class SolutionTony2D:
     def maxProfit(self, prices) -> int:

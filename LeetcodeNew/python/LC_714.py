@@ -1,3 +1,25 @@
+
+import functools
+
+class SolutionMemo:
+    def maxProfit(self, nums, fee: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, has_stock):
+            if i >= len(nums):
+                return 0
+
+            res = dfs(i + 1, has_stock)
+
+            if not has_stock:
+                res = max(res, dfs(i + 1, True) - nums[i] - fee)
+            else:
+                res = max(res, dfs(i + 1, False) + nums[i])
+
+            return res
+
+        return dfs(0, False)
+
+
 class SolutionTony:
     def maxProfit(self, prices, fee: int) -> int:
 

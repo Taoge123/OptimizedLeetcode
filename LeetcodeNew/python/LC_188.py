@@ -61,6 +61,26 @@ return dp[n-1][no];
 
 import functools
 
+class SolutionMemo:
+    def maxProfit(self, k, nums):
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, k, hold):
+            if k == 0:
+                return 0
+            if i == n:
+                return 0
+
+            res = dfs(i + 1, k, hold)
+            if not hold:
+                res = max(res, dfs(i + 1, k, True) - nums[i])
+            else:
+                res = max(res, dfs(i + 1, k - 1, False) + nums[i])
+
+            return res
+
+        return dfs(0, k, False)
+
 
 class SolutionTony:
     def maxProfit(self, k: int, prices) -> int:

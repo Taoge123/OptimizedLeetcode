@@ -25,7 +25,7 @@
 #        """
 
 class Solution:
-    def maxFont(self, text: str, w: int, h: int, fonts: List[int], fontInfo: 'FontInfo') -> int:
+    def maxFont(self, text, w, h, fonts, fontInfo):
         l, r = 0, len(fonts) - 1
         while l <= r:
             m = l + (r - l) // 2

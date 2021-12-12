@@ -32,6 +32,30 @@ It's guaranteed that string key could always be spelled by rotating the string r
 """
 
 import collections
+import functools
+
+
+class Solution:
+    def findRotateSteps(self, ring: str, key: str) -> int:
+
+        table = collections.defaultdict(list)
+        for i, ch in enumerate(ring):
+            table[ch].append(i)
+
+        n = len(ring)
+        @functools.lru_cache(None)
+        def dfs(i, k):
+            if k >= len(key):
+                return 0
+
+            res = float('inf')
+            for j in table[key[k]]:
+                cost = min(abs(j - i), n - abs(j - i))
+                res = min(res, dfs(j, k + 1) + cost + 1)
+            return res
+
+        return dfs(0, 0)
+
 
 
 class SolutionTonyBest:
