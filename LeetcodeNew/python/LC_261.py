@@ -38,32 +38,25 @@ class Solution:
 
 class Solution2:
     def validTree(self, n: int, edges) -> bool:
-        nums = [-1] * n
+        parent = [-1] * n
         for u, v in edges:
-            if not self.union(nums, u, v):
+            if not self.union(parent, u, v):
                 return False
         return len(edges) == n - 1
 
 
-    def find(self, nums, i):
-        if nums[i] == -1:
+    def find(self, parent, i):
+        if parent[i] == -1:
             return i
-        return self.find(nums, nums[i])
+        return self.find(parent, parent[i])
 
-    def union(self, nums, i, j):
-        x = self.find(nums, i)
-        y = self.find(nums, j)
+    def union(self, parent, i, j):
+        x = self.find(parent, i)
+        y = self.find(parent, j)
         if x == y:
             return False
         else:
-            nums[x] = y
+            parent[x] = y
             return True
-
-
-
-
-
-
-
 
 

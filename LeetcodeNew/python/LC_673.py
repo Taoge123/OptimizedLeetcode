@@ -15,7 +15,7 @@ import functools
 
 
 class SolutionTony:
-    def findNumberOfLIS(self, nums: List[int]) -> int:
+    def findNumberOfLIS(self, nums):
         @functools.lru_cache(None)
         def dfs(i):
             max_length = 1
@@ -32,7 +32,7 @@ class SolutionTony:
                         count = count_j
                         max_length = 1 + max_length_j
 
-            return (max_length, count)
+            return [max_length, count]
 
         n = len(nums)
         max_len, count = 0, 0

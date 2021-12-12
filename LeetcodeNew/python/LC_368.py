@@ -1,6 +1,7 @@
 
 """
 https://leetcode-cn.com/problems/largest-divisible-subset/solution/jian-yi-ban-ji-yi-hua-dfs-by-luo-bi-da-q-cyxd/
+https://leetcode.com/problems/largest-divisible-subset/discuss/1259966/Python-3-Graph-dfs-with-memo-O(E%2BV)-time-and-O(max(E-V))-space
 
 Given a set of distinct positive integers, find the largest subset such that every pair (Si, Sj) of elements in this subset satisfies:
 
@@ -29,6 +30,24 @@ if nums[i] % nums[j] == 0:
 """
 
 import functools
+
+
+class SolutionMemo:
+    def largestDivisibleSubset(self, nums):
+        n = len(nums)
+        nums = sorted(nums) + [1]
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            res = []
+            for j in range(i + 1, n):
+                if nums[j] % nums[i] == 0:
+                    temp = [nums[j]] + dfs(j)
+                    res = max(res, temp, key=len)
+            return res
+
+        return dfs(-1)
+
 
 
 class SolutionTony2:

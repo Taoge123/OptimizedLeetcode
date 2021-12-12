@@ -38,8 +38,11 @@ import functools
 class SolutionTony:
     def maxHeight(self, cuboids) -> int:
 
-        nums = sorted(map(sorted, cuboids), reverse=True)
+        # nums = sorted(map(sorted, cuboids), reverse=True)
         # cuboids = sorted((sorted(x, reverse=True) for x in cuboids), reverse=True)
+        # nums1 = sorted(map(sorted, cuboids), reverse=True)
+        test = list(map(sorted, cuboids))
+        nums = sorted(test, key = lambda x: (-x[0], -x[1], -x[2]))
         n = len(nums)
         @functools.lru_cache(None)
         def dfs(pos, i, j, k):

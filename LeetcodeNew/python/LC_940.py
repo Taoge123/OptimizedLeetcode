@@ -55,28 +55,37 @@ dp[i] = dp[i-1]*2 - dp[j-1]
 import functools
 
 
-class SolutionTD:
+class Solution:
     def distinctSubseqII(self, s: str) -> int:
-        memo = {}
+        # 求不同不连续子序列有多少个
+        # 从左往右走，如果s[i] 没有在之前的数里，则新增的subsequences为之前的res，总数为res*2
+        # 如果s[i]和之前的走过的char重复，则新增的subsequences总数需要减去之前那个repeat增加的subsequences
+        # a b b
+        # a --> "", a
+        # b --> "", a,    b, ab
+        # b --> "", a,    b, ab,    b, ab, bb, abc --> must minus increases due to first b (b, ab)
+        # 需要记录 每次新增的数 + 累积总数
+
+        table = {}
         mod = 10 ** 9 + 7
         n = len(s)
-
         def dfs(i):
             if i == n:
                 return 1
 
-            val = dfs(i + 1)
-
-            if s[i] not in memo:
-                memo[s[i]] = val % mod
-                return val * 2
+            base = dfs(i + 1)
+            ch = s[i]
+            if ch not in table:
+                table[ch] = base
+                return base * 2
             else:
-                res = (val * 2 - memo[s[i]])
-                memo[s[i]] = val
-                return res % mod
+                res = base * 2 - table[ch]
+                # 更新repeat的字符 最近一次所增加的subsequences数（已经包括了第一次repeat）
+                table[ch] = base
+                return res
 
-        return dfs(0) - 1
-
+        # reduce empty subsequences
+        return dfs(0) % mod - 1
 
 
 class SolutionMemo:
@@ -130,7 +139,7 @@ class SolutionMemo2:
 
 
 
-class Solution:
+class Solution2:
     def distinctSubseqII(self, S: str) -> int:
         n = len(S)
         dp = [0 for i in range(n+1)]

@@ -1,4 +1,9 @@
 """
+
+https://leetcode.com/problems/paint-house-iii/discuss/674466/Python3-DFS-with-Memo-easy-to-understand
+https://leetcode.com/problems/paint-house-iii/discuss/1504386/Python-%3A%3A-Memoization
+
+
 There are 3 parameters for dfs()
 i : current house index
 remain : number of remaining unassigned neighborhoods
