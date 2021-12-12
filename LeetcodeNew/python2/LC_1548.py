@@ -2,6 +2,37 @@ import collections
 import functools
 
 
+class SolutionMemo:
+    def mostSimilar(self, n: int, roads, names, targetPath):
+
+        graph = collections.defaultdict(list)
+        cities = set()
+        for u, v in roads:
+            graph[u].append(v)
+            graph[v].append(u)
+            cities.add(u)
+            cities.add(v)
+        graph[-1].extend(cities)
+
+        @functools.lru_cache(None)
+        def dfs(i, node):
+            if i >= len(targetPath):
+                return [0, []]
+
+            final_dist = float('inf')
+            final_path = []
+            for nei in graph[node]:
+                dist, path = dfs(i + 1, nei)
+                no_match = targetPath[i] != names[nei]
+                if dist + no_match < final_dist:
+                    final_dist = dist + no_match
+                    final_path = [nei] + path
+
+            return [final_dist, final_path]
+
+        return dfs(0, -1)[1]
+
+
 class SolutionTonnie1:
     def mostSimilar(self, n: int, roads, names, targetPath):
 
@@ -16,7 +47,6 @@ class SolutionTonnie1:
 
         @functools.lru_cache(None)
         def dfs(i, node):
-
             if i >= len(targetPath):
                 return [0, []]
 

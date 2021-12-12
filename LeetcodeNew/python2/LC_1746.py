@@ -1,4 +1,3 @@
-
 class Solution:
     def maxSumAfterOperation(self, nums):
 
@@ -16,12 +15,9 @@ class Solution:
 
         res = float('-inf')
         if can_square:
-            res = max(self.dfs(nums, i+ 1, False, memo) + nums[i] * nums[i], nums[i] * nums[i])
+            res = max(self.dfs(nums, i + 1, False, memo) + nums[i] * nums[i], nums[i] * nums[i])
 
         res = max(res, self.dfs(nums, i + 1, can_square, memo) + nums[i], nums[i])
 
         memo[(i, can_square)] = res
         return res
-
-
-
