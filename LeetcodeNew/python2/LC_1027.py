@@ -1,4 +1,27 @@
 import collections
+import functools
+
+
+class SolutionMemoTLE:
+    def longestArithSeqLength(self, A) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, diff):
+            if i < 0:
+                return 0
+
+            res = 0
+            for j in range(i):
+                if A[i] - A[j] == diff:
+                    res = max(res, 1 + dfs(j, diff))
+
+            return res
+
+        res = 2
+        for i in range(len(A)):
+            for j in range(i + 1, len(A)):
+                diff = A[j] - A[i]
+                res = max(res, dfs(i, diff) + 2)
+        return res
 
 
 class SolutionWisdom:
