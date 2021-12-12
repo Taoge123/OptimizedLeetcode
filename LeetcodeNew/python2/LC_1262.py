@@ -53,6 +53,26 @@ if total % 3 == 2:
 import functools
 
 
+class SolutionMemo:
+    def maxSumDivThree(self, nums) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, remain):
+            n = len(nums)
+            if i >= n:
+                if remain == 0:
+                    return 0
+                else:
+                    return float('-inf')
+
+            new_remain = (remain + nums[i]) % 3
+            pick = dfs(i + 1, new_remain) + nums[i]
+            no_pick = dfs(i + 1, remain)
+            return max(pick, no_pick)
+
+        return dfs(0, 0)
+
+
+
 class SolutionTony:
     def maxSumDivThree(self, nums) -> int:
 
