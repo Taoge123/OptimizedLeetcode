@@ -6,7 +6,6 @@ class Solution:
         return max(memo.values())
 
     def dfs(self, nums, i, can_square, memo):
-
         if (i, can_square) in memo:
             return memo[(i, can_square)]
 

@@ -1,4 +1,3 @@
-
 """
 https://leetcode.com/problems/minimum-skips-to-arrive-at-meeting-on-time/discuss/1241923/From-binary-search-to-Top-down-then-bottom-up.-O(N2)-greater-O(N2)
 https://leetcode-cn.com/problems/minimum-skips-to-arrive-at-meeting-on-time/solution/python-zhuan-huan-cheng-zheng-shu-de-dpw-nazt/
@@ -36,6 +35,7 @@ class Solution:
     def minSkips(self, dist, speed: int, hoursBefore: int) -> int:
 
         n = len(dist)
+
         @functools.lru_cache(None)
         def dfs(i, k):
             if k < 0:
@@ -46,20 +46,10 @@ class Solution:
 
             res = float('inf')
             res = min(res, dfs(i + 1, k - 1) + dist[i] / speed)
-            res = min(res, math.ceil(dfs(i +1, k) + dist[i] / speed - 1e-9))
+            res = min(res, math.ceil(dfs(i + 1, k) + dist[i] / speed - 1e-9))
             return res
 
         for k in range(n):
             if dfs(0, k) <= hoursBefore:
                 return k
         return -1
-
-
-
-
-
-
-
-
-
-
