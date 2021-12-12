@@ -4,14 +4,40 @@ import functools
 
 class SolutionMemo:
     def cheapestJump(self, nums, maxJump):
+        n = len(nums)
         @functools.lru_cache(None)
         def dfs(i):
             if nums[i - 1] == -1:
                 return float('inf'), []
-            if i == len(nums):
+            if i == n:
                 return nums[i - 1], [i]
             final_cost, final_path = float('inf'), []
-            for j in range(i + 1, min(i + maxJump, len(nums)) + 1):
+            for j in range(i + 1, min(i + maxJump, n) + 1):
+                cost, path = dfs(j)
+                if cost + nums[i - 1] < final_cost:
+                    final_cost = nums[i - 1] + cost
+                    final_path = [i] + path
+            if final_cost == float('inf'):
+                return [float('inf'), []]
+            else:
+                return [final_cost, final_path]
+
+        return dfs(1)[1]
+
+
+
+class SolutionMemo2:
+    def cheapestJump(self, nums, maxJump):
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if nums[i - 1] == -1:
+                return float('inf'), []
+            if i == n:
+                return nums[i - 1], [i]
+            final_cost, final_path = float('inf'), []
+            for j in range(i + 1, min(i + maxJump, n) + 1):
                 cost, path = dfs(j)
                 if cost < final_cost:
                     final_cost = cost
