@@ -26,6 +26,7 @@ Explanation: There exist two distinct solutions to the 4-queens puzzle as shown 
 """
 
 
+
 class Solution:
     def solveNQueens(self, n: int):
 
@@ -33,23 +34,22 @@ class Solution:
         self.dfs([-1] * n, 0, [], res)
         return res
 
-    def dfs(self, nums, pos, path, res):
-        if pos == len(nums):
+    def dfs(self, nums, i, path, res):
+        if i == len(nums):
             res.append(path)
             return
 
-        for i in range(len(nums)):
-            nums[pos] = i
-            if self.valid(nums, pos):
+        for j in range(len(nums)):
+            nums[i] = j
+            if self.valid(nums, i):
                 node = "." * len(nums)
-                self.dfs(nums, pos + 1, path + [node[:i] + 'Q' + node[i + 1:]], res)
+                self.dfs(nums, i + 1, path + [node[:j] + 'Q' + node[j + 1:]], res)
 
-    def valid(self, nums, pos):
-        for i in range(pos):
-            if nums[i] == nums[pos] or abs(nums[i] - nums[pos]) == abs(pos - i):
+    def valid(self, nums, i):
+        for j in range(i):
+            if nums[i] == nums[j] or abs(nums[i] - nums[j]) == abs(i - j):
                 return False
         return True
-
 
 n = 8
 a = Solution()

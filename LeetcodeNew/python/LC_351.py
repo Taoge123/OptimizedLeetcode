@@ -57,19 +57,21 @@ class Solution:
             res += self.dfs(5, i - 1, visited, skip)
         return res
 
-    def dfs(self, curr, remaining, visited, skip):
+    def dfs(self, i, remaining, visited, skip):
         if remaining < 0:
             return 0
         if remaining == 0:
             return 1
-        visited[curr] = True
+        visited[i] = True
         count = 0
-        for i in range(1, 10):
-            #never used before or related or jumped and visited
-            if not visited[i] and (skip[curr][i] == 0 or visited[skip[curr][i]]):
-                count += self.dfs(i, remaining - 1, visited, skip)
-        visited[curr] = False
+        for j in range(1, 10):
+            # never used before or related or jumped and visited
+            if not visited[j] and (skip[i][j] == 0 or visited[skip[i][j]]):
+                count += self.dfs(j, remaining - 1, visited, skip)
+        visited[i] = False
         return count
+
+
 
 
 
