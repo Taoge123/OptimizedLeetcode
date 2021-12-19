@@ -37,7 +37,7 @@ class SolutionDFS1:
 
         if (i, j) in memo:
             return memo[(i, j)]
-        
+
         m, n = len(s1), len(s2)
         if i == m:
             return len(s2) - j

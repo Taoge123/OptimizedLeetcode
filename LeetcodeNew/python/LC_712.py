@@ -25,15 +25,15 @@ class SolutionTony:
         return self.dfs(s1, s2, 0, 0, memo)
 
     def dfs(self, s1, s2, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
         m, n = len(s1), len(s2)
         # if i == m and j == n:
         #     return 0
 
         if i == m or j == n:
             return sum([ord(i) for i in s1[i:]]) or sum([ord(i) for i in s2[j:]])
-
-        if (i, j) in memo:
-            return memo[(i, j)]
 
         # res = float('inf')
         if s1[i] == s2[j]:
