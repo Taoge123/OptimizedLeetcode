@@ -18,6 +18,27 @@ class Solution:
 
 
 
+class SolutionMemo:
+    def minInsertions(self, s: str) -> int:
+        n = len(s)
+        memo = {}
+        return self.dfs(s, 0, n - 1, memo)
+
+    def dfs(self, s, i, j, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
+        if i >= j:
+            return 0
+        if s[i] == s[j]:
+            res = self.dfs(s, i + 1, j - 1, memo)
+        else:
+            res = min(self.dfs(s, i + 1, j, memo), self.dfs(s, i, j - 1, memo)) + 1
+        memo[(i, j)] = res
+        return res
+
+
+
 """
 解法2：
 另一种更容易理解和想到的方法是区间型DP：定义dp[i][j]表示区间s[i:j]变成回文串最少需要多少添加多少字符。状态转移方程很容易理解：

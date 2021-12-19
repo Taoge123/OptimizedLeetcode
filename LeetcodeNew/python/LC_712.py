@@ -38,7 +38,6 @@ class SolutionTony:
         # res = float('inf')
         if s1[i] == s2[j]:
             res = self.dfs(s1, s2, i + 1, j + 1, memo)
-
         else:
             res = min(self.dfs(s1, s2, i + 1, j, memo) + ord(s1[i]), self.dfs(s1, s2, i, j + 1, memo) + ord(s2[j]))
         memo[(i, j)] = res
