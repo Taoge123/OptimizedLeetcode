@@ -24,21 +24,30 @@ Your output answer is guaranteed to be fitted in a 32-bit integer.
 """
 
 import collections
-
-class SolutionDP:
-    def findTargetSumWays(self, nums, S: int) -> int:
-        dp = collections.defaultdict(int)
-        dp[0] = 1
-        for num in nums:
-            newDP = collections.defaultdict(int)
-            for prevSum in dp.keys():
-                newDP[prevSum + num] += dp[prevSum]
-                newDP[prevSum - num] += dp[prevSum]
-            dp = newDP
-        return dp[S]
+import functools
 
 
-class Solution:
+
+class SolutionMemo:
+    def findTargetSumWays(self, nums, target) -> int:
+
+        @functools.lru_cache(None)
+        def dfs(pos, summ):
+            if pos == len(nums):
+                if target == summ:
+                    return 1
+                else:
+                    return 0
+
+            plus = dfs(pos + 1, summ + nums[pos])
+            minus = dfs(pos + 1, summ - nums[pos])
+            return plus + minus
+
+        return dfs(0, 0)
+
+
+
+class SolutionMEMO:
     def findTargetSumWays(self, nums, S: int) -> int:
         memo = {}
         return self.dfs(nums, S, 0, 0, memo)
@@ -57,6 +66,22 @@ class Solution:
         minus = self.dfs(nums, target, pos + 1, summ - nums[pos], memo)
         memo[(pos, summ)] = plus + minus
         return memo[(pos, summ)]
+
+
+
+class SolutionDP:
+    def findTargetSumWays(self, nums, S: int) -> int:
+        dp = collections.defaultdict(int)
+        dp[0] = 1
+        for num in nums:
+            newDP = collections.defaultdict(int)
+            for prevSum in dp.keys():
+                newDP[prevSum + num] += dp[prevSum]
+                newDP[prevSum - num] += dp[prevSum]
+            dp = newDP
+        return dp[S]
+
+
 
 
 nums = [1, 1, 1, 1, 1]

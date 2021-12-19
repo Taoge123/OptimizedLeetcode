@@ -25,33 +25,39 @@ The length of the given matchstick array will not exceed 15.
 """
 
 
-class Solution:
-    def makesquare(self, nums):
+import functools
+
+
+class SolutionMemo:
+    def makesquare(self, nums) -> bool:
         if not nums:
             return False
-        nums = sorted(nums, reverse=True)
-        sumn = sum(nums)
-        if sumn % 4:
-            return False
-        return self.dfs(nums, [0, 0, 0, 0], 0, sumn / 4)
-
-    def dfs(self, nums, res, pos, target):
-        if pos == len(nums):
-            if res[0] == res[1] == res[2]:
-                return True
+        nums.sort(reverse=True)
+        summ = sum(nums)
+        if summ % 4:
             return False
 
-        for i in range(4):
-            if res[i] + nums[pos] > target:
-                continue
-            res[i] += nums[pos]
-            if self.dfs(nums, res, pos + 1, target):
-                return True
-            res[i] -= nums[pos]
+        target = summ // 4
+        res = [0] * 4
 
-        return False
+        @functools.lru_cache(None)
+        def dfs(pos, cur, res):
+            if pos == len(nums):
+                if res[-1] == res[-2] == res[-3]:
+                    return True
+                return False
 
+            res = list(res)
+            for i in range(4):
+                if res[i] + nums[pos] > target:
+                    continue
+                res[i] += nums[pos]
+                if dfs(pos + 1, cur + nums[i], tuple(res)):
+                    return True
+                res[i] -= nums[pos]
+            return False
 
+        return dfs(0, 0, tuple(res))
 
 
 
@@ -89,6 +95,34 @@ class SolutionTony:
             res[i] -= nums[pos]
         memo[(pos, tuple(res))] = False
         return memo[(pos, tuple(res))]
+
+
+class Solution:
+    def makesquare(self, nums):
+        if not nums:
+            return False
+        nums = sorted(nums, reverse=True)
+        sumn = sum(nums)
+        if sumn % 4:
+            return False
+        return self.dfs(nums, [0, 0, 0, 0], 0, sumn / 4)
+
+    def dfs(self, nums, res, pos, target):
+        if pos == len(nums):
+            if res[0] == res[1] == res[2]:
+                return True
+            return False
+
+        for i in range(4):
+            if res[i] + nums[pos] > target:
+                continue
+            res[i] += nums[pos]
+            if self.dfs(nums, res, pos + 1, target):
+                return True
+            res[i] -= nums[pos]
+
+        return False
+
 
 
 

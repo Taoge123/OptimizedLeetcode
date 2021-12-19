@@ -47,6 +47,27 @@ class Solution:
 
 
 
+class SolutionMemo:
+    def lastStoneWeightII(self, stones) -> int:
+
+        memo = {}
+        return self.dfs(stones, 0, 0, 0, memo)
+
+    def dfs(self, stones, i, sum1, sum2, memo):
+        if (i, sum1, sum2) in memo:
+            return memo[(i, sum1, sum2)]
+
+        if i >= len(stones):
+            return abs(sum1 - sum2)
+
+        left = self.dfs(stones, i + 1, sum1 + stones[i], sum2, memo)
+        right = self.dfs(stones, i + 1, sum1, sum2 + stones[i], memo)
+
+        memo[(i, sum1, sum2)] = min(left, right)
+        return memo[(i, sum1, sum2)]
+
+
+
 class Solution2D:
     def lastStoneWeightII(self, stones):
         @functools.lru_cache(None)
@@ -61,6 +82,26 @@ class Solution2D:
             return min(add, minus)
 
         return dfs(0, 0)
+
+
+class SolutionMemo2:
+    def lastStoneWeightII(self, stones):
+        memo = {}
+        return self.dfs(stones, 0, 0, memo)
+
+    def dfs(self, stones, i, s, memo):
+        if (i, s) in memo:
+            return memo[(i, s)]
+
+        if i == len(stones):
+            return abs(s)
+
+        add = self.dfs(stones, i + 1, s + stones[i], memo)
+        minus = self.dfs(stones, i + 1, s - stones[i], memo)
+
+        memo[(i, s)] = min(add, minus)
+        return memo[(i, s)]
+
 
 
 class Solution2:

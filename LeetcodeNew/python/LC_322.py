@@ -52,13 +52,14 @@ class SolutionDFS2:
         return res if res != float('inf') else -1
 
     def dfs(self, coins, remain, memo):
-        if remain == 0:
-            return 0
-        if remain < 0:
-            return float('inf')
-
         if remain in memo:
             return memo[remain]
+
+        if remain == 0:
+            return 0
+
+        if remain < 0:
+            return float('inf')
 
         res = float('inf')
         for coin in coins:
