@@ -33,43 +33,58 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+
 class Codec:
     def serialize(self, root):
-
         if not root:
             return ""
-
-        queue = collections.deque([root])
+        queue = collections.deque()
+        queue.append(root)
         res = []
         while queue:
             node = queue.popleft()
             if node:
                 queue.append(node.left)
                 queue.append(node.right)
-            res.append(str(node.val) if node else "#")
+
+            res.append(str(node.val) if node else '#')
+        print(",".join(res))
         return ",".join(res)
 
-
     def deserialize(self, data):
-
         if not data:
             return None
         nodes = data.split(",")
-        root = TreeNode(int(nodes[0]))
-        queue = collections.deque([root])
+        root = TreeNode(nodes[0])
         i = 1
+        queue = collections.deque()
+        queue.append(root)
+
         while queue:
             node = queue.popleft()
-            if nodes[i] is not "#":
-                node.left = TreeNode(int(nodes[i]))
+            if nodes[i] != '#':
+                node.left = TreeNode(nodes[i])
                 queue.append(node.left)
             i += 1
-            if nodes[i] is not "#":
-                node.right = TreeNode(int(nodes[i]))
+            if nodes[i] != '#':
+                node.right = TreeNode(nodes[i])
                 queue.append(node.right)
             i += 1
         return root
 
+
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
 
 
 root = TreeNode(1)

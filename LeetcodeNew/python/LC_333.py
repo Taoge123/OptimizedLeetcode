@@ -37,26 +37,70 @@ class SubTree:
         self.max = max
 
 
-class Solution:
-    def largestBSTSubtree(self, root: TreeNode) -> int:
-        res = self.dfs(root)
-        return res.largest
+class SolutionTony:
+    def largestBSTSubtree(self, root):
+
+        count, mini, maxi = self.dfs(root)
+        return count
 
     def dfs(self, root):
         if not root:
-            return SubTree(0, 0, float('inf'), float('-inf'))
+            return 0, float("inf"), float("-inf")
 
-        left = self.dfs(root.left)
-        right = self.dfs(root.right)
+        lcount, lmin, lmax = self.dfs(root.left)
+        rcount, rmin, rmax = self.dfs(root.right)
 
-        if root.val > left.max and root.val < right.min:
-            size = left.size + right.size + 1
+        if lmax < root.val < rmin:
+            return lcount + rcount + 1, min(lmin, root.val), max(rmax, root.val)  # 看能否和root组合成一个大的
+
+        return max(lcount, rcount), float("-inf"), float("inf")  # 只能选一边
+
+
+
+class Solution2:
+    def largestBSTSubtree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        if self.isBST(root, -sys.maxsize, sys.maxsize):
+            return self.count(root)
+        return max(self.largestBSTSubtree(root.left), self.largestBSTSubtree(root.right))
+
+    def count(self, node):
+        if not node:
+            return 0
+        return 1 + self.count(node.left) + self.count(node.right)
+
+    def isBST(self, node, mini, maxi):
+        if not node: return True
+        if node.val < mini or node.val > maxi:
+            return False
+
+        return self.isBST(node.left, mini, node.val - 1) and self.isBST(node.right, node.val + 1, maxi)
+
+
+
+
+class Solution:
+    def largestBSTSubtree(self, root: TreeNode) -> int:
+        res = self.dfs(root)
+        return res[0]
+
+    def dfs(self, root):
+        if not root:
+            return [0, 0, float('inf'), float('-inf')]
+
+        left, size1, mini1, maxi1 = self.dfs(root.left)
+        right, size2, mini2, maxi2 = self.dfs(root.right)
+
+        if root.val > maxi1 and root.val < mini2:
+            size = size1 + size2 + 1
         else:
             size = float('-inf')
 
-        largest = max(left.largest, right.largest, size)
+        largest = max(left, right, size)
 
-        return SubTree(largest, size, min(root.val, left.min), max(root.val, right.max))
+        return [largest, size, min(root.val, mini1), max(root.val, maxi2)]
+
 
 
 

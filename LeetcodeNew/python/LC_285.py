@@ -33,16 +33,24 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution:
-    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
-        res = None
-        while root:
-            if root.val <= p.val:
-                root = root.right
-            else:
-                res = root
-                root = root.left
-        return res
+
+class SolutionInorder:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'Optional[TreeNode]':
+        # BST !!!
+        self.res = None
+        self.dfs(root, p)
+        return self.res
+
+    def dfs(self, root, p):
+        if not root:
+            return None
+
+        self.dfs(root.left, p)
+        if root.val > p.val and not self.res:
+            self.res = root
+
+        self.dfs(root.right, p)
+
 
 class Solution1:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
@@ -60,5 +68,28 @@ class Solution1:
             self.dfs(root.right, p)
 
 
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        res = None
+        while root:
+            if root.val <= p.val:
+                root = root.right
+            else:
+                res = root
+                root = root.left
+        return res
 
+
+
+
+root = TreeNode(5)
+root.left = TreeNode(3)
+root.right = TreeNode(6)
+root.left.left = TreeNode(2)
+root.left.right = TreeNode(4)
+root.left.left.left = TreeNode(1)
+
+p = root.left.left.left
+a = Solution3()
+print(a.inorderSuccessor(root, p).val)
 

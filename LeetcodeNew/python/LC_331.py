@@ -32,6 +32,22 @@ Output: false
 """
 
 
+class SolutionTony:
+    def isValidSerialization(self, preorder: str) -> bool:
+        count = 1
+        preorder = preorder.split(',')
+        n = len(preorder)
+        for i, node in enumerate(preorder):
+            if count == 0:
+                return False
+            if node != '#':
+                count += 1
+            else:
+                count -= 1
+        return count == 0
+
+
+
 class Solution:
     def isValidSerialization(self, preorder: str) -> bool:
 
@@ -50,4 +66,8 @@ class Solution:
 
 
 
+
+
+a = SolutionTony()
+print(a.isValidSerialization(preorder="9,3,4,#,#,1,#,#,2,#,6,#,#"))
 

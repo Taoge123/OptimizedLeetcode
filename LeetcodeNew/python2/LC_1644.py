@@ -5,37 +5,33 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         self.count = 0
-        res = self.dfs(root, p, q)
+        self.dfs(root, p, q)
+        print(self.count)
         if self.count == 2:
-            return res
-        else:
-            return None
+            return self.dfs(root, p, q)
+        return None
 
     def dfs(self, root, p, q):
         if not root:
             return None
 
-        if root.val == p.val or root.val == q.val:
-            self.count += 1
-
         left = self.dfs(root.left, p, q)
         right = self.dfs(root.right, p, q)
-        if root.val == p.val or root.val == q.val:
+        if root == p or root == q:
+            self.count += 1
             return root
 
         if left and right:
             return root
-
-        if left and not right:
-            return left
-
-        if not left and right:
-            return right
-
+        if left or right:
+            return left or right
         if not left and not right:
             return None
+
+
 
 

@@ -44,6 +44,30 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+class SolutionTony:
+    def longestConsecutive(self, root):
+        if not root:
+            return 0
+        self.res = 1
+        self.dfs(root, -1, 0)
+        return self.res
+
+    def dfs(self, root, prev, count):
+        if not root:
+            return None
+
+        if root.val == prev + 1:
+            count += 1
+            self.res = max(self.res, count)
+        else:
+            count = 1
+
+        self.dfs(root.left, root.val, count)
+        self.dfs(root.right, root.val, count)
+
+
+
 class Solution:
     def longestConsecutive(self, root: TreeNode) -> int:
         if not root:
