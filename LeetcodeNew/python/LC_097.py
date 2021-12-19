@@ -23,13 +23,14 @@ class SolutionTony:
         return self.dfs(s1, s2, s3, 0, 0, 0, memo)
 
     def dfs(self, s1, s2, s3, i, j, k, memo):
+        if (i, j) in memo:
+            return memo[(i, j)]
+
         if i == len(s1) and j == len(s2) and k == len(s3):
             return True
 
         if (i == len(s1) or j == len(s2)) and k == len(s3):
             return False
-        if (i, j) in memo:
-            return memo[(i, j)]
 
         res = False
         if i < len(s1) and s1[i] == s3[k]:
@@ -40,6 +41,7 @@ class SolutionTony:
                 res = True
         memo[(i, j)] = res
         return memo[(i, j)]
+
 
 
 class SolutionDFS1:
