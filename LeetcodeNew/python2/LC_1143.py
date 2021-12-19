@@ -16,11 +16,11 @@ class SolutionDFS1:
         return self.dfs(text1, text2, 0, 0, memo)
 
     def dfs(self, s1, s2, i, j, memo):
-        if i == len(s1) or j == len(s2):
-            return 0
-
         if (i, j) in memo:
             return memo[(i, j)]
+
+        if i == len(s1) or j == len(s2):
+            return 0
 
         if s1[i] == s2[j]:
             memo[(i, j)] = self.dfs(s1, s2, i + 1, j + 1, memo) + 1

@@ -50,6 +50,58 @@ We can do the same for the other boundaries. The area is then calculated by the 
 Thus the algorithm runs in O(m log n + n log m)
 """
 
+import collections
+
+
+class SolutionRika:
+    def minArea(self, image, x, y):
+        # to find the rectangle to cover all "1", need to find "1" in leftest, righest, top and bottom
+        # calculate the areas
+
+        m,n = len(image), len(image[0])
+        queue = collections.deque()
+        queue.append((x,y))
+        minX, maxX, maxY,minY= x,x,y,y
+        visited = set()
+        visited.add((x,y))
+        while queue:
+            i,j = queue.popleft()
+            for dx, dy in (1,0),(-1,0),(0,1),(0,-1):
+                x = i + dx
+                y = j + dy
+                if 0 <= x < m and 0 <= y < n and image[x][y] == 1 and (x, y) not in visited:
+                    queue.append((x, y))
+                    visited.add((x, y))
+                    minX = min(minX, x)
+                    maxX = max(maxX, x)
+                    minY = min(minY, y)
+                    maxY = max(maxY, y)
+
+        return (maxX-minX+1)*(maxY-minY+1)
+
+
+class SolutionTony:
+    def minArea(self, image, x, y):
+        m, n = len(image), len(image[0])
+        queue = collections.deque()
+        queue.append([x, y])
+        visited = set()
+        visited.add((x, y))
+        minr, minc, maxr, maxc = m + 1, n + 1, -1, -1
+        while queue:
+            i, j = queue.popleft()
+            minr, minc, maxr, maxc = min(minr, i), min(minc, j), max(maxr, i), max(maxc, j)
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n or image[x][y] == "0" or (x, y) in visited:
+                    continue
+                visited.add((x, y))
+                queue.append([x, y])
+        return (maxr - minr + 1) * (maxc - minc + 1)
+
+
+
 
 class Solution:
     def minArea(self, image, x, y):

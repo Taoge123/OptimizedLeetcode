@@ -65,10 +65,10 @@ class Solution:
                 return False
             node = queue.popleft()
             res.append(node)
-            for i in graph[node]:
-                degree[i] -= 1
-                if degree[i] == 0:
-                    queue.append(i)
+            for nei in graph[node]:
+                degree[nei] -= 1
+                if degree[nei] == 0:
+                    queue.append(nei)
         return len(res) == len(values) and res == org
 
 
