@@ -46,25 +46,52 @@ class TreeNode:
 class Solution:
     def findLeaves(self, root):
         res = []
-        self.helper(root, res)
+        self.dfs(root, res)
         return res
 
-    def helper(self, root, res):
+    def dfs(self, root, res):
         if not root:
             return -1
 
-        left = self.helper(root.left, res)
-        right = self.helper(root.right, res)
+        left = self.dfs(root.left, res)
+        right = self.dfs(root.right, res)
 
         level = max(left, right) + 1
         if level >= len(res):
             res.append([])
         res[level].append(root.val)
-
         return level
 
 
 
+class SolutionTony:
+    def findLeaves(self, root):
+        self.res = []
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, root):
+        if not root:
+            return -1
+
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+
+        level = max(left, right) + 1
+        if level >= len(self.res):
+            self.res.append([])
+        self.res[level].append(root.val)
+        return level
+
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
+a = Solution()
+print(a.findLeaves(root))
 
 
 
