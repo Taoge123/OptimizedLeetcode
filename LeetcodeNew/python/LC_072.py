@@ -34,15 +34,16 @@ class SolutionDFS1:
         return self.dfs(word1, word2, 0, 0, memo)
 
     def dfs(self, s1, s2, i, j, memo):
+
+        if (i, j) in memo:
+            return memo[(i, j)]
+        
         m, n = len(s1), len(s2)
         if i == m:
             return len(s2) - j
 
         if j == n:
             return len(s1) - i
-
-        if (i, j) in memo:
-            return memo[(i, j)]
 
         # res = float('inf')
         if s1[i] == s2[j]:
