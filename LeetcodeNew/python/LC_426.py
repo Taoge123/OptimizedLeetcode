@@ -65,15 +65,15 @@ class Solution:
     def treeToDoublyList(self, root: 'Node') -> 'Node':
         if not root:
             return None
-        self.helper(root)
+        self.dfs(root)
         self.prev.right = self.head
         self.head.left = self.prev
         return self.head
 
-    def helper(self, node):
+    def dfs(self, node):
         if not node:
             return
-        self.helper(node.left)
+        self.dfs(node.left)
         if self.prev:
             node.left = self.prev
             self.prev.right = node
@@ -81,7 +81,8 @@ class Solution:
             #Otherwise we are in the head position
             self.head = node
         self.prev = node
-        self.helper(node.right)
+        self.dfs(node.right)
+
 
 
 class Solution2:
@@ -102,6 +103,15 @@ class Solution2:
         return self.helper(root.right, root)
 
 
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
 
+a = Solution()
+print(a.treeToDoublyList(root))
 
 
