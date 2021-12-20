@@ -96,6 +96,53 @@ class Solution:
 
 
 
+class SolutionTony:
+    def boundaryOfBinaryTree(self, root):
 
+        a, b, c = [], [], []
+        self.findLeft(root.left, a)
+        self.findRight(root.right, b)
+        self.findLeaves(root, root, c)
+        print([root.val], a, c, b[::-1])
+        return [root.val] + a + c + b[::-1]
+
+    def findLeaves(self, node, root, res):
+        if not node:
+            return
+
+        if node != root and not node.left and not node.right:
+            res.append(node.val)
+        self.findLeaves(node.left, root, res)
+        self.findLeaves(node.right, root, res)
+
+    def findLeft(self, root, res):
+        if not root or (not root.left and not root.right):
+            return None
+
+        res.append(root.val)
+        if root.left:
+            self.findLeft(root.left, res)
+        else:
+            self.findLeft(root.right, res)
+
+    def findRight(self, root, res):
+        if not root or (not root.left and not root.right):
+            return None
+
+        res.append(root.val)
+        if root.right:
+            self.findRight(root.right, res)
+        else:
+            self.findRight(root.left, res)
+
+
+
+
+root = TreeNode(1)
+root.right = TreeNode(2)
+root.right.right = TreeNode(3)
+root.right.right.right = TreeNode(4)
+a = SolutionTony()
+print(a.boundaryOfBinaryTree(root))
 
 
