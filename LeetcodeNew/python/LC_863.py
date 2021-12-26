@@ -49,6 +49,43 @@ class TreeNode:
         self.right = None
 
 
+class SolutionDFS:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        # similar to #742 Closest Leaf in a Binary Tree.py
+        # 找离 target 距离为k的节点 --> 以 target 点为中心 向外扩散，找距离为k的nodes
+        # DFS ---> if val == target, cerate graph
+        graph = collections.defaultdict(list)
+
+        self.dfs(root, None, graph)
+        visited = set()
+        queue = collections.deque()
+        queue.append(target)
+        visited.add(target)
+        dist = 0
+        res = []
+
+        while queue:
+            size = len(queue)
+            for i in range(size):
+                node = queue.popleft()
+                if node and dist == k:
+                    res.append(node.val)
+                for nei in graph[node]:
+                    if nei not in visited:
+                        queue.append(nei)
+                        visited.add(nei)
+            dist += 1
+        return res
+
+    def dfs(self, root, parent, graph):
+        if not root:
+            return
+
+        graph[root].append(parent)
+        graph[parent].append(root)
+        self.dfs(root.left, root, graph)
+        self.dfs(root.right, root, graph)
+
 
 class Solution2:
     def distanceK(self, root, target, K):

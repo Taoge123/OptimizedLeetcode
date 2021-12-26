@@ -1,5 +1,38 @@
+"""
+https://www.youtube.com/watch?v=gi2maECPOB0
+
+"""
+
 
 class Solution:
+    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+        graph = collections.defaultdict(set)
+        for u, v in edges:
+            graph[u].add(v)
+            graph[v].add(u)
+        count = [1] * n
+        dist = [0] * n
+
+        def dfs1(node, parent):
+            for child in graph[node]:
+                if child != parent:
+                    dfs1(child, node)
+                    count[node] += count[child]
+                    dist[node] += dist[child] + count[child]
+
+        def dfs2(node, parent):
+            for child in graph[node]:
+                if child != parent:
+                    dist[child] = dist[node] - count[child] + (n - count[child])
+                    dfs2(child, node)
+
+        dfs1(0, None)
+        dfs2(0, None)
+        return dist
+
+
+
+class Solution2:
     def sumOfDistancesInTree(self, N: int, edges):
         self.tree = []
         res = [0] * N
