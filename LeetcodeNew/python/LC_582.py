@@ -29,6 +29,45 @@ n >= 1.
 import collections
 
 
+class SolutionTony:
+    def killProcess(self, pid, ppid, kill):
+        graph = collections.defaultdict(list)
+        for p, pp in zip(pid, ppid):
+            graph[pp].append(p)
+        res = []
+        self.dfs(graph, kill, res)
+        return res
+
+    def dfs(self, graph, node, res):
+
+        res.append(node)
+        for nei in graph[node]:
+            self.dfs(graph, nei, res)
+
+
+
+class SolutionRika:
+    def killProcess(self, pid, ppid, kill):
+        # BFS
+        n = len(pid)
+        hashmap = collections.defaultdict(list)  # {parent:child}
+        for i in range(n):
+            hashmap[ppid[i]].append(pid[i])
+
+        res = []
+        queue = collections.deque()
+        queue.append(kill)
+
+        while queue:
+            node = queue.popleft()
+            res.append(node)
+
+            if node in hashmap:
+                for child in hashmap[node]:
+                    queue.append(child)
+        return res
+
+
 class Solution:
     def killProcess(self, pid, ppid, kill):
         graph = collections.defaultdict(list)
