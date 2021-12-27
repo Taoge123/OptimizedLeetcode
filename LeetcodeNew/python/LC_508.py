@@ -27,22 +27,44 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+class SolutionTony:
+    def findFrequentTreeSum(self, root):
+        self.memo = collections.defaultdict(int)
+        self.max = 0
+        self.dfs(root)
+        return [k for k, v in self.memo.items() if v == self.max]
+
+    def dfs(self, root):
+        if not root:
+            return 0
+
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+
+        summ = left + right + root.val
+        self.memo[summ] += 1
+        self.max = max(self.max, self.memo[summ])
+        return summ
+
+
+
 class Solution:
     def findFrequentTreeSum(self, root):
         if not root:
             return []
         self.max = -1
         cache = collections.defaultdict(int)
-        self.helper(root, cache)
+        self.dfs(root, cache)
         return [k for k, v in cache.items() if v == self.max]
 
-    def helper(self, root, cache):
+    def dfs(self, root, cache):
 
         if not root:
             return 0
 
-        left = self.helper(root.left, cache)
-        right = self.helper(root.right, cache)
+        left = self.dfs(root.left, cache)
+        right = self.dfs(root.right, cache)
         sum = root.val + left + right
         cache[sum] += 1
         self.max = max(self.max, cache[sum])

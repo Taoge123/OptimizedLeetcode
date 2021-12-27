@@ -29,6 +29,27 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+class SolutionTony:
+    def getMinimumDifference(self, root):
+
+        self.prev = None
+        self.res = float('inf')
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, root):
+        if not root:
+            return 0
+
+        self.dfs(root.left)
+        if self.prev:
+            self.res = min(self.res, root.val - self.prev.val)
+        self.prev = root
+        self.dfs(root.right)
+
+
+
 class Solution:
     def getMinimumDifference(self, root: TreeNode) -> int:
 

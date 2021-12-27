@@ -115,8 +115,10 @@ class Solution2:
         return node, i
 
 
+
+
 s = "4(2(3)(1))(6(5))"
-a = Solution1()
+a = SolutionTony()
 print(a.str2tree(s))
 
 

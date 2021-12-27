@@ -23,6 +23,25 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+class SolutionTony:
+    def convertBST(self, root):
+        self.summ = 0
+        self.dfs(root)
+        return root
+
+    def dfs(self, root):
+        if not root:
+            return 0
+
+        right = self.dfs(root.right)
+        self.summ += root.val
+        root.val = self.summ
+        left = self.dfs(root.left)
+        # return root
+
+
+
 class Solution:
     def convertBST(self, root):
         self.sum = 0

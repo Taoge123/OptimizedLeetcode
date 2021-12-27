@@ -6,6 +6,38 @@ class TreeNode:
         self.right = right
 
 
+class SolutionTony:
+    def longestUnivaluePath(self, root):
+
+        if not root:
+            return 0
+
+        self.res = float('-inf')
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, node):
+        if not node:
+            return 0
+
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
+
+        if node.left and node.val == node.left.val:
+            left += 1
+        else:
+            left = 0
+        if node.right and node.val == node.right.val:
+            right += 1
+        else:
+            right = 0
+
+        self.res = max(self.res, left + right)
+
+        return max(left, right)
+
+
+
 class Solution:
     def longestUnivaluePath(self, root):
         self.ans = 0

@@ -21,23 +21,52 @@ class TreeNode:
         self.left = None
         self.right = None
 
-class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+
+
+class SolutionTony:
+    def diameterOfBinaryTree(self, root):
         if not root:
             return 0
-        self.max = float('-inf')
-        self.helper(root)
-        return self.max - 1
+        self.res = float('-inf')
+        self.dfs(root)
+        return self.res
 
-    def helper(self, root):
+    def dfs(self, root):
         if not root:
             return 0
 
-        left = self.helper(root.left)
-        right = self.helper(root.right)
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
 
-        self.max = max(self.max, left + right + 1)
+        self.res = max(self.res, left + right)
+
         return max(left, right) + 1
+
+
+
+class Solution:
+    def diameterOfBinaryTree(self, root) -> int:
+
+        if not root:
+            return 0
+        self.res = float('-inf')
+        self.dfs(root)
+        return self.res - 1
+
+    def dfs(self, root):
+        if not root:
+            return 0
+
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+
+        self.res = max(self.res, left + right + 1)
+        return max(left, right) + 1
+
+
+
+
+
 
 
 
