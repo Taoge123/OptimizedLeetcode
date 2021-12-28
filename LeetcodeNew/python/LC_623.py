@@ -64,3 +64,31 @@ class SolutionDFS:
 
 
 
+class SolutionRika:
+    def addOneRow(self, root, val, depth):
+        # edge case --> add new root on top
+        if depth == 1:
+            p = TreeNode(val)
+            p.left = root
+            return p
+
+        return self.dfs(root, val, depth, 1)
+
+    def dfs(self, root, val, depth, count):
+        if not root:
+            return
+
+        if count == depth - 1:
+            childL = root.left
+            childR = root.right
+            root.left = TreeNode(val)
+            root.right = TreeNode(val)
+            root.left.left = childL
+            root.right.right = childR
+
+        self.dfs(root.left, val, depth, count + 1)
+        self.dfs(root.right, val, depth, count + 1)
+        return root
+
+
+

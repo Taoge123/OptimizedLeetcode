@@ -37,6 +37,25 @@ class TreeNode:
         self.left = None
         self.right = None
 
+class SolutionTony:
+    def mergeTrees(self, root1, root2):
+        return self.dfs(root1, root2)
+
+    def dfs(self, root1, root2):
+        if not root1 and not root2:
+            return None
+
+        if not root1:
+            return root2
+        if not root2:
+            return root1
+        else:
+            newNode = TreeNode(root1.val + root2.val)
+            newNode.left = self.dfs(root1.left, root2.left)
+            newNode.right = self.dfs(root1.right, root2.right)
+            return newNode
+
+
 
 class Solution:
     def mergeTrees(self, t1, t2):

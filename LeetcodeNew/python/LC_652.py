@@ -27,4 +27,27 @@ class Solution:
         return val
 
 
+class SolutionTonyTLE:
+    def findDuplicateSubtrees(self, root: TreeNode):
+        self.table = collections.defaultdict(list)
+        self.dfs(root)
+        print(self.table)
+        res = []
+        for v in self.table.values():
+            if len(v) > 1:
+                res.append(v[0])
+        return res
+
+    def dfs(self, root):
+        if not root:
+            return 'null'
+
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+
+        subtree = str(root.val) + ',' + left + ',' + right
+        self.table[subtree].append(root)
+        return subtree
+
+
 

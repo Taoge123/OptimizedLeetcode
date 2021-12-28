@@ -39,6 +39,71 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
+class SolutionInorder:
+    def findTarget(self, root, k: int) -> bool:
+
+        self.visited = set()
+        return self.dfs(root, k)
+
+    def dfs(self, root, target):
+        if not root:
+            return
+
+        left = self.dfs(root.left, target)
+        if root.val in self.visited:
+            return True
+
+        need = target - root.val
+        self.visited.add(need)
+        right = self.dfs(root.right, target)
+        return left or right
+
+
+
+class SolutionTonyInorder:
+    def findTarget(self, root, k: int) -> bool:
+
+        self.visited = set()
+        return self.dfs(root, k)
+
+    def dfs(self, root, target):
+        if not root:
+            return
+
+        if self.dfs(root.left, target):
+            return True
+        if root.val in self.visited:
+            return True
+
+        need = target - root.val
+        self.visited.add(need)
+        if self.dfs(root.right, target):
+            return True
+
+
+
+class SolutionTony:
+    def findTarget(self, root, k):
+
+        self.visited = set()
+        return self.dfs(root, k)
+
+    def dfs(self, root, target):
+        if not root:
+            return
+
+        if root.val in self.visited:
+            return True
+
+        need = target - root.val
+        self.visited.add(need)
+
+        return self.dfs(root.left, target) or self.dfs(root.right, target)
+
+
+
+
 class Solution:
     def findTarget(self, root, k):
         if not root:
