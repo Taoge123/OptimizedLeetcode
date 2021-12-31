@@ -3,9 +3,11 @@ https://www.youtube.com/watch?v=gi2maECPOB0
 
 """
 
+import collections
+
 
 class Solution:
-    def sumOfDistancesInTree(self, n: int, edges: List[List[int]]) -> List[int]:
+    def sumOfDistancesInTree(self, n: int, edges):
         graph = collections.defaultdict(set)
         for u, v in edges:
             graph[u].add(v)

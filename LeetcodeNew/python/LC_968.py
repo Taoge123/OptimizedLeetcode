@@ -29,6 +29,7 @@
 此外，如果一个节点没有父节点且没有被覆盖，则必须放置一个摄像机在该节点。
 """
 
+import functools
 
 class TreeNode:
     def __init__(self, x):
@@ -37,7 +38,66 @@ class TreeNode:
         self.right = None
 
 
-# 1.安装监视器；2.被监视；3.未被监视
+class SolutionMemo:
+    def minCameraCover(self, root: TreeNode) -> int:
+        @functools.lru_cache(None)
+        def dfs(node, parent_has_camera, put_camera):
+            if not node:
+                if not put_camera:
+                    return 0
+                # elif not parent_has_camera and put_camera:
+                else:
+                    return float('inf')
+
+            if put_camera:  # case 1 & 3
+                res = 1 + min(dfs(node.left, True, False), dfs(node.left, True, True)) \
+                      + min(dfs(node.right, True, False), dfs(node.right, True, True))
+            else:
+                if parent_has_camera:  # case 2
+                    res = 0 + min(dfs(node.left, False, False), dfs(node.left, False, True)) \
+                          + min(dfs(node.right, False, False), dfs(node.right, False, True))
+                else:  # case 4
+                    res = min(dfs(node.left, False, False) + dfs(node.right, False, True),
+                              dfs(node.left, False, True) + dfs(node.right, False, False),
+                              dfs(node.left, False, True) + dfs(node.right, False, True))
+            return res
+
+        return min(dfs(root, False, False), dfs(root, False, True))
+
+
+
+class SolutionGreedy:  # 贪心思想
+    def minCameraCover(self, root):
+        self.res = 0
+
+        # no_c_but_covered = 0
+        # self.has_camera = 1
+        # self.no_cover = -1
+
+        if not root:
+            return 0
+        if self.dfs(root) == -1:
+            self.res += 1
+        return self.res
+
+    def dfs(self, root):
+        if not root:
+            return 0
+
+        left = self.dfs(root.left)
+        right = self.dfs(root.right)
+
+        if left == -1 or right == -1:
+            self.res += 1
+            return 1
+
+        # 如果左右子节点有一个有相机，那么当前节点就不需要相机了，否则返回一个没有相机的标记
+        if left == 1 or right == 1:
+            return 0
+        else:
+            return -1
+
+
 
 class Solution:
     def minCameraCover(self, root):
@@ -117,6 +177,36 @@ class SolutionGreedy:
                 covered.update({node, par, node.left, node.right})
 
 
+class SolutionHard:
+    def minCameraCover(self, root: Optional[TreeNode]) -> int:
+        # postorder
+        if not root:
+            return 0
 
+        cameraNeed, cover, count = self.dfs(root, False)
+        return max(1, count)
 
+    def dfs(self, root, has_parent):
+        if not root:
+            return False, True, 0
+        if not root.left and not root.right:
+            return False, False, 0
+
+        cameraNeedL, coverL, cntL = self.dfs(root.left, True)
+        cameraNeedR, coverR, cntR = self.dfs(root.right, True)
+
+        cameraNeed, cover, cnt = False, False, 0
+
+        if cameraNeedL or cameraNeedR:
+            cover = True
+
+        if not coverL or not coverR:
+            cameraNeed = True
+            cover = True
+            cnt = 1
+
+        if not cameraNeedL and not cameraNeedR and not has_parent:
+            cnt = 1
+
+        return cameraNeed, cover, cntL + cntR + cnt
 
