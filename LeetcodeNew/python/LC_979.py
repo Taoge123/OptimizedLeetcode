@@ -18,7 +18,9 @@ class Solution:
         left = self.dfs(root.left)
         right = self.dfs(root.right)
 
+        # 输出输入经过node的总和
         self.res += abs(left) + abs(right)
+        # 当前node能否消化输出输入
         return left + right + root.val - 1
 
 
