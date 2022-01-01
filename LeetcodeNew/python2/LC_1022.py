@@ -6,6 +6,26 @@ class TreeNode:
         self.right = right
 
 
+
+class SolutionRika:
+    def sumRootToLeaf(self, root):
+
+        self.res = 0
+        self.dfs(root, 0)
+        return self.res
+
+    def dfs(self, node, summ):
+        if not node:
+            return 0
+        summ = (summ << 1) + node.val
+        if node and not node.left and not node.right:
+            self.res += summ
+        self.dfs(node.left, summ)
+        self.dfs(node.right, summ)
+
+
+
+
 class Solution:
     def sumRootToLeaf(self, root: TreeNode) -> int:
         return self.dfs(root, 0)

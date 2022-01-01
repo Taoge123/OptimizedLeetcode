@@ -15,6 +15,62 @@ class TreeNode:
         self.right = right
 
 
+"""
+direction:
+0 - left
+1 - right
+
+"""
+
+class SolutionTopDown:
+    def longestZigZag(self, root: TreeNode) -> int:
+        if not root:
+            return -1
+        self.res = -1
+        self.dfs(root.left, 0, 0)
+        self.dfs(root.right, 1, 0)
+        return self.res
+
+    def dfs(self, root, direction, count):
+        # print(ans)
+        if not root:
+            self.res = max(self.res, count)
+            return
+
+        if direction == 1:
+            self.dfs(root.left, 0, count + 1)
+            self.dfs(root.right, 1, 0)
+        if direction == 0:
+            self.dfs(root.left, 0, 0)
+            self.dfs(root.right, 1, count + 1)
+
+
+class SolutionBottomUp:
+    def longestZigZag(self, root: TreeNode) -> int:
+        if not root:
+            return [-1, -1]
+
+        self.res = 0
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, node):
+
+        if not node:
+            return [-1, -1]
+
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
+
+        a = left[1] + 1
+        b = right[0] + 1
+        self.res = max(self.res, a, b)
+
+        return [a, b]
+
+
+
+
 class SolutionTonyDFS:
     def longestZigZag(self, root):
         self.max = 0
