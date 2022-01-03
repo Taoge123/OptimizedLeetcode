@@ -30,6 +30,30 @@ class TreeNode:
         self.left = left
         self.right = right
 
+"""
+[8,3,null,2,1,5,4]
+[8]
+"""
+class SolutionTony:
+    def isValidSequence(self, root, arr):
+        return self.dfs(root, arr, 0)
+
+    def dfs(self, node, arr, i):
+        # if not node and i >= len(arr):
+        #     return True
+
+        if not node or i >= len(arr):
+            return False
+
+        if node.val != arr[i]:
+            return False
+
+        # must check leaves
+        if not node.left and not node.right and i == len(arr) - 1:
+            return True
+
+        return self.dfs(node.left, arr, i + 1) or self.dfs(node.right, arr, i + 1)
+
 
 
 class SolutionDFS:

@@ -49,4 +49,20 @@ class Solution2:
         self.dfs(node.right, res)
 
 
+class SolutionTony:
+    def getAllElements(self, root1: TreeNode, root2: TreeNode):
+        path1, path2 = [], []
+        self.dfs(root1, path1)
+        self.dfs(root2, path2)
+        res = path1 + path2
+        path1.extend(path2)
+        return list(sorted(path1))
+
+    def dfs(self, node, path):
+        if not node:
+            return
+
+        path.append(node.val)
+        self.dfs(node.left, path)
+        self.dfs(node.right, path)
 

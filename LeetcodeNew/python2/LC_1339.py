@@ -4,6 +4,36 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
+class SolutionTony:
+    def maxProduct(self, root):
+        self.sum = 0
+        self.res = float('-inf')
+        self.findSum(root)
+        self.dfs(root)
+        return self.res % (10 ** 9 + 7)
+
+    def dfs(self, node):
+        if not node:
+            return 0
+
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
+
+        summ = left + right + node.val
+        self.res = max(self.res, summ * (self.sum - summ))
+        return left + right + node.val
+
+    def findSum(self, node):
+        if not node:
+            return
+
+        self.sum += node.val
+        self.findSum(node.left)
+        self.findSum(node.right)
+
+
+
 class Solution:
     def maxProduct(self, root: TreeNode) -> int:
         mod = 10 ** 9 + 7
