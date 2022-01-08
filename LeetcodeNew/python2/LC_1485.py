@@ -7,6 +7,34 @@ class NodeCopy:
         self.random = random
 
 
+class SolutionTony:
+    def copyRandomBinaryTree(self, root: 'Optional[Node]') -> 'Optional[NodeCopy]':
+        if not root:
+            return None
+
+        self.tree = {}
+        # self.tree[root] = NodeCopy(root.val)
+        self.dfs(root)
+        return self.tree[root]
+
+    def dfs(self, node):
+        if not node:
+            return node
+
+        if node in self.tree:
+            return self.tree[node]
+
+        newNode = NodeCopy(node.val)
+        self.tree[node] = newNode
+
+        newNode.left = self.dfs(node.left)
+        newNode.right = self.dfs(node.right)
+        newNode.random = self.dfs(node.random)
+        return newNode
+
+
+
+
 class Solution:
     def copyRandomBinaryTree(self, root: 'Node') -> 'NodeCopy':
         self.visited = {}
