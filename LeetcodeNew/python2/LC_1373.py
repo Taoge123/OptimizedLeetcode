@@ -27,6 +27,31 @@ class SolutionTony:
         return float('-inf'), float('inf'), 0
 
 
+class Solution4Param:
+    def largestBSTSubtree(self, root):
+
+        self.res = 0
+        self.dfs(root)
+        return self.res
+
+    def dfs(self, root):
+        if not root:
+            return True, 0, float("inf"), float("-inf")
+
+        lBST, lcount, lmin, lmax = self.dfs(root.left)
+        rBST, rcount, rmin, rmax = self.dfs(root.right)
+
+        isBST = lBST and rBST and lmax < root.val < rmin
+        maxx = max(root.val, rmax)
+        minn = min(root.val, lmin)
+        count = lcount + rcount + 1
+
+        if isBST:
+            self.res = max(self.res, count)
+        return isBST, count, minn, maxx
+
+
+
 class SolutionRika:
     def maxSumBST(self, root):
         self.res = 0
