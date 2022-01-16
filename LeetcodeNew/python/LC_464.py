@@ -37,12 +37,12 @@ class Solution:
         return self.helper(tuple(range(1, num + 1)), target, cache)
 
     def helper(self, nums, target, cache):
+        if nums in cache:
+            return cache[nums]
         if not nums:
             return False
         if nums[-1] >= target:
             return True
-        if nums in cache:
-            return cache[nums]
 
         for i in range(len(nums)):
             if not self.helper(nums[:i] + nums[i + 1:], target - nums[i], cache):

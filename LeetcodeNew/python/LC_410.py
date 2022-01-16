@@ -99,25 +99,54 @@ class SolutionTony:
         return count + 1
 
 
-class Solution:
+class SolutionMemo1:
     def splitArray(self, nums, m):
         presum = [0]
         for num in nums:
             presum.append(presum[-1] + num)
 
+        n = len(nums)
+
         @functools.lru_cache(None)
-        def dfs(pos, m):
-            if pos == len(nums):
+        def dfs(i, m):
+            if i == n:
                 return 0 if m == 0 else float('inf')
 
             res = float('inf')
             # total = 0
-            for i in range(pos, len(nums)):
-                total = presum[i + 1] - presum[pos]
-                res = min(res, max(total, dfs(i + 1, m - 1)))
+            for j in range(i, n):
+                total = presum[j + 1] - presum[i]
+                res = min(res, max(total, dfs(j + 1, m - 1)))
             return res
 
         return dfs(0, m)
+
+
+
+class SolutionMemo11:
+    def splitArray(self, nums, m):
+        presum = [0]
+        for num in nums:
+            presum.append(presum[-1] + num)
+
+        n = len(nums)
+        memo = {}
+        return self.dfs(presum, 0, m, memo)
+
+    def dfs(self, presum, i, m, memo):
+        if (i, m) in memo:
+            return memo[(i, m)]
+        n = len(presum) - 1
+        if i == n:
+            return 0 if m == 0 else float('inf')
+
+        res = float('inf')
+        # total = 0
+        for j in range(i, n):
+            total = presum[j + 1] - presum[i]
+            res = min(res, max(total, self.dfs(presum, j + 1, m - 1, memo)))
+        memo[(i, m)] = res
+        return res
 
 
 

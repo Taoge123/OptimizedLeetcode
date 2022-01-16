@@ -61,7 +61,7 @@ class Solution:
         # explore each x
         for x in range(1, 2 * M + 1):
             # diff is the current palyers score, keep max
-            res = max(res, sum(piles[i:]) - self.dfs(i + x, max(x, M), piles))
+            res = max(res, sum(piles[i:i+x]) - self.dfs(i + x, max(x, M), piles))
         self.dp[(i, M)] = res
         return res
 

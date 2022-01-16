@@ -98,10 +98,8 @@ class Solution2:
         if memo[i][j] != -1:
             return memo[i][j]
         # Recursive case.
-        score = max(nums[i] + min(self.helper(nums, i + 2, j, memo),
-                                     self.helper(nums, i + 1, j - 1, memo)),
-                       nums[j] + min(self.helper(nums, i, j - 2, memo),
-                                     self.helper(nums, i + 1, j - 1, memo)))
+        score = max(nums[i] + min(self.helper(nums, i + 2, j, memo), self.helper(nums, i + 1, j - 1, memo)),
+                       nums[j] + min(self.helper(nums, i, j - 2, memo), self.helper(nums, i + 1, j - 1, memo)))
         memo[i][j] = score
         return score
 

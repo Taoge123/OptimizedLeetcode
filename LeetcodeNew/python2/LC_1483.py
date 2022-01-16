@@ -96,7 +96,8 @@ class TreeAncestor2:
 
     @lru_cache(None)
     def helper(self, node, p2):  # return getKthAncestor(node, 2**p2)
-        if node == -1: return -1
+        if node == -1:
+            return -1
         if p2 == 0: return self.p[node]
         return self.helper(self.helper(node, p2 - 1), p2 - 1)
 
