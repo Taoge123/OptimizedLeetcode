@@ -61,7 +61,7 @@ class Solution2:
     def largestBSTSubtree(self, root: TreeNode) -> int:
         if not root:
             return 0
-        if self.isBST(root, -sys.maxsize, sys.maxsize):
+        if self.isBST(root, float('-inf'), float('inf')):
             return self.count(root)
         return max(self.largestBSTSubtree(root.left), self.largestBSTSubtree(root.right))
 
@@ -71,7 +71,8 @@ class Solution2:
         return 1 + self.count(node.left) + self.count(node.right)
 
     def isBST(self, node, mini, maxi):
-        if not node: return True
+        if not node:
+            return True
         if node.val < mini or node.val > maxi:
             return False
 
