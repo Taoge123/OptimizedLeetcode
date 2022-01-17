@@ -29,6 +29,24 @@ class TreeNode:
         self.left = None
         self.right = None
 
+class SolutionTony:
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        return self.helper(root)[1]
+
+    def helper(self, root):
+        if not root:
+            return 0, None
+        left_depth, left_node = self.helper(root.left)
+        right_depth, right_node = self.helper(root.right)
+        if left_depth > right_depth:
+            return left_depth + 1, left_node
+        elif left_depth < right_depth:
+            return right_depth + 1, right_node
+        else:
+            return left_depth + 1, root
+
+
+
 class Solution:
     def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
         return self.helper(root)[1]
