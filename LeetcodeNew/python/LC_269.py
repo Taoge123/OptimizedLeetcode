@@ -71,33 +71,46 @@ class Solution:
         return res if len(res) == len(degree) else ''
 
 
-class Solution2:
-    def alienOrder(self, words):
-        if len(words) == 1:
-            return words[0]
-        graph = collections.defaultdict(set)
-        visited = [1] * 26
-        res = []
-        for w1, w2 in zip(words, words[1:]):
-            for c1, c2 in zip(w1, w2):
-                if c1 != c2:
-                    graph[ord(c1) - ord("a")].add(ord(c2) - ord("a"))
-                    break
-            for c in w1 + w2:
-                visited[ord(c) - ord("a")] = -1
-        for i in range(26):
-            if visited[i] == -1 and not self.dfs(graph, visited, res, i):
-                return ""
-        return "".join(res)[::-1]
 
-    def dfs(self, graph, visited, res, i):
-        visited[i] = 0
-        for v in graph[i]:
-            if visited[v] == 0 or (visited[v] == -1 and not self.dfs(graph, visited, res, v)):
+class SolutionDFS:  # 比较每个word的同index上的char，如果前面相同，比较不同的那位。不同的时候 --> word1[i]:word2[i]
+    def alienOrder(self, words) -> str:
+
+        graph = collections.defaultdict(set)
+        visited = {char: 0 for word in words for char in word}
+        for i in range(len(words) - 1):
+            word1, word2 = words[i], words[i + 1]
+            diff = False
+            for j in range(min(len(word1), len(word2))):
+                c1, c2 = word1[j], word2[j]
+                if c1 != c2:
+                    graph[c1].add(c2)
+                    diff = True
+                    break
+            # return False when, for example, word1="z", word2="zx"
+            if not diff and len(word1) > len(word2):
+                return ""
+
+        self.res = []
+        for node in visited:
+            if visited[node] == 0:
+                if not self.dfs(graph, node, visited):
+                    return ''
+        return "".join(self.res)[::-1]
+
+    def dfs(self, graph, node, visited):
+        if visited[node] == -1:  # visited --> check has cycle
+            return False
+        if visited[node] == 1:  # backtrack --> finished check --> no cycle
+            return True
+
+        visited[node] = -1
+        for nei in graph[node]:
+            if not self.dfs(graph, nei, visited):
                 return False
-        res.append(chr(97 + i))
-        visited[i] = 1
+        visited[node] = 1  # backtracking --> no cycle
+        self.res.append(node)
         return True
+
 
 
 words =  ["wrt",

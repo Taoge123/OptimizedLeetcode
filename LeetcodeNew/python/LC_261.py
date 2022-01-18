@@ -36,6 +36,33 @@ class Solution:
         return False
 
 
+
+class SolutionRika:
+    def validTree(self, n: int, edges) -> bool:
+        graph = collections.defaultdict(list)
+
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        visited = set()
+
+        return self.dfs(graph, 0, -1, visited) and len(visited) == n
+
+    def dfs(self, graph, node, parent, visited):
+
+        if node in visited:
+            return False
+        visited.add(node)
+
+        for nei in graph[node]:
+            if nei != parent:
+                if not self.dfs(graph, nei, node, visited):
+                    return False
+        return True
+
+
+
 class Solution2:
     def validTree(self, n: int, edges) -> bool:
         parent = [-1] * n
