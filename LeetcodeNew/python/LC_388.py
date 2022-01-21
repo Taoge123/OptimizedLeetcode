@@ -1,4 +1,7 @@
 """
+
+https://leetcode.com/problems/longest-absolute-file-path/discuss/354882/Recursive-solution
+
 Suppose we abstract our file system by a string in the following manner:
 
 The string "dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext" represents:
@@ -39,8 +42,8 @@ class Solution:
         table = {}
         res = 0
         fileList = input.split("\n")
-        for file in fileList:  # 是文件夹
-            if "." not in file:
+        for file in fileList:
+            if "." not in file:  # 是文件夹
                 key = file.count("\t")  # 是几级文件夹
                 value = len(file.replace("\t", ""))  # 除去\t后的长度，是实际长度
                 table[key] = value
@@ -48,7 +51,13 @@ class Solution:
                 key = file.count("\t")
                 # 　文件的长度：所有目录的长度＋文件的长度＋“\”的数量
                 # temp = [table[k] for k in table.keys() if k < key]
-                length = sum([table[k] for k in table.keys() if k < key]) + len(file.replace("\t", "")) + key
+                # length = sum([table[k] for k in table.keys() if k < key]) + len(file.replace("\t", "")) + key
+                length = 0
+                for k in table.keys():
+                    if k < key:
+                        length += table[k]
+                length += len(file.replace("\t", ""))
+                length += key
                 res = max(res, length)
         return res
 

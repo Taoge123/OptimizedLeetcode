@@ -30,7 +30,45 @@ The input is always valid. You may assume that evaluating the queries will resul
 import collections
 
 
-class SolutionTonnie:
+class SolutionDFS2:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        # Step 1. Build the Graph
+        graph = collections.defaultdict(dict)
+        for (u, v), val in zip(equations, values):
+            graph[u][v] = val
+            graph[v][u] = 1.0 / val
+
+        def dfs(node, target, visited):
+            # neither x not y exists
+            if node not in graph or target not in graph:
+                return -1.0
+
+            # x points to y
+            if target in graph[node]:
+                return graph[node][target]
+
+            # x maybe connected to y through other nodes
+            # use dfs to see if there is a path from x to y
+            for nei in graph[node]:
+                if nei in visited:
+                    continue
+                visited.add(nei)
+                temp = dfs(nei, target, visited)
+                if temp == -1:
+                    continue
+                else:
+                    return graph[node][nei] * temp
+            return -1
+
+        # go through each of the queries and find the value
+        res = []
+        for u, v in queries:
+            res.append(dfs(u, v, set()))
+        return res
+
+
+
+class SolutionDFS1:
     def calcEquation(self, equations, values, queries):
             graph = collections.defaultdict(dict)
             for (x, y), val in zip(equations, values):

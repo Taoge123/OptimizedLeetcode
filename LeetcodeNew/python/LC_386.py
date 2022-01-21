@@ -14,6 +14,41 @@ Please optimize your algorithm to use less time and space. The input size may be
 
 """
 
+class SolutionDFS:
+    def lexicalOrder(self, n: int):
+
+        res = []
+
+        def dfs(num):
+            if num > n:
+                return
+
+            res.append(num)
+
+            dfs(num * 10)
+
+            if num % 10 != 9:
+                dfs(num + 1)
+
+        dfs(1)
+        return res
+
+
+class SolutionDFS1:
+    def lexicalOrder(self, n: int):
+        res = []
+        for i in range(1, 10):
+            self.dfs(i, res, n)
+        return res
+
+    def dfs(self, num, res, n):
+        if num <= n:
+            res.append(num)
+            new = num * 10
+            if new <= n:
+                for i in range(10):
+                    self.dfs(new + i, res, n)
+
 
 class Solution:
     def lexicalOrder(self, n: int):
@@ -45,20 +80,6 @@ class Solution2:
         return res
 
 
-class Solution3:
-    def lexicalOrder(self, n: int):
-        res = []
-        for i in range(1, 10):
-            self.dfs(i, res, n)
-        return res
-
-    def dfs(self, num, res, n):
-        if num <= n:
-            res.append(num)
-            new = num * 10
-            if new <= n:
-                for i in range(10):
-                    self.dfs(new + i, res, n)
 
 
 

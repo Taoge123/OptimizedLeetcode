@@ -41,6 +41,31 @@ Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is n
 import functools
 
 
+class SolutionTony:
+    def longestIncreasingPath(self, matrix):
+        m, n = len(matrix), len(matrix[0])
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            res = 1
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n:
+                    continue
+                if matrix[x][y] > matrix[i][j]:
+                    res = max(res, dfs(x, y) + 1)
+            return res
+
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                res = max(res, dfs(i, j))
+        return res
+
+
+
+
 class Solution:
     def longestIncreasingPath(self, matrix):
         if not matrix:

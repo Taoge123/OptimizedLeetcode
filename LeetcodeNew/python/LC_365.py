@@ -37,6 +37,8 @@ z = m * x + n * y
 
 """
 
+import collections
+
 
 class Solution:
     def canMeasureWater(self, x, y, z):
@@ -44,5 +46,53 @@ class Solution:
 
     def gcd(self, x, y):
         return x if y == 0 else self.gcd(y, x % y)
+
+
+
+class SolutionDFS:
+    def canMeasureWater(self, jug1: int, jug2: int, target: int) -> bool:
+        if jug1 + jug2 < target:
+            return False
+
+        visited = set()
+        def dfs(num):
+            visited.add(num)
+            if num == target:
+                return True
+            for d in [-jug1, jug1, -jug2, jug2]:
+                if num + d in visited:
+                    continue
+                if num + d < 0 or x + d > jug1 + jug2:
+                    continue
+                if dfs(num + d):
+                    return True
+            return False
+
+        return dfs(0)
+
+
+
+class SolutionBFS:
+    def canMeasureWater(self, jug1Capacity: int, jug2Capacity: int, targetCapacity: int) -> bool:
+            jc1, jc2, target = jug1Capacity, jug2Capacity, targetCapacity
+            visited = set()
+            queue = collections.deque()
+            queue.append([0, 0])
+            while queue:
+                j1, j2 = queue.popleft()
+                if (j1, j2) in visited:
+                    continue
+                if j1+j2 == target:
+                    return True
+                visited.add((j1, j2))
+                queue.append((jc1, j2)) # fill j1
+                queue.append((j1, jc2)) # fill j2
+                queue.append((0, j2)) # empty j1
+                queue.append((j1, 0)) # empty j2
+                queue.append((max(0, j1-(jc2-j2)), min(jc2, j2+j1))) # j1 to j2
+                queue.append((min(jc1, j1+j2), max(0, j2-(jc1-j1)))) # j2 to j1
+
+            return False
+
 
 

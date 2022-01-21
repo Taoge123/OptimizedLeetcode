@@ -65,6 +65,30 @@ Explanation: One 1 at depth 3, one 4 at depth 2, and one 6 at depth 1; 1*3 + 4*2
 import collections
 
 
+class SolutionTony:
+    def depthSumInverse(self, nestedList):
+        res = 0
+        table = collections.defaultdict(int)
+        self.max_depth = 0
+        self.dfs(nestedList, 1, table)
+        for k, v in table.items():
+            res += v * (self.max_depth - k + 1)
+        return res
+
+    def dfs(self, nums, depth, table):
+        self.max_depth = max(self.max_depth, depth)
+        if not nums:
+            return 0
+
+        for num in nums:
+            if num.isInteger():
+                table[depth] += num.getInteger()
+            else:
+                self.dfs(num.getList(), depth + 1, table)
+
+
+
+
 class Solution:
     def depthSumInverse(self, nestedList) -> int:
         queue = collections.deque([item for item in nestedList])

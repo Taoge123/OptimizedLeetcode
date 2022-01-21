@@ -29,6 +29,34 @@ Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not a
 import collections
 
 
+class SolutionTony:
+    def countComponents(self, n: int, edges):
+
+        graph = collections.defaultdict(list)
+        visited = set()
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        res = 0
+        for i in range(n):
+            if i in visited:
+                continue
+            res += 1
+            self.dfs(graph, i, visited)
+
+        return res
+
+    def dfs(self, graph, node, visited):
+        if node in visited:
+            return
+
+        visited.add(node)
+        for nei in graph[node]:
+            self.dfs(graph, nei, visited)
+
+
+
 class Solution1:
     def countComponents(self, n: int, edges) -> int:
         res = n
