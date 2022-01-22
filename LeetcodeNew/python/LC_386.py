@@ -34,6 +34,28 @@ class SolutionDFS:
         return res
 
 
+
+class SolutionDFS:
+    def lexicalOrder(self, n: int):
+
+        res = []
+
+        self.dfs(1, n, res)
+        return res
+
+    def dfs(self, num, n, res):
+        if num > n:
+            return
+
+        res.append(num)
+
+        self.dfs(num * 10, n, res)
+
+        if num % 10 != 9:
+            self.dfs(num + 1, n, res)
+
+
+
 class SolutionDFS1:
     def lexicalOrder(self, n: int):
         res = []

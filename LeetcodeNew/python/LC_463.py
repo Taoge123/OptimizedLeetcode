@@ -24,6 +24,61 @@ Explanation: The perimeter is the 16 yellow stripes in the image below:
 """
 
 
+class SolutionTonyDFS2:
+    def islandPerimeter(self, grid):
+
+        visited = set()
+        m, n = len(grid), len(grid[0])
+
+        def dfs(i, j):
+            if i < 0 or i >= m or j < 0 or j >= n:
+                return 1
+            elif grid[i][j] == 0:
+                return 1
+            if (i, j) in visited:
+                return 0
+            visited.add((i, j))
+            res = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                res += dfs(x, y)
+            return res
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    return dfs(i, j)
+
+
+
+class SolutionTonyDFS:
+    def islandPerimeter(self, grid):
+
+        visited = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                if grid[i][j] == 1:
+                    return self.dfs(grid, i, j, visited)
+
+    def dfs(self, grid, i, j, visited):
+        if i < 0 or i > len(grid) - 1 or j < 0 or j > len(grid[i]) - 1:
+            return 1
+        elif grid[i][j] == 0:
+            return 1
+        if (i, j) in visited:
+            return 0
+        visited.add((i, j))
+        res = 0
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x = i + dx
+            y = j + dy
+            res += self.dfs(grid, x, y, visited)
+        return res
+
+
+
+
 class Solution:
     def islandPerimeter(self, grid):
         if not grid:

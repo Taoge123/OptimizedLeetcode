@@ -31,6 +31,45 @@ Return:
 import collections
 
 
+class SolutionTonyDFS:
+    def pacificAtlantic(self, heights):
+
+        p_visited = set()
+        a_visited = set()
+
+        m, n = len(heights), len(heights[0])
+
+        def dfs(i, j, visited):
+            visited.add((i, j))
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+
+                if x < 0 or x >= m or y < 0 or y >= n:
+                    continue
+                if heights[x][y] < heights[i][j]:
+                    continue
+                if (x, y) in visited:
+                    continue
+                # visited.add((x, y))
+                dfs(x, y, visited)
+
+        for i in range(m):
+            dfs(i, 0, p_visited)
+            dfs(i, n - 1, a_visited)
+        for j in range(n):
+            dfs(0, j, p_visited)
+            dfs(m - 1, j, a_visited)
+
+        res = []
+        for i in range(m):
+            for j in range(n):
+                if (i, j) in p_visited and (i, j) in a_visited:
+                    res.append([i, j])
+        return res
+
+
+
 class Solution:
     def pacificAtlantic(self, matrix):
         if not matrix:

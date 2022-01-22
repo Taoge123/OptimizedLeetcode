@@ -70,18 +70,18 @@ class Solution2:
         for word in words:
             self.trie.insert(word)
         for word in words:
-            if self.search(word):
+            if self.dfs(word):
                 ans.append(word)
         return ans
 
-    def search(self, word):
+    def dfs(self, word):
         node = self.trie.root
         for idx, letter in enumerate(word):
             node = node.children.get(letter)
             if node is None:
                 return False
             suffix = word[idx+1:]
-            if node.isWord and (self.trie.search(suffix) or self.search(suffix)):
+            if node.isWord and (self.trie.search(suffix) or self.dfs(suffix)):
                 return True
         return False
 

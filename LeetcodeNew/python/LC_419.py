@@ -21,6 +21,36 @@ Could you do it in one-pass, using only O(1) extra memory and without modifying 
 """
 
 
+class SolutionTony:
+    def countBattleships(self, board):
+
+        m, n = len(board), len(board[0])
+        res = 0
+
+        def dfs(i, j):
+            visited.add((i, j))
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                x = i + dx
+                y = j + dy
+                if (x, y) in visited or board[i][j] != 'X':
+                    continue
+                if x < 0 or x >= m or y < 0 or y >= n:
+                    continue
+                dfs(x, y)
+
+        visited = set()
+        for i in range(m):
+            for j in range(n):
+                if (i, j) in visited:
+                    continue
+                if board[i][j] == 'X':
+                    dfs(i, j)
+                    res += 1
+
+        return res
+
+
+
 class Solution:
     def countBattleships(self, board) -> int:
         m, n = len(board), len(board[0])
