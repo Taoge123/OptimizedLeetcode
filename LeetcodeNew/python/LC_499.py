@@ -70,13 +70,13 @@ import collections, heapq
 class Solution:
     def findShortestWay(self, maze, ball, hole):
         m, n = len(maze), len(maze[0])
-        queue = [(0, "", ball[0], ball[1])]
+        heap = [(0, "", ball[0], ball[1])]
         directions = [(-1, 0, 'u'), (1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r')]
         dp = collections.defaultdict(list)
         dp[(ball[0], ball[1])] = [0, ""]
 
-        while queue:
-            dist, pattern, i, j = heapq.heappop(queue)
+        while heap:
+            dist, pattern, i, j = heapq.heappop(heap)
             if [i, j] == hole:
                 return pattern
 
@@ -91,7 +91,7 @@ class Solution:
 
                 if (x, y) not in dp or [step, pattern + d] < dp[(x, y)]:
                     dp[(x, y)] = [step, pattern + d]
-                    heapq.heappush(queue, [step, pattern + d, x, y])
+                    heapq.heappush(heap, [step, pattern + d, x, y])
         return 'impossible'
 
 
