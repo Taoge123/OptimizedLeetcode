@@ -13,7 +13,8 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 """
 
 import collections
-
+import heapq
+heapq.heapify()
 
 class SolutionTony:
     def longestConsecutive(self, nums):
