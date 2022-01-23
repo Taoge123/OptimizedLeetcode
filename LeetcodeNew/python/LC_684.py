@@ -1,3 +1,7 @@
+
+import collections
+
+
 class UnionFind:
     def __init__(self, n):
         self.parent = [i for i in range(n)]
@@ -28,5 +32,31 @@ class Solution:
         for i, j in edges:
             if uf.union(i, j):
                 return i, j
+
+
+class SolutionDFS:
+    def findRedundantConnection(self, edges):
+        graph = collections.defaultdict(list)
+
+        def dfs(node, target):
+            if node in visited:
+                return False
+            if node == target:
+                return True
+
+            visited.add(node)
+
+            for nei in graph[node]:
+                if dfs(nei, target):
+                    return True
+            return False
+
+        res = []
+        for u, v in edges:
+            visited = set()
+            if dfs(u, v):
+                return [u, v]
+            graph[u].append(v)
+            graph[v].append(u)
 
 

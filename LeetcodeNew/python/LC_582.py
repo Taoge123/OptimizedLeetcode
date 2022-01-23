@@ -45,6 +45,21 @@ class SolutionTony:
             self.dfs(graph, nei, res)
 
 
+class Solution:
+    def killProcess(self, pid, ppid, kill):
+        graph = collections.defaultdict(list)
+        for u, v in zip(ppid, pid):
+            graph[u].append(v)
+
+        def dfs(node, res):
+            res.append(node)
+            for nei in graph[node]:
+                dfs(nei, res)
+
+        res = []
+        dfs(kill, res)
+        return res
+
 
 class SolutionRika:
     def killProcess(self, pid, ppid, kill):
