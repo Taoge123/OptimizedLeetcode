@@ -13,24 +13,25 @@ class SolutionCsp:
         for num in nums:
             table[num // 10] = num % 10
 
-        self.helper(nums[0] // 10, 0, table)
+        self.dfs(nums[0] // 10, 0, table)
         return self.res
 
-    def helper(self, root, summ, table):
+    def dfs(self, root, summ, table):
         level = root // 10
         pos = root % 10
         left = (level + 1) * 10 + pos * 2 - 1
         right = (level + 1) * 10 + pos * 2
 
-        cur = summ + table[root]
+        new_summ = summ + table[root]
         if left not in table and right not in table:
-            self.res += cur
+            self.res += new_summ
             return
 
         if left in table:
-            self.helper(left, cur, table)
+            self.dfs(left, new_summ, table)
         if right in table:
-            self.helper(right, cur, table)
+            self.dfs(right, new_summ, table)
+
 
 
 

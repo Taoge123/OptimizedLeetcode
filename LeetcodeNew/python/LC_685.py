@@ -1,8 +1,11 @@
 """
+https://leetcode.com/problems/redundant-connection-ii/discuss/108070/Python-O(N)-concise-solution-with-detailed-explanation-passed-updated-testcases
 https://leetcode.com/problems/redundant-connection-ii/discuss/254733/Python-Union-Find-Clear-Logic
-
+https://leetcode.com/problems/redundant-connection-ii/discuss/278105/topic
+https://leetcode.com/problems/redundant-connection-ii/discuss/108045/C%2B%2BJava-Union-Find-with-explanation-O(n)
 """
 
+import collections
 
 class UnionFind:
     def __init__(self, n):
@@ -46,6 +49,49 @@ class SolutionCsp:
             if v == res1[1]:
                 return [u, v]
         return [0, 0]
+
+
+class SolutionDFS:
+    def findRedundantDirectedConnection(self, edges):
+        n = len(edges)
+        children = collections.defaultdict(list)
+        parent = collections.defaultdict(list)
+
+        def dfs(node, target):
+            if node == target:
+                return True
+            if node in visited:
+                return False
+            visited.add(node)
+            for nei in children[node]:
+                if dfs(nei, target):
+                    return True
+            return False
+
+        # to mark the node with 2 parents
+        node = -1
+        for u, v in edges:
+            children[u].append(v)
+            parent[v].append(u)
+            if len(parent[v]) == 2:
+                node = v
+
+        # if 2-parent case happened
+        if node != -1:
+            visited = set()
+            # this node can reach its parent, then there is a cycle
+            if dfs(node, parent[node][0]):
+                return [parent[node][0], node]
+            else:
+                return [parent[node][1], node]
+        # If there are multiple answers, return the answer that occurs last in the given 2D-array.
+        # to find the last edge in the cycle
+        for i in range(n - 1, -1, -1):
+            v, u = edges[i]
+            visited = set()
+            if dfs(u, v):
+                return [v, u]
+
 
 
 

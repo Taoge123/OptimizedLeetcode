@@ -55,8 +55,8 @@ class SolutionDFS:
         for u, v in edges:
             visited = set()
             if dfs(u, v):
-                return [u, v]
+                res = [u, v]
             graph[u].append(v)
             graph[v].append(u)
-
+        return res
 
