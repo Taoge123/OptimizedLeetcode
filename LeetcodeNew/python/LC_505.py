@@ -55,25 +55,25 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
 import collections, heapq
 
 
-class Solution:
+class SolutionTony:
     def shortestDistance(self, maze, start, destination):
 
-        m, n, heap, visited = len(maze), len(maze[0]), [(0, start[0], start[1])], set()
+        m, n = len(maze), len(maze[0])
+        heap = []
+        heapq.heappush(heap, (0, start[0], start[1]))
+        visited = set()
         while heap:
             dist, i, j = heapq.heappop(heap)
             if (i, j) in visited:
                 continue
-            else:
-                visited.add((i, j))
+            visited.add((i, j))
             if [i, j] == destination:
                 return dist
 
-            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-                x, y, d = i, j, 0
-                # while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] != 1:
-                #     x += dx
-                #     y += dy
-                #     d += 1
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i
+                y = j
+                d = 0
                 while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
                     x += dx
                     y += dy
@@ -81,10 +81,13 @@ class Solution:
                 x -= dx
                 y -= dy
                 d -= 1
-
-                if (x, y) not in visited:
-                    heapq.heappush(heap, (dist + d, x, y))
+                # This is not correct
+                # if (x, y) in visited:
+                #     continue
+                # visited.add((x, y))
+                heapq.heappush(heap, (dist + d, x, y))
         return -1
+
 
 
 
@@ -100,18 +103,19 @@ class Solution2:
             if [i, j] == destination:
                 return dist
             for dx, dy in directions:
-                x, y, step = i, j, dist
+                x, y, new_dist = i, j, dist
                 while 0 <= x < m and 0 <= y < n and maze[x][y] == 0:
                     x += dx
                     y += dy
-                    step += 1
+                    new_dist += 1
                 x -= dx
                 y -= dy
-                step -= 1
-                if (x, y) not in distance or step < distance[(x, y)]:
-                    distance[(x, y)] = step
-                    heapq.heappush(heap, (step, x, y))
+                new_dist -= 1
+                if (x, y) not in distance or new_dist < distance[(x, y)]:
+                    distance[(x, y)] = new_dist
+                    heapq.heappush(heap, (new_dist, x, y))
         return -1
+
 
 
 
@@ -140,10 +144,70 @@ class Solution22:
 
 
 
+class SolutionRikaTLE_DFS:  # TLE
+    def shortestDistance(self, maze, start, destination):
+        m, n = len(maze), len(maze[0])
+        dist = [[float('inf')] * n for _ in range(m)]
+        dist[start[0]][start[1]] = 0
+        visited = set()
+        i, j = start[0], start[1]
+        self.dfs(maze, m, n, i, j, destination, dist)
+
+        if dist[destination[0]][destination[1]] != float('inf'):
+            return dist[destination[0]][destination[1]]
+        else:
+            return -1
+
+    def dfs(self, maze, m, n, i, j, destination, dist):
+
+        for dx, dy in (1, 0), (0, 1), (-1, 0), (0, -1):
+            x = i
+            y = j
+            steps = 0
+            while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                x += dx
+                y += dy
+                steps += 1
+            x -= dx
+            y -= dy
+            steps -= 1
+            update_dist = dist[i][j] + steps
+
+            if dist[x][y] > update_dist:
+                dist[x][y] = update_dist
+                self.dfs(maze, m, n, x, y, destination, dist)
 
 
 
+class SolutionDFSTLE:
+    def shortestDistance(self, maze, start, destination):
+        def dfs(i, j, visited):
+            if (i, j) == destination:
+                return 0
+            path_dist = []
+            for dx, dy in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
+                x = i + dx
+                y = j + dy
+                dist = 0
+                while 0 <= x < len(maze) and 0 <= y < len(maze[0]) and maze[x][y] == 0:
+                    x += dx
+                    y += dy
+                    dist += 1
+                x -= dx
+                y -= dy
+                val = -1
+                if (x, y) in visited:
+                    continue
+                visited.add((x, y))
+                val = dfs(x, y, visited)
+                visited.remove((x, y))
 
+                if val != -1:
+                    path_dist.append(dist + val)
+            return min(path_dist, default=-1)
+
+        start, destination = tuple(start), tuple(destination)
+        return dfs(start[0], start[1], set())
 
 
 
