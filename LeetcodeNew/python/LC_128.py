@@ -12,6 +12,30 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 
 """
 
+import collections
+
+
+class SolutionTony:
+    def longestConsecutive(self, nums):
+
+        n = len(nums)
+        table = collections.Counter(nums)
+        res = 0
+        for i in range(n):
+            # if we have smaller number already in table, then we can skip this one and compute later
+            if nums[i] - 1 in table:
+                continue
+            count = 1
+            num = nums[i] + 1
+            while num in table:
+                count += 1
+                num += 1
+
+            res = max(res, count)
+        return res
+
+
+
 
 class Solution:
     def longestConsecutive(self, nums):
