@@ -27,6 +27,38 @@ M[i][i] = 1 for all students.
 If M[i][j] = 1, then M[j][i] = 1.
 """
 
+import collections
+
+class SolutionRika:
+    def findCircleNum(self, isConnected) -> int:
+        # how many connected provinces
+
+        # step1: build graph
+        graph = collections.defaultdict(list)
+
+        n = len(isConnected)
+        for i in range(n):
+            for j in range(n):
+                if isConnected[i][j] == 1:
+                    graph[i].append(j)
+
+        # step2: count
+        visited = set()
+        count = 0
+        for i in range(n):
+            if i not in visited:
+                self.dfs(graph, i, visited)
+                count += 1
+        return count
+
+    def dfs(self, graph, node, visited):
+        visited.add(node)
+
+        for nei in graph[node]:
+            if nei not in visited:
+                self.dfs(graph, nei, visited)
+
+
 
 class Solution:
     def findCircleNum(self, M):
@@ -70,12 +102,35 @@ class Solution2:
                 self.dfs(i, M, visited)
 
 
+class SolutionTest:
+    def findCircleNum(self, isConnected) -> int:
+
+        m, n = len(isConnected), len(isConnected[0])
+
+        def dfs(i, j):
+            isConnected[i][j] = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n or isConnected[i][j] == 0:
+                    continue
+                dfs(x, y)
+
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if isConnected[i][j] == 1:
+                    dfs(i, j)
+                    # print(isConnected)
+                    res += 1
+        return res
+
 
 M = [[1,1,0],
      [1,1,0],
      [0,0,1]]
 
-a = Solution()
+a = SolutionTest()
 print(a.findCircleNum(M))
 
 

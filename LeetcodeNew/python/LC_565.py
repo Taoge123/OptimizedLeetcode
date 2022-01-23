@@ -25,6 +25,54 @@ Each element of A is an integer within the range [0, N-1].
 """
 
 
+class SolutionTonyDP:
+    def arrayNesting(self, nums):
+
+        n = len(nums)
+        self.memo = {}
+
+        def dfs(i, visited, count):
+            if i in self.memo:
+                return self.memo[i]
+            if i in visited:
+                return count
+
+            visited.add(i)
+            res = dfs(nums[i], visited, count + 1)
+            self.memo[i] = res
+            return res
+
+        res = 0
+        for i in range(n):
+            res = max(res, dfs(i, set(), 0))
+        return res
+
+
+
+class SolutionMemoWithoutCount:
+    def arrayNesting(self, nums):
+
+        n = len(nums)
+        self.memo = {}
+
+        def dfs(i, visited):
+            if i in self.memo:
+                return self.memo[i]
+            if i in visited:
+                return len(visited)
+
+            visited.add(i)
+            res = dfs(nums[i], visited)
+            self.memo[i] = res
+            return res
+
+        res = 0
+        for i in range(n):
+            res = max(res, dfs(i, set()))
+        return res
+
+
+
 class Solution:
     def arrayNesting(self, nums) -> int:
         res = 0

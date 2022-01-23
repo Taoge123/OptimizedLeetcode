@@ -107,7 +107,7 @@ class SolutionRika:
                 self.dfs(directions, board, m, n, x, y, visited)
 
 
-                
+
 class Solution2:
     def __init__(self):
         self.directions = [[1 ,0], [0 ,1], [-1 ,0] ,[0 ,-1] ,[1 ,1] ,[-1 ,-1] ,[1 ,-1] ,[-1 ,1]]
