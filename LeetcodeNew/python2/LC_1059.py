@@ -1,32 +1,32 @@
 import collections
 
+
 class Solution:
-    def leadsToDestination(self, n: int, edges, source: int, destination: int) -> bool:
+    def leadsToDestination(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
 
-        graph = collections.defaultdict(set)
-        visited = collections.defaultdict(int)
+        graph = collections.defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
 
-        for x, y in edges:
-            graph[x].add(y)
+        visited = [0 for i in range(n)]
+        return self.dfs(graph, source, destination, visited)
 
-        def dfs(node):
-            if visited[node] == 1:
-                return True
+    def dfs(self, graph, node, target, visited):
+        if visited[node] == 1:
+            return True
+        if visited[node] == -1:
+            return False
 
-            elif visited[node] == -1:
+        # at last step, if we didnt reach target, then this path wont reach target node
+        if len(graph[node]) == 0:
+            return node == target
+
+        visited[node] = -1
+        for nei in graph[node]:
+            if not self.dfs(graph, nei, target, visited):
                 return False
+        visited[node] = 1
+        return True
 
-            # if no neighbors anymore, check if we already arrived
-            elif len(graph[node]) == 0:
-                return node == destination
 
-            else:
-                visited[node] = -1
-                for nei in graph[node]:
-                    if not dfs(nei):
-                        return False
-                visited[node] = 1
-                return True
-
-        return dfs(source)
 
