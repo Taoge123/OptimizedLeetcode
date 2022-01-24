@@ -43,55 +43,81 @@ Here are some examples of how to represent the shape of each island by using cel
 """
 
 
-class Solution1:
+class SolutionTony1:
     def numDistinctIslands(self, grid):
-        steps = []
-        distinctIslands = set()
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 1:
-                    # 'o' for origin
-                    self.dfs(grid, i, j, 'o', steps)
-                    distinctIslands.add(''.join(steps))
-                    steps = []
-        print(distinctIslands)
-        return len(distinctIslands)
-
-    def dfs(self, grid, i, j, direct, steps):
-        if 0 <= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == 1:
-            steps.append(direct)
-            grid[i][j] = 0
-            self.dfs(grid, i + 1, j, 'd', steps)  # down
-            self.dfs(grid, i - 1, j, 'u', steps)  # upper
-            self.dfs(grid, i, j + 1, 'r', steps)  # right
-            self.dfs(grid, i, j - 1, 'l', steps)  # left
-            steps.append('b')  # back
-
-
-class Solution2:
-    def numDistinctIslands(self, grid):
-        islands = set()
         m, n = len(grid), len(grid[0])
+        visited = set()
+        res = set()
+
+        def dfs(i, j, path):
+            if i < 0 or i >= m or j < 0 or j >= n or (i, j) in visited or grid[i][j] == 0:
+                return
+            # grid[i][j] = 0
+            visited.add((i, j))
+            for dx, dy, d in [(1, 0, 'd'), (-1, 0, 'u'), (0, -1, 'l'), (0, 1, 'r')]:
+                x = i + dx
+                y = j + dy
+                path.append(d)
+                dfs(x, y, path)
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1 and (i, j) not in visited:
+                    path = []
+                    dfs(i, j, path)
+                    res.add(tuple(path))
+        return len(res)
+
+
+
+class SolutionTony2:
+    def numDistinctIslands(self, grid):
+        m, n = len(grid), len(grid[0])
+        res = set()
+
+        def dfs(i, j, path):
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == 0:
+                return
+            grid[i][j] = 0
+            for dx, dy, d in [(1, 0, 'd'), (-1, 0, 'u'), (0, -1, 'l'), (0, 1, 'r')]:
+                x = i + dx
+                y = j + dy
+                path.append(d)
+                dfs(x, y, path)
+
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1:
                     path = []
-                    self.dfs(i, j, path, (0, 0), grid)
-                    islands.add(tuple(path))
-        return len(islands)
+                    dfs(i, j, path)
+                    res.add(tuple(path))
+        return len(res)
 
-    def dfs(self, i, j, path, pos, grid):
-        grid[i][j] = -1
+
+
+
+class SolutionDFS2:
+    def numDistinctIslands(self, grid):
+        res = set()
         m, n = len(grid), len(grid[0])
-        for direction in ((0, 1), (1, 0), (-1, 0), (0, -1)):
-            x, y = i + direction[0], j + direction[1]
-            if (0 <= x < m and 0 <= y < n) and grid[x][y] == 1:
-                nxt = (pos[0] + direction[0], pos[1] + direction[1])
-                path.append(nxt)
-                self.dfs(x, y, path, nxt, grid)
 
+        def dfs(i, j, path, prev):
+            grid[i][j] = -1
+            for dx, dy in ((0, 1), (1, 0), (-1, 0), (0, -1)):
+                x = i + dx
+                y = j + dy
+                if (0 <= x < m and 0 <= y < n) and grid[x][y] == 1:
+                    nxt = (prev[0] + dx, prev[1] + dy)
+                    path.append(nxt)
+                    dfs(x, y, path, nxt)
 
-
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    path = []
+                    dfs(i, j, path, (0, 0))
+                    res.add(tuple(path))
+        return len(res)
 
 
 
