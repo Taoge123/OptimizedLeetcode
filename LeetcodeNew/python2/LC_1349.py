@@ -34,7 +34,6 @@ class SolutionTony:
 
         @functools.lru_cache(None)
         def dfs(state, i):
-            m, n = len(seats), len(seats[0])
             if i == m:
                 return 0
 

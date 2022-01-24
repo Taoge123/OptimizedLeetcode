@@ -16,8 +16,8 @@ import functools
 class Solution:
     def minimumTimeRequired(self, jobs, k):
         n = len(jobs)
-        cost = [0] * (1 << (n))
-        for state in range(1 << (n)):
+        cost = [0] * (1 << n)
+        for state in range(1 << n):
             for j in range(n):
                 if state & (1 << j):
                     cost[state] += jobs[j]

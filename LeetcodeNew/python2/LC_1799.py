@@ -13,12 +13,6 @@ class SolutionTony:
         n = len(nums)
         full_mask = 1 << n - 1
 
-        # def gcd(a, b):
-        #     a, b = min(a, b), max(a, b)
-        #     if a == 1:
-        #         return b
-        #     return gcd(b // a, a)
-
         @functools.lru_cache(None)
         def dfs(step, mask):
             # print(mask)
