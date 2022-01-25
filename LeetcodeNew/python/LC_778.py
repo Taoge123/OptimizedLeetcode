@@ -1,4 +1,4 @@
-"""
+''"""
 As you can swim infinite distance in zero time, the problem actually doesn't count time, but the minimum of the largest value in any path from (0,0) to (n-1,n-1).
 ans = min(max(point for point in path))
 
@@ -38,6 +38,42 @@ class Solution:
 
                 heapq.heappush(heap, (grid[x][y], x, y))
                 visited.add((x, y))
+
+
+
+
+class SolutionTony:
+    def swimInWater(self, grid):
+        n = len(grid)
+        left, right = 0, n * n
+
+        def dfs(i, j, limit, visited):
+            if i < 0 or i >= n or j < 0 or j >= n:
+                return False
+            if (i, j) in visited:
+                return False
+            if grid[i][j] > limit:
+                return False
+            # Need to make sure check all false before check true
+            if i == n - 1 and j == n - 1:
+                return True
+            visited.add((i, j))
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                # We only need one path to get true
+                if dfs(x, y, limit, visited):
+                    return True
+            return False
+
+        while left < right:
+            mid = (left + right) // 2
+            if dfs(0, 0, mid, set()):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
 
 
 

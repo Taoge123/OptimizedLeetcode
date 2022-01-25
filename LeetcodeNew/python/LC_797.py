@@ -1,3 +1,22 @@
+
+class SolutionTony:
+    def allPathsSourceTarget(self, graph):
+
+        res = []
+        n = len(graph)
+
+        def dfs(node, target, path, res):
+            if node == target:
+                res.append(path + [target])
+
+            for nei in graph[node]:
+                dfs(nei, target, path + [node], res)
+
+        dfs(0, n - 1, [], res)
+        return res
+
+
+
 class SolutionLee:
     def allPathsSourceTarget(self, graph):
         res = []

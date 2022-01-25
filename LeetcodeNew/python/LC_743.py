@@ -83,3 +83,25 @@ class SolutionDFS:
         return res if res < float('inf') else -1
 
 
+
+class SolutionDFSTony:
+    def networkDelayTime(self, times, n: int, k: int) -> int:
+
+        graph = collections.defaultdict(list)
+        dist = {node: float('inf') for node in range(1, n + 1)}
+
+        for u, v, t in times:
+            graph[u].append([t, v])
+
+        def dfs(node, steps):
+            if steps >= dist[node]:
+                return
+            dist[node] = steps
+            for time, nei in sorted(graph[node]):
+                dfs(nei, steps + time)
+
+        dfs(k, 0)
+        res = max(dist.values())
+        return res if res < float('inf') else -1
+
+
