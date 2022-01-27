@@ -2,11 +2,43 @@
 https://www.youtube.com/watch?v=_426VVOB8Vo
 """
 
-class SolutionTLE:
-    def largestIsland(self, grid) -> int:
-        res = -1
+
+class SolutionTonyDFSTLE:
+    def largestIsland(self, grid):
+
         m, n = len(grid), len(grid[0])
 
+        def dfs(i, j, visited):
+            if i < 0 or j < 0 or i >= m or j >= n or grid[i][j] == 0 or (i, j) in visited:
+                return 0
+
+            visited.add((i, j))
+            count = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                count += dfs(x, y, visited)
+            count += 1
+            return count
+
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    grid[i][j] = 1
+                    res = max(res, dfs(i, j, set()))
+                    grid[i][j] = 0
+
+        return res if res != 0 else m * n
+
+
+
+
+
+class SolutionTLE:
+    def largestIsland(self, grid) -> int:
+        res = 0
+        m, n = len(grid), len(grid[0])
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 0:
@@ -27,6 +59,7 @@ class SolutionTLE:
                 self.dfs(grid, i, j - 1, visited) + \
                 self.dfs(grid, i, j + 1, visited) + 1
         return count
+
 
 
 

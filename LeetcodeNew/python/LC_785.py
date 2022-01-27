@@ -40,7 +40,31 @@ The graph is undirected: if any element j is in graph[i], then i will be in grap
 import collections
 
 
-class Solution:
+class SolutionRika:
+    def isBipartite(self, graph):
+        n = len(graph)
+        colored = {}
+
+        for node in range(n):
+            if node not in colored:
+                if not self.dfs(graph, colored, node, 1):
+                    return False
+        return True
+
+    def dfs(self, graph, colored, node, color):
+        if node in colored:
+            return colored[node] == color
+
+        colored[node] = color
+
+        for nei in graph[node]:
+            if not self.dfs(graph, colored, nei, color * -1):
+                return False
+
+        return True
+
+
+class SolutionTony:
     def isBipartite(self, graph) -> bool:
         color = {}
         for i in range(len(graph)):

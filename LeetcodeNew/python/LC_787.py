@@ -12,7 +12,7 @@ class SolutionMemo:
         for u, v, w in flights:
             graph[u][v] = w
 
-        @functools.lru_cache(maxsize=None)
+        @functools.lru_cache(None)
         def dfs(node, k):
             if node == dst:
                 return 0

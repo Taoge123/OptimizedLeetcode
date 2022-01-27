@@ -1,26 +1,7 @@
 """
-N couples sit in 2N seats arranged in a row and want to hold hands. We want to know the minimum number of swaps so that every couple is sitting side by side. A swap consists of choosing any two people, then they stand up and switch seats.
+https://leetcode.com/problems/couples-holding-hands/discuss/535314/Python-DFS-solution-with-detailed-explanation
+https://leetcode.com/problems/couples-holding-hands/discuss/822501/Python-99-DFS-SCC
 
-The people and seats are represented by an integer from 0 to 2N-1, the couples are numbered in order, the first couple being (0, 1), the second couple being (2, 3), and so on with the last couple being (2N-2, 2N-1).
-
-The couples' initial seating is given by row[i] being the value of the person who is initially sitting in the i-th seat.
-
-Example 1:
-
-Input: row = [0, 2, 1, 3]
-Output: 1
-Explanation: We only need to swap the second (row[1]) and third (row[2]) person.
-Example 2:
-
-Input: row = [3, 2, 0, 1]
-Output: 0
-Explanation: All couples are already seated side by side.
-Note:
-
-len(row) is even and in the range of [4, 60].
-row is guaranteed to be a permutation of 0...len(row)-1.
-"""
-"""
 下面我们来看一种使用联合查找Union Find的解法。该解法对于处理群组问题时非常有效，比如岛屿数量有关的题就经常使用UF解法。核心思想是用一个root数组，每个点开始初始化为不同的值，如果两个点属于相同的组，就将其中一个点的root值赋值为另一个点的位置，这样只要是相同组里的两点，通过find函数会得到相同的值。 那么如果总共有n个数字，则共有 n/2 对儿，所以我们初始化 n/2 个群组，我们还是每次处理两个数字。每个数字除以2就是其群组号，那么属于同一组的两个数的群组号是相同的，比如2和3，其分别除以2均得到1，所以其组号均为1。那么这对解题有啥作用呢？作用忒大了，由于我们每次取的是两个数，且计算其群组号，并调用find函数，那么如果这两个数的群组号相同，那么find函数必然会返回同样的值，我们不用做什么额外动作，因为本身就是一对儿。如果两个数不是一对儿，那么其群组号必然不同，在二者没有归为一组之前，调用find函数返回的值就不同，此时我们将二者归为一组，并且cnt自减1，忘说了，cnt初始化为总群组数，即 n/2。那么最终cnt减少的个数就是交换的步数，还是用上面讲解中的例子来说明吧：
 
 [3   1   4   0   2   5]
