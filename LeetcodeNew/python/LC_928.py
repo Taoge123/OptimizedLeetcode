@@ -1,5 +1,8 @@
 """
 https://buptwc.com/2018/10/21/Leetcode-928-Minimize-Malware-Spread-II/
+https://leetcode.com/problems/minimize-malware-spread-ii/discuss/515981/Python-Time-O(n3)-DFS-Solution
+https://leetcode.com/problems/minimize-malware-spread-ii/discuss/184112/Short-Python-DFS-solution-w-short-explanation-~290-ms
+
 
 """
 
@@ -85,6 +88,51 @@ class SolutionBetter:
         return count.index(maxi) if maxi != 0 else min(initial)
 
 
+
+
+class SolutionDFS:
+    def minMalwareSpread(self, graph, initial):
+        n = len(graph)
+        clean = set(range(n)) - set(initial)
+
+        def dfs(node):
+            for nei, adj in enumerate(graph[node]):
+                if nei not in clean:
+                    continue
+                if nei in visited:
+                    continue
+                if adj:
+                    visited.add(nei)
+                    dfs(nei)
+
+        # For each node u in initial, dfs to find
+        # 'visited': all nodes not in initial that it can reach.
+        # infected_by = {v: [] for v in clean}
+        infected_by = collections.defaultdict(list)
+        for node in initial:
+            visited = set()
+            dfs(node)
+
+            # For each node v that was visited, u infects v.
+            for nei in visited:
+                infected_by[nei].append(node)
+
+        # For each node u in initial, for every v not in initial
+        # that is uniquely infected by u, add 1 to the contribution for u.
+        contribution = collections.defaultdict(int)
+        for v, nei in infected_by.items():
+            if len(nei) == 1:
+                contribution[nei[0]] += 1
+
+        # Take the best answer.
+        # best = (-1, min(initial))
+        maxi = -1
+        res = min(initial)
+        for node, score in contribution.items():
+            if score > maxi or (score == maxi and node < res):
+                maxi = score
+                res = node
+        return res
 
 
 

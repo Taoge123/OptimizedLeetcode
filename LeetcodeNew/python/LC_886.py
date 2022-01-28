@@ -1,7 +1,35 @@
 import collections
 
 
-class Solution:
+class SolutionTony:
+    def possibleBipartition(self, n, dislikes):
+        graph = collections.defaultdict(list)
+        for u, v in dislikes:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        table = {}
+
+        def dfs(node, color):
+            if node in table:
+                return table[node] == color
+
+            table[node] = color
+            for nei in graph[node]:
+                if not dfs(nei, -color):
+                    return False
+            return True
+
+        for node in range(1, n + 1):
+            if node in table:
+                continue
+            if not dfs(node, 1):
+                return False
+        return True
+
+
+
+class SolutionDFS:
     def possibleBipartition(self, N: int, dislikes) -> bool:
         graph = collections.defaultdict(list)
         for u, v in dislikes:

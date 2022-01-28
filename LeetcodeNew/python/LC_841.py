@@ -1,4 +1,19 @@
 
+class SolutionTony:
+    def canVisitAllRooms(self, rooms):
+
+        n = len(rooms)
+        def dfs(node, visited):
+            visited.add(node)
+            for nei in rooms[node]:
+                if nei not in visited:
+                    dfs(nei, visited)
+
+        visited = set()
+        dfs(0, visited)
+        return len(visited) == n
+
+
 
 class Solution:
     def canVisitAllRooms(self, rooms) -> bool:

@@ -22,30 +22,70 @@ class SolutionUF:
         self.parent = {}
         self.rank = {}
 
-        for char in A:
-            self.parent[char] = char
-            self.rank[char] = 1
+        for ch in A:
+            self.parent[ch] = ch
+            self.rank[ch] = 1
 
         for i in range(len(A)):
             for j in range(i+1, len(A)):
                 if self.similar(A[i], A[j]):
                     self.union(A[i], A[j])
 
-        return len(set(self.find(char) for char in A))
+        return len(set(self.find(ch) for ch in A))
 
 
 class SolutionDFS:
+    def numSimilarGroups(self, strs) -> int:
+
+        graph = collections.defaultdict(list)
+        n = len(strs)
+
+        def similar(word1, word2):
+            count = 0
+            for i in range(len(word1)):
+                if word1[i] != word2[i]:
+                    count += 1
+                    if count > 2:
+                        return False
+            return True
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                if similar(strs[i], strs[j]):
+                    graph[i].append(j)
+                    graph[j].append(i)
+
+        visited = [False] * n
+
+        def dfs(node):
+            visited[node] = True
+            for nei in graph[node]:
+                if not visited[nei]:
+                    dfs(nei)
+
+        res = 0
+        for i in range(n):
+            if not visited[i]:
+                dfs(i)
+                res += 1
+        return res
+
+
+
+
+class SolutionDFS2:
     def numSimilarGroups(self, A):
         graph = collections.defaultdict(list)
-        for i in range(len(A)):
-            for j in range(i + 1, len(A)):
+        n = len(A)
+        for i in range(n):
+            for j in range(i + 1, n):
                 if self.similar(A[i], A[j]):
                     graph[i].append(j)
                     graph[j].append(i)
 
-        visited = [False] * len(A)
+        visited = [False] * n
         res = 0
-        for i in range(len(A)):
+        for i in range(n):
             if not visited[i]:
                 self.dfs(A, i, visited, graph)
                 res += 1
@@ -61,9 +101,9 @@ class SolutionDFS:
                     return False
         return True
 
-    def dfs(self, A, i, visited, graph):
-        visited[i] = True
-        for nei in graph[i]:
+    def dfs(self, A, node, visited, graph):
+        visited[node] = True
+        for nei in graph[node]:
             if not visited[nei]:
                 self.dfs(A, nei, visited, graph)
 

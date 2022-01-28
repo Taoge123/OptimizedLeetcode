@@ -104,10 +104,57 @@ class SolutionBetter:
 
 
 
+class SolutionDFS:
+    def minMalwareSpread(self, graph, initial):
+
+        rank = collections.defaultdict(list)
+        initial = set(initial)
+
+        def dfs(i):
+            visited.add(i)
+            for j in range(len(graph[i])):
+                if j in visited:
+                    continue
+                if graph[i][j]:
+                    dfs(j)
+
+        for node in sorted(initial):
+            visited = set()
+            dfs(node)
+            if visited & initial == {node}:
+                rank[len(visited)].append(node)
+        if rank:
+            return rank[max(rank)][0]
+        return min(initial)
 
 
 
+class SolutionDFS2:
+    def minMalwareSpread(self, graph, initial):
 
+        def dfs(node):
+            visited.add(node)
+            for nei, val in enumerate(graph[node]):
+                if nei in visited:
+                    continue
+                if val == 1:
+                    dfs(nei)
+
+        min_infected = float("+inf")
+        best_node = -1
+
+        for node_removed in sorted(initial):
+            visited = set()
+            for node in initial:
+                if node == node_removed:
+                    continue
+                if node not in visited:
+                    dfs(node)
+            if len(visited) < min_infected:
+                min_infected = len(visited)
+                best_node = node_removed
+
+        return best_node
 
 
 

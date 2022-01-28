@@ -62,42 +62,83 @@ class SolutionTLE:
 
 
 
-
-class SolutionLee:
+class SolutionDFS:
     def largestIsland(self, grid):
         n = len(grid)
 
-        def move(x, y):
-            for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                if 0 <= x + i < n and 0 <= y + j < n:
-                    yield x + i, y + j
+        def move(i , j):
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                if 0 <= i + dx < n and 0 <= j + dy < n:
+                    yield i + dx, j + dy
 
-        def dfs(x, y, index):
+        def dfs(i, j, index):
             res = 0
-            grid[x][y] = index
-            for i, j in move(x, y):
-                if grid[i][j] == 1:
-                    res += dfs(i, j, index)
+            grid[i][j] = index
+            for x, y in move(i, j):
+                if grid[x][y] == 1:
+                    res += dfs(x, y, index)
             return res + 1
 
         # DFS every island and give it an index of island
         index = 2
         areas = {0: 0}
-        for x in range(n):
-            for y in range(n):
-                if grid[x][y] == 1:
-                    areas[index] = dfs(x, y, index)
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    areas[index] = dfs(i, j, index)
                     index += 1
 
         # traverse every 0 cell and count biggest island it can conntect
         res = max(areas.values())
-        for x in range(n):
-            for y in range(n):
-                if grid[x][y] == 0:
-                    possible = set(grid[i][j] for i, j in move(x, y))
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    possible = set(grid[x][y] for x, y in move(i, j))
                     res = max(res, sum(areas[index] for index in possible) + 1)
         return res
 
 
+
+
+class SolutionTonyIncorrect:
+    def largestIsland(self, grid):
+
+        n = len(grid)
+
+        def dfs(i, j, idx):
+            res = 0
+            grid[i][j] = idx
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= n or y < 0 or y >= n:
+                    continue
+                if grid[i][j] == 1:
+                    res += dfs(x, y, idx)
+            # plus itself
+            return res + 1
+
+        # DFS
+        idx = 2
+        table = {0: 0}
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    table[idx] = dfs(i, j, idx)
+                    idx += 1
+
+        res = max(table.values())
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 0:
+                    possible = set()
+                    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                        x = i + dx
+                        y = j + dy
+                        if x < 0 or x >= n or y < 0 or y >= n:
+                            continue
+                        possible.add(grid[x][y])
+                    res = max(res, sum(table[idx] for idx in possible) + 1)
+        return res
 
 
