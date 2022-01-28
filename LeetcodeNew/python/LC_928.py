@@ -119,13 +119,13 @@ class SolutionDFS:
 
         # For each node u in initial, for every v not in initial
         # that is uniquely infected by u, add 1 to the contribution for u.
+        # v是all clean nodes， nei是initial的nodes， 如果v正好只被一个nei影响，说明可以
         contribution = collections.defaultdict(int)
         for v, nei in infected_by.items():
             if len(nei) == 1:
                 contribution[nei[0]] += 1
 
         # Take the best answer.
-        # best = (-1, min(initial))
         maxi = -1
         res = min(initial)
         for node, score in contribution.items():
@@ -133,7 +133,6 @@ class SolutionDFS:
                 maxi = score
                 res = node
         return res
-
 
 
 
