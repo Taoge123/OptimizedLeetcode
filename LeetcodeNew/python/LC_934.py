@@ -1,4 +1,59 @@
+"""
+https://leetcode.com/problems/shortest-bridge/discuss/1467748/Clean-Python-solution(BFS-and-DFS)
+
+"""
+
+
+
 import collections
+
+
+class SolutionDFS:
+    def shortestBridge(self, grid):
+
+        m, n = len(grid), len(grid[0])
+        queue = collections.deque()
+
+        def dfs(i, j):
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != 1:
+                return
+
+            grid[i][j] = 2
+            queue.append([i, j])
+            for dx, dy in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+                x = i + dx
+                y = j + dy
+                dfs(x, y)
+
+        def first():
+            for i in range(m):
+                for j in range(n):
+                    if grid[i][j] == 1:
+                        return [i, j]
+
+        row, column = first()
+        dfs(row, column)
+        res = 0
+        while queue:
+            size = len(queue)
+            for _ in range(size):
+                i, j = queue.popleft()
+                # if grid[i][j] == 1:
+                #     return res
+                for dx, dy in [(0, 1), (1, 0), (-1, 0), (0, -1)]:
+                    x = i + dx
+                    y = j + dy
+
+                    if x < 0 or x >= m or y < 0 or y >= n:
+                        continue
+                    if grid[x][y] == 0:
+                        grid[x][y] = 3
+                        queue.append([x, y])
+                    elif grid[x][y] == 1:
+                        return res
+            res += 1
+
+
 
 
 class Solution:

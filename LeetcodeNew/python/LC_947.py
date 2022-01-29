@@ -6,10 +6,10 @@ https://leetcode.com/problems/redundant-connection/
 765. Couples Holding Hands
 947. Most Stones Removed with Same Row or Column
 
-
-
-
 """
+
+import collections
+
 
 
 class UnionFind:
@@ -72,6 +72,38 @@ class Solution2:
             dsu.union(x, y + 10000)
 
         return N - len({dsu.find(x) for x, y in stones})
+
+
+
+
+class SolutionDFS:
+    def removeStones(self, stones):
+        rows = collections.defaultdict(list)
+        cols = collections.defaultdict(list)
+        for i, j in stones:
+            rows[i].append(j)
+            cols[j].append(i)
+
+        visited = set()
+
+        def dfs(i, j):
+            for col in rows[i]:
+                if (i, col) not in visited:
+                    visited.add((i, col))
+                    dfs(i, col)
+
+            for row in cols[j]:
+                if (row, j) not in visited:
+                    visited.add((row, j))
+                    dfs(row, j)
+
+        islands = 0
+        for i, j in stones:
+            if (i, j) not in visited:
+                islands += 1
+                dfs(i, j)
+
+        return len(stones) - islands
 
 
 

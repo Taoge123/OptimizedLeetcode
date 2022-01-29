@@ -1,10 +1,81 @@
 """
 https://www.youtube.com/watch?v=zcbFn8DH0PU
 https://buptwc.com/2019/05/02/Leetcode-1034-Coloring-A-Border/
+https://leetcode-cn.com/problems/coloring-a-border/solution/dfs-xun-zhao-bian-jie-bing-ran-se-by-mei-21f8/
+
+
+首先理解题意：找到连通分量的边界进行着色。
+
+连通分量：“颜色相同” 且 “相邻” 的网格块组成的整体
+边界：两个判断条件：
+1）在网格的边界上（网格最外围的一圈）；
+2）如果不在网格边界，那么必然四个方向都有网格块，这四个网格块只要有一个与当前网格块颜色不同，那么该网格也是边界网格块
+理解完题意就可以发现这就是一个简单的 dfs/bfs 题目，直接开始全文背诵（dfs版本）
+
+
+
 """
 
+class SolutionDFS11:
+    def colorBorder(self, grid, row, col, color):
+        m, n = len(grid), len(grid[0])
+        # 记录连通分量的颜色
+        precolor = grid[row][col]
+        visited = set()
 
-class Solution:
+        def dfs(i, j):
+            if (i, j) in visited:
+                return
+            visited.add((i, j))
+            # 自己在边界的时候给自己染色（边界判断条件1）
+            if i in [0, m - 1] or j in [0, n - 1]:
+                grid[i][j] = color
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n or (x, y) in visited:
+                    continue
+                # 相邻存在颜色不同的块（边界判断条件2
+                if grid[x][y] != precolor:
+                    grid[i][j] = color
+                # 颜色相同才继续 dfs，如果不在这里判断就在第一行加上另一个判断条件
+                else:
+                    dfs(x, y)
+
+        dfs(row, col)
+        return grid
+
+
+
+class SolutionDFS2:
+    def colorBorder(self, grid, row, col, color):
+        visited = set()
+        m, n = len(grid), len(grid[0])
+
+        def dfs(i, j):
+            if (i, j) in visited:
+                return True
+
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != grid[row][col]:
+                return False
+
+            visited.add((i, j))
+            count = 0
+            for dx, dy in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
+                x = i + dx
+                y = j + dy
+                count += dfs(x, y)
+            if count < 4:
+                grid[i][j] = color
+            return True
+
+        dfs(row, col)
+        return grid
+
+
+
+class SolutionDFS1:
     def colorBorder(self, grid, r0, c0, color):
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
         m, n = len(grid), len(grid[0])

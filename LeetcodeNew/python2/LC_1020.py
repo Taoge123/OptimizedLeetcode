@@ -7,60 +7,44 @@
 
 import collections
 
-class Solution:
-    def numEnclaves(self, A) -> int:
-        m, n = len(A), len(A[0])
+
+class SolutionTonyDFS:
+    def numEnclaves(self, grid):
+        m, n = len(grid), len(grid[0])
+
+        def dfs(i, j):
+            grid[i][j] = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n or grid[x][y] != 1:
+                    continue
+                dfs(x, y)
+
         for i in range(m):
             for j in range(n):
-                if A[i][j] == 1 and (i == 0 or j == 0 or i == m - 1 or j == n - 1):
-                    self.dfs(A, i, j)
-        return sum(sum(row) for row in A)
-
-    def dfs(self, A, i, j):
-        m, n = len(A), len(A[0])
-        A[i][j] = 0
-        for x, y in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
-            if x >= 0 and x < m and y >= 0 and y < n and A[x][y]:
-                self.dfs(A, x, y)
+                if grid[i][j] == 1 and (i == 0 or j == 0 or i == m - 1 or j == n - 1):
+                    dfs(i, j)
+        return sum(sum(row) for row in grid)
 
 
 
-class SolutionBFS2:
-    def numEnclaves(self, A) -> int:
-        res = sum(map(sum, A))
-        m, n = len(A), len(A[0])
-        land = []
+class SolutionDFS:
+    def numEnclaves(self, grid):
+        m, n = len(grid), len(grid[0])
         for i in range(m):
-            if A[i][0]:
-                A[i][0] = 0
-                land.append([i, 0])
+            for j in range(n):
+                if grid[i][j] == 1 and (i == 0 or j == 0 or i == m - 1 or j == n - 1):
+                    self.dfs(grid, i, j)
+        return sum(sum(row) for row in grid)
 
-            if A[i][n - 1]:
-                A[i][n - 1] = 0
-                land.append([i, n - 1])
+    def dfs(self, grid, i, j):
+        m, n = len(grid), len(grid[0])
+        grid[i][j] = 0
+        for x, y in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
+            if x >= 0 and x < m and y >= 0 and y < n and grid[x][y]:
+                self.dfs(grid, x, y)
 
-        for j in range(n):
-            if A[0][j]:
-                A[0][j] = 0
-                land.append([0, j])
-            if A[m - 1][j]:
-                A[m - 1][j] = 0
-                land.append([m - 1, j])
-
-        res -= len(land)
-
-        while land:
-            land2 = []
-            for x0, y0 in land:
-                for i, j in [[1, 0], [-1, 0], [0, -1], [0, 1]]:
-                    x = x0 + i
-                    y = y0 + j
-                    if x >= 0 and x < m and y >= 0 and y < n and A[x][y]:
-                        A[x][y] = 0
-                        land2.append([x, y])
-            land = land2
-            res -= len(land)
-        return res
 
 
 

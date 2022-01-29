@@ -1,4 +1,9 @@
 """
+https://leetcode.com/problems/regions-cut-by-slashes/discuss/205674/DFS-on-upscaled-grid
+https://leetcode.com/problems/regions-cut-by-slashes/discuss/205719/Mark-the-boundary-and-then-the-problem-become-Number-of-Islands-(dfs-or-bfs)
+https://leetcode.com/problems/regions-cut-by-slashes/discuss/367154/Python-readable-DFS-on-upscaled-grid
+
+
 Split a cell in to 4 parts like this.
 We give it a number top is 1, right is 2, bottom is 3 left is 4.
 
@@ -57,6 +62,43 @@ class SolutionUF:
 
         return self.count
 
+
+
+
+class SolutionDFS2:
+    def regionsBySlashes(self, grid):
+        n = len(grid)
+        matrix = [[0 for i in range(n * 3)] for j in range(n * 3)]
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == '/':
+                    matrix[i * 3 + 0][j * 3 + 2] = 1
+                    matrix[i * 3 + 1][j * 3 + 1] = 1
+                    matrix[i * 3 + 2][j * 3 + 0] = 1
+                elif grid[i][j] == '\\':
+                    matrix[i * 3 + 0][j * 3 + 0] = 1
+                    matrix[i * 3 + 1][j * 3 + 1] = 1
+                    matrix[i * 3 + 2][j * 3 + 2] = 1
+        count = 0
+        def dfs(i, j):
+            n = len(matrix)
+            if i < 0 or i >= n or j < 0 or j >= n:
+                return
+            if matrix[i][j] != 0:
+                return
+            matrix[i][j] = 2
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                dfs(x, y)
+
+        for i in range(n * 3):
+            for j in range(n * 3):
+                if matrix[i][j] == 0:
+                    dfs(i, j)
+                    count += 1
+
+        return count
 
 
 
