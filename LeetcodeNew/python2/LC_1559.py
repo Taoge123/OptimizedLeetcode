@@ -11,7 +11,6 @@ import collections
 class SolutionDFS:
     def containsCycle(self, grid):
         m, n = len(grid), len(grid[0])
-        visited = set()
 
         def dfs(i, j, pi, pj):
             visited.add((i, j))
@@ -28,6 +27,7 @@ class SolutionDFS:
                     return True
             return False
 
+        visited = set()
         for i in range(m):
             for j in range(n):
                 if (i, j) in visited:
