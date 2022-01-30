@@ -1,3 +1,39 @@
+
+
+class SolutionDFS:
+    def closedIsland(self, grid) -> int:
+        m, n = len(grid), len(grid[0])
+        res = 0
+
+        def dfs(i, j):
+            # reach perimeter, then return 1, so this is not a closed island
+            if i < 0 or j < 0 or i >= m or j >= n:
+                return 1
+
+            if grid[i][j] != 0:
+                return 0
+
+            grid[i][j] = -1
+
+            res = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                res += dfs(x, y)
+
+            return res
+
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] != 0:
+                    continue
+                if dfs(i, j) == 0:
+                    res += 1
+        return res
+
+
+
+
 class SolutionTony:
     def closedIsland(self, grid) -> int:
         m, n = len(grid), len(grid[0])

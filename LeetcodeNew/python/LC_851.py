@@ -1,3 +1,11 @@
+
+"""
+https://www.youtube.com/watch?v=1LI5OT4Qyxc&t=241s
+https://screenshot.googleplex.com/vMaWAZ4R8tKX2v7
+
+"""
+
+
 class Solution:
     def loudAndRich(self, richer, quiet):
         n = len(quiet)
