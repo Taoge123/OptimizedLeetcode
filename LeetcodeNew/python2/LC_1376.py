@@ -1,6 +1,25 @@
 
 import collections
 
+
+class SolutionTonyDFS:
+    def numOfMinutes(self, n, headID, manager, informTime):
+
+        graph = collections.defaultdict(list)
+        for i in range(len(manager)):
+            graph[manager[i]].append(i)
+
+        self.res = 0
+        def dfs(node, time):
+            self.res = max(self.res, time)
+            for nei in graph[node]:
+                dfs(nei, time + informTime[node])
+
+        dfs(headID, 0)
+        return self.res
+
+
+
 class SolutionTony:
     def numOfMinutes(self, n: int, headID: int, manager, informTime):
 
