@@ -7,6 +7,39 @@
 
 import collections
 
+
+class SolutionDFS:
+    def containsCycle(self, grid):
+        m, n = len(grid), len(grid[0])
+        visited = set()
+
+        def dfs(i, j, pi, pj):
+            visited.add((i, j))
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                if x < 0 or x >= m or y < 0 or y >= n:
+                    continue
+                if grid[x][y] != grid[i][j]:
+                    continue
+                if x == pi and y == pj:
+                    continue
+                if (x, y) in visited or dfs(x, y, i, j):
+                    return True
+            return False
+
+        for i in range(m):
+            for j in range(n):
+                if (i, j) in visited:
+                    continue
+                if dfs(i, j, -1, -1):
+                    return True
+        return False
+
+
+
+
+
 class Solution:
     def containsCycle(self, grid) -> bool:
         m, n = len(grid), len(grid[0])
