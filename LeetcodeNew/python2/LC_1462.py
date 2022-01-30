@@ -1,4 +1,30 @@
 import collections
+import functools
+
+
+class SolutionMemo:
+    def checkIfPrerequisite(self, numCourses, prerequisites, queries):
+
+        graph = collections.defaultdict(list)
+        for u, v in prerequisites:
+            graph[u].append(v)
+
+        @functools.lru_cache(None)
+        def dfs(node, target):
+            if node == target:
+                return True
+
+            for nei in graph[node]:
+                if dfs(nei, target):
+                    return True
+            return False
+
+        res = []
+        for u, v in queries:
+            res.append(dfs(u, v))
+        return res
+
+
 
 
 class SolutionDP:
