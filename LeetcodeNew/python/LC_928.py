@@ -96,13 +96,13 @@ class SolutionDFS:
         clean = set(range(n)) - set(initial)
 
         def dfs(node):
+            visited.add(node)
             for nei, adj in enumerate(graph[node]):
                 if nei not in clean:
                     continue
                 if nei in visited:
                     continue
                 if adj:
-                    visited.add(nei)
                     dfs(nei)
 
         # For each node u in initial, dfs to find
@@ -133,6 +133,7 @@ class SolutionDFS:
                 maxi = score
                 res = node
         return res
+
 
 
 

@@ -26,7 +26,7 @@ class Solution:
 
 
 class Solution2:
-    def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+    def crawl(self, startUrl: str, htmlParser: 'HtmlParser'):
         hostname = startUrl[:startUrl.find('/', startUrl.find('//') + 2)]
         queue = collections.deque()
         queue.append(startUrl)

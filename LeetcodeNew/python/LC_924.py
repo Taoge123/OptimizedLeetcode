@@ -103,6 +103,42 @@ class SolutionBetter:
                 return i
 
 
+"""
+必须正着求， 反过来不行， 删除0或者1都没用
+[[1,1,0],[1,1,0],[0,0,1]]
+[0,1,2]
+
+"""
+
+class SolutionDFS2:
+    def minMalwareSpread(self, graph, initial):
+
+        def dfs(node):
+            visited.add(node)
+            for nei, val in enumerate(graph[node]):
+                if nei in visited:
+                    continue
+                if val == 1:
+                    dfs(nei)
+
+        min_infected = float("+inf")
+        best_node = -1
+
+        for node_removed in sorted(initial):
+            visited = set()
+            for node in initial:
+                if node == node_removed:
+                    continue
+                if node in visited:
+                    continue
+                dfs(node)
+            if len(visited) < min_infected:
+                min_infected = len(visited)
+                best_node = node_removed
+
+        return best_node
+
+
 
 class SolutionDFS:
     def minMalwareSpread(self, graph, initial):
@@ -129,32 +165,6 @@ class SolutionDFS:
 
 
 
-class SolutionDFS2:
-    def minMalwareSpread(self, graph, initial):
-
-        def dfs(node):
-            visited.add(node)
-            for nei, val in enumerate(graph[node]):
-                if nei in visited:
-                    continue
-                if val == 1:
-                    dfs(nei)
-
-        min_infected = float("+inf")
-        best_node = -1
-
-        for node_removed in sorted(initial):
-            visited = set()
-            for node in initial:
-                if node == node_removed:
-                    continue
-                if node not in visited:
-                    dfs(node)
-            if len(visited) < min_infected:
-                min_infected = len(visited)
-                best_node = node_removed
-
-        return best_node
 
 
 
