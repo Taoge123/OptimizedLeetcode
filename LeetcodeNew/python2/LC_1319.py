@@ -1,3 +1,10 @@
+"""
+Find how many connected components, then we just need n-1 edges to connect them
+
+
+"""
+
+
 import collections
 
 class Solution:
@@ -8,7 +15,6 @@ class Solution:
         visited = set()
         graph = collections.defaultdict(list)
 
-        count = 0
         for u, v in connections:
             graph[u].append(v)
             graph[v].append(u)
@@ -20,6 +26,8 @@ class Solution:
                     continue
                 dfs(nei)
 
+        # 逐个node排查，找出联通子图个数
+        count = 0
         for node in range(n):
             if node in visited:
                 continue
