@@ -1,5 +1,25 @@
 import collections
 
+class SolutionTony:
+    def canReach(self, arr, start):
+        def dfs(node):
+            if node < 0 or node >= len(arr):
+                return False
+            if arr[node] == 0:
+                return True
+            if node in visited:
+                return False
+            visited.add(node)
+            prev = node - arr[node]
+            nxt = node + arr[node]
+            return dfs(prev) or dfs(nxt)
+
+        visited = set()
+        return dfs(start)
+
+
+
+
 class SolutionDFS:
     def canReach(self, arr, start: int) -> bool:
         self.visited = [0] * 50001

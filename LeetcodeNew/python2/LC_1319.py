@@ -1,3 +1,35 @@
+import collections
+
+class Solution:
+    def makeConnected(self, n, connections):
+        if len(connections) < n - 1:
+            return -1
+
+        visited = set()
+        graph = collections.defaultdict(list)
+
+        count = 0
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        def dfs(node):
+            visited.add(node)
+            for nei in graph[node]:
+                if nei in visited:
+                    continue
+                dfs(nei)
+
+        for node in range(n):
+            if node in visited:
+                continue
+            dfs(node)
+            count += 1
+        return count - 1
+
+
+
+
 class UnionFind:
     def __init__(self):
         self.parent = {}
