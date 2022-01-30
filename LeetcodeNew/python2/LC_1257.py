@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/smallest-common-region/discuss/879603/python-LCA-recursive-solution.
+
            A
      B     C      D
   E   F  G  H   I   J
