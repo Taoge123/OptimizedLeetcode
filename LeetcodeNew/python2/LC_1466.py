@@ -1,7 +1,39 @@
+"""
+https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/discuss/661774/Python3-Easy-Short-DFS
+
+"""
+
+
 import collections
 
 
-class Solution:
+class SolutionDFS:
+    def minReorder(self, n: int, connections):
+
+        self.res = 0
+        roads = set()
+        graph = collections.defaultdict(list)
+
+        for u, v in connections:
+            roads.add((u, v))
+            graph[u].append(v)
+            graph[v].append(u)
+
+        def dfs(node, parent):
+            if (parent, node) in roads:
+                self.res += 1
+
+            for nei in graph[node]:
+                if nei == parent:
+                    continue
+                dfs(nei, node)
+
+        dfs(0, -1)
+        return self.res
+
+
+
+class SolutionBFS:
     def minReorder(self, n: int, connections) -> int:
         graph = collections.defaultdict(list)
         for u, v in connections:
