@@ -63,6 +63,41 @@ class SolutionDFS:
 
 
 
+class SolutionDFS2:
+    def hasValidPath(self, grid):
+
+        up, down, left, right = (-1, 0), (1, 0), (0, -1), (0, 1)
+
+        m, n = len(grid), len(grid[0])
+
+        directions = {1: {left: left, right: right}, 2: {up: up, down: down}, 3: {right: down, up: left},
+                      4: {left: down, up: right}, 5: {right: up, down: left}, 6: {down: right, left: up}}
+        visited = set()
+
+        def dfs(i, j):
+            if i == m - 1 and j == n - 1:
+                return True
+
+            visited.add((i, j))
+            for dx, dy in directions[grid[i][j]].values():
+                print(grid[i][j], dx, dy)
+                x = i + dx
+                y = j + dy
+                if (x, y) in visited:
+                    continue
+                if x < 0 or x >= m or y < 0 or y >= n:
+                    continue
+                if (dx, dy) in directions[grid[x][y]]:
+                    if dfs(x, y):
+                        return True
+
+            return False
+
+        return dfs(0, 0)
+
+
+
+
 class SolutionBFS:
     def hasValidPath(self, grid) -> bool:
         m, n = len(grid), len(grid[0])
