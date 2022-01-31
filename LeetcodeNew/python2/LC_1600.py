@@ -1,5 +1,32 @@
 import collections
 
+class ThroneInheritance_DFS:
+
+    def __init__(self, kingName: str):
+        self.children = collections.defaultdict(list)
+        self.death_ = set()
+        self.kingName = kingName
+
+    def birth(self, parentName: str, childName: str) -> None:
+        self.children[parentName].append(childName)
+
+    def death(self, name: str) -> None:
+        self.death_.add(name)
+
+    def getInheritanceOrder(self):
+        res = []
+        def dfs(node):
+            if node not in self.death_:
+                res.append(node)
+
+            for nei in self.children[node]:
+                dfs(nei)
+
+        dfs(self.kingName)
+        return res
+
+
+
 class ThroneInheritance:
 
     def __init__(self, kingName: str):

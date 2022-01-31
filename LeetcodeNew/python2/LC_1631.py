@@ -2,6 +2,38 @@ import collections
 import heapq
 
 
+class SolutionDFS:
+    def minimumEffortPath(self, heights):
+
+        m, n = len(heights), len(heights[0])
+        def dfs(i, j, pre, limit):
+            if (i, j) in visited:
+                return False
+            if i < 0 or j < 0 or i >= m or j >= n or abs(heights[i][j] - pre) > limit:
+                return False
+            if i == m - 1 and j == n - 1:
+                return True
+            visited.add((i, j))
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i + dx
+                y = j + dy
+                if dfs(x, y, heights[i][j], limit):
+                    return True
+            return False
+
+        left, right = 0, 10 ** 6
+        while left <= right:
+            visited = set()
+            mid = (left + right) // 2
+            if dfs(0, 0, heights[0][0], mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return left
+
+
+
 class Solution:
     def minimumEffortPath(self, heights) -> int:
         self.directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
