@@ -1,5 +1,10 @@
 
 """
+Similar with -> 803
+https://leetcode.com/problems/bricks-falling-when-hit/
+
+
+
 https://leetcode.com/problems/last-day-where-you-can-still-cross/discuss/1507572/Python-Binary-Search-and-DFS
 https://leetcode-cn.com/problems/last-day-where-you-can-still-cross/solution/ni-neng-chuan-guo-ju-zhen-de-zui-hou-yi-9j20y/
 https://leetcode.com/problems/last-day-where-you-can-still-cross/discuss/1403949/Python3.-Binary-search-%2B-dfs

@@ -34,11 +34,11 @@ class Solution:
         self.dfs(graph, start, res)
         return res[::-1]
 
-    def dfs(self, graph, start, res):
-        while graph[start]:
-            node = heapq.heappop(graph[start])
-            self.dfs(graph, node, res)
-        res.append(start)
+    def dfs(self, graph, node, res):
+        while graph[node]:
+            nei = heapq.heappop(graph[node])
+            self.dfs(graph, nei, res)
+        res.append(node)
 
 
 
