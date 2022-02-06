@@ -16,6 +16,34 @@ https://leetcode-cn.com/problems/coloring-a-border/solution/dfs-xun-zhao-bian-ji
 
 """
 
+
+class SolutionRika:
+    def colorBorder(self, grid, row: int, col: int, color: int):
+        # 给一个起始位置和要涂成的颜色 --> 把相邻的同一个色块的边界涂成该颜色 --> 返回 grid
+        # 注意 只涂 boundary
+        m, n = len(grid), len(grid[0])
+
+        visited = set()
+        self.dfs(grid, m, n, row, col, color, grid[row][col], visited)
+
+        return grid
+
+    def dfs(self, grid, m, n, i, j, color, org_color, visited):
+
+        if i == 0 or i == m - 1 or j == 0 or j == n - 1:
+            grid[i][j] = color
+        visited.add((i, j))
+        for dx, dy in (1, 0), (0, 1), (-1, 0), (0, -1):
+            x = i + dx
+            y = j + dy
+            if 0 <= x < m and 0 <= y < n and (x, y) not in visited:
+                if grid[x][y] == org_color:
+                    self.dfs(grid, m, n, x, y, color, org_color, visited)
+                else:
+                    grid[i][j] = color
+
+
+
 class SolutionDFS11:
     def colorBorder(self, grid, row, col, color):
         m, n = len(grid), len(grid[0])
