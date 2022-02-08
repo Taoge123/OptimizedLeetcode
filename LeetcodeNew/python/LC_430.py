@@ -77,6 +77,7 @@ class SolutionWisdom:
         else:
             return node
 
+
 class Solution:
     def flatten(self, head):
         if not head:
