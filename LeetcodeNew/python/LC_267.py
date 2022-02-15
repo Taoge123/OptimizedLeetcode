@@ -45,4 +45,35 @@ class Solution:
 
 
 
+class SolutionRika:
+    def generatePalindromes(self, s: str):
 
+        count = collections.defaultdict(int)
+        for ch in s:
+            count[ch] += 1
+
+        odds = 0
+        self.odd_char = ""
+        for k, v in count.items():
+            if v % 2 == 1:
+                odds += 1
+                self.odd_char = k
+
+            if odds > 1:
+                return []
+        res = []
+        self.dfs(s, count, '', res)
+
+        return res
+
+    def dfs(self, s, count, path, res):
+
+        if len(path) == len(s) // 2:
+            res.append(path + self.odd_char + path[::-1])
+            return res
+
+        for ch, v in count.items():
+            if v >= 2:
+                count[ch] -= 2
+                self.dfs(s, count, path + ch, res)
+                count[ch] += 2

@@ -31,6 +31,24 @@ class Solution:
 
 
 
+class SolutionRika:
+    def restoreIpAddresses(self, s: str):
+
+        res = []
+        path = ''
+        self.dfs(s, 0, path, res)
+        return res
+
+    def dfs(self, s, pos, path, res):
+        if pos == 4 and not s:
+            res.append(path[:-1])
+            return
+
+        for i in range(1, min(4, len(s) + 1)):
+            if (i == 1 or s[0] != "0") and int(s[:i]) <= 255:
+                self.dfs(s[i:], pos + 1, path + s[:i] + ".", res)
+
+
 
 class Solution2:
     def restoreIpAddresses(self, s: str):
