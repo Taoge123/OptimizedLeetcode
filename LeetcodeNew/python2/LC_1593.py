@@ -1,3 +1,28 @@
+class SolutionTony:
+    def maxUniqueSplit(self, s: str) -> int:
+
+        n = len(s)
+        self.res = 0
+
+        def dfs(s, i, path, visited):
+            # print(i, path, len(path))
+            if i >= n:
+                self.res = max(self.res, len(path))
+                return
+
+            for j in range(i + 1, n + 1):
+                if s[i:j] in visited:
+                    continue
+                visited.add(s[i:j])
+                dfs(s, j, path + [s[i:j]], visited)
+                visited.remove(s[i:j])
+
+        visited = set()
+        dfs(s, 0, [], visited)
+        return self.res
+
+
+
 
 class Solution:
     def maxUniqueSplit(self, s: str) -> int:

@@ -1,4 +1,6 @@
 """
+https://www.youtube.com/watch?v=beVpSBo7FZk&t=268s
+
 https://leetcode.com/problems/maximum-number-of-accepted-invitations/discuss/1700939/Python-Hungarian-algorithm
 https://leetcode.com/problems/maximum-number-of-accepted-invitations/discuss/1149870/C%2B%2B-Hungrian-algorithm-(DFS-version)-w-introduction
 https://leetcode.com/problems/maximum-number-of-accepted-invitations/discuss/1148032/Python-A-very-simple-Hungarian-implementation
@@ -17,18 +19,44 @@ If we are not able to find such an augmenting path for this starting point A , i
 
 import collections
 
+
+class SolutionTony:
+    def maximumInvitations(self, grid):
+        m, n = len(grid), len(grid[0])
+        girls = [-1] * n
+
+        def dfs(u, visited):
+            for v in range(n):
+                if grid[u][v] == 0 or v in visited:
+                    continue
+                visited.add(v)
+                if girls[v] < 0 or dfs(girls[v], visited):
+                    girls[v] = u
+                    return True
+            return False
+
+        count = 0
+        for u in range(m):
+            visited = set()
+            if dfs(u, visited):
+                count += 1
+        return count
+
+
+
+
 class SolutionHungarian1:
     def maximumInvitations(self, grid):
 
         m, n = len(grid), len(grid[0])
-        matched = [-1] * ( m +n)
+        matched = [-1] * (m+n)
         graph = collections.defaultdict(list)
 
         for boy in range(m):
             for girl in range(n):
                 if grid[boy][girl]:
-                    graph[boy].append( m +girl)
-                    graph[ m +girl].append(boy)
+                    graph[boy].append(m+girl)
+                    graph[m+girl].append(boy)
 
         def dfs(node, visited):
             for nei in graph[node]:
@@ -41,9 +69,8 @@ class SolutionHungarian1:
                     return True
             return False
 
-
         res = 0
-        for node in range( m +n):
+        for node in range(m+n):
             if matched[node] < 0 and dfs(node, set()):
                 res += 1
         return res
@@ -75,3 +102,5 @@ class SolutionHungarian2:
                 res += 1
 
         return res
+
+
