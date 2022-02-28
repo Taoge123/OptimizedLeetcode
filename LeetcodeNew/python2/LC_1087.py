@@ -14,6 +14,75 @@ import collections
 
 """
 
+
+class SolutionRika:
+    def expand(self, s: str):
+        res = []
+        self.dfs(s, 0, "", res)
+        res = sorted(res)
+        return res
+
+    def dfs(self, s, i, path, res):
+
+        if i >= len(s):
+            res.append(path)
+            return
+
+        if s[i] == '{':
+            end = s.find('}', i)
+            for j in range(i + 1, end):
+                if not s[j].isalpha():
+                    continue
+                self.dfs(s, end + 1, path + s[j], res)
+        else:
+            self.dfs(s, i + 1, path + s[i], res)
+
+
+
+
+class SolutionTonnie:
+    def expand(self, S: str):
+
+        table = []
+        start = None
+        # 建一个list of list
+        for ch in S:
+            if ch == '{':
+                start = True
+                table.append([])
+                continue
+            if ch == '}':
+                start = False
+                continue
+
+            if start:
+                if ch == ',':
+                    continue
+                table[-1].append(ch)
+            else:
+                table.append(ch)
+
+        n = len(table)
+        def dfs(i, path, res):
+            if i >= n:
+                res.append(path)
+                return
+
+            # loop all chars if we see
+            if isinstance(table[i], list):
+                print(table[i])
+                for ch in table[i]:
+                    dfs(i + 1, path + ch, res)
+            else:
+                dfs(i + 1, path + table[i], res)
+
+        res = []
+        dfs(0, "", res)
+        return sorted(res)
+
+
+
+
 class Solution:
     def expand(self, S: str):
         queue = collections.deque([""])

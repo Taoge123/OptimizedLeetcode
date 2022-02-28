@@ -1,5 +1,79 @@
+"""
+491 https://leetcode.com/problems/increasing-subsequences/
+
+"""
+
 import itertools
 import collections
+
+
+class SolutionRika:
+    def numTilePossibilities(self, tiles: str) -> int:
+        # subset + permutation
+        res = []
+        tiles = sorted(list(tiles))
+        tiles = ''.join(tiles)
+        self.dfs(tiles, "", res)
+        return len(res) - 1
+
+    def dfs(self, s, path, res):
+        res.append(path)
+        visited = set()
+        for i in range(len(s)):
+            if s[i] in visited:
+                continue
+            visited.add(s[i])
+            self.dfs(s[:i] + s[i + 1:], path + s[i], res)
+
+
+
+class SolutionRika2:
+    def numTilePossibilities(self, tiles: str) -> int:
+        # subset + permutation
+
+        self.res = 0
+        tiles = sorted(list(tiles))
+        tiles = ''.join(tiles)
+        self.dfs(tiles)
+        return self.res - 1
+
+    def dfs(self, s):
+
+        self.res += 1
+
+        visited = set()
+        for i in range(len(s)):
+            if s[i] in visited:
+                continue
+            visited.add(s[i])
+            self.dfs(s[:i] + s[i + 1:])
+
+
+class Solution3:
+    def numTilePossibilities(self, tiles: str) -> int:
+        # subset + permutation
+
+        self.res = 0
+        tiles = sorted(list(tiles))
+        tiles = ''.join(tiles)
+        self.dfs(tiles, set())
+        return self.res - 1
+
+    def dfs(self, s, used):
+
+        self.res += 1
+
+        visited = set()
+        for i in range(len(s)):
+            if s[i] in visited:
+                continue
+            if i in used:
+                continue
+            visited.add(s[i])
+            used.add(i)
+            self.dfs(s, used)
+            used.remove(i)
+
 
 class Solution:
     def numTilePossibilities(self, tiles: str) -> int:

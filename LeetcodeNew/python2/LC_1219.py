@@ -1,4 +1,36 @@
 
+class SolutionTonnie:
+    def __init__(self):
+        self.res = 0
+
+    def getMaximumGold(self, grid) -> int:
+        m, n = len(grid), len(grid[0])
+        visited = [[False for j in range(n)] for i in range(m)]
+        for i in range(m):
+            for j in range(n):
+                self.dfs(grid, i, j, 0, visited)
+
+        return self.res
+
+    def dfs(self, grid, i, j, count, visited):
+        m, n = len(grid), len(grid[0])
+        if i< 0 or j < 0 or i >= m or j >= n or visited[i][j] or not grid[i][j]:
+            return
+        visited[i][j] = True
+        count += grid[i][j]
+        self.res = max(self.res, count)
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x = i + dx
+            y = j + dy
+            self.dfs(grid, x, y, count, visited)
+        visited[i][j] = False
+        count -= grid[i][j]
+
+
+
+
+
+
 class SolutionTony:
     def __init__(self):
         self.res = 0

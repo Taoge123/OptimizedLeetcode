@@ -1,4 +1,6 @@
 """
+Similar with 1238
+
 https://leetcode.com/problems/gray-code/discuss/30007/Python-Easy-Bit-Manipulation-Solution
 
 The gray code is a binary numeral system where two successive values differ in only one bit.
@@ -72,6 +74,39 @@ LC 1238. Circular Permutation in Binary Representation 和本题一模一样。
           100
 
 """
+
+class SolutionRika:
+    def grayCode(self, n: int):
+        res = []
+        res.append(0)
+
+        visited = set()
+        visited.add(0)
+
+        self.dfs(n, visited, 0, res)
+        return res
+
+    def dfs(self, n, visited, code, res):
+
+        if len(res) == 1 << n:
+            return True
+
+        mask = 1
+        for i in range(n):
+            new_code = code ^ (mask << i)
+            if new_code in visited:
+                continue
+            visited.add(new_code)
+            res.append(new_code)
+            if self.dfs(n, visited, new_code, res):
+                return True
+            visited.remove(new_code)
+            res.pop()
+
+        return False
+
+
+
 
 
 class Solution:
