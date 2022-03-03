@@ -26,10 +26,9 @@ class Solution:
         for i, n1 in enumerate(reversed(num1)):
             for j, n2 in enumerate(reversed(num2)):
                 res[i + j] += int(n1) * int(n2)
-                res[i + j +1] += res[ i +j] // 10
                 res[i + j] %= 10
+                res[i + j + 1] += res[i+j] // 10
 
-        # res = str(int("".join([str(i) for i in res][::-1])))
         return str(int("".join([str(i) for i in res][::-1])))
 
 

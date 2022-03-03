@@ -1,24 +1,63 @@
 
 """
-Remove the minimum number of invalid parentheses in order to make the input string valid. Return all possible results.
+https://leetcode-cn.com/problems/remove-invalid-parentheses/solution/shan-chu-wu-xiao-de-gua-hao-by-leetcode-9w8au/
 
-Note: The input string may contain letters other than the parentheses ( and ).
-
-Example 1:
-
-Input: "()())()"
-Output: ["()()()", "(())()"]
-Example 2:
-
-Input: "(a)())()"
-Output: ["(a)()()", "(a())()"]
-Example 3:
-
-Input: ")("
-Output: [""]
 """
 
 import collections
+
+
+class SolutionRikaDFS:
+    def removeInvalidParentheses(self, s: str):
+        res = []
+        # to remove
+        left, right = 0, 0
+        for ch in s:
+            if ch == '(':
+                left += 1
+            elif ch == ')':
+                if left == 0:
+                    right += 1
+                else:
+                    left -= 1
+
+        self.dfs(s, 0, left, right, res)
+        return res
+
+    def dfs(self, s, i, left, right, res):
+        n = len(s)
+        if left == 0 and right == 0:
+            if self.isValid(s):
+                res.append(s)
+            return
+
+        if left <= 0 and right <= 0:
+            return
+
+        for j in range(i, n):
+            if j > i and s[j] == s[j - 1]:
+                continue
+            # 如果剩余的字符无法满足去掉的数量要求，直接返回
+            if left + right > n - j:
+                break
+            # 尝试去掉一个左括号
+            if left > 0 and s[j] == '(':
+                self.dfs(s[:j] + s[j + 1:], j, left - 1, right, res)
+            # 尝试去掉一个右括号
+            if right > 0 and s[j] == ')':
+                self.dfs(s[:j] + s[j + 1:], j, left, right - 1, res)
+            # 统计当前字符串中已有的括号数量
+
+    def isValid(self, s):
+        count = 0
+        for ch in s:
+            if ch == '(':
+                count += 1
+            elif ch == ')':
+                count -= 1
+                if count < 0:
+                    return False
+        return count == 0
 
 
 class SolutionBFS:

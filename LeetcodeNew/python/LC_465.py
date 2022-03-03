@@ -44,6 +44,43 @@ Therefore, person #1 only need to give person #0 $4, and all debt is settled.
 
 """
 
+import collections
+
+
+class SolutionTony:
+    def minTransfers(self, transactions) -> int:
+        self.res = float('inf')
+        table = collections.defaultdict(int)
+        for u, v, w in transactions:
+            table[u] -= w
+            table[v] += w
+
+        debt = []
+        for val in table.values():
+            if val != 0:
+                debt.append(val)
+
+        self.dfs(debt, 0, 0)
+        return self.res
+
+    def dfs(self, nums, i, count):
+        # while i < len(nums) and nums[i] == 0:
+        #     i += 1
+        if i == len(nums):
+            self.res = min(self.res, count)
+            return
+
+        if nums[i] == 0:
+            self.dfs(nums, i + 1, count)
+
+        for j in range(i + 1, len(nums)):
+            if ((nums[i] < 0 and nums[j] > 0) or (nums[i] > 0 and nums[j] < 0)):
+                nums[j] = nums[j] + nums[i]
+                self.dfs(nums, i + 1, count + 1)
+                nums[j] = nums[j] - nums[i]
+
+
+
 
 class Solution:
     def minTransfers(self, transactions) -> int:
