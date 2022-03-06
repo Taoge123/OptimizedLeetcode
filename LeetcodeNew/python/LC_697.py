@@ -1,4 +1,4 @@
-
+import collections
 
 
 class Solution:
@@ -25,7 +25,6 @@ class Solution:
                 res = min(res, j - i + 1)
 
         return res
-
 
 
 

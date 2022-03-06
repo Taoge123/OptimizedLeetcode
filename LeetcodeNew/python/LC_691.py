@@ -22,6 +22,8 @@ i的每一个bit表示的是target对应位置的字符是否得到了满足。�
 """
 
 import collections
+import functools
+
 
 
 class SolutionDFSShort:
@@ -52,6 +54,85 @@ class SolutionDFSShort:
 
         dfs(target, 0, 0)
         return self.res if self.res < float('inf') else -1
+
+
+
+# --> backtracking --> updated needs in original needs
+class SolutionRika:
+    def minStickers(self, stickers, target: str) -> int:
+        # pre-processing
+        counts = []
+        for i, sticker in enumerate(stickers):
+            sticker_count = collections.Counter(sticker)
+            counts.append(sticker_count)
+
+        self.res = float('inf')
+
+        @functools.lru_cache(None)
+        def dfs(target, count):
+            needs = collections.Counter(target)
+            if not needs:
+                self.res = min(self.res, count)
+                return
+
+            for i in range(len(counts)):
+                new_target = ''
+                valid_sticker = False
+                for char in needs.keys():
+                    if char in counts[i]:
+                        valid_sticker = True
+                        if counts[i][char] < needs[char]:
+                            new_target += (char * (needs[char] - counts[i][char]))
+                    else:
+                        new_target += (char * needs[char])
+
+                if not valid_sticker:
+                    continue
+                if valid_sticker:
+                    dfs(new_target, count + 1)
+
+        dfs(target, 0)
+        return self.res if self.res < float('inf') else -1
+
+
+
+class SolutionMemoBitMask:
+    def minStickers(self, stickers, target):
+        n = len(target)
+        state = (1 << n) - 1
+
+        @functools.lru_cache(None)
+        def dfs(state):
+            if state == 0:
+                return 0
+
+            x = 0
+            while (1 << x) & state == 0:
+                x += 1
+
+            first_ch = target[x]
+
+            res = -1
+            for word in stickers:
+                count = collections.Counter(word)
+                if first_ch not in count:
+                    # 每次只选包含边界上字符的单词，缩减枚举量，避免出现 stat1, stat2, stat3 和 stat2 stat1 stat3 这样的等效序列
+                    # 有了这个剪枝条件，性能提升了10倍
+                    continue
+
+                newState = state
+                for i in range(len(target)):
+                    if newState & (1 << i) and target[i] in count and count[target[i]] > 0:
+                        count[target[i]] -= 1
+                        newState &= ~(1 << i)
+
+                    if newState != state:
+                        val = dfs(newState)
+                        if val != -1 and (res == -1 or 1 + val < res):
+                            res = val + 1
+            return res
+
+        return dfs(state)
 
 
 

@@ -40,6 +40,41 @@ Output: 9
 """
 
 
+class SolutionTony:
+    def numberOfPatterns(self, m: int, n: int) -> int:
+        skip = [[0] * 10 for _ in range(10)]
+        skip[1][3] = skip[3][1] = 2
+        skip[1][7] = skip[7][1] = 4
+        skip[3][9] = skip[9][3] = 6
+        skip[7][9] = skip[9][7] = 8
+        skip[1][9] = skip[9][1] = skip[2][8] = skip[8][2] = skip[3][7] = skip[7][3] = skip[4][6] = skip[6][4] = 5
+
+        res = 0
+        visited = [False] * 10
+
+        def dfs(i, remaining):
+            if remaining < 0:
+                return 0
+            if remaining == 0:
+                return 1
+            visited[i] = True
+            count = 0
+            for j in range(1, 10):
+                # never used before or related or jumped and visited
+                if not visited[j] and (skip[i][j] == 0 or visited[skip[i][j]]):
+                    count += dfs(j, remaining - 1)
+            visited[i] = False
+            return count
+
+        for i in range(m, n + 1):
+            res += dfs(1, i - 1) * 4
+            res += dfs(2, i - 1) * 4
+            res += dfs(5, i - 1)
+        return res
+
+
+
+
 class Solution:
     def numberOfPatterns(self, m: int, n: int) -> int:
         skip = [[0] * 10 for _ in range(10)]
@@ -70,9 +105,6 @@ class Solution:
                 count += self.dfs(j, remaining - 1, visited, skip)
         visited[i] = False
         return count
-
-
-
 
 
 
