@@ -39,6 +39,47 @@ Then I replace streaks of # into numbers.
 """
 
 
+class SolutionYifan:
+    def minAbbreviation(self, target: str, dictionary: List[str]) -> str:
+        dictionary = set(dictionary)
+        abbr = []
+        self.generateAbbreviations(target, 0, [], 0, abbr)
+        abbr.sort(key=len)
+
+        def check(word1, word2):
+            m, n = len(word1), len(word2)
+            i = j = 0
+            while True:
+                if i == m and j == n:
+                    return True
+                if i >= m or j >= n:
+                    return False
+                if word1[i].isdigit():
+                    step = int(word1[i])
+                    i += 1
+                    j += step  # jump
+                else:
+                    if word1[i] != word2[j]:
+                        return False
+                    i += 1
+                    j += 1
+            return True
+
+        for word in abbr:
+            if all(not check(word, d) for d in dictionary):
+                return "".join(word)
+        return target
+
+    def generateAbbreviations(self, s, pos, path, count, res):
+        if pos == len(s):
+            res.append(path + [str(count)] if count else path)
+            return
+
+        self.generateAbbreviations(s, pos + 1, path + ([str(count)] if count else []) + [s[pos]], 0, res)
+        self.generateAbbreviations(s, pos + 1, path, count + 1, res)
+
+
+
 class Solution:
     def minAbbreviation(self, target: str, dictionary) -> str:
 

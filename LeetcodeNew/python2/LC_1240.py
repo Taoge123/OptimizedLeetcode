@@ -5,6 +5,7 @@ https://leetcode.com/problems/tiling-a-rectangle-with-the-fewest-squares/discuss
 """
 
 import collections
+import functools
 
 class SolutionSpecialCase:
     def tilingRectangle(self, n: int, m: int) -> int:

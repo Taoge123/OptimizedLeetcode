@@ -83,6 +83,41 @@ class Solution:
         path.pop()
 
 
+
+
+class SolutionRika:
+    def wordSquares(self, words):
+        if len(words) == 1:
+            return words[0]
+
+        # step1: build graph
+        graph = collections.defaultdict(set)
+        for word in words:
+            for i in range(1, len(word)):
+                prefix = word[:i]
+                graph[prefix].add(word)
+
+        # step2: for loop each start word, do dfs
+        self.res = []
+        for word in words:
+            self.dfs(graph, word, 1, [word])
+
+        return self.res
+
+    def dfs(self, graph, word, pos, path):
+
+        if pos == len(word):
+            self.res.append(path[:])
+            return
+        prefix = ''
+        for string in path:
+            prefix += string[pos]
+
+        if prefix in graph:
+            for nextword in graph[prefix]:
+                self.dfs(graph, word, pos + 1, path + [nextword])
+
+
 """
 ie, when index == 2:
 LEA will be the prefix, then we will search LEA in table and continue to backtrack

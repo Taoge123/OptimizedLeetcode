@@ -1,4 +1,5 @@
 """
+https://leetcode.com/problems/verbal-arithmetic-puzzle/discuss/463920/Python-Backtracking
 https://leetcode.com/problems/verbal-arithmetic-puzzle/discuss/463921/python-backtracking-with-pruning-tricks
 https://leetcode.com/problems/verbal-arithmetic-puzzle/discuss/464400/Python-backtracking
 
