@@ -2,6 +2,30 @@ import collections
 import heapq
 
 
+class SolutionBFSTony:
+    def networkDelayTime(self, times, n: int, k: int) -> int:
+
+        graph = collections.defaultdict(dict)
+        for u, v, w in times:
+            graph[u][v] = w
+
+        heap = [(0, k)]
+        res = float('inf')
+        visited = set()
+        while heap:
+            dist, node = heapq.heappop(heap)
+            if node in visited:
+                continue
+            visited.add(node)
+            if len(visited) == n:
+                res = min(dist, res)
+
+            for nei in graph[node]:
+                heapq.heappush(heap, (dist + graph[node][nei], nei))
+        return res if res != float('inf') else -1
+
+
+
 class SolutionFloydWarshall:
     def networkDelayTime(self, times, N: int, K: int) -> int:
         dp = [[float('inf') for i in range(N)] for j in range(N)]

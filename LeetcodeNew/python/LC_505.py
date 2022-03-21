@@ -55,6 +55,41 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
 import collections, heapq
 
 
+class SolutionTonyBFS:
+    def shortestDistance(self, maze, start, destination):
+        m, n = len(maze), len(maze[0])
+
+        heap = []
+        heapq.heappush(heap, [0, start[0], start[1]])
+        visited = set()
+        step = 0
+
+        while heap:
+            dist, i, j = heapq.heappop(heap)
+            if (i, j) in visited:
+                continue
+            visited.add((i, j))
+
+            if [i, j] == destination:
+                return dist
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i
+                y = j
+                new_dist = dist
+                while x >= 0 and x <= m - 1 and y >= 0 and y <= n - 1 and maze[x][y] == 0:
+                    x += dx
+                    y += dy
+                    new_dist += 1
+                x -= dx
+                y -= dy
+                new_dist -= 1
+                heapq.heappush(heap, [new_dist, x, y])
+
+        return -1
+
+
+
 class SolutionTony:
     def shortestDistance(self, maze, start, destination):
 

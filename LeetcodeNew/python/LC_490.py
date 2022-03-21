@@ -54,29 +54,34 @@ The maze contains at least 2 empty spaces, and both the width and height of the 
 
 import collections
 
-class Solution:
-    def hasPath(self, maze, start, destination) -> bool:
+
+class SolutionTonyBFS:
+    def hasPath(self, maze, start, destination):
+        m, n = len(maze), len(maze[0])
+
         queue = collections.deque()
         queue.append([start[0], start[1]])
         visited = set()
-        visited.add((start[0], start[1]))
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
         while queue:
             i, j = queue.popleft()
             if [i, j] == destination:
                 return True
-            for dx, dy in directions:
-                x, y = i, j
-                while 0 <= x < len(maze) and 0 <= y < len(maze[0]) and maze[x][y] == 0:
+
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                x = i
+                y = j
+                while x >= 0 and x <= m - 1 and y >= 0 and y <= n - 1 and maze[x][y] == 0:
                     x += dx
                     y += dy
                 x -= dx
                 y -= dy
+                if (x, y) in visited:
+                    continue
+                queue.append([x, y])
+                visited.add((x, y))
 
-                if (x, y) not in visited:
-                    visited.add((x, y))
-                    queue.append((x, y))
+        return False
 
 
 class Solution2:
