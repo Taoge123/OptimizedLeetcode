@@ -1,6 +1,44 @@
 import collections
 
 
+class SolutionRika:
+    def numBusesToDestination(self, routes, source: int, target: int) -> int:
+        # build graph --> {bus_stop: bus_id}
+        valid = False
+        stop_to_bus = collections.defaultdict(list)
+        for i, stops in enumerate(routes):
+            for stop in stops:
+                if stop == target:
+                    valid = True
+                stop_to_bus[stop].append(i)
+        if not valid:
+            return -1
+
+        queue = collections.deque()
+        queue.append(source)
+        step = 0
+        visited = set()
+        visited.add(source)
+
+        while queue:
+            size = len(queue)
+            for _ in range(size):
+                cur_stop = queue.popleft()
+
+                if cur_stop == target:
+                    return step
+
+                for nxt_bus in stop_to_bus[cur_stop]:
+                    for nxt_stop in routes[nxt_bus]:
+                        if nxt_stop not in visited:
+                            queue.append(nxt_stop)
+                            visited.add(nxt_stop)
+            step += 1
+        return -1
+
+
+
+
 class Solution:
     def numBusesToDestination(self, routes, S: int, T: int) -> int:
         if S == T:

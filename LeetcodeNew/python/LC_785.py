@@ -88,6 +88,39 @@ class SolutionTony:
         return True
 
 
+
+
+class SolutionTonyBFS:
+    def isBipartite(self, graph):
+
+        n = len(graph)
+        color = {}
+
+        def bfs(node):
+            queue = collections.deque()
+            queue.append(node)
+            while queue:
+                node = queue.popleft()
+                for nei in graph[node]:
+                    if nei in color:
+                        if color[nei] != 1 - color[node]:
+                            return False
+                    else:
+                        color[nei] = 1 - color[node]
+                        queue.append(nei)
+            return True
+
+        for i in range(n):
+            if i in color:
+                continue
+            color[i] = 1
+            if not bfs(i):
+                return False
+        return True
+
+
+
+
 class SolutionBFS:
     def isBipartite(self, graph) -> bool:
         n = len(graph)
