@@ -27,8 +27,31 @@ Input: nums1 = [1,2], nums2 = [3], k = 3
 Output: [1,3],[2,3]
 Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
 """
-
 import heapq
+
+
+class SolutionTony:
+    def kSmallestPairs(self, nums1, nums2, k: int):
+        heap = []
+        for n1 in nums1:
+            for n2 in nums2:
+                if len(heap) < k:
+                    heapq.heappush(heap, (-n1 - n2, n1, n2))
+                else:
+                    # If we have new combinations that are smaller, replace it in heap, otherwise break early
+                    if -heap[0][0] >= (n1 + n2):
+                        heapq.heappushpop(heap, (-n1 - n2, n1, n2))
+                    else:
+                        break
+        res = []
+        while heap and k:
+            node = heapq.heappop(heap)
+            res.append([node[1], node[2]])
+            k -= 1
+        return res
+
+
+
 
 class Solution:
     def kSmallestPairs(self, nums1, nums2, k, heap=[]):
@@ -44,6 +67,9 @@ class Solution:
                     else:
                         break
         return [heapq.heappop(heap)[1] for _ in range(k) if heap]
+
+
+
 
 
 nums1 = [2,4,6]

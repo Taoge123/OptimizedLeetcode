@@ -56,4 +56,46 @@ class Solution:
         self.siftUp(A, parent)
 
 
+nums = []
+m1, m2, m3 = float('-inf'), float('-inf'), float('-inf')
+for num in nums:
+    if num > m1:
+        m3, m2, m1 = m2, m1, num
+    elif num > m2:
+        m3, m2 = m2, num
+    elif num > m3:
+        m3 = num
 
+
+
+
+
+"""
+
+
+
+Package_name/app_id
+Addition:
+    Matching Keyword
+    Play App:
+        Recall asset type
+        Comment
+Removal:
+Removal Reason
+
+Package_name/app_id
+Play:
+    Play App Addition:
+        Play Matching Keyword
+        Recall asset type
+        Comment
+    Play App Removal:
+        Removal Reason
+
+IOS:
+    Addition:
+        IOS Matching Keyword
+        
+
+
+"""

@@ -38,6 +38,7 @@ ceil()
 
 
 3. equal
+count()代表给定个distance，我们需要多少个gas station，如果少于k，那就需要distance更小，distance越小，需要的station越多
 
 """
 

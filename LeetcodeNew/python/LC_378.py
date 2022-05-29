@@ -1,4 +1,12 @@
 """
+https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378
+
+373. Find K Pairs with Smallest Sums
+378. Kth Smallest Element in a Sorted Matrix
+668. Kth Smallest Number in Multiplication Table
+719. Find K-th Smallest Pair Distance
+786. K-th Smallest Prime Fraction
+
 Given a n x n matrix where each of the rows and columns are sorted in ascending order,
 find the kth smallest element in the matrix.
 

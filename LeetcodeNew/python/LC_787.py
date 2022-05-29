@@ -57,7 +57,7 @@ class Solution:
         return res
 
 
-class Solution:
+class SolutionTLE:
     def findCheapestPrice(self, n, flights, src, dst, k):
         table = collections.defaultdict(dict)
         for a, b, cost in flights:

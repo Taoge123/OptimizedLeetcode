@@ -24,9 +24,9 @@ class Solution:
         while left < right:
             mid = left + (right - left) // 2
             if (right - left + 1) % 2 == 0:
-                compare = reader.compareSub(left, mid, mid + 1, right)
+                compare = reader.compareSub(left, mid, mid + 1, right) # even
             else:
-                compare = reader.compareSub(left, mid, mid, right)
+                compare = reader.compareSub(left, mid, mid, right) # odd
 
             if compare < 0:
                 left = mid + 1

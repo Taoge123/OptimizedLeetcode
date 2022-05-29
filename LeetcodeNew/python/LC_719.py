@@ -3,6 +3,29 @@
 import heapq
 
 
+class SolutionTony:  # binary search template 1
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        # binary search diff --> check if there k diff less than it
+
+        nums.sort()
+        left, right = 0, nums[-1] - nums[0]
+        while left <= right:
+            mid = left + (right - left) // 2
+            if self.getSmallerCount(nums, mid, k) < k:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left
+
+    def getSmallerCount(self, nums, target, k):
+        count = 0
+        for i, num in enumerate(nums):
+            idx = bisect_right(nums, num + target, i + 1)
+            count += idx - i - 1
+        return count
+
+
+
 class Solution:
     def smallestDistancePair(self, nums, k):
         # sort the points

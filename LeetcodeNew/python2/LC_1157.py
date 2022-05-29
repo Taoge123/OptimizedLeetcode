@@ -23,6 +23,7 @@ class MajorityChecker:
         for num in self.nums:
             if len(self.table[num]) < threshold:
                 return -1
+            # left and right are index, we search in index and check if the ranges are >= threshold.
             l = bisect.bisect_left(self.table[num], left)
             r = bisect.bisect_right(self.table[num], right)
             if r - l >= threshold:

@@ -8,7 +8,7 @@ https://leetcode-cn.com/problems/find-critical-and-pseudo-critical-edges-in-mini
 """
 
 class Solution:
-    def findCriticalAndPseudoCriticalEdges(self, n: int, edges: List[List[int]]) -> List[List[int]]:
+    def findCriticalAndPseudoCriticalEdges(self, n: int, edges):
         def find(parent, x):
             if parent[x] != x:
                 parent[x] = find(parent, parent[x])

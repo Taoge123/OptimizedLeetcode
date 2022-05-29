@@ -16,22 +16,42 @@ Explanation: T is "aa" which its length is 2.
 
 import collections
 
+class SolutionRika:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        window = collections.defaultdict(int)
+
+        count = 0
+        left, right = 0, 0
+
+        while right < len(s):
+            ch1 = s[right]
+            window[ch1] += 1
+
+            while right < len(s):
+                ch2 = s[left]
+                window[ch2] -= 1
+                if window[ch2] == 0:
+                    del window[ch2]
+                left += 1
+            count = max(count, right - left + 1)
+            right += 1
+
+        return count
+
+
 
 class Solution:
     def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
-        count = collections.defaultdict(int)
-        start = 0
+        left = 0
         res = 0
-
-        for i, char in enumerate(s):
-
-            count[char] += 1
-            while len(count) > k:
-                count[s[start]] -= 1
-                if count[s[start]] == 0:
-                    del count[s[start]]
-                start += 1
-            res = max(res, i - start + 1)
+        table = collections.defaultdict(int)
+        for right, char in enumerate(s):
+            table[char] = right
+            if len(table) > k:
+                left = min(table.values())
+                del table[s[left]]
+                left += 1
+            res = max(right - left + 1, res)
         return res
 
 

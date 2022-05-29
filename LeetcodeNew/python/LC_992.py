@@ -34,20 +34,21 @@ class Solution:
 import collections
 
 class Solution:
-    def subarraysWithKDistinct(self, A, K: int) -> int:
-        return self.atMostK(A, K) - self.atMostK(A, K-1)
+    def subarraysWithKDistinct(self, nums, k: int) -> int:
+        return self.atMostK(nums, k) - self.atMostK(nums, k - 1)
 
-    def atMostK(self, A, K):
+    def atMostK(self, s, k):
         count = collections.defaultdict(int)
         left = 0
         res = 0
-        for right in range(len(A)):
-            count[A[right]] += 1
+
+        for right, char in enumerate(s):
+            count[char] += 1
             #超标了需要动
-            while len(count) > K:
-                count[A[left]] -= 1
-                if count[A[left]] == 0:
-                    del count[A[left]]
+            while len(count) > k:
+                count[s[left]] -= 1
+                if count[s[left]] == 0:
+                    del count[s[left]]
                 left += 1
             #无论如何都要加
             res += right - left + 1
@@ -55,3 +56,28 @@ class Solution:
 
 
 
+class SolutionRika:
+    def subarraysWithKDistinct(self, nums, k: int) -> int:
+        # s = map(str, nums)
+        return self.atMostK(nums, k) - self.atMostK(nums, k - 1)
+
+    def atMostK(self, s, k):
+        window = collections.defaultdict(int)
+
+        count = 0
+        left, right = 0, 0
+
+        while right < len(s):
+            ch1 = s[right]
+            window[ch1] += 1
+
+            while len(window) > k:
+                ch2 = s[left]
+                window[ch2] -= 1
+                if window[ch2] == 0:
+                    del window[ch2]
+                left += 1
+            count += right - left + 1
+            right += 1
+
+        return count

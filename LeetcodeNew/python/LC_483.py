@@ -1,4 +1,7 @@
 """
+
+https://leetcode.cn/problems/smallest-good-base/solution/zui-xiao-hao-jin-zhi-er-fen-shu-xue-fang-frrv/
+
 For an integer n, we call k>=2 a good base of n, if all digits of n base k are 1.
 
 Now given a string representing n, you should return the smallest good base of n in string format.
@@ -106,7 +109,30 @@ And to show km + ... + k0 < (k+1)m: One way to see it is that expanding (k+1)m g
 """
 
 import math
+
 class Solution:
+    # 二分
+    def smallestGoodBase(self, n: str) -> str:
+        num = int(n)
+        # 枚举 k进制 中 1 的个数，最多为 二进制 时的位数
+        for i in range(num.bit_length(), 2, -1):
+            # k^0 + k^1 + …… + k^(i-1) = n -- 通过二分法计算 k
+            # kn - n = k^i - 1
+            left, right = 2, num - 1
+            while left <= right:
+                mid = (left + right) // 2
+                s = mid * num - num - pow(mid, i) + 1
+                if s == 0:
+                    return str(mid)
+                elif s > 0:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+        return str(num - 1)
+
+
+
+class Solution2:
     def smallestGoodBase(self, n):
         n = int(n)
         max_m = int(math.log(n, 2))  # Refer [7]

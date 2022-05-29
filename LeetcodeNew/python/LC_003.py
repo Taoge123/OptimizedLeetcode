@@ -21,15 +21,15 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        start, res = 0, 0
+        left, res = 0, 0
         table = {}
         n = len(s)
-        for i in range(n):
-            if s[i] in table and start <= table[s[i]]:
-                start = table[s[i]] + 1
+        for right in range(n):
+            if s[right] in table and left <= table[s[right]]:
+                left = table[s[right]] + 1
             else:
-                res = max(res, i - start + 1)
-            table[s[i]] = i
+                res = max(res, right - left + 1)
+            table[s[right]] = right
         return res
 
 

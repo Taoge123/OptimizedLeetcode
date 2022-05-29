@@ -147,5 +147,37 @@ class SolutionBFS:
         return True
 
 
+class Solution886Tony:
+    def possibleBipartition(self, n: int, dislikes) -> bool:
+
+        color = {}
+
+        def bfs(queue):
+            while queue:
+                node, c = queue.popleft()
+                for nei in graph[node]:
+                    if nei not in color:
+                        color[nei] = 1 - c
+                        queue.append([nei, 1 - c])
+                    else:
+                        if color[node] == color[nei]:
+                            return False
+
+            return True
+
+        graph = collections.defaultdict(list)
+        for u, v in dislikes:
+            graph[u].append(v)
+            graph[v].append(u)
+
+        for node in range(n):
+            queue = deque()
+            queue.append([node, 1])
+            if node in color:
+                continue
+            if not bfs(queue):
+                return False
+        return True
+
 
 
