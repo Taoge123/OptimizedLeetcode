@@ -23,6 +23,7 @@ class Solution1:
         i, j = 0, len(people) - 1
         count = 0
         while i <= j:
+            # each boat can only accomandate 2 people, one of that person will the the j-th person, and we will see if we wanna bring the i-th person
             if people[i] + people[j] <= limit:
                 i += 1
             j -= 1

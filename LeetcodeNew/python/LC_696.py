@@ -5,7 +5,7 @@ class Solution:
         pre = 0
         cur = 1
         for i in range(1, len(s)):
-            if s[i] != s[ i -1]:
+            if s[i] != s[i-1]:
                 res += min(pre, cur)
                 pre = cur
                 cur = 1

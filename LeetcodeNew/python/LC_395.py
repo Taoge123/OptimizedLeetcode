@@ -33,39 +33,41 @@ https://www.youtube.com/watch?v=izjPlJrZ_K0
 """
 
 
-class SolutionTonnie:
+class SolutionTony1:
     def longestSubstring(self, s: str, k: int) -> int:
+
         res = 0
-        # each round, the amount of distinct chars
-        for i in range(1, len(set(s)) + 1):
-            table = collections.Counter()
-            # count -> how many distinct chars >= k
-            left = right = 0
-            count = 0
-            while right < len(s):
-                table[s[right]] += 1
-                if table[s[right]] == k:
-                    count += 1
-                right += 1
+        for guess in range(1, 27):
+            res = max(res, self.helper(s, guess, k))
+        return res
 
-                # move left
-                while left < right and len(table) > i:
-                    # we will decrement s[left], in turn decrement count
-                    if table[s[left]] == k:
-                        count -= 1
-                    table[s[left]] -= 1
-                    if table[s[left]] == 0:
-                        del table[s[left]]
-                    left += 1
+    def helper(self, s, guess, k):
+        table = collections.Counter()
+        left = right = 0
+        # count -> how many distinct chars >= k
+        count = 0
+        res = 0
+        while right < len(s):
+            table[s[right]] += 1
+            if table[s[right]] == k:
+                count += 1
+            right += 1
+            # move left
+            while left < right and len(table) > guess:
+                # we will decrement s[left], in turn decrement count
+                if table[s[left]] == k:
+                    count -= 1
+                table[s[left]] -= 1
+                if table[s[left]] == 0:
+                    del table[s[left]]
+                left += 1
 
-                if len(table) == i and count == i:
-                    res = max(res, right - left)
+            if len(table) == guess and count == guess:
+                res = max(res, right - left)
         return res
 
 
-
-
-class SolutionTony:
+class SolutionTony2:
     def longestSubstring(self, s: str, k: int) -> int:
 
         res = 0
@@ -98,6 +100,37 @@ class SolutionTony:
 
         return res
 
+
+
+
+class SolutionTonnie:
+    def longestSubstring(self, s: str, k: int) -> int:
+        res = 0
+        # each round, the amount of distinct chars
+        for i in range(1, len(set(s)) + 1):
+            table = collections.Counter()
+            # count -> how many distinct chars >= k
+            left = right = 0
+            count = 0
+            while right < len(s):
+                table[s[right]] += 1
+                if table[s[right]] == k:
+                    count += 1
+                right += 1
+
+                # move left
+                while left < right and len(table) > i:
+                    # we will decrement s[left], in turn decrement count
+                    if table[s[left]] == k:
+                        count -= 1
+                    table[s[left]] -= 1
+                    if table[s[left]] == 0:
+                        del table[s[left]]
+                    left += 1
+
+                if len(table) == i and count == i:
+                    res = max(res, right - left)
+        return res
 
 
 

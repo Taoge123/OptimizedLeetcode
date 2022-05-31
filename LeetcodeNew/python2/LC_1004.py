@@ -19,6 +19,43 @@ Find the longest subarray with at most K zeros.
 """
 
 
+class SolutionTonyHandsome:
+    def longestOnes(self, nums, k: int) -> int:
+        n = len(nums)
+        left = 0
+        res = 0
+        for right in range(n):
+            if nums[right] == 0:
+                k -= 1
+            if k >= 0:
+                res = max(res, right - left + 1)
+            while k < 0:
+                if nums[left] == 0:
+                    k += 1
+                left += 1
+        return res
+
+
+class SolutionRika:
+    def longestOnes(self, nums, k: int) -> int:
+        # longest subarry that includes k zeros
+        zeroCount = 0
+        count = 0
+        left, right = 0, 0
+
+        while right < len(nums):
+            if nums[right] == 0:
+                zeroCount += 1
+            right += 1
+            while zeroCount > k:
+                if nums[left] == 0:
+                    zeroCount -= 1
+                left += 1
+            count = max(count, right - left)
+
+        return count
+
+
 class SolutionTony:
     def longestOnes(self, A, K: int) -> int:
         i = 0

@@ -36,21 +36,23 @@ The substring "BBBB" has the longest repeating letters, which is 4.
 
 
 import collections
+
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
 
-        start, maxi, res = 0, 0, 0
+        left, maxi, res = 0, 0, 0
         count = collections.Counter()
 
-        for i in range(len(s)):
-            count[s[i] ]+= 1
-            maxi = max(maxi, count[s[i]])
-            while i - start + 1 - maxi > k:
-                count[s[start]] -= 1
-                start += 1
-            res = max(res, i - start + 1)
+        for right in range(len(s)):
+            count[s[right]] += 1
+            # find the character that has the maximum frequency
+            maxi = max(maxi, count[s[right]])
+            # Then we change all other characters into the max frequency character
+            while right - left + 1 - maxi > k:
+                count[s[left]] -= 1
+                left += 1
+            res = max(res, right - left + 1)
         return res
-
 
 
 

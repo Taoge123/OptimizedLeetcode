@@ -32,6 +32,33 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 """
 
 
+class SolutionTony:
+    def nextPermutation(self, nums) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        left = n
+        # Fin
+        for i in range(n - 2, -1, -1):
+            if nums[i] < nums[i + 1]:
+                left = i
+                break
+
+        if left == n:
+            nums.sort()
+            return nums
+        right = n
+        for j in range(n - 1, -1, -1):
+            if nums[j] > nums[left]:
+                right = j
+                break
+
+        nums[left], nums[right] = nums[right], nums[left]
+        nums[:] = nums[:left + 1] + sorted(nums[left + 1:])
+
+
+
 class Solution:
     def nextPermutation(self, nums):
         small, n = -1, len(nums)

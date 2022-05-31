@@ -35,6 +35,32 @@ Next permunation
 
 """
 
+
+class SolutionTony:
+    def nextGreaterElement(self, n: int) -> int:
+        nums = list(str(n))
+        n = len(nums)
+        left, right = n, n
+        for i in range(n - 2, -1, -1):
+            if nums[i] < nums[i + 1]:
+                left = i
+                break
+        if left == n:
+            return -1
+
+        for j in range(n - 1, -1, -1):
+            if nums[j] > nums[left]:
+                right = j
+                break
+
+        nums[left], nums[right] = nums[right], nums[left]
+        nums[:] = nums[:left + 1] + sorted(nums[left + 1:])
+        if int("".join(nums)) >= 2 ** 31:
+            return -1
+        return "".join(nums)
+
+
+
 class Solution:
     def nextGreaterElement(self, n: int) -> int:
         nums = list(str(n))

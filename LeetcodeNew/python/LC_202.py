@@ -16,6 +16,24 @@ Explanation:
 
 
 class Solution:
+    def isHappy(self, n: int) -> bool:
+
+        def get_next(n):
+            total_sum = 0
+            while n > 0:
+                n, digit = divmod(n, 10)
+                total_sum += digit ** 2
+            return total_sum
+
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = get_next(n)
+
+        return n == 1
+
+
+class Solution2:
     def isHappy(self, n):
 
         visited = set()
@@ -27,4 +45,16 @@ class Solution:
         return n == 1
 
 
+class SolutionTony:
+    def isHappy(self, n: int) -> bool:
+
+        visited = set()
+        while n not in visited:
+            count = 0
+            visited.add(n)
+            for num in str(n):
+                count += int(num) ** 2
+
+            n = count
+        return n == 1
 

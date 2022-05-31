@@ -14,6 +14,26 @@ The input array may contain duplicates, so ascending order here means <=.
 """
 
 
+class SolutionTony:
+    def findUnsortedSubarray(self, nums) -> int:
+        test = sorted(nums)
+        n = len(nums)
+        left, right = -1, -1
+        for i in range(n):
+            if nums[i] != test[i]:
+                left = i
+                break
+        for i in range(n - 1, -1, -1):
+            if nums[i] != test[i]:
+                right = i
+                break
+        if left == -1 and right == -1:
+            return 0
+        print(left, right)
+        return right - left + 1
+
+
+
 class Solution:
     def findUnsortedSubarray(self, nums) -> int:
         n = len(nums)
