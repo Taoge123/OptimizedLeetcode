@@ -11,6 +11,7 @@ class Solution:
         return res
 
 
+
 s = 'AA'
 a = Solution()
 print(a.titleToNumber(s))
