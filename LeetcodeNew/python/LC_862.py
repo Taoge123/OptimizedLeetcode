@@ -1,7 +1,7 @@
 
 """
 LC209 ++++++
-
+https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/discuss/1515369/Python3-binary-search
 https://buptwc.com/2018/07/02/Leetcode-862-Shortest-Subarray-with-Sum-at-Least-K/
 
 
@@ -72,9 +72,9 @@ A B C D E F  j
     
 """
 
-
-
 import collections
+import bisect
+
 
 class Solution:
     def shortestSubarray(self, A, K: int) -> int:
@@ -100,9 +100,78 @@ class Solution:
 
 
 
-A = [1, 2, 1, -2, 1, -1, 1, 2, 3, -1, -2, 5, 6]
-K = 4
-a = Solution()
+class SolutionRika:
+    def shortestSubarray(self, nums, k: int) -> int:
+        presum = [0]
+        for i in range(len(nums)):
+            presum.append(presum[-1] + nums[i])
+
+        queue = collections.deque()
+        res = float('inf')
+
+        for i in range(len(presum)):
+            while queue and presum[i] - presum[queue[0]] >= k:
+                res = min(res, i - queue[0])
+                queue.popleft()
+            # maintain min value in queue[0]
+            while queue and presum[i] <= presum[queue[-1]]:
+                queue.pop()
+
+            queue.append(i)
+
+        if res == float('inf'):
+            return -1
+        return res
+
+
+class SolutionBinarySearch:
+    def shortestSubarray(self, nums, k: int) -> int:
+
+        summ_last_index = {0: -1}
+        presum = [0]  # increasing stack
+        summ = 0
+        res = float("inf")
+
+        for right, num in enumerate(nums):
+            summ += num
+            left = bisect.bisect_right(presum, summ - k)
+            if left:
+                res = min(res, right - summ_last_index[presum[left - 1]])
+            summ_last_index[summ] = right
+
+            while presum and presum[-1] >= summ:
+                presum.pop()
+
+            presum.append(summ)
+        return res if res < float('inf') else -1
+
+
+"""
+SolutionTest does not work with two pointer
+[84,-37,32,40,95]
+167
+"""
+class SolutionTest:
+    def shortestSubarray(self, nums, k: int) -> int:
+        left = 0
+        summ = 0
+        n = len(nums)
+        res = float('inf')
+        for right in range(n):
+            summ += nums[right]
+
+            while left < right and summ >= k:
+                if summ >= k:
+                    res = min(res, right - left + 1)
+                summ -= nums[left]
+                left += 1
+
+        return -1 if res == float('inf') else res
+
+
+A = [84,-37,32,40,95]
+K = 167
+a = SolutionTest()
 print(a.shortestSubarray(A, K))
 
 
