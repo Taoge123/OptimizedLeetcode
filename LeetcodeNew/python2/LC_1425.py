@@ -69,7 +69,7 @@ class Solution:
 
 
 class Solution2:
-    def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
+    def constrainedSubsetSum(self, nums, k: int) -> int:
         n = len(nums)
         dp = [nums[0]] * n
         res = dp[0]

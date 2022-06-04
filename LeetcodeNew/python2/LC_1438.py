@@ -21,6 +21,7 @@ multiset是o(NlogN)的解法，如果使用单调队列，可以优化到o(N)。
 """
 
 import collections
+import heapq
 
 class Solution:
     def longestSubarray(self, nums, limit: int) -> int:
@@ -49,4 +50,22 @@ class Solution:
 
 
 
+class SolutionHeap:
+    def longestSubarray(self, nums, limit: int) -> int:
+        mini, maxi = [], []
+        left = 0
+        res = 0
+        for right in range(len(nums)):
+            heapq.heappush(mini, (nums[right], right))
+            heapq.heappush(maxi, (-nums[right], right))
+
+            while -maxi[0][0] - mini[0][0] > limit:
+                left = min(maxi[0][1], mini[0][1]) + 1
+                while maxi[0][1] < left:
+                    heapq.heappop(maxi)
+                while mini[0][1] < left:
+                    heapq.heappop(mini)
+
+            res = max(res, right - left + 1)
+        return res
 
