@@ -23,28 +23,29 @@ multiset是o(NlogN)的解法，如果使用单调队列，可以优化到o(N)。
 import collections
 import heapq
 
+
 class Solution:
     def longestSubarray(self, nums, limit: int) -> int:
-        minQueue = collections.deque()
-        maxQueue = collections.deque()
-        i = 0
+        min_deque, max_deque = collections.deque(), collections.deque()
+        left, right = 0, 0
         res = 0
+        for right in range(len(nums)):
+            while min_deque and nums[right] <= nums[min_deque[-1]]:
+                min_deque.pop()
+            while max_deque and nums[right] >= nums[max_deque[-1]]:
+                max_deque.pop()
 
-        for j in range(len(nums)):
-            while abs(maxQueue[0][0] - minQueue[0][0]) > limit and i < j:
-                if minQueue[0][-1] <= i:
-                    minQueue.popleft()
-                elif maxQueue[0][-1] <= i:
-                    maxQueue.popleft()
-                i += 1
-            while minQueue and minQueue[-1][0] > nums[j]:
-                minQueue.pop()
-            minQueue.append([nums[j], j])
-            while maxQueue and maxQueue[-1][0] < nums[j]:
-                maxQueue.pop()
-            maxQueue.append([nums[j], j])
+            min_deque.append(right)
+            max_deque.append(right)
 
-            res = max(res, j - i + 1)
+            while nums[max_deque[0]] - nums[min_deque[0]] > limit:
+                left += 1
+                if left > min_deque[0]:
+                    min_deque.popleft()
+                if left > max_deque[0]:
+                    max_deque.popleft()
+
+            res = max(res, right - left + 1)
 
         return res
 
