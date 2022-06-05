@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/find-latest-group-of-size-m/discuss/840870/Python-3-or-Union-Find-or-Explanations
+
 解法1：deque
 首先要正确理解题意。举个例子，arr[3]=4的意思是，第3天的时候，将第4个bit位置为1. 如果需要，我们可以反过来定义一个day[4]=3，表示第4个bit位，我们在第3天的时候将其置为1.
 
@@ -41,6 +43,41 @@ XXXXXXXXXXi
 
 import collections
 
+
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [i for i in range(n + 1)]
+        self.rank = [0 for i in range(n + 1)]
+
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+
+    def union(self, i, j):
+        x, y = self.find(i), self.find(j)
+        self.rank[x] += self.rank[y]
+        self.parent[y] = x
+        return self.rank[x]
+
+
+class SolutionUF:
+    def findLatestStep(self, arr, m: int) -> int:
+        n = len(arr)
+        if m == n:
+            return n
+        uf = UnionFind(n)
+        res = -1
+        for i, node in enumerate(arr):
+            uf.rank[node] = 1
+            for nei in (node - 1, node + 1):
+                if 0 < nei < n + 1 and uf.rank[nei] > 0:
+                    if uf.rank[uf.find(nei)] == m:
+                        res = i
+                    uf.union(nei, node)
+        return res
+
+
 class Solution:
     def findLatestStep(self, arr, m: int) -> int:
         n = len(arr)
@@ -76,4 +113,32 @@ class Solution:
 
 
 
+class SolutionNotRight:
+    def findLatestStep(self, arr, m: int) -> int:
+
+        n = len(arr)
+        def check(guess):
+            nums = []
+            for num in nums:
+                if num >= guess:
+                    nums.append(1)
+                else:
+                    nums.append(0)
+            pin = [1] * m
+            for i in range(len(nums) - m):
+                if nums[i:i + m] == pin:
+                    return True
+            return False
+
+        left, right = 0, n
+        res = float('inf')
+        while left < right:
+            mid = (right - left) // 2 + left
+            # if we have a group >= m, then guess a smaller number
+            if check(mid):
+                res = min(res, mid)
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1
 

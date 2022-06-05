@@ -24,6 +24,31 @@ deque: monotonic decreasing queue
 """
 
 import collections
+import functools
+
+
+class SolutionRika:
+    def maxResult(self, nums, k: int) -> int:
+        # dp[i] = max(dp[j]) + nums[i] --> j is between i - 1 and i - k
+
+        dp = [nums[0]] + [0] * (len(nums) - 1)
+
+        queue = collections.deque([0])
+        res = float('-inf')
+
+        for i in range(1, len(nums)):
+            while queue and i - queue[0] > k:
+                queue.popleft()
+
+            dp[i] = dp[queue[0]] + nums[i]
+
+            # maintain max dp[i]
+            while queue and dp[i] >= dp[queue[-1]]:
+                queue.pop()
+
+            queue.append(i)
+
+        return dp[-1]
 
 class Solution:
     def maxResult(self, nums, k: int) -> int:
@@ -46,5 +71,30 @@ class Solution:
             queue.append([cur, i])
 
         return queue[-1][0]
+
+
+
+
+class SolutionDPTLE:
+    def maxResult(self, nums, k: int) -> int:
+
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i == n:
+                return 0
+            if i == n - 1:
+                return nums[i]
+
+            res = float('-inf')
+            for j in range(i + 1, min(n, i + k + 1)):
+                res = max(res, dfs(j) + nums[i])
+
+            return res
+
+        return dfs(0)
+
+
 
 
