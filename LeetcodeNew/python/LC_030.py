@@ -25,9 +25,37 @@ Output: []
 import collections
 import copy
 
+class SolutionTony:
+    def findSubstring(self, s: str, words):
+        if not s or not words:
+            return []
+
+        res = []
+        m, n = len(words), len(words[0])
+        table = collections.defaultdict(int)
+
+        for word in words:
+            table[word] += 1
+
+        for i in range(len(s) - m * n + 1):
+            temp = copy.deepcopy(table)
+            count = 0
+            for j in range(i, len(s), n):
+                nxtWord = s[j:j + n]
+                if nxtWord not in temp or temp[nxtWord] <= 0:
+                    break
+                temp[nxtWord] -= 1
+                count += 1
+                if count == m:
+                    res.append(i)
+        return res
+
+
+
 class Solution:
     def findSubstring(self, s: str, words):
-        if not words: return []
+        if not words:
+            return []
         k = len(words[0])
         res = []
 
@@ -80,32 +108,6 @@ class Solution1:
         return res
 
 
-class Solution3:
-    def findSubstring(self, s: str, words):
-        if not s or not words:
-            return []
-
-        res = []
-        n, m = len(words), len(words[0])
-        table = collections.defaultdict(int)
-
-        for word in words:
-            table[word] = table.get(word, 0) + 1
-
-        for i in range(len(s) - n * m + 1):
-            dup = copy.deepcopy(table)
-            k = n
-            j = i
-            while k > 0:
-                nxtWord = s[j:j + m]
-                if nxtWord not in dup or dup[nxtWord] < 1:
-                    break
-                dup[nxtWord] = dup.get(nxtWord, 0) - 1
-                k -= 1
-                j += m
-            if k == 0:
-                res.append(i)
-        return res
 
 
 # s = "wordgoodgoodgoodbestword"
