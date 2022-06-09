@@ -9,6 +9,46 @@
  5 6 1 
 """
 
+import functools
+
+
+class SolutionSlidingWindow:
+    def maxScore(self, cardPoints, k: int) -> int:
+
+        n = len(cardPoints)
+        windowSize = n - k  # 窗口的大小
+        summ = 0
+        res = float("inf")  # 正无穷大
+        for i in range(n):
+            summ += cardPoints[i]
+            if i >= windowSize:
+                summ -= cardPoints[i - windowSize]
+            if i >= windowSize - 1:
+                res = min(res, summ)
+        return sum(cardPoints) - res
+
+
+class SolutionTonyMemo:
+    def maxScore(self, nums, k: int) -> int:
+        n = len(nums)
+        if k >= n:
+            return sum(nums)
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            if k <= 0:
+                return 0
+            if i > j:
+                return 0
+            if i == j:
+                return nums[i]
+
+            pick_left = dfs(i + 1, j, k - 1) + nums[i]
+            pick_right = dfs(i, j - 1, k - 1) + nums[j]
+
+            return max(pick_left, pick_right)
+
+        return dfs(0, n - 1, k)
+
 
 class Solution:
     def maxScore(self, cardPoints, k: int) -> int:

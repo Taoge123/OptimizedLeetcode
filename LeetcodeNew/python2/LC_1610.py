@@ -10,7 +10,7 @@ import math
 
 class Solution:
     def visiblePoints(self, points, angle: int, location) -> int:
-        angles = []
+        nums = []
         same = 0
 
         for x, y in points:
@@ -19,20 +19,22 @@ class Solution:
             if dx == 0 and dy == 0:
                 same += 1
                 continue
-            angles.append(math.atan2(dx, dy))
-
-        angles.sort()
-        angles = angles + [x + 2.0 * math.pi for x in angles]
+            nums.append(math.atan2(dx, dy))
+        # print(angles)
+        nums.sort()
+        nums = nums + [x + 2.0 * math.pi for x in nums]
         angle = math.pi * angle / 180
 
         res = 0
         left = 0
-        for right in range(len(angles)):
-            while angles[right] - angles[left] > angle:
+        for right in range(len(nums)):
+            while nums[right] - nums[left] > angle:
                 left += 1
             res = max(res, right - left + 1)
 
         return res + same
+
+
 
 
 

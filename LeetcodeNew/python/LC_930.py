@@ -33,7 +33,7 @@ class SolutionSlidingWindow:
 
 
 class Solution:
-    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+    def numSubarraysWithSum(self, nums, goal: int) -> int:
         table = collections.defaultdict(int)
         table[0] = 1
         summ = 0
