@@ -26,9 +26,9 @@ class SolutionTony:
                 num = self.calculate(s)
             if self.i >= len(s) or ch in '+-*/)':
                 if op == '+':
-                    stack.append(num)
+                    stack.append(int(num))
                 elif op == '-':
-                    stack.append(-num)
+                    stack.append(-int(num))
                 elif op == '*':
                     stack.append(stack.pop() * num)
                 elif op == '/':
@@ -39,10 +39,7 @@ class SolutionTony:
 
             if ch == ')':
                 break
-        return sum(map(int, stack))
-
-
-
+        return sum(stack)
 
 
 class SolutionWisdom:
@@ -176,8 +173,7 @@ class SolutionBest:
 
 
 
-
-s = "(3+5 / 2 - (6*7) )"
+s = "(1+1)"
 a = SolutionBest()
 print(a.calculate(s))
 

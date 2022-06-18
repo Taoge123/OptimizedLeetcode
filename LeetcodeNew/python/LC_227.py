@@ -45,7 +45,7 @@ class Solution:
         return sum(stack)
 
 
-s = "3+5 / 2 "
+s = "3+5*2-4"
 a = Solution()
 print(a.calculate(s))
 

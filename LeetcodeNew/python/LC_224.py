@@ -78,8 +78,14 @@ class SolutionTony:
             i += 1
         return res
 
+s = "(22+(10+(4+5+2)-3)+(6+8))"
+# s = "-200-3-3-3"
+# s = "2147483647"
+a = SolutionTony()
+print(a.calculate(s))
 
-class SolutionTony2:
+
+class SolutionTop2:
     def __init__(self):
         self.i = 0
 
@@ -97,15 +103,22 @@ class SolutionTony2:
                 num = self.calculate(s)
             if self.i >= len(s) or ch == '+' or ch == '-' or ch == ')':
                 if op == '+':
-                    stack.append(num)
+                    stack.append(int(num))
                 else:
-                    stack.append(-num)
+                    stack.append(-int(num))
                 op = ch
                 num = 0
             if ch == ')':
                 break
 
-        return sum(map(int, stack))
+        return sum(stack)
+
+# s = "(22+(10+(4+5+2)-3)+(6+8))"
+# # s = "-200-3-3-3"
+# # s = "2147483647"
+# a = SolutionTop2()
+# print(a.calculate(s))
+
 
 
 class SolutionWisdom:
@@ -250,12 +263,6 @@ class Solution2:
 
 
 
-
-# s = "(22+(10+(4+5+2)-3)+(6+8))"
-# s = "-200-3-3-3"
-s = "2147483647"
-a = SolutionTony()
-print(a.calculate(s))
 
 
 
