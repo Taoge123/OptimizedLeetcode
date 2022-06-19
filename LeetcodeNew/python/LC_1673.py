@@ -11,6 +11,24 @@
 """
 
 
+class SolutionTony:
+    def mostCompetitive(self, nums, k: int):
+        k = len(nums) - k
+        # if k >= len(nums):
+        #     return []
+        stack = []
+        for num in nums:
+            while stack and k and stack[-1] > num:
+                stack.pop()
+                k -= 1
+            stack.append(num)
+
+        while k:
+            stack.pop()
+            k -= 1
+        return stack
+
+
 class Solution:
     def mostCompetitive(self, nums, k: int):
         stack = []

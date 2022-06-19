@@ -13,7 +13,8 @@ Input: "cbacdcbc"
 Output: "acdb"
 """
 """
-316.Remove-Duplicate-Letters
+1081. Smallest Subsequence of Distinct Characters
+
 总体思想是贪心法，用stack做辅助。基本方法仍然是用手头的字符尽量维持一个递增字符序列，因为递增序列意味着字典序最小。
 
 首先，在维护栈的过程中，遇到已经用过的字符就跳过。比如当前待处理的字符是c，而当前的栈已经有c了，意味着什么呢？
@@ -28,6 +29,24 @@ Output: "acdb"
 
 
 import collections
+
+
+class SolutionTony:
+    def smallestSubsequence(self, s: str) -> str:
+        last = collections.defaultdict(int)
+        for i, ch in enumerate(s):
+            last[ch] = i
+
+        stack = []
+        for i, ch in enumerate(s):
+            if ch in stack:
+                continue
+            # identical to 316, only difference is to make sure the ch we delete will show up again (i < last[stack[-1]])
+            while stack and stack[-1] > ch and i < last[stack[-1]]:
+                stack.pop()
+            stack.append(ch)
+        return "".join(stack)
+
 
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
@@ -47,25 +66,8 @@ class Solution:
 
 
 
-class Solution2:
-    def removeDuplicateLetters(self, s):
-        table = {}
-        for i, char in enumerate(s):
-            table[char] = i
-
-        stack = []
-        for i, char in enumerate(s):
-            if char not in stack:
-                while stack and char < stack[-1] and i < table[stack[-1]]:
-                    stack.pop()
-                stack.append(char)
-
-        return ''.join(stack)
-
-
-
 s = "cbacdcbc"
-a = Solution2()
+a = SolutionTony()
 print(a.removeDuplicateLetters(s))
 
 

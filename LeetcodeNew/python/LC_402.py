@@ -1,5 +1,8 @@
 
 """
+
+1673. Find the Most Competitive Subsequence
+
 解决原题的直观思路是寻找一个尽可能小的递增序列，但要满足位数的要求。
 
 这是栈的典型应用。利用栈维护一个递增序列。当遍历的元素小于栈顶元素时，就不断退栈直至 Stack.top()<num[i]，这样继续加入元素后仍然是一个递增序列。
@@ -26,7 +29,7 @@ class Solution:
                 stack.pop()
                 k -= 1
             stack.append(item)
-        # if we there are still k remains, we continue to pop
+        # if we there are k remains, we continue to pop
         while k:
             stack.pop()
             k -= 1
