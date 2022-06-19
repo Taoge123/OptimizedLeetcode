@@ -12,40 +12,93 @@ https://blog.csdn.net/fuxuemingzhu/article/details/82938164
 
 """
 
+import collections
 
-class Solution:
+class SolutionRika:
     def countOfAtoms(self, formula: str) -> str:
-        formula = formula + ' '
-        table = {}
+
+        hashmap = collections.defaultdict(int)
         stack = [1]
-        digit = ''
+        num = ''
         lower = ''
 
-        for i in range(len(formula) - 2, -1, -1):
-            element = formula[i] + lower
-            if element.isdigit():
-                digit = element + digit
-                continue
-            elif element.islower():
-                lower = element + lower
-                continue
-            elif element == ')':
-                stack.append(stack[-1] * int(digit))
-                digit = ''
-                continue
-            elif element == '(':
-                stack.pop()
-                continue
-            table[element] = table.get(element, 0) + stack[-1] * int(digit or 1)
-            digit = ''
-            lower = ''
+        for i in range(len(formula) - 1, -1, -1):
+            ch = formula[i] + lower
 
+            if ch.isdigit():
+                num = ch + num  # num is in str type
+            elif ch.islower():
+                lower = ch  # lower name after upper case
+            elif ch == ')':
+                stack.append(stack[-1] * int(num or 1))  # append factors
+                num = ''
+            elif ch == '(':
+                stack.pop()
+            else:  # uppercase char --> name
+                hashmap[ch] += stack[-1] * int(num or 1)
+                num = ''
+                lower = ''
         res = ''
-        for key, value in sorted(table.items()):
+        for key, value in sorted(hashmap.items()):
             if value == 1:
                 value = ''
-            res = res + key + str(value)
+            res += key + str(value)
         return res
 
 
+
+
+class SolutionCheng:
+    def countOfAtoms(self, formula: str) -> str:
+
+        n = len(formula)
+        stack = [collections.Counter()]
+        i = 0
+
+        while i < n:
+            ch = formula[i]
+            if ch == "(":
+                stack.append(collections.Counter())
+                i += 1
+            elif ch == ")":
+                cur_counter = stack.pop()
+
+                # fint the multiplier after ')'
+                i += 1
+                start = i
+                while i < n and formula[i].isdigit():
+                    i += 1
+
+                mutiplier = int(formula[start:i]) if formula[start:i] else 1
+
+                # update the top counter in the stack
+                for atom in cur_counter:
+                    count = cur_counter[atom]
+                    stack[-1][atom] += count * mutiplier
+
+            else:
+                # find atom:
+                atom = ch
+                i += 1
+                start = i
+                while i < n and formula[i].islower():
+                    i += 1
+                atom += formula[start:i]
+                # find the number
+                # fint the multiplier after ')'
+                start = i
+                while i < n and formula[i].isdigit():
+                    i += 1
+
+                count = int(formula[start:i]) if formula[start:i] else 1
+                stack[-1][atom] += count
+
+        res = ""
+        counter = stack[-1]
+
+        for atom in sorted(counter):
+            res += atom
+            if counter[atom] > 1:
+                res += str(counter[atom])
+        return res
 

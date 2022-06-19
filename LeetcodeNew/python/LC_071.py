@@ -36,20 +36,21 @@ Input: "/a//b////c/d//././/.."
 Output: "/a/b/c"
 """
 
-
-class Solution:
+class SolutionRika:
     def simplifyPath(self, path: str) -> str:
-
-        path = path.split("/")
         stack = []
-        for item in path:
-            if item not in ["", "..", "."]:
-                stack.append(item)
-            elif item == ".." and stack:
-                stack.pop()
-        return "/" + "/".join(stack)
 
+        for file in path.split("/"):
+            if file == "..":
+                if stack:
+                    stack.pop()
+            elif file == "." or not file:
+                continue
+            else:
+                stack.append(file)
 
+        res = "/" + "/".join(stack)
+        return res
 
 
 

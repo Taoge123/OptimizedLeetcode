@@ -29,7 +29,6 @@ class Solution:
                 top[color] = min(top[color], i)
                 bottom[color] = max(bottom[color], i)
 
-
         self.graph = [[] for i in range(61)]
         visited = [0] * 61
 
