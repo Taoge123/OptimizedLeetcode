@@ -32,7 +32,7 @@ import collections
 
 
 class SolutionTony:
-    def smallestSubsequence(self, s: str) -> str:
+    def removeDuplicateLetters(self, s: str) -> str:
         last = collections.defaultdict(int)
         for i, ch in enumerate(s):
             last[ch] = i
@@ -66,7 +66,7 @@ class Solution:
 
 
 
-s = "cbacdcbc"
+s = "aba"
 a = SolutionTony()
 print(a.removeDuplicateLetters(s))
 

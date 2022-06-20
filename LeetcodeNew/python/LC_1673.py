@@ -9,6 +9,7 @@
 
 
 """
+import functools
 
 
 class SolutionTony:
@@ -29,21 +30,57 @@ class SolutionTony:
         return stack
 
 
-class Solution:
-    def mostCompetitive(self, nums, k: int):
-        stack = []
-        count = len(nums) - k
-        # if count >= len(nums):
-        #     return []
-        for num in nums:
-            while stack and stack[-1] > num and count:
+
+class SolutionTonyIncorrect:
+    def maxNumber(self, nums1, nums2, k: int):
+        # 1081.Smallest-Subsequence-of-Distinct-Characters (M+)
+        def mostCompetitive(nums, k: int):
+            k = len(nums) - k
+            if k >= len(nums):
+                return 0
+            stack = []
+            for num in nums:
+                while stack and k and stack[-1] < num:
+                    stack.pop()
+                    k -= 1
+                stack.append(num)
+
+            while stack and k:
                 stack.pop()
-                count -= 1
-            stack.append(num)
-        while count:
-            stack.pop()
-            count -= 1
+                k -= 1
 
-        return stack
+            nums = list(stack)
+            res = 0
+            for num in stack:
+                res = res * 10 + num
+            return res
 
+        m, n = len(nums1), len(nums2)
+
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            # print(i, j, k)
+            if k <= 0:
+                return 0
+            if i >= m and j >= n:
+                return 0
+            if i >= m:
+                # print("tony - ", i, j, nums2[j:], k)
+                num = mostCompetitive(nums2[j:], k)
+                # print("tony -- ", num)
+                return num
+            if j >= n:
+                # print("tony = ", i, j, nums1[i:] , k)
+                num = mostCompetitive(nums1[i:], k)
+                # print("tony == ", num)
+                return num
+
+            a = dfs(i + 1, j, k)
+            b = dfs(i, j + 1, k)
+            c = dfs(i + 1, j, k - 1) * 10 + nums1[i]
+            d = dfs(i, j + 1, k - 1) * 10 + nums2[j]
+
+            return max(a, b, c, d)
+
+        return map(int, list(str(dfs(0, 0, k))))
 
