@@ -22,55 +22,21 @@ If the day with higher temperature is not found, we leave the ans to be the defa
 # for each value, once num > prev, then we pop out each of their index and get the diff distance
 
 class SolutionTony:
-    def dailyTemperatures(self, T):
+    def dailyTemperatures(self, nums):
         stack = []
-        res = [0] * len(T)
-        for i, num in enumerate(T):
-            while stack and T[stack[-1]] < num:
+        n = len(nums)
+        res = [0] * n
+
+        for i, num in enumerate(nums):
+            while stack and nums[stack[-1]] < num:
                 node = stack.pop()
                 res[node] = i - node
             stack.append(i)
         return res
 
 
-
-
-class Solution:
-    def dailyTemperatures(self, T):
-
-        res = [0] * len(T)
-        stack = []
-        for i, num in enumerate(T):
-            while stack and T[stack[-1]] < num:
-                print(stack[-1], T[stack[-1]])
-                cur = stack.pop()
-                res[cur] = i - cur
-            stack.append(i)
-
-        return res
-
-
-
-class Solution2:
-    def dailyTemperatures(self, T):
-        n = len(T)
-        res = [0] * n
-
-        for i in range(n - 2, -1, -1):
-            j = i + 1
-
-            while T[i] >= T[j] and res[j] > 0:
-                j += res[j]
-
-            if T[j] > T[i]:
-                res[i] = j - i
-
-        return res
-
-
-
 # T = [73, 74, 75, 71, 69, 72, 76, 73]
 T = [1,2,3,4,5,6,7]
 # T = [7,6,5,4,3,2,1]
-a = Solution()
+a = SolutionTony()
 print(a.dailyTemperatures(T))

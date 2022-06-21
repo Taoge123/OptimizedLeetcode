@@ -27,6 +27,30 @@ a_max < b => c
 
 """
 
+
+class SolutionRika:
+    def verifyPreorder(self, preorder) -> bool:
+        # BST --> node.val in in between (min, max)
+
+        self.pos = 0
+        return self.dfs(preorder, float('-inf'), float('inf'))
+
+    def dfs(self, preorder, minn, maxx):
+        if self.pos >= len(preorder):
+            return True
+
+        if preorder[self.pos] < minn or preorder[self.pos] > maxx:
+            return False
+
+        value = preorder[self.pos]
+        self.pos += 1
+        left = self.dfs(preorder, minn, value)
+        right = self.dfs(preorder, value, maxx)
+
+        return left or right
+
+
+
 class Solution:
     def verifyPreorder(self, preorder) -> bool:
 
