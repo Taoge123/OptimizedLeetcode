@@ -12,37 +12,23 @@ Note: The length of given array won't exceed 10000.
 """
 
 
-class Solution:
-    def nextGreaterElements(self, nums):
-        stack = []
-        res = [-1] * len(nums)
-
-        for i in list(range(len(nums))) * 2:
-            # print(i)
-            while stack and nums[i] > nums[stack[-1]]:
-                res[stack.pop()] = nums[i]
-            stack.append(i)
-        return res
-
-
-
 class SolutionTony:
     def nextGreaterElements(self, nums):
         n = len(nums)
-        stack = []
-        table = {}
         res = [-1] * n
-
+        stack = []
         for i, num in enumerate(nums + nums):
             i %= n
             while stack and nums[stack[-1]] < num:
-                res[stack.pop()] = nums[i]
-            stack.append(i)
+                res[stack.pop()] = num
+            stack.append(i % n)
+
         return res
 
 
+
 nums = [3,2,1,4]
-a = Solution()
+a = SolutionTony()
 print(a.nextGreaterElements(nums))
 
 

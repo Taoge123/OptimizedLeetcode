@@ -77,21 +77,21 @@ class SolutionTonnie:
             return stack
 
         def mergeMax(nums1, nums2):
-            ans = []
+            res = []
             while nums1 or nums2:
                 if nums1 > nums2:
-                    ans += nums1[0],
+                    res += nums1[0],
                     nums1 = nums1[1:]
                 else:
-                    ans += nums2[0],
+                    res += nums2[0],
                     nums2 = nums2[1:]
-            return ans
+            return res
 
-        n, m = len(nums1), len(nums2)
+        m, n = len(nums1), len(nums2)
         res = [0] * k
         for i in range(0, k + 1):
             j = k - i
-            if i > n or j > m:
+            if i > m or j > n:
                 continue
             left = mostCompetitive(nums1, i)
             right = mostCompetitive(nums2, j)
