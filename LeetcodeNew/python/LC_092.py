@@ -110,5 +110,23 @@ class Solution2:
             self.left = self.left.next
 
 
+class Solution3:
+    def __init__(self):
+        self.successor = None
 
+    def reverseBetween(self, head, left: int, right: int):
+        if left == 1:
+            return self.reverseN(head, right)
+        head.next = self.reverseBetween(head.next, left - 1, right - 1)
+        return head
+
+    def reverseN(self, head, num):
+        if num == 1:
+            self.successor = head.next
+            return head
+
+        last = self.reverseN(head.next, num - 1)
+        head.next.next = head
+        head.next = self.successor
+        return last
 
