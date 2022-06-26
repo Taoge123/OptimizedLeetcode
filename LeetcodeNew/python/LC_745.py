@@ -36,6 +36,38 @@ class Trie:
         for char, nextNode in node.children.items():
             self.findAllWords(nextNode, prefix + char, words)
 
+# Tony's version
+class Trie2:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.isWord = True
+
+    def search(self, prefix):
+        node = self.root
+        res = set()
+        path = ""
+        for ch in prefix:
+            if ch not in node.children:
+                return []
+            node = node.children[ch]
+            path += ch
+        self.dfs(node, path, res)
+        return res
+
+    def dfs(self, node, path, res):
+        if node.isWord:
+            res.add(path)
+
+        for ch in node.children:
+            self.dfs(node.children[ch], path + ch, res)
+
 
 class WordFilter:
     def __init__(self, words):

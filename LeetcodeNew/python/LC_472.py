@@ -132,7 +132,7 @@ class Trie:
         return node.isWord
 
 
-class SolutionTrieTLE:
+class SolutionTrie:
     def findAllConcatenatedWordsInADict(self, words):
 
         self.trie = Trie()
@@ -158,7 +158,7 @@ class SolutionTrieTLE:
 
 
 
-class SolutionTonyTLE:
+class SolutionTony:
     def findAllConcatenatedWordsInADict(self, words):
 
         cache = set(words)
@@ -186,7 +186,7 @@ class SolutionTonyTLE:
 
 
 
-class SolutionTLE:
+class Solution:
     def findAllConcatenatedWordsInADict(self, words):
         cache = set(words)
         res = []

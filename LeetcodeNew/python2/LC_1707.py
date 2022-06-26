@@ -6,7 +6,7 @@
 """
 
 
-class Trie:
+class Trie2:
     def __init__(self):
         self.root = {}
 
@@ -35,14 +35,52 @@ class Trie:
         return res
 
 
+class TrieNode:
+    def __init__(self):
+        self.zero = None
+        self.one = None
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, num):
+        node = self.root
+        for i in range(31, -1, -1):
+            if num & 1 << i:
+                if not node.one:
+                    node.one = TrieNode()
+                node = node.one
+            else:
+                if not node.zero:
+                    node.zero = TrieNode()
+                node = node.zero
+
+    def query(self, num):
+        node = self.root
+        maxi = 0
+        for i in range(31, -1, -1):
+            isNum = num & 1 << i
+            if not node:
+                return maxi if maxi else -1
+            if node.one and not isNum:
+                node = node.one
+                maxi += 1 << i
+            elif node.zero and isNum:
+                node = node.zero
+                maxi += 1 << i
+            else:
+                node = node.one or node.zero
+        return maxi
+
+
 class Solution:
     def maximizeXor(self, nums, queries):
         nums.sort()
         for i, query in enumerate(queries):
             queries[i] = [i, query]
 
-        queries = sorted(queries, key=lambda x: x[1][1])
-        # print(queries)
+        queries = sorted(queries, key=lambda x : x[1][1])
         trie = Trie()
         res = [-1] * len(queries)
         j = 0
