@@ -24,74 +24,51 @@ The input will only have lower-case letters.
 1 <= root length <= 100
 1 <= sentence words length <= 1000
 """
-
-class Solution1:
-    def replaceWords(self, dict, sentence):
-
-        setenceAsList = sentence.split(" ")
-        for i in range(len(setenceAsList)):
-            for j in dict:
-                if setenceAsList[i].startswith(j):
-                    setenceAsList[i] = j
-        return " ".join(setenceAsList)
-
-
-
 class TrieNode:
     def __init__(self):
-        self.children = dict()
+        self.children = {}
         self.isWord = False
 
-class Trie:
 
+class Trie:
     def __init__(self):
         self.root = TrieNode()
 
-    def insert(self, word):
+    def insert(self, word: str) -> None:
         node = self.root
-        for letter in word:
-            child = node.children.get(letter)
-            if child is None:
-                child = TrieNode()
-                node.children[letter] = child
-            node = child
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
         node.isWord = True
 
     def search(self, word):
-        ans = ''
         node = self.root
-        for letter in word:
-            node = node.children.get(letter)
-            if node is None: break
-            ans += letter
-            if node.isWord:
-                return ans
-        return word
+        for ch in word:
+            node = node.children.get(ch)
+            if node is None:
+                return False
+        return node.isWord
 
-class Solution2:
-    def replaceWords(self, dict, sentence):
 
+class SolutionTony:
+    def replaceWords(self, dictionary, sentence: str) -> str:
+        s = sentence.split()
         trie = Trie()
-        for word in dict:
+        for word in dictionary:
             trie.insert(word)
-        ans = []
-        for word in sentence.split():
-            ans.append(trie.search(word))
-        return ' '.join(ans)
-
-
-
-
-class Solution3:
-    def replaceWords(self, dict, sentence: str) -> str:
-        trie = Trie()
-        for word in dict:
-            trie.insert(word)
-
-        sentence = sentence.split(" ")
         res = []
-        for i, word in enumerate(sentence):
-            res.append(trie.search(word))
+        for word in s:
+            flag = False
+            for i in range(len(word)):
+                # if we found one, flad turns to True
+                if trie.search(word[:i]):
+                    res.append(word[:i])
+                    flag = True
+                    break
+            # if we never found one, add the original word
+            if not flag:
+                res.append(word)
         return " ".join(res)
 
 
