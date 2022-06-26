@@ -6,33 +6,33 @@
 """
 
 
-class Trie2:
-    def __init__(self):
-        self.root = {}
-
-    def insert(self, num):
-        node = self.root
-        for i in range(31, -1, -1):
-            bit = (num >> i) & 1
-            if bit not in node:
-                node[bit] = {}
-            node = node[bit]
-
-    def query(self, num):
-        if not self.root:
-            return -1
-        node = self.root
-        res = 0
-        for i in range(31, -1, -1):
-            cur = (num >> i) & 1
-            target = 1 - cur
-            if target in node:
-                node = node[target]
-                res |= (1 << i)
-                # res = res * 2
-            else:
-                node = node[cur]
-        return res
+# class Trie2:
+#     def __init__(self):
+#         self.root = {}
+#
+#     def insert(self, num):
+#         node = self.root
+#         for i in range(31, -1, -1):
+#             bit = (num >> i) & 1
+#             if bit not in node:
+#                 node[bit] = {}
+#             node = node[bit]
+#
+#     def query(self, num):
+#         if not self.root:
+#             return -1
+#         node = self.root
+#         res = 0
+#         for i in range(31, -1, -1):
+#             cur = (num >> i) & 1
+#             target = 1 - cur
+#             if target in node:
+#                 node = node[target]
+#                 res |= (1 << i)
+#                 # res = res * 2
+#             else:
+#                 node = node[cur]
+#         return res
 
 
 class TrieNode:
