@@ -42,6 +42,32 @@ class Node:
         self.child = child
 
 
+class Solution:
+    def flatten(self, head):
+        if not head:
+            return head
+
+        # pseudo head to ensure the `prev` pointer is never none
+        prev = Node(None, None, head, None)
+        self.dfs(prev, head)
+        # detach the pseudo head from the real head
+        prev.next.prev = None
+        return prev.next
+
+    def dfs(self, prev, curr):
+        """ return the tail of the flatten list """
+        if not curr:
+            return prev
+
+        curr.prev = prev
+        prev.next = curr
+
+        # the curr.next would be tempered in the recursive function
+        nxt = curr.next
+        tail = self.dfs(curr, curr.child)
+        curr.child = None
+        return self.dfs(tail, nxt)
+
 
 class SolutionTony:
     def flatten(self, head: 'Node') -> 'Node':
