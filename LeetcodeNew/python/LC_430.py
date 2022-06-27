@@ -43,7 +43,7 @@ class Node:
 
 
 
-class Solution2:
+class SolutionTony:
     def flatten(self, head: 'Node') -> 'Node':
         node = head
         while node:
