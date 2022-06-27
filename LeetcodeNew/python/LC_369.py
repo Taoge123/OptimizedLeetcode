@@ -27,32 +27,6 @@ class ListNode:
 """
 
 
-class Solution1:
-    def plusOne(self, head: ListNode) -> ListNode:
-        head = self.reverse(head)
-        carry = 1
-
-        curr = head
-        while curr:
-            val = curr.val + carry
-            if val > 9:
-                carry = 1
-                val %= 10
-            else:
-                carry = 0
-
-            curr.val = val
-            curr = curr.next
-
-        head = self.reverse(head)
-
-        if carry:
-            newNode = ListNode(carry)
-            newNode.next = head
-            head = newNode
-        return head
-
-
 
 class Solution:
     def plusOne(self, head: ListNode) -> ListNode:
@@ -76,6 +50,34 @@ class Solution:
         while node:
             node.val = 0
             node = node.next
+        return head
+
+
+
+
+class Solution1:
+    def plusOne(self, head: ListNode) -> ListNode:
+        head = self.reverse(head)
+        carry = 1
+
+        curr = head
+        while curr:
+            val = curr.val + carry
+            if val > 9:
+                carry = 1
+                val %= 10
+            else:
+                carry = 0
+
+            curr.val = val
+            curr = curr.next
+
+        head = self.reverse(head)
+
+        if carry:
+            newNode = ListNode(carry)
+            newNode.next = head
+            head = newNode
         return head
 
 
