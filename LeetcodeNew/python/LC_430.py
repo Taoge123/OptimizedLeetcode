@@ -41,6 +41,30 @@ class Node:
         self.next = next
         self.child = child
 
+
+
+class Solution2:
+    def flatten(self, head: 'Node') -> 'Node':
+        node = head
+        while node:
+            if node.child:
+                right = node.next
+                node.next = self.flatten(node.child)
+                # whoever is the next, set the prev as the current node, recursion will find the node.next
+                node.next.prev = node
+                node.child = None
+                # current node will keep going to all the way end then we connect the last layer
+                while node.next:
+                    node = node.next
+                # connect to last layer
+                if right:
+                    node.next = right
+                    right.prev = node
+            node = node.next
+        return head
+
+
+
 class SolutionWisdom:
     def flatten(self, head: 'Node') -> 'Node':
         if not head:
@@ -105,27 +129,6 @@ class Solution:
         dummy.next.prev = None
         return dummy.next
 
-
-
-class Solution2:
-    def flatten(self, head: 'Node') -> 'Node':
-        node = head
-        while node:
-            if node.child:
-                right = node.next
-                node.next = self.flatten(node.child)
-                # whoever is the next, set the prev as the current node, recursion will find the node.next
-                node.next.prev = node
-                node.child = None
-                # current node will keep going to all the way end then we connect the last layer
-                while node.next:
-                    node = node.next
-                # connect to last yayer
-                if right:
-                    node.next = right
-                    right.prev = node
-            node = node.next
-        return head
 
 
 
