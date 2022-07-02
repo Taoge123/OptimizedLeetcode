@@ -1,5 +1,6 @@
 """
-
+https://www.youtube.com/watch?v=RB22pCOZFts
+https://github.com/wisdompeak/LeetCode/tree/master/Math/858.Mirror-Reflection
 https://leetcode.com/problems/mirror-reflection/solution/
 
 858.Mirror-Reflection
@@ -40,6 +41,25 @@ https://leetcode.com/problems/mirror-reflection/solution/
 """
 
 import math
+
+
+class Solution0:
+    def mirrorReflection(self, p: int, q: int) -> int:
+
+        m = 1
+        while q * m % p != 0:
+            m += 1
+
+        n = q * m // p
+
+        if m % 2 == 1 and n % 2 == 1:
+            return 1
+        elif m % 2 == 0 and n % 2 == 1:
+            return 2
+        elif m % 2 == 1 and n % 2 == 0:
+            return 0
+
+
 
 class Solution:
     def mirrorReflection(self, p: int, q: int) -> int:
