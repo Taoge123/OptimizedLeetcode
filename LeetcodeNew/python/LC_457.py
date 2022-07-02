@@ -41,6 +41,26 @@ Could you solve it in O(n) time complexity and O(1) extra space complexity?
 """
 
 
+class Solution:
+    def circularArrayLoop(self, nums) -> bool:
+
+        n = len(nums)
+
+        def next_pos(i):
+            return (i + nums[i]) % n
+
+        for i in range(n):
+            slow = i
+            fast = next_pos(slow)
+            while nums[fast] * nums[i] > 0 and nums[next_pos(fast)] * nums[i] > 0:
+                if slow == fast:
+                    if slow == next_pos(slow):
+                        break
+                    return True
+                slow = next_pos(slow)
+                fast = next_pos(next_pos(fast))
+        return False
+
 
 
 class Solution:
@@ -70,31 +90,5 @@ class Solution:
     def nextPos(self, i, nums):
         length = len(nums)
         return (i + nums[i]) % length
-
-
-class SolutionSlower:
-    def circularArrayLoop(self, nums) -> bool:
-
-        n = len(nums)
-        self.nums = nums
-        for i in range(n):
-            slow = i
-            fast = self.nextPos(slow)
-            while nums[fast] * nums[i] > 0 and nums[self.nextPos(fast)] * nums[i] > 0:
-                if fast == slow:
-                    if slow == self.nextPos(slow):
-                        break
-                    return True
-                slow = self.nextPos(slow)
-                fast = self.nextPos(self.nextPos(fast))
-        return False
-
-    def nextPos(self, index):
-        n = len(self.nums)
-        return (index + self.nums[index] + n) % n
-
-
-
-
 
 

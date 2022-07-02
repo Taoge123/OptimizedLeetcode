@@ -40,9 +40,42 @@ class Solution:
         return head
 
 
+class SolutionTest:
+    def insert(self, head: 'Optional[Node]', insertVal: int) -> 'Node':
+        if not head:
+            head = Node(insertVal)
+            head.next = head
+
+            return head
+        elif head.next == head:
+            head.next = Node(insertVal)
+            head.next.next = head
+            # print(head.next.val)
+            return head
+
+        dummy = Node(float('inf'))
+        dummy.next = head
+        node = dummy.next
+
+        while node:
+            nxt = node.next
+            if node.val <= insertVal <= nxt.val:
+                newNode = Node(insertVal)
+                node.next = newNode
+                newNode.next = nxt
+                node = node.next
+                return head
+            node = node.next
+        return head
 
 
+head = Node(3)
+head.next = Node(4)
+head.next.next = Node(1)
+head.next.next.next = head
 
 
+a = SolutionTest()
+print(a.insert(head, 2))
 
 
