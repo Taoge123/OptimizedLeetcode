@@ -39,6 +39,23 @@ class ListNode:
         self.next = None
 
 
+class SolutionFast:
+    def __init__(self, head: ListNode):
+        self.head = head
+
+    def getRandom(self) -> int:
+        node = self.head
+        counter = 1
+        res = -1
+
+        while node:
+            if random.random() < 1 / counter:
+                res = node.val
+            node = node.next
+            counter += 1
+        return res
+
+
 class Solution:
     def __init__(self, head: ListNode):
         """
@@ -64,21 +81,7 @@ class Solution:
 
 
 
-class SolutionFast:
-    def __init__(self, head: ListNode):
-        self.head = head
 
-    def getRandom(self) -> int:
-        node = self.head
-        counter = 1
-        res = -1
-
-        while node:
-            if random.random() < 1 / counter:
-                res = node.val
-            node = node.next
-            counter += 1
-        return res
 
 
 

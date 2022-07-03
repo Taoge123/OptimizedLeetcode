@@ -29,8 +29,26 @@ Arguments are always wrapped with a list, even if there aren't any.
 
 import math, random
 
-class Solution:
 
+
+class Solution:
+    def __init__(self, radius, x_center, y_center):
+        self.x_min = x_center - radius
+        self.x_max = x_center + radius
+        self.y_min = y_center - radius
+        self.y_max = y_center + radius
+        self.radius = radius
+        self.x_center = x_center
+        self.y_center = y_center
+
+    def randPoint(self):
+        while True:
+            x, y = random.uniform(self.x_min, self.x_max), random.uniform(self.y_min, self.y_max)
+            if (x - self.x_center)**2 + (y - self.y_center)**2 <= self.radius**2:
+                return [x, y]
+
+
+class Solution478:
     def __init__(self, radius: float, x_center: float, y_center: float):
         self.radius = radius
         self.x_center = x_center
@@ -43,25 +61,5 @@ class Solution:
         x = dist * math.cos(degree)
         y = dist * math.sin(degree)
         return [self.x_center + x, self.y_center + y]
-
-
-
-class Solution478:
-    def __init__(self, radius, x_center, y_center):
-        self.x_min = x_center - radius
-        self.x_max = x_center + radius
-        self.y_min = y_center - radius
-        self.y_max = y_center + radius
-        self.radius = radius
-        self.x_center = x_center
-        self.y_center = y_center
-
-    def randPoint(self):
-
-        while True:
-            x, y = random.uniform(self.x_min, self.x_max), random.uniform(self.y_min, self.y_max)
-            if (x - self.x_center)**2 + (y - self.y_center)**2 <= self.radius**2:
-                return [x, y]
-
 
 
