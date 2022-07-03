@@ -1,7 +1,6 @@
 """
-https://www.youtube.com/watch?v=RB22pCOZFts
-https://github.com/wisdompeak/LeetCode/tree/master/Math/858.Mirror-Reflection
-https://leetcode.com/problems/mirror-reflection/solution/
+
+https://leetcode.com/problems/mirror-reflection/discuss/146336/Java-solution-with-an-easy-to-understand-explanation
 
 858.Mirror-Reflection
 容易想象，光路射出后，会在左右边界上来回反弹数次，可能会到达接收器1，也可能会到达接收器2，但更有可能会打到上边界从而弹回，造成后续非常复杂的光路。这是本题的难点所在。

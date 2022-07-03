@@ -69,16 +69,16 @@ class SolutionFast:
         self.head = head
 
     def getRandom(self) -> int:
-        cur_node = self.head
+        node = self.head
         counter = 1
-        choice = -1
+        res = -1
 
-        while not cur_node is None:
+        while node:
             if random.random() < 1 / counter:
-                choice = cur_node.val
-            cur_node = cur_node.next
+                res = node.val
+            node = node.next
             counter += 1
-        return choice
+        return res
 
 
 
