@@ -1,6 +1,7 @@
 from sortedcontainers import SortedList, sortedset, sorteddict
 
 """
+https://www.youtube.com/watch?v=1lfAuryQYLg
 rand() % M -> [0, M-1]
 
 ____|   _____|    _________
@@ -12,6 +13,24 @@ l1 -> [0, 10] -> 7
 
 """
 import random
+import bisect
+
+class SolutionTony:
+    def __init__(self, rects):
+        self.rects = rects
+        self.areas = []
+        self.sum = 0
+        for i in range(len(rects)):
+            self.sum += (rects[i][2] - rects[i][0] + 1) * (rects[i][3] - rects[i][1] + 1)
+            self.areas.append(self.sum)
+
+    def pick(self):
+        rand = random.randint(1, self.sum)
+        i = bisect.bisect_left(self.areas, rand)
+        rect = self.rects[i]
+        return [random.randint(rect[0], rect[2]), random.randint(rect[1], rect[3])]
+
+
 
 
 class Solution:

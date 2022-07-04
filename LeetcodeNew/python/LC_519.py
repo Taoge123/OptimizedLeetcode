@@ -25,6 +25,28 @@ res = 0
 
 import random
 
+
+class SolutionRika:
+    def __init__(self, m: int, n: int):
+        self.m = m
+        self.n = n
+        self.last_index = m * n
+        self.map = {}
+
+    def flip(self):
+        x = random.randint(0, self.last_index - 1)
+        self.last_index -= 1
+        # 查找位置 x 对应的映射
+        idx = self.map.get(x, x)
+        # 将位置 x 对应的映射设置为位置 last_index 对应的映射
+        self.map[x] = self.map.get(self.last_index, self.last_index)
+        return [idx // self.n, idx % self.n]
+
+    def reset(self) -> None:
+        self.last_index = self.m * self.n
+        self.map.clear()
+
+
 class Solution:
     def __init__(self, n_rows: int, n_cols: int):
         self.n = n_cols

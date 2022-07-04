@@ -27,6 +27,24 @@ class Interval:
         self.start = s
         self.end = e
 
+
+class SolutionTony:
+    def merge(self, intervals):
+
+        res = []
+        intervals.sort()
+        res.append(intervals[0])
+        for i, j in intervals[1:]:
+            # if last meeting ends, then we start a new meeting
+            if res[-1][1] < i:
+                res.append([i, j])
+            # if last meeting is going on, then we merge it by pick the latest finished time
+            else:
+                res[-1][1] = max(res[-1][1], j)
+        return res
+
+
+
 class Solution:
     def merge(self, intervals):
 

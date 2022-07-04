@@ -23,6 +23,26 @@ i   i i      i       i
 
 import heapq
 
+
+class SolutionRika:
+    def minMeetingRooms(self, intervals):
+
+        meetings = []
+        for i, j in intervals:
+            meetings.append([i, 1])
+            meetings.append([j, -1])
+
+        meetings.sort()
+
+        count = 0
+        res = 0
+        for time, status in meetings:
+            count += status
+            res = max(res, count)
+        return res
+
+
+
 class Solution:
     def minMeetingRooms(self, intervals) -> int:
         right = res = 0
