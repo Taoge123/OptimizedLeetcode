@@ -5,6 +5,19 @@ class Interval:
         self.end = end
 
 
+class SolutionTony:
+    def employeeFreeTime(self, schedule):
+        intervals = sorted([i for s in schedule for i in s], key=lambda x: x.start)
+        res = []
+        end = intervals[0].end
+        for interval in intervals[1:]:
+            if interval.start > end:
+                res.append(Interval(end, interval.start))
+            end = max(end, interval.end)
+        return res
+
+
+
 class Solution:
     def employeeFreeTime(self, schedule):
         res = []
