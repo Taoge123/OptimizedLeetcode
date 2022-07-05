@@ -17,6 +17,52 @@ You may assume k is always valid, 1 ≤ k ≤ array's length.
 import heapq
 import random
 
+
+class SolutionTony:
+    def findKthLargest(self, nums, k: int) -> int:
+        return self.quickSelect(nums, 0, len(nums) - 1, k)
+
+    def quickSelect(self, nums, l, r, k):
+        target_index = len(nums) - k
+        pos = self.partition(nums, l, r)
+        if pos == target_index:
+            return nums[pos]
+
+        elif pos < target_index:
+            return self.quickSelect(nums, pos + 1, r, k)
+
+        return self.quickSelect(nums, l, pos - 1, k)
+
+    def partition(self, nums, left, right):
+        pivot = random.randint(left, right)
+        nums[pivot], nums[right] = nums[right], nums[pivot]  # put pivot at rightmost position
+        i = left
+        for j in range(left, right):  # left to right-1
+            if nums[j] <= nums[right]:
+                nums[j], nums[i] = nums[i], nums[j]
+                i += 1
+        nums[right], nums[i] = nums[i], nums[right]  # swap the i and the last element
+        return i
+
+    # Hoare - faster but harder to implement
+    def partition2(self, nums, lo, hi):
+        pivot_index = random.randint(lo, hi)
+        nums[lo], nums[pivot_index] = nums[pivot_index], nums[lo]
+        i, j = lo + 1, hi
+        while True:
+            while i <= j and nums[i] <= nums[lo]:
+                i += 1
+            while i <= j and nums[j] >= nums[lo]:
+                j -= 1
+            if j <= i:
+                nums[lo], nums[j] = nums[j], nums[lo]
+                return j
+            else:
+                nums[i], nums[j] = nums[j], nums[i]
+
+
+
+
 class Solution:
     def findKthLargest(self, nums, k):
         return self.quickSelect(nums, 0, len(nums) - 1, k)
@@ -44,6 +90,7 @@ class Solution:
         nums[lo], nums[right] = nums[right], nums[lo]
         return lo
 
+
 class Solution3:
     def findKthLargest(self, nums, k):
         heap = []
@@ -60,9 +107,8 @@ class Solution3:
 
 
 # Alan
-
-class Solution:
-    def findKthLargest(self, nums: List[int], k: int) -> int:
+class Solution2:
+    def findKthLargest(self, nums, k: int) -> int:
         l, r = 0, len(nums) - 1
         target_index = len(nums) - k
         while l <= r:
