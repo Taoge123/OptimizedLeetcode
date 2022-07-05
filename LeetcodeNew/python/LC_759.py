@@ -5,6 +5,17 @@ class Interval:
         self.end = end
 
 
+"""
+    
+----- e
+   ----
+        --------
+         -----
+        
+        
+"""
+
+
 class SolutionTony:
     def employeeFreeTime(self, schedule):
         intervals = sorted([i for s in schedule for i in s], key=lambda x: x.start)
