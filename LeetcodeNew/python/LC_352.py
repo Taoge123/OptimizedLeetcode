@@ -97,6 +97,119 @@ visited = (1, 3, 7, 2)
 
 """
 
+import bisect
+from sortedcontainers import SortedDict, SortedSet, SortedList
+
+
+class SummaryRangesTony:
+    def __init__(self):
+        self.data = SortedList()
+
+    def addNum(self, val: int):
+        k = self.data.bisect_left([val, val])
+        n = len(self.data)
+        # if k-1's ending value already covered val or k-th value is val, then we don't need to insert
+        #  ------    ----
+        #     val or val -> already covered
+        if (k and val <= self.data[k-1][1]) or (k < n and self.data[k][0] == val):
+            return
+        # if previous ending + 1 < val and k-th starting > val + 1, then we insert (automatically sorted)
+        # ---         ---
+        #      -----
+        if (k == 0 or self.data[k-1][1]+1 < val) and (k == n or val+1 < self.data[k][0]):
+            self.data.add([val, val])
+        # then it merge to
+        # -----
+        #      -
+        # ------
+        elif k and self.data[k-1][1]+1 == val:
+            self.data[k-1][1] += 1
+            # ---- ----
+            #     -
+            # ---------
+            if k < n and val+1 == self.data[k][0]:
+                self.data[k-1][1] = self.data.pop(k)[1]
+        #  ----
+        # -
+        # -----
+        elif k < n and val+1 == self.data[k][0]:
+            self.data[k][0] -= 1
+
+    def getIntervals(self):
+        return list(self.data)
+
+
+class SummaryRangesSortedDict:
+    def __init__(self):
+        self.cand = SortedDict()
+
+    def addNum(self, val: int) -> None:
+        nums = list(self.cand.keys())
+        if val in nums:
+            return
+        prev = bisect.bisect_left(nums, val) - 1
+        nxt = bisect.bisect_left(nums, val) + 1
+        self.cand[val] = val
+        n = len(self.cand)
+
+        if nxt != n and nums[nxt] == val + 1:
+            self.cand[val] = self.cand[nums[nxt]]
+            del self.cand[nums[nxt]]
+        if prev != -1 and self.cand[nums[prev]] >= val - 1:
+            self.cand[nums[prev]] = max(self.cand[nums[prev]], self.cand[val])
+            del self.cand[val]
+
+    def getIntervals(self):
+        res = []
+        for k, v in self.cand.items():
+            res.append([k, v])
+        return res
+
+
+
+class SummaryRangesSortedList:
+    def __init__(self):
+        self.list = SortedList()
+        self.visited = set()
+
+    def addNum(self, val: int) -> None:
+        if val in self.visited:
+            return
+        self.list.add(val)
+        self.visited.add(val)
+
+    def getIntervals(self):
+        res = []
+        start, end = -1, -1
+        for num in self.list:
+            if start == -1:
+                start, end = num, num
+            else:
+                if num <= end+1:
+                    end = num
+                else:
+                    res.append([start, end])
+                    start, end = num, num
+        res.append([start, end])
+        return res
+
+
+#
+# a = SummaryRangesSortedDict()
+# print(a.addNum(1))
+# print(a.getIntervals())
+# print(a.addNum(3))
+# print(a.getIntervals())
+# print(a.addNum(5))
+# print(a.getIntervals())
+# print(a.addNum(7))
+# print(a.getIntervals())
+# print(a.addNum(2))
+# print(a.getIntervals())
+# print(a.addNum(4))
+# print(a.getIntervals())
+
+
 
 class SummaryRanges11:
     def __init__(self):

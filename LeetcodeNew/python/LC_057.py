@@ -31,6 +31,25 @@ option 2:
       ------
  -------------
 """
+
+
+class Solution2:
+    def insert(self, intervals, newInterval):
+
+        intervals.append(newInterval)
+        intervals.sort(key=lambda x: x[0])
+
+        res = [intervals[0]]
+
+        for interval in intervals[1:]:
+            if interval[0] <= res[-1][1]:
+                res[-1][1] = max(interval[1], res[-1][1])
+            else:
+                res.append(interval)
+        return res
+
+
+
 class Solution:
     def insert(self, intervals, newInterval):
         s, e = newInterval[0], newInterval[1]
@@ -53,20 +72,4 @@ class Solution:
 
         return left + [[s, e]] + right
 
-
-
-class Solution2:
-    def insert(self, intervals, newInterval):
-
-        intervals.append(newInterval)
-        intervals.sort(key=lambda x: x[0])
-
-        res = [intervals[0]]
-
-        for interval in intervals[1:]:
-            if interval[0] <= res[-1][1]:
-                res[-1][1] = max(interval[1], res[-1][1])
-            else:
-                res.append(interval)
-        return res
 
