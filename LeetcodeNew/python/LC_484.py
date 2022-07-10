@@ -26,6 +26,43 @@ The input string will only contain the character 'D' and 'I'.
 The length of input string is a positive integer and will not exceed 10,000
 """
 
+class SolutionTony:
+    def findPermutation(self, s: str):
+
+        res = []
+        stack = []
+
+        for i, ch in enumerate(s):
+            stack.append(i + 1)
+
+            if ch == 'I':
+                while stack:
+                    res.append(stack.pop())
+
+        stack.append(len(s) + 1)
+
+        while stack:
+            res.append(stack.pop())
+        return res
+
+
+
+class SolutionRika:
+    def findPermutation(self, s: str):
+
+        res = []
+        stack = []
+        s += 'I'
+        for i, ch in enumerate(s):
+            stack.append(i + 1)
+
+            if ch == 'I':
+                while stack:
+                    res.append(stack.pop())
+
+        return res
+
+
 
 class Solution:
     def findPermutation(self, s: str):
