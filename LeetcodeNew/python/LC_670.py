@@ -6,6 +6,33 @@
 
 """
 
+class SolutionTonnie:
+    def maximumSwap(self, num: int) -> int:
+        s = list(str(num))
+        t = sorted(s)[::-1]
+
+        i = 0
+        n = len(s)
+        # find the lastest num that needs to be swaped
+        while i < n:
+            if s[i] == t[i]:
+                i += 1
+            else:
+                break
+
+        if (i == n):
+            return num
+
+        pos = 0
+        for j in range(i + 1, n):
+            # find the last appeared s[i]
+            if s[j] == t[i]:
+                pos = j
+        s[i], s[pos] = s[pos], s[i]
+        return int("".join(s))
+
+
+
 class SolutionTony:
     def maximumSwap(self, num: int) -> int:
         s = str(num)
