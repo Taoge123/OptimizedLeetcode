@@ -18,9 +18,6 @@
 已经满足要求了，我们总共添加了两个数8和27，所以返回2即可。
 
 
-"""
-
-"""
 Initialize an empty list, keep adding new numbers from provided nums into this list, 
 keep updating the coverage range of this list. 
 If you do so, you only need to care about the effect of new number added each time.
