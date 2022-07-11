@@ -1,7 +1,7 @@
 import bisect
 
 class Solution:
-    def minOperations(self, target: List[int], arr: List[int]) -> int:
+    def minOperations(self, target, arr) -> int:
 
         table = {}
         for i, num in enumerate(target):

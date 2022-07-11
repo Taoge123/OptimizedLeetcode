@@ -19,6 +19,30 @@ Your algorithm should run in O(n) time and uses constant extra space.
 
 """
 
+
+class SolutionRika:
+    def firstMissingPositive(self, nums) -> int:
+
+        # replace all negative num and zero to 1
+        n = len(nums)
+        for i in range(n):
+            if nums[i] <= 0:
+                nums[i] = n + 1
+
+        # use indexing to check mark down existing num --> num in specific indexing will be marked as negative
+        for i in range(n):
+            index = abs(nums[i])
+            if index <= n:
+                nums[index - 1] = -abs(nums[index - 1])
+
+        # for loop each index to see which num are not marked down as negative --> return index
+        for index in range(n):  # from small to large
+            if nums[index] > 0:
+                return index + 1
+
+        return n + 1  # no missing, return n+1
+
+
 class Solution:
     def firstMissingPositive(self, nums) -> int:
         n = len(nums)
