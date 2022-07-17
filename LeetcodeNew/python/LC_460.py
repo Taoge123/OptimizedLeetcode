@@ -98,12 +98,14 @@ class Node:
         self.key = key
         self.val = val
         self.freq = 1
-        self.prev = self.next = None
+        self.prev = None
+        self.next = None
 
 class DLinkedList:
     def __init__(self):
         self.dummy = Node(None, None) # dummy node
-        self.dummy.next = self.dummy.prev = self.dummy
+        self.dummy.next = self.dummy
+        self.dummy.prev = self.dummy
         self.size = 0
 
     def __len__(self):
@@ -177,7 +179,6 @@ class LFUCache:
             self.freq[1].append(node)
             self.minfreq = 1
             self.size += 1
-
 
 
 

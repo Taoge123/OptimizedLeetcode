@@ -3,12 +3,14 @@ https://leetcode.com/problems/all-oone-data-structure/discuss/91453/Python-solut
 https://leetcode.com/problems/all-oone-data-structure/discuss/91428/Python-solution-with-detailed-comments
 """
 
+import collections
 
 
 class Node:
     def __init__(self):
-        self.keys = set([])
-        self.prev, self.nxt = None, None
+        self.keys = set()
+        self.prev = None
+        self.next = None
 
     def add_key(self, key):
         self.keys.add(key)
@@ -18,9 +20,9 @@ class Node:
 
     def get_any_key(self):
         if self.keys:
-            result = self.keys.pop()
-            self.add_key(result)
-            return result
+            node = self.keys.pop()
+            self.add_key(node)
+            return node
         else:
             return None
 
@@ -30,73 +32,84 @@ class Node:
 
 class DoubleLinkedList:
     def __init__(self):
-        self.head_node, self.tail_node = Node(), Node()
-        self.head_node.nxt, self.tail_node.prev = self.tail_node, self.head_node
+        self.head = Node()
+        self.tail = Node()
+        self.head.next, self.tail.prev = self.tail, self.head
 
     def insert_after(self, x):
-        node, temp = Node(), x.nxt
-        x.nxt, node.prev = node, x
-        node.nxt, temp.prev = temp, node
+        node, nxt = Node(), x.next
+        x.next, node.prev = node, x
+        node.next, nxt.prev = nxt, node
         return node
 
     def insert_before(self, x):
         return self.insert_after(x.prev)
 
     def insert_after_head(self):
-        return self.insert_after(self.head_node)
+        return self.insert_after(self.head)
 
     def remove(self, x):
         prev_node = x.prev
-        prev_node.nxt, x.nxt.prev = x.nxt, prev_node
+        prev_node.next, x.next.prev = x.next, prev_node
 
     def get_head(self):
-        return self.head_node.nxt
+        return self.head.next
 
     def get_tail(self):
-        return self.tail_node.prev
+        return self.tail.prev
 
 
 class AllOne:
     def __init__(self):
-        self.dll, self.key_counter = DoubleLinkedList(), defaultdict(int)
-        self.node_freq = {}
+        self.dll = DoubleLinkedList()
+        self.count = collections.defaultdict(int)
+        self.freq = {}
 
-    def _rmv_key_pf_node(self, pf, key):
-        if pf in self.node_freq:
-            node = self.node_freq[pf]
+    def _remove_node(self, freq, key):
+        if freq in self.freq:
+            node = self.freq[freq]
             node.remove_key(key)
             if node.is_empty():
                 self.dll.remove(node)
-                self.node_freq.pop(pf)
+                self.freq.pop(freq)
 
     def inc(self, key):
-        self.key_counter[key] += 1
-        cf, pf = self.key_counter[key], self.key_counter[key ] -1
-        if cf not in self.node_freq:
-            self.node_freq[cf] = self.dll.insert_after_head() if pf == 0 else self.dll.insert_after(self.node_freq[pf])
-        self.node_freq[cf].add_key(key)
+        self.count[key] += 1
+        cf = self.count[key]
+        pf = self.count[key] - 1
+        if cf not in self.freq:
+            if pf == 0:
+                self.freq[cf] = self.dll.insert_after_head()
+            else:
+                self.freq[cf] = self.dll.insert_after(self.freq[pf])
+        self.freq[cf].add_key(key)
         if pf > 0:
-            self._rmv_key_pf_node(pf, key)
+            self._remove_node(pf, key)
 
     def dec(self, key):
-        if key in self.key_counter:
-            self.key_counter[key] -= 1
-            cf, pf = self.key_counter[key], self.key_counter[key ] +1
-            if self.key_counter[key] == 0:
-                self.key_counter.pop(key)
-            if cf not in self.node_freq and cf != 0:
-                self.node_freq[cf] = self.dll.insert_before(self.node_freq[pf])
+        if key in self.count:
+            self.count[key] -= 1
+            cf = self.count[key]
+            pf = self.count[key] + 1
+            if self.count[key] == 0:
+                self.count.pop(key)
+            if cf not in self.freq and cf != 0:
+                self.freq[cf] = self.dll.insert_before(self.freq[pf])
             if cf != 0:
-                self.node_freq[cf].add_key(key)
-            self._rmv_key_pf_node(pf, key)
+                self.freq[cf].add_key(key)
+            self._remove_node(pf, key)
 
     def getMaxKey(self):
-        return self.dll.get_tail().get_any_key() if self.dll.get_tail().get_any_key() else ""
+        if self.dll.get_tail().get_any_key():
+            return self.dll.get_tail().get_any_key()
+        else:
+            return ""
 
     def getMinKey(self):
-        return self.dll.get_head().get_any_key() if self.dll.get_tail().get_any_key() else ""
-
-
+        if self.dll.get_head().get_any_key():
+            return self.dll.get_head().get_any_key()
+        else:
+            return ""
 
 
 class AllOne2:
