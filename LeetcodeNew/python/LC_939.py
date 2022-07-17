@@ -27,3 +27,20 @@ class Solution:
         return res if res < float('inf') else 0
 
 
+class SolutionTonyTLE:
+    def minAreaRect(self, points):
+        visited = set()
+        for x, y in points:
+            visited.add(tuple([x, y]))
+
+        res = float('inf')
+        for i, (x1, y1) in enumerate(points):
+            for j, (x2, y2) in enumerate(points):
+                if i == j:
+                    continue
+                if x1 == x2 or y1 == y2:
+                    continue
+                if (x1, y2) in visited and (x2, y1) in visited:
+                    res = min(res, abs(x2 - x1) * abs(y2 - y1))
+        return res if res != float('inf') else 0
+

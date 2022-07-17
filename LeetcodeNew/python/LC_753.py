@@ -21,9 +21,7 @@ python由于是值传递，可以通过给函数传list的方式，直接修改l
 string是不可变的对象，函数内部修改string不会影响到外边。因此，如果需要动态生成字符串，可以把string变成list当做函数的参数。
 
 时间复杂度是O(Nlog(N))，空间复杂度是O(N)。
-"""
 
-"""
 De Bruijin Sequence -> n^k + (n-1)
 Hamilton Cycle - each vertex visited once
 Euler Cycle - each edge visited once
@@ -62,4 +60,8 @@ class Solution:
             node = node[:-1]
 
 
+a = Solution()
+n = 3
+k = 8
+print(a.crackSafe(n, k))
 

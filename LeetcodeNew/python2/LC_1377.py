@@ -63,8 +63,7 @@ class SolutionBFS:
             node, time, prob, seen = queue.popleft()
             nei = 0  # Number of unvisited neighbors
             for adj in graph[node]:
-                if (
-                        1 << adj) & seen == 0:  # checks if adj has been visited, seen is just an integer to store visited nodes
+                if (1 << adj) & seen == 0:  # checks if adj has been visited, seen is just an integer to store visited nodes
                     nei += 1
 
             if node == target:

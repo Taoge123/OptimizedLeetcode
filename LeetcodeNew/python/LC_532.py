@@ -24,6 +24,20 @@ All the integers in the given input belong to the range: [-1e7, 1e7].
 
 import collections
 
+class SolutionTony:
+    def findPairs(self, nums, k):
+        count = collections.Counter(nums)
+        res = 0
+        for key, val in count.items():
+            if k == 0:
+                if val >= 2:
+                    res += 1
+            else:
+                if key + k in count:
+                    res += 1
+        return res
+
+
 class Solution:
     def findPairs(self, nums, k: int) -> int:
         if not nums or k < 0:
