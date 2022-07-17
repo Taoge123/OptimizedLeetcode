@@ -25,7 +25,7 @@ cache.get(4);       // returns 4
 """
 import collections
 
-class LRUCache:
+class LRUCache1:
     def __init__(self, capacity: int):
         self.dic = collections.OrderedDict()
         self.remain = capacity
