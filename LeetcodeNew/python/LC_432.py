@@ -1,115 +1,89 @@
 """
 https://leetcode.com/problems/all-oone-data-structure/discuss/91453/Python-solution-with-detailed-explanation
-https://leetcode.com/problems/all-oone-data-structure/discuss/91428/Python-solution-with-detailed-comments
+https://leetcode.com/problems/all-oone-data-structure/discuss/914 28/Python-solution-with-detailed-comments
 """
 
-import collections
-
-
-class Node:
-    def __init__(self):
+class DLinkedList:
+    def __init__(self, val=0):
+        self.val = val
         self.keys = set()
         self.prev = None
         self.next = None
 
-    def add_key(self, key):
-        self.keys.add(key)
+    def remove(self):
+        self.prev.next = self.next
+        self.next.prev = self.prev
+        self.prev = None
+        self.next = None
 
-    def remove_key(self, key):
-        self.keys.remove(key)
-
-    def get_any_key(self):
-        if self.keys:
-            node = self.keys.pop()
-            self.add_key(node)
-            return node
-        else:
-            return None
-
-    def is_empty(self):
-        return len(self.keys) == 0
-
-
-class DoubleLinkedList:
-    def __init__(self):
-        self.head = Node()
-        self.tail = Node()
-        self.head.next, self.tail.prev = self.tail, self.head
-
-    def insert_after(self, x):
-        node, nxt = Node(), x.next
-        x.next, node.prev = node, x
-        node.next, nxt.prev = nxt, node
-        return node
-
-    def insert_before(self, x):
-        return self.insert_after(x.prev)
-
-    def insert_after_head(self):
-        return self.insert_after(self.head)
-
-    def remove(self, x):
-        prev_node = x.prev
-        prev_node.next, x.next.prev = x.next, prev_node
-
-    def get_head(self):
-        return self.head.next
-
-    def get_tail(self):
-        return self.tail.prev
+    def insert_after(self, node):
+        nxt = self.next
+        self.next = node
+        node.prev = self
+        node.next = nxt
+        nxt.prev = node
 
 
 class AllOne:
     def __init__(self):
-        self.dll = DoubleLinkedList()
-        self.count = collections.defaultdict(int)
-        self.freq = {}
-
-    def _remove_node(self, freq, key):
-        if freq in self.freq:
-            node = self.freq[freq]
-            node.remove_key(key)
-            if node.is_empty():
-                self.dll.remove(node)
-                self.freq.pop(freq)
+        self.head = DLinkedList()  # sentinel
+        self.tail = DLinkedList()  # sentinel
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.dic = {}  # key to LinkedList
 
     def inc(self, key):
-        self.count[key] += 1
-        cf = self.count[key]
-        pf = self.count[key] - 1
-        if cf not in self.freq:
-            if pf == 0:
-                self.freq[cf] = self.dll.insert_after_head()
-            else:
-                self.freq[cf] = self.dll.insert_after(self.freq[pf])
-        self.freq[cf].add_key(key)
-        if pf > 0:
-            self._remove_node(pf, key)
+        if key not in self.dic:  # find current block and remove key
+            node = self.head
+        else:
+            node = self.dic[key]
+            node.keys.remove(key)
+
+        if node.val + 1 != node.next.val:  # insert new block
+            new_node = DLinkedList(node.val + 1)
+            node.insert_after(new_node)
+        else:
+            new_node = node.next
+
+        new_node.keys.add(key)  # update new_node
+        self.dic[key] = new_node  # ... and dic of key to new_node
+
+        if not node.keys and node.val != 0:  # delete current node if not seninel
+            node.remove()
 
     def dec(self, key):
-        if key in self.count:
-            self.count[key] -= 1
-            cf = self.count[key]
-            pf = self.count[key] + 1
-            if self.count[key] == 0:
-                self.count.pop(key)
-            if cf not in self.freq and cf != 0:
-                self.freq[cf] = self.dll.insert_before(self.freq[pf])
-            if cf != 0:
-                self.freq[cf].add_key(key)
-            self._remove_node(pf, key)
+        if not key in self.dic:
+            return
+
+        node = self.dic[key]
+        del self.dic[key]  # could use self.dic.pop(key)
+        node.keys.remove(key)
+
+        if node.val != 1:
+            if node.val - 1 != node.prev.val:  # insert new block
+                new_node = DLinkedList(node.val - 1)
+                node.prev.insert_after(new_node)
+            else:
+                new_node = node.prev
+            new_node.keys.add(key)
+            self.dic[key] = new_node
+
+        if not node.keys:  # delete current block
+            node.remove()
 
     def getMaxKey(self):
-        if self.dll.get_tail().get_any_key():
-            return self.dll.get_tail().get_any_key()
-        else:
+        if self.tail.prev.val == 0:
             return ""
+        key = self.tail.prev.keys.pop()  # pop and add back to get arbitrary (but not random) element
+        self.tail.prev.keys.add(key)
+        return key
 
     def getMinKey(self):
-        if self.dll.get_head().get_any_key():
-            return self.dll.get_head().get_any_key()
-        else:
+        if self.head.next.val == 0:
             return ""
+        key = self.head.next.keys.pop()
+        self.head.next.keys.add(key)
+        return key
 
 
 class AllOne2:
