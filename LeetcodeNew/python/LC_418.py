@@ -14,8 +14,8 @@ class Solution:
         n = len(s)
         for _ in range(rows):
             start += cols
+            # 不能fit就回到上个空格，后面的重新算
             while s[start % n] != ' ':
-                print(start % n)
                 start -= 1
             start += 1
         return start // n
