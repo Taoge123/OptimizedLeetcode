@@ -13,28 +13,29 @@ https://www.bilibili.com/video/BV1HV411i7id?vd_source=c5928795c3e6210df961484faf
 
 import collections
 
+
 class Solution:
     def abbr(self, word, i):
         if len(word) - i <= 3:
             return word
         return word[:i + 1] + str(len(word) - i - 2) + word[-1]
 
-    def solve(self, dict, i):
+    def solve(self, words, i):
         table = collections.defaultdict(list)
-        for word in dict:
+        for word in words:
             table[self.abbr(word, i)].append(word)
-        for abbr, words in table.items():
-            if len(words) == 1:
-                self.res[words[0]] = abbr
-            else:
-                self.solve(words, i + 1)
 
-    def wordsAbbreviation(self, dict):
+        for k, vals in table.items():
+            if len(vals) == 1:
+                self.res[vals[0]] = k
+            else:
+                self.solve(vals, i + 1)
+
+    def wordsAbbreviation(self, words):
         self.res = {}
-        self.solve(dict, 0)
-        print(self.res)
+        self.solve(words, 0)
         res = []
-        for word in dict:
+        for word in words:
             if word in self.res.keys():
                 res.append(self.res[word])
             else:
