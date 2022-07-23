@@ -34,7 +34,7 @@ O(k * n ^2)解法 其中k为单词个数，n为单词的长度：
      3.2) 若right为回文，并且left的逆序串在words中，则将left的逆序串下标idx与rlidx加
 """
 
-class Solution:
+class SolutionTony:
     def palindromePairs(self, words):
         table = {word: i for i, word in enumerate(words)}
         res = set()
@@ -43,10 +43,10 @@ class Solution:
                 a = word[:k]
                 b = word[k:]
 
-                if a == a[::-1] and table.get(b[::-1], -1) not in [-1, i]:
+                if a == a[::-1] and b[::-1] in table and table[b[::-1]] != i:
                     res.add((table[b[::-1]], i))
 
-                if b == b[::-1] and table.get(a[::-1], -1) not in [-1, i]:
+                if b == b[::-1] and a[::-1] in table and table[a[::-1]] != i:
                     res.add((i, table[a[::-1]]))
 
         return list(res)
