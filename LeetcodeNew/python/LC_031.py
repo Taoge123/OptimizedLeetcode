@@ -1,18 +1,5 @@
 """
-Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
 
-If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).
-
-The replacement must be in-place and use only constant extra memory.
-
-Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.
-
-1,2,3 → 1,3,2
-3,2,1 → 1,2,3
-1,1,5 → 1,5,1
-
-"""
-"""
 这道题让我们求下一个排列顺序，由题目中给的例子可以看出来，如果给定数组是降序，则说明是全排列的最后一种情况，
 则下一个排列就是最初始情况，可以参见之前的博客 Permutations。我们再来看下面一个例子，有如下的一个数组
 1　　2　　7　　4　　3　　1
