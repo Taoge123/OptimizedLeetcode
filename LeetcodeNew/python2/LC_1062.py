@@ -29,7 +29,7 @@ if s1[i] == s2[j]:
 """
 
 
-class SolutionRolling:
+class SolutionTony:
     def longestRepeatingSubstring(self, S: str) -> str:
         n = len(S)
         nums = [ord(S[i]) - ord('a') for i in range(n)]
@@ -53,14 +53,12 @@ class SolutionRolling:
             h = (h * base + nums[i]) % mod
         visited = {h}
         aL = pow(base, L) % mod
-        for start in range(1, n - L + 1):
-            h = (h * base - nums[start - 1] * aL + nums[start + L - 1]) % mod
+        for start in range(n - L):
+            h = (h * base - nums[start] * aL + nums[start + L]) % mod
             if h in visited:
-                return start
+                return start + 1
             visited.add(h)
         return -1
-
-
 
 
 class Solution:
