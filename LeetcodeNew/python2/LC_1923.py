@@ -1,5 +1,5 @@
 
-class SolutionRika:
+class Solution:
     def longestCommonSubpath(self, n: int, paths) -> int:
         # binary search the size of subpath --> check if it's common path
 
@@ -18,8 +18,8 @@ class SolutionRika:
         return left - 1
 
     def isCommonPath(self, paths, k):
-        base = 1 0* *5 + 1    # 初始值比数据大小 n + 1
-        mod = 2 * *63 - 1
+        base = 10**5 + 1    # 初始值比数据大小 n + 1
+        mod = 2 **63 - 1
         prevRow = set()
 
         for i, path in enumerate(paths):
