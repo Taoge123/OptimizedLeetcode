@@ -60,7 +60,7 @@ class BinaryIndexTree:
             i += i & -i
 
 
-class Solution:
+class SolutionTony:
     def countRangeSum(self, nums, lower, upper):
         preSum = [0]
         for num in nums:
@@ -73,8 +73,10 @@ class Solution:
         tree = BinaryIndexTree(self.len)
 
         for num in preSum:
+            # given num1, we want to find the range of target num (num2), so the lower < |num1 - num2| < upper.
             right = bisect.bisect_right(sortedSum, num - lower)
             left = bisect.bisect_left(sortedSum, num - upper)
+            # check how many num2 qualify for this.
             res += tree.query(right) - tree.query(left)
             tree.update(bisect.bisect_right(sortedSum, num))
         return res

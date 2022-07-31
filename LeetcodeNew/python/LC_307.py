@@ -91,69 +91,39 @@ bit -> 0 1 4 5 18 11 24 15 74
 """
 
 
-class BinaryIndexTree:
-    def __init__(self, nums):
-        self.nums = [0] * len(nums)
-        self.BIT = [0] * (len(nums) + 1)
-        for i, num in enumerate(nums):
-            self.update(i, num)
+class FenwickTree:
+    def __init__(self, n):
+        self.sums = [0] * (n + 1)
 
-    def _lowbit(self, a):
-        return a & -a
+    def lowbit(self, i):
+        return i & (-i)
 
-    def update(self, i, val):
-        diff = val - self.nums[i]
-        self.nums[i] = val
-        i += 1
-        while i < len(self.BIT):
-            self.BIT[i] += diff
-            i += self._lowbit(i)
+    def update(self, i, delta):
+        while i < len(self.sums):
+            self.sums[i] += delta
+            i += self.lowbit(i)
 
-    def get(self, i):
+    def query(self, i):
         res = 0
-        while i:
-            res += self.BIT[i]
-            i -= self._lowbit(i)
+        while i > 0:
+            res += self.sums[i]
+            i -= self.lowbit(i)
         return res
 
 
 class NumArray:
     def __init__(self, nums):
-        self.bit = BinaryIndexTree(nums)
+        self.nums = nums
+        self.tree = FenwickTree(len(nums))
+        for i in range(len(nums)):
+            self.tree.update(i + 1, nums[i])
 
-    def update(self, i, val):
-        self.bit.update(i, val)
+    def update(self, index: int, val: int) -> None:
+        self.tree.update(index + 1, val - self.nums[index])
+        self.nums[index] = val
 
-    def sumRange(self, i, j):
-        return self.bit.get(j + 1) - self.bit.get(i)
-
-
-
-
-
-
-class NumArrayShorter:
-    def __init__(self, nums):
-        self.arr = [0] * len(nums)
-        self.BIT = [0] * (len(nums) + 1)
-        for i, num in enumerate(nums):
-            self.update(i, num)
-        self.sumRange = lambda i, j: self.Sum(j + 1) - self.Sum(i)
-
-    def update(self, i, val):
-        diff, self.arr[i] = val - self.arr[i], val
-        i += 1
-        while i < len(self.BIT):
-            self.BIT[i] += diff
-            i += (i & -i) # to next
-
-    def Sum(self, k):
-        res = 0
-        while k:
-            res += self.BIT[k]
-            k -= (k & -k) # to parent
-        return res
-
+    def sumRange(self, left: int, right: int) -> int:
+        return self.tree.query(right + 1) - self.tree.query(left)
 
 
 

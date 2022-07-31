@@ -73,6 +73,64 @@ import bisect
 from sortedcontainers import SortedList
 
 
+class BinaryIndexTree:
+    def __init__(self, n):
+        self.summ = [0] * (n + 1)
+
+    def lowbit(self, x):
+        return x & (-x)
+
+    def update(self, i, val):
+        while i < len(self.summ):
+            self.summ[i] += val
+            i += self.lowbit(i)
+
+    def query(self, i):
+        res = 0
+        while i > 0:
+            res += self.summ[i]
+            i -= self.lowbit(i)
+        return res
+
+
+class SolutionRika2:  # similar to # 315
+    def reversePairs(self, nums) -> int:
+        newNums = nums + [num * 2 for num in nums]
+
+        sortedNums = sorted(list(set(newNums)))
+        index = {}
+        for i, num in enumerate(sortedNums):
+            index[num] = i + 1
+
+        tree = BinaryIndexTree(len(sortedNums))
+        res = 0
+        for num in nums[::-1]:
+            res += tree.query(index[num] - 1)
+            tree.update(index[num * 2],
+                        1)  # Tree里存的是 如果当前数字2*nums[j]出现，则在该位置index[nums[i]]上标记为1，然后求prefsum, 即有几个数字小于当前数字
+
+        return res
+
+
+class SolutionRika:  # similar to # 315
+    def reversePairs(self, nums) -> int:
+        newNums = nums + [num * 2 for num in nums]
+
+        sortedNums = sorted(list(set(newNums)))
+        index = {}
+        for i, num in enumerate(sortedNums):
+            index[num] = i + 1
+
+        tree = BinaryIndexTree(len(sortedNums))
+        res = 0
+        for num in nums[::-1]:
+            res += tree.query(index[num] - 1)
+            # Tree里存的是 如果当前数字2*nums[j]出现，则在该位置index[nums[i]]上标记为1，然后求prefsum, 即有几个数字小于当前数字
+            tree.update(index[num * 2], 1)
+        return res
+
+
+
 class Solution:
     def reversePairs(self, nums) -> int:
         tree = SortedList()
