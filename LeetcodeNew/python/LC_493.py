@@ -106,8 +106,7 @@ class SolutionRika2:  # similar to # 315
         res = 0
         for num in nums[::-1]:
             res += tree.query(index[num] - 1)
-            tree.update(index[num * 2],
-                        1)  # Tree里存的是 如果当前数字2*nums[j]出现，则在该位置index[nums[i]]上标记为1，然后求prefsum, 即有几个数字小于当前数字
+            tree.update(index[num * 2], 1)  # Tree里存的是 如果当前数字2*nums[j]出现，则在该位置index[nums[i]]上标记为1，然后求prefsum, 即有几个数字小于当前数字
 
         return res
 

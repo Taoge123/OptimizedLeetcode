@@ -12,20 +12,6 @@ if B is sorted, so we can easily use binary search to find small value in B for 
 from sortedcontainers import SortedList
 
 
-class Solution:
-    def createSortedArray(self, instructions) -> int:
-        mod = 10 ** 9 + 7
-        res = 0
-        nums = SortedList()
-
-        for i, num in enumerate(instructions):
-            left = nums.bisect_left(num)
-            right = nums.bisect_right(num)
-            res += min(left, len(nums) - right)
-            nums.add(num)
-
-        return res % mod
-
 
 class BinaryIndexTree:
     def __init__(self, n):
@@ -38,16 +24,16 @@ class BinaryIndexTree:
         count = 0
         while i > 0:
             count += self.BIT[i]
-            i -= i & -i
+            i -= self._lowbit(i)
         return count
 
     def update(self, i):
         while i < len(self.BIT):
             self.BIT[i] += 1
-            i += i & -i
+            i += self._lowbit(i)
 
 
-class SolutionBIT:
+class Solution:
     def createSortedArray(self, instructions) -> int:
         n = max(instructions)
         mod = 10 ** 9 + 7
@@ -57,9 +43,23 @@ class SolutionBIT:
         for i, num in enumerate(instructions):
             res += min(tree.query(num - 1), i - tree.query(num))
             tree.update(num)
-            # print(tree.BIT)
         return res % mod
 
 
 
+
+
+class Solution2:
+    def createSortedArray(self, instructions) -> int:
+        mod = 10 ** 9 + 7
+        res = 0
+        nums = SortedList()
+
+        for i, num in enumerate(instructions):
+            left = nums.bisect_left(num)
+            right = nums.bisect_right(num)
+            res += min(left, len(nums) - right)
+            nums.add(num)
+
+        return res % mod
 

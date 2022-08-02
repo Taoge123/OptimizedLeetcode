@@ -27,19 +27,6 @@ import collections
 from sortedcontainers import SortedList
 
 
-class Solution:
-    def countRangeSum(self, nums, lower: int, upper: int) -> int:
-        tree = SortedList()
-        tree.add(0)
-        summ = 0
-        res = 0
-        for n in nums:
-            summ += n
-            res += tree.bisect_right(summ - lower) - tree.bisect_left(summ - upper)
-            tree.add(summ)
-        return res
-
-
 class BinaryIndexTree:
     def __init__(self, n):
         self.BIT = [0] * (n + 1)
@@ -47,17 +34,17 @@ class BinaryIndexTree:
     def _lowbit(self, i):
         return i & -i
 
+    def update(self, i):
+        while i < len(self.BIT):
+            self.BIT[i] += 1
+            i += self._lowbit(i)
+
     def query(self, i):
         count = 0
         while i > 0:
             count += self.BIT[i]
-            i -= i & -i
+            i -= self._lowbit(i)
         return count
-
-    def update(self, i):
-        while i < len(self.BIT):
-            self.BIT[i] += 1
-            i += i & -i
 
 
 class SolutionTony:
@@ -81,6 +68,7 @@ class SolutionTony:
             tree.update(bisect.bisect_right(sortedSum, num))
         return res
 
+
 """
 nums = [5, 2, 6, 1]
 preSum = [0, 5, 7, 13, 14]
@@ -101,8 +89,6 @@ sorted = [-2, 0, 2, 3, 6, 9, 12]
 [0, 1, 2, 1, 4, 0, 0, 0] -  4 4
 [0, 1, 2, 1, 4, 0, 1, 0] -  4 4
 [0, 1, 2, 1, 4, 1, 2, 0] -  6 6
-
-
 
 """
 
@@ -167,6 +153,18 @@ class Solution3:
         preSum[left:right + 1] = sorted(preSum[left:right + 1])
         return res
 
+
+class Solution:
+    def countRangeSum(self, nums, lower: int, upper: int) -> int:
+        tree = SortedList()
+        tree.add(0)
+        summ = 0
+        res = 0
+        for n in nums:
+            summ += n
+            res += tree.bisect_right(summ - lower) - tree.bisect_left(summ - upper)
+            tree.add(summ)
+        return res
 
 
 nums = [-2, 5, -1, 7, -3, 6]

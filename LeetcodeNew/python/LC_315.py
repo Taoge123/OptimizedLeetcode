@@ -37,21 +37,10 @@ Nums = [0, 1, 1, 1, 1]
 
 from sortedcontainers import SortedList
 
-class Solution:
-    def countSmaller(self, nums):
-        tree = SortedList()
-        res = []
-
-        for num in reversed(nums):
-            res.append(tree.bisect_left(num))
-            tree.add(num)
-        return res[::-1]
-
-
 
 class BinaryIndexTree:
-    def __init__(self, N):
-        self.BIT = [0] * (N + 1)
+    def __init__(self, n):
+        self.BIT = [0] * (n + 1)
 
     def _lowbit(self, i):
         return i & -i
@@ -73,17 +62,28 @@ class SolutionBIT:
     def countSmaller(self, nums):
         #rank will reduce num to index ex: [2, 6, 3, 7] -> [1, 3, 2, 4]
         rank = {val: i for i, val in enumerate(sorted(set(nums)))}
-        N = len(nums)
-        tree = BinaryIndexTree(N + 1)
+        n = len(nums)
+        tree = BinaryIndexTree(n + 1)
         res = []
 
-        for i in range(N - 1, -1, -1):
+        for i in range(n - 1, -1, -1):
             num = rank[nums[i]]
             res.append(tree.query(num))
             tree.update(num+1)
         return res[::-1]
 
 
+
+
+class Solution:
+    def countSmaller(self, nums):
+        tree = SortedList()
+        res = []
+
+        for num in reversed(nums):
+            res.append(tree.bisect_left(num))
+            tree.add(num)
+        return res[::-1]
 
 
 class SegmentTreeNode:
