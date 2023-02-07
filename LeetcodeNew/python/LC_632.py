@@ -13,6 +13,33 @@ https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/disc
 
 import heapq
 
+
+class SolutionTony:
+    def smallestRange(self, nums):
+        res = [float('-inf'), float('inf')]
+        heap = []
+        maxi = 0
+        for i, row in enumerate(nums):
+            # store val, row and col
+            heapq.heappush(heap, (row[0], i, 0))
+            # get the largest value in first column
+            maxi = max(maxi, row[0])
+
+        while heap:
+            mini, i, j = heapq.heappop(heap)
+            if maxi - mini < res[1] - res[0]:
+                res = [mini, maxi]
+            # j到头了, 说明最后一列最小值算完了， 其他的都比他大， 再算没意义了
+            if j + 1 == len(nums[i]):
+                return res
+
+            # current row, move to right, then update current max column and heap
+            next_val = nums[i][j + 1]
+            maxi = max(maxi, next_val)
+            heapq.heappush(heap, (next_val, i, j + 1))
+
+
+
 class Solution:
     def smallestRange(self, nums):
         # start our heap with the first element from every single list
@@ -38,7 +65,12 @@ class Solution:
             heapq.heappush(heap, (next_num, i, j + 1))
 
 
-nums = [[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
-a = Solution()
+
+
+
+nums = [[4,10,15,24,26],
+        [0,9,12,20],
+        [5,18,22,30]]
+a = SolutionTony()
 print(a.smallestRange(nums))
 

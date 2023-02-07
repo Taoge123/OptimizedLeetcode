@@ -5,7 +5,7 @@ https://www.youtube.com/watch?v=B5fa989qz4U&t=1s
 https://www.youtube.com/watch?v=FSbFPH7ejHk
 
 
-dp[i] : the maximum sum of nn-empty subsequence of that array ending wth nums[i]
+dp[i] : the maximum sum of n0-empty subsequence of that array ending wth nums[i]
 
 XXXX [X j XX] i
 
@@ -41,6 +41,33 @@ dp[i] = max{nums[i], dp[i-k] + nums[i]}, k=1,2,...,K
 
 import collections
 import heapq
+import functools
+
+class SolutionTonyQueue:
+    def constrainedSubsetSum(self, nums, k: int) -> int:
+        n = len(nums)
+        dp = [0] * n
+        dp[0] = nums[0]
+        queue = collections.deque([])
+        queue.append(0)
+        res = dp[0]
+        for i in range(1, n):
+            while queue and i - queue[0] > k:
+                queue.popleft()
+            # either max(taking the previous max value, if it's negative, then take 0) or only take current value
+            dp[i] = max(dp[queue[0]] + nums[i], nums[i])
+            res = max(res, dp[i])
+            while queue and dp[i] >= dp[queue[-1]]:
+                queue.pop()
+            queue.append(i)
+        return res
+
+
+
+nums = [10,-2,-10,-5,20]
+k = 2
+a = SolutionTonyQueue()
+print(a.constrainedSubsetSum(nums, k))
 
 
 class Solution:
@@ -66,6 +93,26 @@ class Solution:
 
         return max(dp)
 
+
+
+class SolutionTony:
+    def constrainedSubsetSum(self, nums, k: int) -> int:
+        n = len(nums)
+
+        @functools.lru_cache(None)  # add this line to the previous solution
+        def dfs(i):
+            if i >= n:
+                return 0
+
+            maxi = 0
+            for j in range(1, k + 1):
+                maxi = max(maxi, dfs(i + j))
+            return nums[i] + maxi
+
+        res = float("-inf")
+        for i in range(n):
+            res = max(res, dfs(i))
+        return res
 
 
 class Solution2:

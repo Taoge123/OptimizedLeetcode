@@ -17,6 +17,26 @@ Note:
 You can assume that you can always reach the last index.
 """
 
+import functools
+
+class SolutionTony:
+    def jump(self, nums) -> int:
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n - 1:
+                return 0
+
+            res = float('inf')
+            for j in range(1, nums[i] + 1):
+                res = min(res, dfs(i + j) + 1)
+            return res
+        return dfs(0)
+
+
+
+
 class Solution:
     def jump(self, nums):
         if len(nums) <= 1:

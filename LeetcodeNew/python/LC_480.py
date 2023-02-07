@@ -48,6 +48,27 @@ class Solution:
             return (window[k // 2] + window[k // 2 - 1]) / 2.0
 
 
+
+class SolutionTony:
+    def medianSlidingWindow(self, nums, k: int):
+
+        n = len(nums)
+        res = []
+        for right in range(n + 1):
+            window = []
+            if right >= k:
+                window = sorted(nums[right - k:right])
+                m = len(window)
+                if len(window) % 2 == 0:
+                    mid = (window[m // 2] + window[m // 2 - 1]) / 2
+                    res.append(mid)
+                else:
+                    res.append(window[m // 2])
+        return res
+
+
+
+
 nums = [1,3,-1,-3,5,3,6,7]
 a = Solution()
 print(a.medianSlidingWindow(nums, 3))

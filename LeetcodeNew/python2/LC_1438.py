@@ -22,6 +22,33 @@ multiset是o(NlogN)的解法，如果使用单调队列，可以优化到o(N)。
 
 import collections
 import heapq
+import functools
+
+
+class SolutionTony:
+    def longestSubarray(self, nums, limit):
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def max_diff(nums):
+            return max(nums) - min(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if j > n:
+                return (j - 1) - i
+
+            diff = max_diff(tuple(nums[i:j]))
+            if diff > limit:
+                return 0
+
+            expand = dfs(i, j + 1)
+            slide = dfs(i + 1, j + 1)
+            current = max(j - i, dfs(j + 1, j + 2))
+            res = max(expand, slide, current)
+            return res
+
+        return dfs(0, 1)
 
 
 class Solution:

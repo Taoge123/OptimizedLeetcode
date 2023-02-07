@@ -17,7 +17,7 @@ Output: 1
 class Solution:
     def getSum(self, a: int, b: int) -> int:
         carry = 0
-        mask = 0xffffffff
+        mask = 2 ** 64 - 1
         while b & mask != 0:
             carry = (a & b) << 1
             a = a ^ b
@@ -31,7 +31,7 @@ class Solution:
 
 
 
-class Solution2:
+class SolutionTLE:
     def getSum(self, a: int, b: int) -> int:
         if a == 0:
             return b

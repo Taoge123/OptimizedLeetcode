@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/reverse-linked-list-ii/solutions/1777686/python3-recursive-solution/
+
 Reverse a linked list from position m to n. Do it in one-pass.
 
 Note: 1 ≤ m ≤ n ≤ length of list.
@@ -14,6 +16,66 @@ class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
+
+
+class SolutionTony:
+    def __init__(self):
+        self.successor = None
+
+    def reverseBetween(self, head, left, right):
+        if left == 1:
+            return self.reverseN(head, right)
+
+        head.next = self.reverseBetween(head.next, left - 1, right - 1)
+        return head
+
+    def reverseN(self, head, n):
+        if n == 1:
+            self.successor = head.next
+            return head
+
+        last_node = self.reverseN(head.next, n - 1)
+        # print(head.val, head.next.val, head.next.next.val, last_node.val, self.successor.val)
+        head.next.next = head
+        head.next = self.successor
+        return last_node
+
+
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+
+a = SolutionTony()
+print(a.reverseBetween(head, 2, 4))
+
+
+
+class SolutionRika:  # non-recurisive
+    def reverseBetween(self, head, left: int, right: int):
+
+        dummyhead = ListNode(None)
+        dummyhead.next = head
+
+        prev, cur = dummyhead, head
+
+        for i in range(left):
+            prevFrozen = prev  # at node 1
+            curFrozen = cur  # at node 2
+            prev = prev.next  # at node 2
+            cur = cur.next  # at node 3
+
+        for i in range(right - left):
+            nxt = cur.next
+            cur.next = prev
+            prev = cur  # at position node 4
+            cur = nxt  # at position node 5
+
+        prevFrozen.next = prev  # make 1 point to 4
+        curFrozen.next = cur  # make 2 point to 5
+
+        return dummyhead.next
 
 
 class Solution:
@@ -61,53 +123,6 @@ dummy
                            
 """
 
-
-
-class Solution2:
-    def __init__(self):
-        self.left = None
-        self.stop = False
-
-    def reverseBetween(self, head, m, n):
-        if not head:
-            return None
-
-        self.left, right = head, head
-        self.stop = False
-
-        self.recurseAndReverse(right, m, n)
-        return head
-
-    def recurseAndReverse(self, right, m, n):
-
-        # base case. Don't proceed any further
-        if n == 1:
-            return
-
-        # Keep moving the right pointer one step forward until (n == 1)
-        right = right.next
-
-        # Keep moving left pointer to the right until we reach the proper node
-        # from where the reversal is to start.
-        if m > 1:
-            self.left = self.left.next
-
-        # Recurse with m and n reduced.
-        self.recurseAndReverse(right, m - 1, n - 1)
-
-        # In case both the pointers cross each other or become equal, we
-        # stop i.e. don't swap data any further. We are done reversing at this
-        # point.
-        if self.left == right or right.next == self.left:
-            self.stop = True
-
-        # Until the boolean stop is false, swap data between the two pointers
-        if not self.stop:
-            self.left.val, right.val = right.val, self.left.val
-
-            # Move self.left one step to the right.
-            # The right pointer moves one step back via backtracking.
-            self.left = self.left.next
 
 
 class Solution3:

@@ -24,27 +24,25 @@ class SolutionYingjunTonyMemo:
 
         n = len(nums)
         @functools.lru_cache(None)
-        def dfs(i, x, y):
+        def dfs(i, one, two):
             if i >= n:
                 return 0
-            if x == 0 and y == 0:
+            if one == 0 and two == 0:
                 return 0
-            not_pick = dfs(i + 1, x, y)
-            # if firstLen is used out, then we will either not pick or pick the current number for secondLen
-            if x == 0:
-                pick = dfs(i + y, 0, 0) + sum(nums[i:i + y])
-                return max(not_pick, pick)
-            elif y == 0:
-                pick = dfs(i + x, 0, 0) + sum(nums[i:i + x])
-                return max(not_pick, pick)
-            else:
-                pick_x = dfs(i + x, 0, y) + sum(nums[i:i + x])
-                pick_y = dfs(i + y, x, 0) + sum(nums[i:i + y])
 
-                return max(not_pick, pick_x, pick_y)
+            no_pick = dfs(i + 1, one, two)
+            if one == 0:
+                pick = dfs(i + two, 0, 0) + sum(nums[i:i + two])
+                return max(no_pick, pick)
+            elif two == 0:
+                pick = dfs(i + one, 0, 0) + sum(nums[i:i + one])
+                return max(no_pick, pick)
+            else:
+                pick_x = dfs(i + one, 0, two) + sum(nums[i:i + one])
+                pick_y = dfs(i + two, one, 0) + sum(nums[i:i + two])
+                return max(no_pick, pick_x, pick_y)
 
         return dfs(0, firstLen, secondLen)
-
 
 
 
@@ -64,23 +62,23 @@ class SolutionOptimizedWithPresum:
             not_pick = dfs(i + 1, x, y)
             # if firstLen is used out, then we will either not pick or pick the current number for secondLen
             if x == 0:
-                if i + y > n - 1:
+                if i + y >= n:
                     pick = dfs(i + y, 0, 0) + presum[-1] - presum[i]
                 else:
                     pick = dfs(i + y, 0, 0) + presum[i + y] - presum[i]
                 return max(not_pick, pick)
             elif y == 0:
-                if i + x > n - 1:
+                if i + x >= n:
                     pick = dfs(i + x, 0, 0) + presum[-1] - presum[i]
                 else:
                     pick = dfs(i + x, 0, 0) + presum[i + x] - presum[i]
                 return max(not_pick, pick)
             else:
-                if i + x > n - 1:
+                if i + x >= n:
                     pick_x = dfs(i + x, 0, y) + presum[-1] - presum[i]
                 else:
                     pick_x = dfs(i + x, 0, y) + presum[i + x] - presum[i]
-                if i + y > n - 1:
+                if i + y >= n:
                     pick_y = dfs(i + y, x, 0) + presum[-1] - presum[i]
                 else:
                     pick_y = dfs(i + y, x, 0) + presum[i + y] - presum[i]
@@ -89,24 +87,46 @@ class SolutionOptimizedWithPresum:
         return dfs(0, firstLen, secondLen)
 
 
+class SolutionRika:
+    def maxSumTwoNoOverlap(self, nums, f: int, s: int) -> int:
+        # subarry --> presum
+        # get max sum of two subarray
+
+        n = len(nums)
+        if n < f + s:
+            return 0
+
+        preSum = [nums[0]]
+        for i in range(1, len(nums)):
+            preSum.append(preSum[-1] + nums[i])
+
+        summ = preSum[f + s - 1]
+        firstSum = preSum[f - 1]
+        secondSum = preSum[s - 1]
+
+        for i in range(f + s, n):
+            curSum_s = preSum[i] - preSum[i - s]
+            curSum_f = preSum[i] - preSum[i - f]
+
+            firstSum = max(firstSum, preSum[i - s] - preSum[i - s - f])  # max_firstLen_summ
+            secondSum = max(secondSum, preSum[i - f] - preSum[i - s - f])
+
+            # max_firstLen_Summ + current_secondLen_summ vs max_secondLen_Summ + current_firstLen_summ
+            summ = max(summ, firstSum + curSum_s, secondSum + curSum_f)
+
+        return summ
+
+
 class Solution:
-    def maxSumTwoNoOverlap(self, A, L: int, M: int) -> int:
-        for i in range(1, len(A)):
-            A[i] += A[ i -1]
-
-        res = A[ L + M -1]
-        left = A[ L -1]
-        right = A[ M -1]
-
-        for i in range( L +M, len(A)):
-            left = max(left, A[ i -M] - A[ i - L -M])
-            res = max(res, left + A[i] - A[ i -M])
-
-        for i in range( L +M, len(A)):
-            right = max(right, A[ i -L] - A[ i - L -M])
-            res = max(res, right + A[i] - A[ i -L])
-
+    def maxSumTwoNoOverlap(self, nums, one: int, two: int) -> int:
+        if len(nums) < one + two:
+            return 0
+        for i in range(1, len(nums)):
+            nums[i] += nums[i - 1]
+        res, maxL, maxM = nums[one + two - 1], nums[one - 1], nums[two - 1]
+        for i in range(one + two, len(nums)):
+            maxL = max(maxL, nums[i - two] - nums[i - two - one])
+            maxM = max(maxM, nums[i - one] - nums[i - one - two])
+            res = max(res, maxL + nums[i] - nums[i - two], maxM + nums[i] - nums[i - one])
         return res
-
-
 

@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/contains-duplicate-iii/solutions/2381474/python-sortedlist-o-nlogk/
+
 Given an array of integers, find out whether there are two distinct indices i and j in the array such that the absolute difference between nums[i] and nums[j] is at most t and the absolute difference between i and j is at most k.
 
 Example 1:
@@ -15,6 +17,7 @@ Input: nums = [1,5,9,1,5,9], k = 2, t = 3
 Output: false
 
 """
+import functools
 
 """
 题目大意：
@@ -40,6 +43,29 @@ Output: false
 """
 
 import collections
+import functools
+import sortedcontainers
+
+
+class SolutionTreeList:
+    def containsNearbyAlmostDuplicate(self, nums, indexDiff: int, valueDiff: int) -> bool:
+        arr = sortedcontainers.SortedList()
+        # SortedSet works too
+        # arr = sortedcontainers.SortedSet()
+        for i, num in enumerate(nums):
+            if i > indexDiff:
+                arr.remove(nums[i - indexDiff - 1])
+            left = arr.bisect_left(num - valueDiff)
+            right = arr.bisect_right(num + valueDiff)
+            # print(arr, num - valueDiff, num + valueDiff, left, right)
+            # found values in sorted_list within valueDiff
+            if left != right:
+                return True
+            arr.add(num)
+        return False
+
+
+
 
 class Solution:
     def containsNearbyAlmostDuplicate(self, nums, k, t):
@@ -59,6 +85,25 @@ class Solution:
             table[key] = num
 
         return False
+
+
+class SolutionTonyMemoTLE:
+    def containsNearbyAlmostDuplicate(self, nums, indexDiff: int, valueDiff: int) -> bool:
+
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i != j and abs(i-j) <= indexDiff and abs(nums[i]-nums[j])<=valueDiff:
+                return True
+            if i >= j:
+                return False
+
+            if dfs(i+1, j):
+                return True
+            if dfs(i, j-1):
+                return True
+            return False
+        return dfs(0, n-1)
 
 
 class Solution2:

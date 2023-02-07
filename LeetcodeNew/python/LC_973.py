@@ -1,5 +1,25 @@
 import heapq
 
+
+class SolutionTony:
+    def kClosest(self, points, k: int):
+
+        nums = []
+
+        def dist(i, j):
+            return i ** 2 + j ** 2
+
+        for i, j in points:
+            nums.append([dist(i, j), i, j])
+
+        nums.sort()
+        res = []
+        for val, i, j in nums[:k]:
+            res.append([i, j])
+        return res
+
+
+
 class Solution:
     def kClosest(self, points, k: int):
         # Since heap is sorted in increasing order,

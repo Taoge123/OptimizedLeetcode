@@ -111,7 +111,8 @@ class Trie:
     def insert(self, num):
         node = self.root
         for i in range(31, -1, -1):
-            if num & 1 << i:
+            # we can have one here, add it to trie
+            if num & (1 << i):
                 if not node.one:
                     node.one = TrieNode()
                 node = node.one
@@ -124,7 +125,8 @@ class Trie:
         node = self.root
         maxi = 0
         for i in range(31, -1, -1):
-            isNum = num & 1 << i
+            isNum = num & (1 << i)
+            # for this num, we missed this bit, but trie has it (means other num has this bit)
             if node.one and not isNum:
                 node = node.one
                 maxi += 1 << i

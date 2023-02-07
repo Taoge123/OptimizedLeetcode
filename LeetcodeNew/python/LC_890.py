@@ -1,4 +1,28 @@
 
+class SolutionTony:
+    def findAndReplacePattern(self, words, pattern: str):
+        def generate_key(word):
+            table = {}
+            match = ""
+            num = 10
+            # start at 10, map distinct characters into keys
+            for ch in word:
+                if ch not in table:
+                    table[ch] = num
+                    num += 1
+                match += str(table[ch])
+            return match
+
+        match = generate_key(pattern)
+        res = []
+        for word in words:
+            key = generate_key(word)
+            if key == match:
+                res.append(word)
+        return res
+
+
+
 class SolutionRika:
     def findAndReplacePattern(self, words, pattern: str):
         # hashmap --> 用hashmap存每个word的pattern --> abc

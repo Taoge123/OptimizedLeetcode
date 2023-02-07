@@ -21,33 +21,64 @@ Explanation:
 
 """
 
+import functools
 
-class Solution:
-    def diffWaysToCompute(self, input):
+class SolutionTony:
+    def diffWaysToCompute(self, s: str):
+        def compute(x, y, op):
+            if op == '+':
+                return x + y
+            if op == '-':
+                return x - y
+            if op == '*':
+                return x * y
 
-        if input.isdigit():
-            return [int(input)]
-        res = []
-        for i in range(len(input)):
-            if input[i] in "+-*":
-                left = self.diffWaysToCompute(input[:i])
-                right = self.diffWaysToCompute(input[i +1:])
-                for x in left:
-                    for y in right:
-                        res.append(self.helper(x, y, input[i]))
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if s[i:j].isdigit():
+                return [int(s[i:j])]
 
-        return res
+            res = []
+            for k in range(i, j):
+                if s[k] == '+' or s[k] == '-' or s[k] == '*':
+                    op = s[k]
+                    left = dfs(i, k)
+                    right = dfs(k + 1, j)
+                    for x in left:
+                        for y in right:
+                            res.append(compute(x, y, op))
+            return res
 
-    def helper(self, x, y, op):
-        if op == "+":
-            return x + y
-        elif op == "-":
-            return x - y
-        elif op == "*":
-            return x * y
+        return dfs(0, len(s))
 
 
+class SolutionTony2:
+    def diffWaysToCompute(self, expression: str):
+        def compute(x, y, operator):
+            if operator == '+':
+                return x + y
+            if operator == '-':
+                return x - y
+            if operator == '*':
+                return x * y
 
+        @functools.lru_cache(None)
+        def dfs(s):
+            if s.isdigit():
+                return [int(s)]
+
+            res = []
+            for i in range(len(s)):
+                if s[i] == '+' or s[i] == '-' or s[i] == '*':
+                    operator = s[i]
+                    left = dfs(s[:i])
+                    right = dfs(s[i + 1:])
+                    for x in left:
+                        for y in right:
+                            res.append(compute(x, y, operator))
+            return res
+
+        return dfs(expression)
 
 input = "2-1-1"
 a = Solution()

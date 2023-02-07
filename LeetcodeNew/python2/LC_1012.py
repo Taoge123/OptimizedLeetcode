@@ -1,4 +1,6 @@
 """
+Identical -> 2376. Count Special Integers
+
 
 More of the same approach:
 233. Number of Digit One
@@ -65,29 +67,6 @@ We count digit by digit, so it's O(logN)
 """
 
 
-
-
-class SolutionTLE:
-    def numDupDigitsAtMostN(self, N: int) -> int:
-        self.count = 0
-        # starts with each number
-        for i in range(1, 10):
-            nums = [False for i in range(10)]
-            nums[i] = True
-            self.dfs(i, N, nums)
-        return N - self.count
-
-    def dfs(self, cur, N, nums):
-        if cur > N:
-            return
-        self.count += 1
-        for i in range(10):
-            if not nums[i]:
-                nums[i] = True
-                self.dfs(cur * 10 + i, N, nums)
-                nums[i] = False
-
-
 """
 1012.Numbers-With-Repeated-Digits
 此题本质就是求不大于N的、没有重复数字的数。简单的想法，可以用无脑的DFS，结果会超时。
@@ -150,6 +129,26 @@ class Solution:
 
 
 
+
+class SolutionTLE:
+    def numDupDigitsAtMostN(self, N: int) -> int:
+        self.count = 0
+        # starts with each number
+        for i in range(1, 10):
+            nums = [False for i in range(10)]
+            nums[i] = True
+            self.dfs(i, N, nums)
+        return N - self.count
+
+    def dfs(self, cur, N, nums):
+        if cur > N:
+            return
+        self.count += 1
+        for i in range(10):
+            if not nums[i]:
+                nums[i] = True
+                self.dfs(cur * 10 + i, N, nums)
+                nums[i] = False
 
 
 class SolutionGood:

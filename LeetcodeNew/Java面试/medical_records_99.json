@@ -1,0 +1,1 @@
+{"data":{"id":99,"timestamp":1551939212985,"diagnosis":{"id":2,"name":"Common Cold","severity":1},"vitals":{"bloodPressureDiastole":126,"bloodPressureSystole":75,"pulse":128,"breathingRate":21,"bodyTemperature":103.3},"doctor":{"id":4,"name":"Dr Allysa Ellis"},"userId":2,"userName":"Bob Martin","userDob":"14-09-1989","meta":{"height":174,"weight":183}}}

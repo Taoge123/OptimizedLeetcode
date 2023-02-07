@@ -38,23 +38,35 @@ bytes[i] & bytes[j] == 0
 
 """
 
+import collections
 
-class Solution:
+class SolutionTony:
     def maxProduct(self, words) -> int:
-        byte = {}
+        byte = collections.defaultdict(int)
         for word in words:
             mask = 0
-            for char in word:
-                mask |= (1 << (ord(char) - ord('a')))
-            byte[mask] = max(byte.get(mask, 0), len(word))
+            for ch in word:
+                mask |= (1 << (ord(ch) - ord('a')))
+            byte[mask] = max(byte[mask], len(word))
 
         res = 0
         for x in byte:
             for y in byte:
-                if not x & y:
+                if x & y == 0:
                     res = max(res, byte[x] * byte[y])
         return res
 
+
+class SolutionTLE:
+    def maxProduct(self, words) -> int:
+        n = len(words)
+        res = 0
+
+        for i in range(n):
+            for j in range(i+1, n):
+                if not set(words[i]) & set(words[j]):
+                    res = max(res, len(words[i]) * len(words[j]))
+        return res
 
 
 words = ["abcw","baz","foo","bar","xtfn","abcdef"]

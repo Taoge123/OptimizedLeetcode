@@ -25,26 +25,23 @@ Output: []
 import collections
 import copy
 
+
 class SolutionTony:
     def findSubstring(self, s: str, words):
-        if not s or not words:
-            return []
-
-        res = []
         m, n = len(words), len(words[0])
         table = collections.defaultdict(int)
-
-        for word in words:
+        for i, word in enumerate(words):
             table[word] += 1
-
+        res = []
         for i in range(len(s) - m * n + 1):
             temp = copy.deepcopy(table)
             count = 0
             for j in range(i, len(s), n):
-                nxtWord = s[j:j + n]
-                if nxtWord not in temp or temp[nxtWord] <= 0:
+                # print(i, j)
+                word = s[j:j + n]
+                if word not in temp or temp[word] <= 0:
                     break
-                temp[nxtWord] -= 1
+                temp[word] -= 1
                 count += 1
                 if count == m:
                     res.append(i)

@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/reverse-linked-list-ii/solutions/1725319/recursive-method-07/
+
 https://www.youtube.com/watch?v=iT1YrvSNtlw
 
 """
@@ -20,16 +22,36 @@ class SolutionTony:
         return self.reverse(nxt, node)
 
 
+# head = ListNode(1)
+# head.next = ListNode(2)
+# head.next.next = ListNode(3)
+# head.next.next.next = ListNode(4)
+# head.next.next.next.next = ListNode(5)
+#
+# a = SolutionTony()
+# print(a.reverseList(head))
+
 class SolutionPostOrder:
     def reverseList(self, head):
         if not head or not head.next:
             return head
-
-        prev = self.reverseList(head.next)
+        # head is 4, last_node is 5
+        last_node = self.reverseList(head.next)
+        print(last_node.val, head.val, head.next.val, head.next.next)
+        # head.next so far is 5, head.next.next means 5 point to 4
         head.next.next = head
         head.next = None
-        return prev
+        return last_node
 
+
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+
+a = SolutionPostOrder()
+print(a.reverseList(head))
 
 class Solution:
     def reverseList(self, head):

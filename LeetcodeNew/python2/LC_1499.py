@@ -21,6 +21,38 @@ we can use priority queue or stack.
 import collections
 import heapq
 
+class SolutionTony:
+    def findMaxValueOfEquation(self, points, k: int) -> int:
+
+        queue = collections.deque([])
+        res = float('-inf')
+        for i in range(len(points)):
+            # xi = queue[0][0]
+            # yi = queue[0][1]
+            # xj = points[i][0]
+            # yj = points[i][1]
+            while queue and points[i][0] - queue[0][0] > k:
+                queue.popleft()
+            # return at the middle, because the second while loop might delete all points in queue and returned value depends on multiple points
+            if queue:
+                res = max(res, -queue[0][0] + queue[0][1] + points[i][0] + points[i][1])
+            # incorrect
+            # while queue and points[i][0] > queue[-1][0]:
+            #     queue.pop()
+            # correct version
+            # compare (yj - xj) vs (yi - xi)
+            while queue and points[i][1] - points[i][0] > queue[-1][1] - queue[-1][0]:
+                queue.pop()
+            queue.append(points[i])
+
+        return int(res)
+
+
+# points = [[-17,5],[-10,-8],[-5,-13],[-2,7],[8,-14]]
+# k = 4
+# a = SolutionTony()
+# print(a.findMaxValueOfEquation(points, k))
+
 class Solution_:
     def findMaxValueOfEquation(self, points, k: int) -> int:
         queue = collections.deque()

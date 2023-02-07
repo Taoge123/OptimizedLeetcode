@@ -22,6 +22,7 @@ case 3: k > max(len1, len2) + 1 - return -1
 
 
 """
+import functools
 
 """
 K < min(len(s1,s2))
@@ -171,4 +172,80 @@ class Solution:
 
 
 
+class SolutionIncorrect:
+    def maxNumber(self, nums1, nums2, k: int):
+        nums1 = nums1
+        nums2 = nums2
+        m, n = len(nums1), len(nums2)
 
+        def compare(l1, l2):
+            if len(l1) > len(l2):
+                return l1
+            elif len(l1) < len(l2):
+                return l2
+            else:
+                return max(l1, l2)
+
+        @functools.lru_cache(None)
+        def dfs(i, j, k):
+            if k <= 0:
+                return []
+            elif i >= m and j >= n:
+                return []
+            # [i:k, xxxxxxx] -> unable to find the max number from xxxxxx by using DP
+            elif i >= m:
+                if len(nums2[j:j + k]) == 1:
+                    return list(nums2[j:j + k])
+                else:
+                    return nums2[j:j + k]
+            elif j >= n:
+                if len(nums1[i:i + k]) == 1:
+                    return list(nums1[i:i + k])
+                else:
+                    return nums1[i:i + k]
+
+            pick_x = [nums1[i]] + dfs(i + 1, j, k - 1)
+            pick_y = [nums2[j]] + dfs(i, j + 1, k - 1)
+            no_pick_x = dfs(i + 1, j, k)
+            no_pick_y = dfs(i, j + 1, k)
+            no_pick_all = dfs(i + 1, j + 1, k)
+            # print(pick_x, pick_y, no_pick_x, no_pick_y, no_pick_all)
+            c1 = compare(pick_x, pick_y)
+            c2 = compare(c1, no_pick_x)
+            c3 = compare(c2, no_pick_y)
+            c4 = compare(c3, no_pick_all)
+            return c4
+
+        num = dfs(0, 0, k)
+        return num
+
+
+class SolutionToBeFixed:
+    def maxNumber(self, nums1, nums2, k: int):
+        nums1 = nums1[::-1]
+        nums2 = nums2[::-1]
+        m, n = len(nums1), len(nums2)
+        def dfs(i, j, k):
+            if k <= 0:
+                return 0
+            elif i >= m or j >= n:
+                return 0
+            pick_x = dfs(i+1, j, k-1) * 10 + nums1[i]
+            pick_y = dfs(i, j+1, k-1) * 10 + nums2[j]
+            no_pick_1 = dfs(i+1, j, k)
+            no_pick_2 = dfs(i, j+1, k)
+            no_pick_all = dfs(i+1, j+1, k)
+            return max(pick_x, pick_y, no_pick_1, no_pick_2, no_pick_all)
+        num = dfs(0, 0, k)
+        print(num)
+        return []
+
+
+
+
+nums1 = [3,9]
+nums2 = [8,9]
+
+k = 3
+a = SolutionTest()
+print(a.maxNumber(nums1, nums2, k))

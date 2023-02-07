@@ -1,16 +1,18 @@
 
 class Solution:
     def isReflected(self, points) -> bool:
-        if not points:
-            return True
 
-        mini = min(i[0] for i in points)
-        maxi = max(i[0] for i in points)
+        left = min(point[0] for point in points)
+        right = max(point[0] for point in points)
+
         table = set()
-        for i in points:
-            table.add(tuple(i))
-        for i in points:
-            if (mini + maxi - i[0], i[1]) not in table:
+        # add all pints
+        for i, j in points:
+            table.add((i, j))
+
+        for i, j in points:
+            # If the reflected point not in points set
+            if (left + right - i, j) not in table:
                 return False
         return True
 

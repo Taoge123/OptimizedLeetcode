@@ -16,6 +16,28 @@ res = sum(dp[i][1])
 """
 
 
+import collections
+
+class SolutionTony:
+    def numOfSubarrays(self, nums) -> int:
+
+        summ = 0
+        res = 0
+        table = collections.defaultdict(int)
+        table[0] = 1
+        for i, num in enumerate(nums):
+            summ += nums[i]
+            # if summ is odd, then add all previous even count
+            if summ % 2 == 1:
+                res += table[0]
+            # if summ is even, then add all previous odd count
+            else:
+                res += table[1]
+            table[summ % 2] += 1
+        return res % (10 ** 9 + 7)
+
+
+
 class Solution:
     def numOfSubarrays(self, arr) -> int:
         n = len(arr)

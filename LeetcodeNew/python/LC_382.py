@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/linked-list-random-node/solutions/85659/brief-explanation-for-reservoir-sampling/
+
 Given a singly linked list, return a random node's value from the linked list. Each node must have the same probability of being chosen.
 
 Follow up:
@@ -39,47 +41,52 @@ class ListNode:
         self.next = None
 
 
+class SolutionTony:
+    def __init__(self, head: ListNode):
+        self.head = head
+
+    def getRandom(self) -> int:
+
+        res = self.head
+        node = self.head.next
+        i = 1
+
+        while node:
+            if random.randint(0, i) == 0:
+                res = node
+            node = node.next
+            i += 1
+        return res.val
+
+
+
 class SolutionFast:
     def __init__(self, head: ListNode):
         self.head = head
 
     def getRandom(self) -> int:
         node = self.head
-        counter = 1
+        i = 1
         res = -1
 
         while node:
-            if random.random() < 1 / counter:
+            if random.random() < 1 / i:
                 res = node.val
             node = node.next
-            counter += 1
+            i += 1
         return res
 
 
-class Solution:
-    def __init__(self, head: ListNode):
-        """
-        @param head The linked list's head.
-        Note that the head is guaranteed to be not null, so it contains at least one node.
-        """
-        self.head = head
+class SolutionTony:
+    def __init__(self, head):
+        self.nums = []
+        while head:
+            self.nums.append(head.val)
+            head = head.next
 
     def getRandom(self) -> int:
-        """
-        Returns a random node's value.
-        """
-        res = self.head
-        node = self.head.next
-        index = 1
-
-        while node:
-            if random.randint(0, index) is 0:
-                res = node
-            node = node.next
-            index += 1
-        return res.val
-
-
+        i = random.randint(0, len(self.nums)-1)
+        return self.nums[i]
 
 
 

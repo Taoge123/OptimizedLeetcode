@@ -21,6 +21,23 @@ k < sqrt(2N)
 """
 
 import math
+import functools
+
+class SolutionTony:
+    def consecutiveNumbersSum(self, n: int) -> int:
+        @functools.lru_cache(None)
+        def dfs(i, step):
+            if i == n:
+                return True
+            if i >= n:
+                return False
+            return dfs(i + step, step + 1)
+
+        res = 0
+        for i in range(1, n + 1):
+            if dfs(i, i + 1):
+                res += 1
+        return res
 
 
 class Solution:
@@ -33,4 +50,6 @@ class Solution:
 
 
 
-
+n = 9
+a = SolutionTest()
+print(a.consecutiveNumbersSum(n))

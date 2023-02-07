@@ -19,6 +19,28 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum
              jump length is 0, which makes it impossible to reach the last index.
 """
 
+import functools
+
+class SolutionTonyTLE:
+    def canJump(self, nums) -> bool:
+
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n - 1:
+                return True
+            # if i >= n:
+            #     return False
+            if nums[i] == 0:
+                return False
+
+            for j in range(1, nums[i] + 1):
+                if dfs(i + j):
+                    return True
+            return False
+
+        return dfs(0)
+
 
 class SolutionWiddom:
     def canJump(self, nums) -> bool:
@@ -56,8 +78,9 @@ class Solution2:
 
 
 
-
-
+nums = [2,0,0]
+a = SolutionTest()
+print(a.canJump(nums))
 
 
 

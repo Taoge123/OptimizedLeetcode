@@ -31,6 +31,22 @@ Once next interval's start time is earlier than current end time, then we have t
 
 """
 
+class SolutionTony:
+    def eraseOverlapIntervals(self, intervals) -> int:
+        n = len(intervals)
+        intervals = sorted(intervals, key=lambda x: x[1])
+        end = float('-inf')
+        res = [intervals[0]]
+        if n == 0:
+            return 0
+        for i, j in intervals[1:]:
+            if i >= res[-1][1]:
+                res.append([i, j])
+            # do not merge as below code, if overlapped, we simply skip it
+            # else:
+            #     res[-1][1] = max(res[-1][1], j)
+        return len(intervals) - len(res)
+
 
 class Solution:
     def eraseOverlapIntervals(self, intervals):
@@ -67,4 +83,10 @@ print(a.eraseOverlapIntervals(intervals))
             
 """
 
+
+
+
+intervals = [[1,100],[11,22],[1,11],[2,12]]
+a = SolutionTest()
+print(a.eraseOverlapIntervals(intervals))
 

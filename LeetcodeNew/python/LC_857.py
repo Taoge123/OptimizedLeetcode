@@ -20,6 +20,7 @@ class Solution:
             if len(heap) > K:
                 qualitySum += heapq.heappop(heap)
 
+            # use the max ratio among the k worker to calculate the total pay.
             if len(heap) == K:
                 res = min(res, ratio * qualitySum)
 

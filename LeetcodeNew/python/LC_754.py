@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/reach-a-number/solutions/1865182/solving-using-recursion/
+
 754.Reach-a-Number
 此题在数学方法上有巧妙的思路．
 
@@ -28,6 +30,7 @@ if k is odd: -> no good
 
 """
 
+import functools
 
 class Solution:
     def reachNumber(self, target: int) -> int:
@@ -40,6 +43,32 @@ class Solution:
         return i
 
 
+class SolutionTest:
+    def reachNumber(self, target: int) -> int:
+        self.count = 0
+        @functools.lru_cache(None)
+        def dfs(i, step, target):
+            self.count += 1
+            print(self.count)
+            if i == target:
+                return step
+            # if abs(i) > target:
+            #     return float('inf')
+            if abs(i) > 2 * abs(target):
+                return float('inf')
+            step += 1
+            print(i, step, target)
+            if (i + step == target):
+                return step
+            right = dfs(i + step, step, target)
+            left = dfs(i - step, step, target)
+            return min(left, right)
 
+        return dfs(0, 0, abs(target))
+
+
+target = -1000000000
+a = SolutionTest()
+print(a.reachNumber(target))
 
 

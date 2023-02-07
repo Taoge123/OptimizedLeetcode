@@ -61,6 +61,7 @@ B[i] can help us make the subarray length shorter and sum bigger. So no need to 
 
 
 """
+import functools
 
 """
 
@@ -97,6 +98,52 @@ class Solution:
                 queue.pop()
             queue.append([i + 1, summ])
         return res if res < float('inf') else -1
+
+
+class SolutionRika:
+    def shortestSubarray(self, nums, k: int) -> int:
+        # given subarray sum --> find smallest size k
+        # subarray --> prefix sum
+        dp = [0]
+        for num in nums:
+            dp.append(dp[-1] + num)
+        n = len(dp)
+        # maintain smallest summ
+        # mono queue --> index --> check size, which is cur_presum - prev_presum at least k
+        # mono queue, compare value ---> presum --> get min prev_presum, so cur_presum - prev_presum is max
+        res = float('inf')
+        queue = collections.deque()
+        for i in range(n):
+            while queue and dp[i] - dp[queue[0]] >= k:  # check if subarray summ > k, if yes, pop left
+                res = min(res, i - queue[0])
+                queue.popleft()
+
+            while queue and dp[i] <= dp[queue[-1]]:  # maintain min prev prefSum
+                queue.pop()
+            queue.append(i)
+
+        if res == float('inf'):
+            return -1
+        return res
+
+
+class SolutionTonyDP:
+    def shortestSubarray(self, nums, k: int) -> int:
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, summ):
+            if summ >= k:
+                return 0
+
+            if i >= n:
+                return float('inf')
+
+            pick = dfs(i + 1, summ + nums[i]) + 1
+            no_pick = dfs(i + 1, 0)
+            return min(pick, no_pick)
+
+        res = dfs(0, 0)
+        return -1 if res == float('inf') else res
 
 
 

@@ -59,14 +59,13 @@ we need to sorted by decreasing order -> we need to include 2 and not include 1 
 """
 
 
-class SolutionTony:
-    def removeCoveredIntervals(self, intervals):
+class SolutionTOny:
+    def removeCoveredIntervals(self, intervals) -> int:
         intervals = sorted(intervals, key=lambda x: (x[0], -x[1]))
-
         res = []
         res.append(intervals[0])
         for i, j in intervals[1:]:
-            if res[-1][1] >= j:
+            if j <= res[-1][1]:
                 continue
             else:
                 res.append([i, j])

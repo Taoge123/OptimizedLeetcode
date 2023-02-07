@@ -47,7 +47,7 @@ class Solution:
 
         for i in range(len(nums)):
             # checking front
-            if queue and i - queue[0] > k - 1:
+            if queue and i - queue[0] + 1 > k:
                 queue.popleft()
             # checking back
             while queue and nums[i] > nums[queue[-1]]:
@@ -55,6 +55,7 @@ class Solution:
 
             queue.append(i)
 
+            # return at the bottom, because new value might override the previous queue[0] become the largest value
             if i >= k - 1:
                 res.append(nums[queue[0]])
 

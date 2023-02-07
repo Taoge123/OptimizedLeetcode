@@ -22,6 +22,29 @@ If there are lots of incoming S, say S1, S2, ... , Sk where k >= 1B, and you wan
 Credits:
 Special thanks to @pbrother for adding this problem and creating all test cases.
 """
+import functools
+
+
+class SolutionTony:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        m, n = len(s), len(t)
+
+        @functools.lru_cache(None)
+        def dfs(i, j):
+            if i >= m:
+                return True
+            if j >= n:
+                return False
+
+            # s move, t move
+            if s[i] == t[j]:
+                return dfs(i + 1, j + 1)
+            # ch does not match, s stay t move
+            else:
+                return dfs(i, j + 1)
+
+        return dfs(0, 0)
+
 
 
 class Solution:

@@ -34,6 +34,23 @@ The substring with start index = 2 is "ab", which is an anagram of "ab".
 
 import collections
 
+
+
+
+class SolutionTony:
+    def findAnagrams(self, s: str, p: str):
+        m, n = len(s), len(p)
+        match = collections.Counter(p)
+        res = []
+        for i in range(m-n+1):
+            word = collections.Counter(s[i:i+n])
+            if word == match:
+                res.append(i)
+        return res
+
+
+
+
 class Solution:
     def findAnagrams(self, s: str, p: str):
         res = []

@@ -32,12 +32,15 @@ class SolutionTonnie:
     def nextGreaterElement(self, nums1, nums2):
         table = {}
         stack = []
+
+        # build table based on nums2
         for num in nums2:
             while stack and stack[-1] < num:
                 table[stack.pop()] = num
             stack.append(num)
 
         res = []
+        # loop nums1 and get all relationships from table
         for num in nums1:
             if num in table:
                 res.append(table[num])

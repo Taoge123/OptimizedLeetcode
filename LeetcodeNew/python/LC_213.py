@@ -43,6 +43,35 @@ class SolutionTony:
 
 
 
+class SolutionTonyAnother:
+    def rob(self, nums) -> int:
+        n = len(nums)
+        if n == 0:
+            return 0
+        if n == 1:
+            return nums[0]
+        memo = {}
+        a = self.dfs(nums[:-1], 0, False, memo)
+        memo = {}
+        b = self.dfs(nums[1:], 0, False, memo)
+        return max(a, b)
+
+    def dfs(self, nums, i, robbed, memo):
+        n = len(nums)
+        if (i, robbed) in memo:
+            return memo[(i, robbed)]
+        if i >= n:
+            return 0
+        no_rob = 0
+        robbing = 0
+        # If we robbed before, then we can't rob this time
+        no_rob = self.dfs(nums, i + 1, False, memo)
+        # if we did not robbed, then we cna either rob or not rob this time
+        if not robbed:
+            robbing = self.dfs(nums, i + 1, True, memo) + nums[i]
+        memo[(i, robbed)] = max(robbing, no_rob)
+        return memo[(i, robbed)]
+
 class Solution:
     def rob(self, nums):
         n = len(nums)

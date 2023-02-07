@@ -1,5 +1,7 @@
 
 """
+https://www.youtube.com/watch?v=50YxyEPRDZQ
+
 There is a list of sorted integers from 1 to n. Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
 
 Repeat the previous step again, but this time from right to left, remove the right most number and every other number from the remaining numbers.
@@ -20,6 +22,42 @@ n = 9,
 Output:
 6
 """
+
+"""
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 -> head, step, remain
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 ->   1,    1,   14
+  2   4   6   8   10    12    14 ->   2,    2,   7
+      4       8         12       ->   4,    4,   3
+              8                  ->   8,    8,   1
+
+1 2 3 4 5 6 7 8 9 10 11 12 13    -> head, step, remain
+1 2 3 4 5 6 7 8 9 10 11 12 13    ->   1,    1,   13
+  2   4   6   8   10    12       ->   2,    2,   6
+  2       6       10             ->   2,    4,   3
+          6                      ->   6,    8,   1
+
+从左删除: head + step
+从右删除:
+    odd remain: head + step. ie: 2, 4, 6
+    even remain: head不变. ie: 2, 4, 6, 8
+每次删除, 数字之间距离增加一倍，step ✖️ 2
+
+"""
+
+
+class SolutionTony:
+    def lastRemaining(self, n: int) -> int:
+        head, step, remain = 1, 1, n
+        is_left = True
+        while remain != 1:
+            # if from left or (from right but has odd numbers)
+            if is_left or (not is_left and remain % 2 == 1):
+                head += step
+            remain //= 2
+            step *= 2
+            is_left = not is_left
+            # print(head, step, remain, is_left)
+        return head
 
 
 class Solution:

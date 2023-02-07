@@ -1,0 +1,1 @@
+{"data":{"id":98,"timestamp":1568922902985,"diagnosis":{"id":3,"name":"Pulmonary embolism","severity":4},"vitals":{"bloodPressureDiastole":140,"bloodPressureSystole":93,"pulse":140,"breathingRate":31,"bodyTemperature":102},"doctor":{"id":2,"name":"Dr Arnold Bullock"},"userId":1,"userName":"John Oliver","userDob":"02-01-1986","meta":{"height":168,"weight":189}}}

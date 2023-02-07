@@ -1,4 +1,19 @@
+
 class SolutionTony:
+    def findMaxAverage(self, nums, k: int) -> float:
+
+        n = len(nums)
+        summ = sum(nums[:k])
+        res = summ
+        for i in range(k, n):
+            summ += nums[i]
+            summ -= nums[i-k]
+            res = max(res, summ)
+        return res / k
+
+
+
+class Solution:
     def findMaxAverage(self, nums, k: int) -> float:
         n = len(nums)
         summ = 0
@@ -11,17 +26,5 @@ class SolutionTony:
                 res = max(res, summ / k)
         return res
 
-
-
-class Solution:
-    def findMaxAverage(self, nums, k: int) -> float:
-        summ = 0
-        for i in range(k):
-            summ += nums[i]
-        res = summ
-        for i in range(k, len(nums)):
-            summ += nums[i] - nums[i - k]
-            res = max(res, summ)
-        return res / k
 
 

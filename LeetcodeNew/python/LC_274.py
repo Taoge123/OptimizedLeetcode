@@ -19,26 +19,26 @@ class Solution:
     def hIndex(self, citations) -> int:
         citations = sorted(citations)
         n = len(citations)
-        res = 0
-        while res < len(citations) and citations[n - 1 - res] > res:
-            res += 1
-        return res
+        i = 0
+        while i < len(citations) and citations[n - 1 - i] > i:
+            i += 1
+        return i
 
 
 class Solution2:
     def hIndex(self, citations) -> int:
         n = len(citations)
-        res = [0] * ( n +1)
+        table = [0] * (n+1)
 
         for i in citations:
             if i >= n + 1:
-                res[n] += 1
+                table[n] += 1
             else:
-                res[i] += 1
+                table[i] += 1
 
         total = 0
-        for i in range(len(res ) -1, -1, -1):
-            total += res[i]
+        for i in range(len(table) - 1, -1, -1):
+            total += table[i]
             if total >= i:
                 return i
 

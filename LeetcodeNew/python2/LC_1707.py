@@ -85,9 +85,11 @@ class Solution:
         res = [-1] * len(queries)
         j = 0
         for i, (x, m) in queries:
+            # for each query, add numbers that are smaller than x
             while j < len(nums) and nums[j] <= m:
                 trie.insert(nums[j])
                 j += 1
+            # compute i, then move on to the next query x
             res[i] = trie.query(x)
         return res
 

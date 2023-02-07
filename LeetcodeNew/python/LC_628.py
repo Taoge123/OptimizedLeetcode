@@ -27,3 +27,20 @@ class Solution:
         return max(nums[0] * nums[1] * nums[n - 1], nums[n - 1] * nums[n - 2] * nums[n - 3])
 
 
+# class SolutionTest:
+#     def maximumProduct(self, nums) -> int:
+#         n = len(nums)
+#         def dfs(i, k):
+#             if i >= n and k <= 0:
+#                 return 1
+#             if i >= n or k <= 0:
+#                 return -10 ** 10
+#
+#             pick = dfs(i+1, k-1) * nums[i]
+#             no_pick = dfs(i+1, k)
+#             return max(pick, no_pick)
+#         return dfs(0, 3)
+
+nums = [-1,-2,-3]
+a = SolutionTest()
+print(a.maximumProduct(nums))

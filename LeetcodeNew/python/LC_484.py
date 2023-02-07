@@ -34,16 +34,21 @@ class SolutionTony:
 
         for i, ch in enumerate(s):
             stack.append(i + 1)
-
             if ch == 'I':
                 while stack:
                     res.append(stack.pop())
 
+        # there are still DD after the last II, then append the rest into thte result
         stack.append(len(s) + 1)
 
         while stack:
             res.append(stack.pop())
         return res
+
+
+s = "IDDDDIII"
+a = SolutionTony()
+print(a.findPermutation(s))
 
 
 

@@ -1,4 +1,6 @@
 """
+https://leetcode.com/problems/sum-of-subarray-minimums/solutions/2846918/dp-top-down-bottom-up-short-solution/
+
 https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
 
 https://buptwc.com/2018/09/16/Leetcode-907-Sum-of-Subarray-Minimums/
@@ -161,6 +163,43 @@ stack = 1, 1, 1, 1
 
 
 """
+
+import functools
+
+
+class SolutionTest:
+    def sumSubarrayMins(self, arr) -> int:
+        n = len(arr)
+        mod = 10 ** 9 + 7
+        next_smaller = [n] * n
+
+        # next_smaller[i] = index of next element which is smaller than arr[i]
+        # if no such element exist, next_smaller[i] = n
+        stack = []
+        for i in range(n):
+            while stack and arr[stack[-1]] >= arr[i]:
+                next_smaller[stack.pop()] = i
+            stack.append(i)
+
+        # minSumIncluding
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 0
+            # arr[i] is min value * (next_smaller[i] - i) how many times
+            return dfs(next_smaller[i]) + (next_smaller[i] - i) * arr[i]
+
+        res = 0
+        for i in range(n):
+            res += dfs(i)
+            print(dfs(i))
+            res %= mod
+        return res
+
+
+# arr = [3,1,2,4]
+# a = SolutionTest()
+# print(a.sumSubarrayMins(arr))
 
 
 class Solution:
@@ -325,9 +364,6 @@ A     =  [3, 1, 2, 2, 2, 4, 4, 5]
 left  =  [1, 2, 1, 1, 1, 1, 1, 1]
 right =  [1, 7, 6, 5, 4, 3, 2, 1]
 """
-A = [3,1,2,2,2,4,4,5]
-a = SolutionLee()
-print(a.sumSubarrayMins(A))
 
 
 

@@ -30,6 +30,26 @@ import itertools
 
 
 class SolutionTony:
+    def validSquare(self, p1, p2, p3, p4) -> bool:
+
+        def dist(p1, p2):
+            i, j = p1
+            x, y = p2
+            return (x - i) ** 2 + (y - j) ** 2
+
+        distances = set()
+        for i, a1 in enumerate([p1, p2, p3, p4]):
+            for j, b1 in enumerate([p1, p2, p3, p4]):
+                if i == j:
+                    continue
+                # if points are repeated, unable to form a square
+                if a1 == b1:
+                    return False
+                distances.add(dist(a1, b1))
+        return len(distances) == 2
+
+
+class SolutionTony:
     def validSquare(self, p1, p2, p3, p4):
         def dist(p1, p2):
             return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2

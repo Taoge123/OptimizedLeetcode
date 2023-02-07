@@ -31,21 +31,21 @@ Can you do it in O(n) time?
 basic idea is not to update the dic since we are looking for max instead of min
 
 """
-
 class Solution:
     def maxSubArrayLen(self, nums, k: int) -> int:
-        res = 0
+        table = {}
+        table[0] = -1
         summ = 0
-        table = {0 : -1}
-        for i in range(len(nums)):
-            summ += nums[i]
+        res = 0
+        for i, num in enumerate(nums):
+            summ += num
             if summ - k in table:
                 res = max(res, i - table[summ - k])
+
             #we dont update the table since we want to have max
             if summ not in table:
                 table[summ] = i
         return res
-
 
 
 nums = [1, 1, 1, 1, 1]

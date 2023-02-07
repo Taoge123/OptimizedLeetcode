@@ -44,6 +44,35 @@ Therefore, you can't travel around the circuit once no matter where you start.
 
 """
 
+import functools
+
+class SolutionTony:
+    def canCompleteCircuit(self, gas, cost) -> int:
+        n = len(gas)
+        @functools.lru_cache(None)
+        def dfs(i, k):
+            i %= n
+            if i in self.visited and k >= 0:
+                return True
+            if i in self.visited and k < 0:
+                return False
+
+            self.visited.add(i)
+            k += gas[i]
+            if k - cost[i] < 0:
+                return False
+
+            return dfs(i + 1, k - cost[i])
+
+        for i in range(n):
+            self.visited = set()
+            if dfs(i, 0):
+                return i
+        return -1
+
+
+
+
 class Solution:
     def canCompleteCircuit(self, gas, cost):
 

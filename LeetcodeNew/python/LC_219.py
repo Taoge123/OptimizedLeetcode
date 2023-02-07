@@ -30,5 +30,41 @@ class Solution:
         return False
 
 
+class SolutionTony:
+    def containsNearbyDuplicate(self, nums, k: int) -> bool:
+        n = len(nums)
+        left = 0
+        for right in range(1, n):
+            while right - left > k:
+                left += 1
+            # need to check all of the value between them, so it will TLE
+            for k in range(left, right):
+                if nums[k] == nums[right]:
+                    return True
+        return False
 
 
+class SolutionIncorrect:
+    def containsNearbyDuplicate(self, nums, k: int) -> bool:
+        if k == 0:
+            if len(set(nums)) == len(nums):
+                return True
+            else:
+                return False
+        n = len(nums)
+        left = 0
+        for right in range(1, n):
+            while right - left > k:
+                left += 1
+            # need to check all of the value between them, so it's not correct
+            if nums[left] == nums[right]:
+                return True
+
+        return False
+
+
+
+nums = [0,1,2,3,2,5]
+k = 3
+a = SolutionTony()
+print(a.containsNearbyDuplicate(nums, k))

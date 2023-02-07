@@ -27,50 +27,55 @@ import collections
 import functools
 
 
-class SolutionRika:
+class SolutionTony:
     def maxResult(self, nums, k: int) -> int:
-        # dp[i] = max(dp[j]) + nums[i] --> j is between i - 1 and i - k
+        n = len(nums)
+        dp = [0] * n
+        dp[0] = nums[0]
+        queue = collections.deque([])
+        queue.append(0)
 
-        dp = [nums[0]] + [0] * (len(nums) - 1)
-
-        queue = collections.deque([0])
-        res = float('-inf')
-
-        for i in range(1, len(nums)):
+        for i in range(1, n):
             while queue and i - queue[0] > k:
                 queue.popleft()
 
+            # dp[i] = max(dp[queue[0]] + nums[i], dp[queue[0]])
             dp[i] = dp[queue[0]] + nums[i]
-
-            # maintain max dp[i]
             while queue and dp[i] >= dp[queue[-1]]:
                 queue.pop()
-
             queue.append(i)
-
+        # must go to destination, return the last value in dp
         return dp[-1]
 
-class Solution:
-    def maxResult(self, nums, k: int) -> int:
 
-        n = len(nums)
-        queue = collections.deque()
-        queue.append([nums[0], 0])
 
-        for i in range(1, n):
-            # pop the old node
-            # print(queue[0])
-            while queue and i - queue[0][1] > k:
-                queue.popleft()
-
-            # pop the new node that are less than cur
-            cur = queue[0][0] + nums[i]
-            while queue and cur > queue[-1][0]:
-                queue.pop()
-
-            queue.append([cur, i])
-
-        return queue[-1][0]
+nums = [10,-5,-2,4,0,3]
+k = 3
+a = SolutionTony()
+print(a.maxResult(nums, k))
+#
+#
+# class Solution:
+#     def maxResult(self, nums, k: int) -> int:
+#
+#         n = len(nums)
+#         queue = collections.deque()
+#         queue.append([nums[0], 0])
+#
+#         for i in range(1, n):
+#             # pop the old node
+#             # print(queue[0])
+#             while queue and i - queue[0][1] > k:
+#                 queue.popleft()
+#
+#             # pop the new node that are less than cur
+#             cur = queue[0][0] + nums[i]
+#             while queue and cur > queue[-1][0]:
+#                 queue.pop()
+#
+#             queue.append([cur, i])
+#
+#         return queue[-1][0]
 
 
 
@@ -79,18 +84,15 @@ class SolutionDPTLE:
     def maxResult(self, nums, k: int) -> int:
 
         n = len(nums)
-
         @functools.lru_cache(None)
         def dfs(i):
-            if i == n:
-                return 0
             if i == n - 1:
-                return nums[i]
-
+                return nums[-1]
+            if i >= n:
+                return 0
             res = float('-inf')
-            for j in range(i + 1, min(n, i + k + 1)):
+            for j in range(i + 1, min(n - 1, i + k) + 1):
                 res = max(res, dfs(j) + nums[i])
-
             return res
 
         return dfs(0)

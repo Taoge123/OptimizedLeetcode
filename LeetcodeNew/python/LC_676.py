@@ -1,12 +1,10 @@
 
 import collections
 
-
 class TrieNode:
     def __init__(self):
         self.isWord = False
         self.children = {}
-
 
 class Trie:
     def __init__(self):
@@ -39,25 +37,28 @@ class MagicDictionaryTony:
 
     def search(self, word: str) -> bool:
         self.modified = False
-        return self.dfs(self.trie.root, 0, word)
+        return self.dfs(self.trie.root, 0, 1, word)
 
-    def dfs(self, node, i, word):
+    def dfs(self, node, i, k, word):
         if i == len(word):
-            return node.isWord and self.modified
+            return node.isWord and k == 0
 
-        if self.modified:
+        # can not modify anymore
+        if k == 0:
             if word[i] in node.children:
-                return self.dfs(node.children[word[i]], i + 1, word)
+                return self.dfs(node.children[word[i]], i + 1, k, word)
             else:
-                # 2 diffs, then return False
+                # another diff
                 return False
         else:
             for ch in node.children:
-                # set mpdified if seeing first diff
-                self.modified = ch != word[i]
-                if self.dfs(node.children[ch], i + 1, word):
+                # need to modify, k -= 1
+                if ch != word[i]:
+                    k -= 1
+                if self.dfs(node.children[ch], i + 1, k, word):
                     return True
             return False
+
 
 
 class MagicDictionaryRika:
@@ -90,7 +91,7 @@ class MagicDictionaryRika:
         return False
 
 
-class MagicDictionary:
+class MagicDictionary2:
     def __init__(self):
         self.table = collections.defaultdict(set)
 

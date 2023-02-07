@@ -1,4 +1,6 @@
 """
+https://www.youtube.com/watch?v=xFlO0H1l2oQ
+
 Key point
 Don't calculate the score for K=0, we don't need it at all.
 (I see almost all other solutions did)
@@ -33,6 +35,58 @@ score[K] = score[K-1] + change[K]
 In my codes I accumulated changes so I get the changed score for every K value compared to K=0
 Find the index of best score.
 """
+
+"""
+val <= index, then get points
+
+0123456
+xxxx2xx
+2222222    
+0011111
+
+
+A[i] <= i
+0:           111....
+i-(A[i]-1):  000....
+i+1       :  111....
+
+diff[k]: the score difference between moving k steps and moving k-1 steps
+0 <= k < n
+diff[0] += 1
+diff[i-(A[i]-1)] -= 1
+diff[i+1] += 1
+
+
+"""
+
+
+class Solution:
+    def bestRotation(self, nums) -> int:
+        n = len(nums)
+        # [0, n-1]
+        diff = [0] * n
+        for i in range(n):
+            if nums[i] <= i:
+                diff[0] += 1
+                diff[(i - nums[i] + 1) % n] -= 1
+                diff[(i + 1) % n] += 1
+            else:
+                diff[0] += 0
+                diff[(i + 1) % n] += 1
+                diff[(i + 1 + n - nums[i]) % n] -= 1
+
+        score = 0
+        max_score = 0
+        res = 0
+        for i in range(n):
+            score += diff[i]
+            if score > max_score:
+                max_score = score
+                res = i
+        return res
+
+
+
 
 
 

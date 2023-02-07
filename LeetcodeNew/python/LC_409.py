@@ -21,15 +21,33 @@ One longest palindrome that can be built is "dccaccd", whose length is 7.
 
 import collections
 
+
+class SolutionTony:
+    def longestPalindrome(self, s):
+        dic = collections.Counter(s)
+        res = 0
+        has_odd = False
+        for ch, val in dic.items():
+            # print(ch, val)
+            if val % 2 == 0:
+                res += val
+            else:
+                if has_odd:
+                    res += val-1
+                else:
+                    has_odd = True
+                    res += val
+        return res
+
+
 class Solution:
     def longestPalindrome(self, s: str) -> int:
-
         visited = set()
-        for char in s:
-            if char not in visited:
-                visited.add(char)
+        for ch in s:
+            if ch not in visited:
+                visited.add(ch)
             else:
-                visited.remove(char)
+                visited.remove(ch)
 
         return len(s) - len(visited) + 1 if len(visited) > 0 else len(s)
 

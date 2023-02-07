@@ -31,6 +31,28 @@ class SolutionTony:
 
 
 
+class SolutionDFS:
+    def mostCompetitive(self, num, k: int):
+
+        n = len(num)
+        @functools.lru_cache(None)
+        def dfs(num, k):
+            if k == n:
+                return 0
+            if k == 0:
+                # remove_leading_zero(num)
+                return num
+
+            i = 0
+            while i < len(num) - 1 and num[i] <= num[i + 1]:
+                i += 1
+
+            return dfs(num[:i] + num[i + 1:], k - 1)
+        res = dfs(tuple(num), n-k)
+        return res
+
+
+
 class SolutionTonyIncorrect:
     def maxNumber(self, nums1, nums2, k: int):
         # 1081.Smallest-Subsequence-of-Distinct-Characters (M+)

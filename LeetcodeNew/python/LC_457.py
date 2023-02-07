@@ -63,7 +63,7 @@ class Solution:
 
 
 
-class Solution:
+class Solution2:
     def circularArrayLoop(self, nums) -> bool:
         for i, num in enumerate(nums):
             if num == 0:

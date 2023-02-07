@@ -32,26 +32,20 @@ So function 0 spends 2 + 1 = 3 units of total time executing, and function 1 spe
 import collections
 
 class Solution:
-    def exclusiveTime(self, n, logs):
+    def exclusiveTime(self, n: int, logs):
         res = [0] * n
         stack = []
-        prev = 0
-
         for log in logs:
-            ID, typ, time = log.split(':')
-            ID, time = int(ID), int(time)
-
-            if typ == 'start':
+            i, status, time = log.split(":")
+            if status == "start":
                 if stack:
-                    res[stack[-1]] += time - prev
-                stack.append(ID)
-                prev = time
+                    res[stack[-1][0]] += int(time) - stack[-1][1]
+                stack.append([int(i), int(time)])
             else:
-                res[stack.pop()] += time - prev + 1
-                prev = time + 1
-
+                res[int(i)] += int(time) - stack.pop()[1] + 1
+                if stack:
+                    stack[-1][1] = int(time) + 1
         return res
-
 
 
 n = 2

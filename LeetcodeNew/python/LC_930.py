@@ -9,7 +9,7 @@ prefix[i-1] = prefix[j] - S
 
 import collections
 
-class SolutionSlidingWindow:
+class SolutionTony:
     def numSubarraysWithSum(self, nums, goal: int) -> int:
         return self.findMost(nums, goal) - self.findMost(nums, goal - 1)
 
@@ -17,18 +17,17 @@ class SolutionSlidingWindow:
         if k < 0:
             return 0
         summ = 0
-        count = 0
-        left, right = 0, 0
+        res = 0
+        left = 0
 
-        while right < len(nums):
+        for right in range(len(nums)):
             summ += nums[right]
             while summ > k:
                 summ -= nums[left]
                 left += 1
-            count += right - left + 1
-            right += 1
+            res += right - left + 1
 
-        return count
+        return res
 
 
 

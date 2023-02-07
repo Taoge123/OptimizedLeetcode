@@ -1,6 +1,7 @@
 """
 https://blog.csdn.net/fuxuemingzhu/article/details/82938164
-
+https://leetcode.com/problems/number-of-atoms/solutions/2950925/simple-recursive-faster-than-100/
+https://leetcode.com/problems/number-of-atoms/solutions/140802/python-20-lines-very-readable-simplest-and-shortest-solution-36-ms-beats-100/
 
 1. We are starting from the last element.
 2. When we find on our way any number, lowercase char, or parentheses, we do some additions and then continue

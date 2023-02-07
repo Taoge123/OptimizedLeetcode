@@ -21,7 +21,103 @@ O(N) extra space for isFlipped[n].
 """
 
 import collections
+import functools
+import copy
 
+
+class SolutionTonyShort:
+    def minKBitFlips(self, nums, k: int) -> int:
+        n = len(nums)
+        queue = collections.deque()
+        res = 0
+        for i, num in enumerate(nums):
+
+            # if i is k steps ahead, then previous flip will have no impact on current step
+            while queue and i - queue[0] + 1 > k:
+                queue.popleft()
+
+            # if there are even flips, then it has no impact
+            # if there are even flips, then it has impact
+            if (len(queue) % 2 == 0 and nums[i] == 0) or (len(queue) % 2 == 1 and nums[i] == 1):
+                if i + k > n:
+                    return -1
+                queue.append(i)
+                res += 1
+        return res
+
+
+
+class SolutionRika:
+    def minKBitFlips(self, nums, k: int) -> int:
+        queue = collections.deque() # store start index of subarray --> compare to i, max length is k
+        # len(queue) --> how many flips will affect nums[i]
+
+        count = 0
+        for i in range(len(nums)):
+            if queue and i - queue[0] + 1 > k:  # maintain queue size k --> when excced k, popleft
+                queue.popleft()
+            print(i, len(queue), nums[i])
+            if len(queue)%2 == nums[i]: # 1 flips odd times, flip again； 0 flips even times, flip again
+                queue.append(i)
+                if i + k > len(nums):   # no k consecutive bit ---> can't flip
+                    return -1
+                count += 1
+        return count
+
+class Solution:
+    def minKBitFlips(self, nums, k: int) -> int:
+        n = len(nums)
+        queue = collections.deque()
+        res = 0
+        for i, num in enumerate(nums):
+
+            # if i is k steps ahead, then previous flip will have no impact on current step
+            while queue and i - queue[0] + 1 > k:
+                queue.popleft()
+
+            # if there are even flips, then it has no impact
+            if len(queue) % 2 == 0:
+                if nums[i] == 0:
+                    if i + k > n:
+                        return -1
+                    queue.append(i)
+                    res += 1
+            # if there are even flips, then it has impact
+            else:
+                if nums[i] == 1:
+                    if i + k > n:
+                        return -1
+                    queue.append(i)
+                    res += 1
+        return res
+
+
+
+
+class SolutionMemoTLE:
+    def minKBitFlips(self, nums, k: int) -> int:
+        n = len(nums)
+        @functools.lru_cache(None)
+        def dfs(i, nums):
+            nums = list(nums)
+            if sum(nums) == n:
+                return 0
+            if i >= n and sum(nums) != 0:
+                return float('inf')
+            res = float('inf')
+            for i in range(n-k+1):
+                if nums[i] == 1:
+                    continue
+                flip_nums = copy.copy(nums)
+                for j in range(i, i+k):
+                    flip_nums[j] = 1 - nums[j]
+                flip = dfs(i+k, tuple(flip_nums)) + 1
+                res = min(res, flip)
+            return res
+        res = dfs(0, tuple(nums))
+        if res == float('inf'):
+            return -1
+        return res
 
 class Solution:
     def minKBitFlips(self, nums, k: int) -> int:
@@ -36,7 +132,8 @@ class Solution:
 
             # 之前翻转偶数次，当前数字是0， 就需要翻转；之前翻转奇数次，当前数字是1，1被改编成0，还需要翻转回1，所以也需要翻转
             if len(queue) % 2 == nums[i]:  # 判断前几轮翻转的次数 影响当前num后，当前num是否还需要翻转
-                if i + k > n: return -1
+                if i + k > n:
+                    return -1
                 queue.append(i)
                 res += 1
 

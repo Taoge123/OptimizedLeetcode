@@ -1,4 +1,7 @@
 """
+https://leetcode.com/problems/maximum-profit-in-job-scheduling/solutions/2850089/c-dp-dfs/
+https://leetcode.com/problems/maximum-profit-in-job-scheduling/solutions/2678462/recursive-dfs-with-memoization/
+
 Explanation
 Sort the jobs by endTime.
 
@@ -56,6 +59,113 @@ dp[t] : max{dp[nearestEndTime], dp[lastEndTimeBeforeKthStartTime] + val[k]}
 
 import bisect
 import heapq
+import functools
+
+
+class SolutionMemo:
+    def jobScheduling(self, startTime, endTime, profit) -> int:
+
+        nums = []
+        for i, j, k in zip(startTime, endTime, profit):
+            nums.append([i, j, k])
+        nums = sorted(nums, key=lambda x: x[0])
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i):
+            if i >= n:
+                return 0
+
+            # initialize it as current profit, if we can find another one after this, then add dfs after this value
+            take = nums[i][2]
+            for j in range(i + 1, n):
+                # if j can be a new start, take it
+                if nums[i][1] <= nums[j][0]:
+                    # found the next one, should break
+                    take += dfs(j)
+                    break
+            notTake = dfs(i + 1)
+            return max(take, notTake)
+
+        return dfs(0)
+
+
+
+class SolutionRika: # binary search + topdown dp
+    def jobScheduling(self, startTime, endTime, profit) -> int:
+        graph = []
+        n = len(startTime)
+        for i in range(n):
+            graph.append([startTime[i], endTime[i], profit[i]])
+        graph.sort()    # sort by start time
+
+        memo = {}
+        return self.dfs(graph, 0, memo)
+
+    def dfs(self, graph, i, memo):
+        if i in memo:
+            return memo[i]
+
+        if i == len(graph):
+            return 0
+
+        not_pick = self.dfs(graph,i + 1, memo)
+        start, end, p = graph[i]
+        pos = self.search_right(graph, end) # find next start time position
+        if pos == -1:
+            pick = p                # this is the last job
+        else:
+            pick = p + self.dfs(graph,pos,memo)     # there is next job
+
+        memo[i] = max(pick, not_pick)
+        return memo[i]
+
+    def search_right(self, graph, target):
+        left, right = 0, len(graph) - 1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if graph[mid][0] >= target:
+                right = mid - 1
+            elif graph[mid][0] < target:
+                left = mid + 1
+
+        return left
+
+
+class SolutionTLE:
+    def jobScheduling(self, startTime, endTime, profit) -> int:
+
+        nums = []
+        for i, j, k in zip(startTime, endTime, profit):
+            nums.append([i, j, k])
+        nums.sort()
+        n = len(nums)
+
+        @functools.lru_cache(None)
+        def dfs(i, last):
+            if i >= n:
+                return 0
+
+            res = 0
+            if nums[i][0] < last:
+                # if current start time < previous ending time, we can take this
+                res = max(res, dfs(i + 1, last))
+            else:
+                # if current start time >= previous ending time, we either skip or take it
+                res = max(res, dfs(i + 1, last), dfs(i + 1, nums[i][1]) + nums[i][2])
+            return res
+
+        return dfs(0, 0)
+
+
+startTime = [6,15,7,11,1,3,16,2]
+endTime = [19,18,19,16,10,8,19,8]
+profit = [2,9,1,19,5,7,3,19]
+
+
+
+a = Solution()
+print(a.jobScheduling(startTime, endTime, profit))
 
 class Solution:
     def jobScheduling(self, startTime, endTime, profit) -> int:

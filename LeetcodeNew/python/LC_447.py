@@ -17,23 +17,24 @@ The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
 
 """
 
+import collections
 
 class Solution:
-    def numberOfBoomerangs(self, points) -> int:
-
+    def numberOfBoomerangs(self, nums) -> int:
+        n = len(nums)
         res = 0
-        for p1 in points:
-            table = {}
-            for p2 in points:
-                x = p1[0] - p2[0]
-                y = p1[1] - p2[1]
-                dist = x * x + y * y
-                table[dist] = 1 + table.get(dist, 0)
+        for i in range(n):
+            table = collections.defaultdict(int)
+            for j in range(n):
+                dx = nums[i][0] - nums[j][0]
+                dy = nums[i][1] - nums[j][1]
+                dist = dx ** 2 + dy ** 2
+                table[dist] += 1
 
             for val in table.values():
-                res += val * (val - 1)
-
+                res += (val - 1) * val
         return res
+
 
 
 points = [[0,0],[1,0],[2,0]]

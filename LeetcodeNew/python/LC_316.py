@@ -1,4 +1,6 @@
 """
+# identical to LC_1081
+
 Given a string which contains only lowercase letters,
 remove duplicate letters so that every letter appears once and only once.
 You must make sure your result is the smallest in lexicographical order among all possible results.
@@ -47,6 +49,10 @@ class SolutionTony:
             stack.append(ch)
         return "".join(stack)
 
+s = s = "bcabc"
+a = SolutionTony()
+print(a.removeDuplicateLetters(s))
+
 
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
@@ -65,10 +71,6 @@ class Solution:
         return "".join(stack)
 
 
-
-s = "aba"
-a = SolutionTony()
-print(a.removeDuplicateLetters(s))
 
 
 

@@ -1,4 +1,6 @@
 """
+
+https://leetcode.com/problems/reverse-pairs/solutions/2167082/concise-python-sortedlist-o-nlogn/
 https://leetcode.com/problems/count-of-range-sum/discuss/776535/6-lines-python-using-SortedSet
 315. Count of Smaller Numbers After Self
 327. Count of Range Sum
@@ -70,7 +72,35 @@ update(2,1) -> BIT: 0 0 2 1 3 2
 """
 
 import bisect
-from sortedcontainers import SortedList
+import sortedcontainers
+
+
+
+"""
+
+SortedList
+xxxxx x xxxxxx
+      i
+---i*2--- 
+right part is elements that larger than i * 2, we use -> len(arr) - i
+
+"""
+class Solution:
+    def reversePairs(self, nums) -> int:
+        arr = sortedcontainers.SortedList()
+        res = 0
+        for i, num in enumerate(nums):
+            target = num * 2
+            pos = arr.bisect_right(target)
+            # if pos == len(arr), then target is too big
+            res += len(arr) - pos
+            arr.add(num)
+        return res
+
+
+nums = [2,4,3,5,1]
+a = Solution()
+print(a.reversePairs(nums))
 
 
 class BinaryIndexTree:

@@ -7,7 +7,6 @@ https://leetcode.com/problems/basic-calculator-iii/discuss/113592/Development-of
 import collections
 import math
 
-
 class SolutionTony:
     def __init__(self):
         self.i = 0
@@ -39,6 +38,39 @@ class SolutionTony:
 
             if ch == ')':
                 break
+        return sum(stack)
+
+
+class SolutionTonyBest:
+    def calculate(self, s: str) -> int:
+        queue = collections.deque(s)
+        return self.dfs(queue)
+
+    def dfs(self, queue):
+        stack = []
+        num = 0
+        sign = '+'
+
+        while queue:
+            ch = queue.popleft()
+            if ch == '(':
+                num = self.dfs(queue)
+            if ch.isdigit():
+                num = num * 10 + int(ch)
+            if not ch.isdigit() or not queue:
+                if sign == '+':
+                    stack.append(num)
+                elif sign == '-':
+                    stack.append(-1 * num)
+                elif sign == '*':
+                    stack.append(stack.pop() * num)
+                elif sign == '/':
+                    stack.append(int(stack.pop() / num))
+                sign = ch
+                num = 0
+            if ch == ')':
+                break
+
         return sum(stack)
 
 
@@ -172,9 +204,44 @@ class SolutionBest:
         return sum(stack)
 
 
+#
+# class SolutionTest:
+#     def calculate(self, s: str) -> int:
+#         # queue = collections.deque(s)
+#         return self.dfs(0, s)
+#
+#     def dfs(self, i, s):
+#         stack = []
+#         num = 0
+#         sign = '+'
+#         while i < len(s):
+#             ch = s[i]
+#             if ch == '(':
+#                 num = self.dfs(i + 1, s)
+#             if ch.isdigit():
+#                 num = num * 10 + int(ch)
+#                 i += 1
+#             if not ch.isdigit() or i == len(s) - 1:
+#                 if sign == '+':
+#                     stack.append(num)
+#                 elif sign == '-':
+#                     stack.append(-1 * num)
+#                 elif sign == '*':
+#                     stack.append(stack.pop() * num)
+#                 elif sign == '/':
+#                     stack.append(int(stack.pop() / num))
+#                 sign = ch
+#                 num = 0
+#                 i += 1
+#             if ch == ')':
+#                 break
+#
+#         return sum(stack)
+#
+#
 
-s = "(1+1)"
-a = SolutionBest()
+s = "2*(5+5*2)/3+(6/2+8)"
+a = SolutionTest()
 print(a.calculate(s))
 
 
